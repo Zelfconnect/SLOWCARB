@@ -3,8 +3,7 @@ import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
 import { LearnSection } from '@/components/LearnSection';
-import { StockSection } from '@/components/StockSection';
-import { ShoppingListSection } from '@/components/ShoppingListSection';
+import { Shopping } from '@/pages/Shopping';
 import { PackageSelectorModal } from '@/components/PackageSelectorModal';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useJourney } from '@/hooks/useJourney';
@@ -17,8 +16,6 @@ import './App.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [shoppingSubTab, setShoppingSubTab] = useState<'list' | 'stock'>('list');
-  
   // Package Selector state
   const [packageSelectorOpen, setPackageSelectorOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<{ name: string; ingredients: Ingredient[] } | null>(null);
@@ -36,29 +33,8 @@ function App() {
     getStreak
   } = useJourney();
   
-  const { 
-    items, 
-    addItemsFromPackage, 
-    addCustomItem,
-    addFromSuggestion,
-    toggleItem, 
-    removeItem, 
-    clearChecked, 
-    moveToPantry,
-    getByCategory,
-    getEmojiForIngredient,
-  } = useShoppingList();
-  
-  const {
-    pantryItems,
-    addToPantry,
-    removeFromPantry,
-    toggleStandardItem,
-    getRestockSuggestions,
-    getByCategory: getPantryByCategory,
-    getStandardItems,
-    clearPantry,
-  } = usePantry();
+  const { addItemsFromPackage } = useShoppingList();
+  const { addToPantry } = usePantry();
 
   // Handle opening package selector from recipe
   const handleOpenPackageSelector = (recipeName: string, ingredients: Ingredient[]) => {
@@ -118,29 +94,6 @@ function App() {
     setSelectedRecipe(null);
   };
 
-  // Handle move to pantry from shopping list
-  const handleMoveToPantry = (id: string) => {
-    const movedItem = moveToPantry(id);
-    if (movedItem) {
-      addToPantry(movedItem);
-      toast.success('Verplaatst naar voorraad', {
-        description: movedItem.name,
-      });
-    }
-  };
-
-  const handleMoveCheckedToPantry = () => {
-    const checkedItems = items.filter((item) => item.checked);
-    if (checkedItems.length === 0) return;
-
-    checkedItems.forEach((item) => {
-      const movedItem = moveToPantry(item.id);
-      if (movedItem) addToPantry(movedItem);
-    });
-
-    toast.success(`${checkedItems.length} items naar voorraad verplaatst`);
-  };
-
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -168,60 +121,7 @@ function App() {
       case 'learn':
         return <LearnSection />;
       case 'shopping':
-        return (
-          <div className="space-y-4 safe-bottom">
-            {/* Sub-tab navigation - NEW DESIGN SYSTEM */}
-            <div className="flex gap-2 p-1 bg-warm-100 rounded-xl">
-              <button
-                onClick={() => setShoppingSubTab('list')}
-                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  shoppingSubTab === 'list' 
-                    ? 'bg-white text-primary-700 shadow-sm' 
-                    : 'text-warm-500 hover:text-warm-700'
-                }`}
-              >
-                🛒 Lijst
-              </button>
-              <button
-                onClick={() => setShoppingSubTab('stock')}
-                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  shoppingSubTab === 'stock' 
-                    ? 'bg-white text-primary-700 shadow-sm' 
-                    : 'text-warm-500 hover:text-warm-700'
-                }`}
-              >
-                📦 Voorraad
-              </button>
-            </div>
-
-            {/* Content based on sub-tab */}
-            {shoppingSubTab === 'list' ? (
-              <ShoppingListSection
-                items={items}
-                restockSuggestions={getRestockSuggestions()}
-                onToggleItem={toggleItem}
-                onRemoveItem={removeItem}
-                onClearChecked={clearChecked}
-                onMoveToPantry={handleMoveToPantry}
-                onMoveCheckedToPantry={handleMoveCheckedToPantry}
-                onAddFromSuggestion={addFromSuggestion}
-                onAddCustomItem={addCustomItem}
-                getByCategory={getByCategory}
-                getEmojiForIngredient={getEmojiForIngredient}
-              />
-            ) : (
-              <StockSection
-                pantryItems={pantryItems}
-                standardItems={getStandardItems()}
-                onRemoveFromPantry={removeFromPantry}
-                onToggleStandardItem={toggleStandardItem}
-                onClearPantry={clearPantry}
-                onAddToShoppingList={addFromSuggestion}
-                getByCategory={getPantryByCategory}
-              />
-            )}
-          </div>
-        );
+        return <Shopping />;
       default:
         return null;
     }
