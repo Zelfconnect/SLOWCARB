@@ -1,0 +1,60 @@
+export const basicStock = {
+  eiwit: [
+    { name: 'Eieren', essential: true },
+    { name: 'Rundergehakt', essential: true },
+    { name: 'Kipfilet / Kipdij', essential: true },
+    { name: 'Zalm / Vis', essential: false },
+    { name: 'Bacon', essential: false },
+    { name: 'Griekse yoghurt (10%)', essential: true },
+    { name: 'Hüttenkäse', essential: true },
+  ],
+  bonen: [
+    { name: 'Bruine bonen (blik)', essential: true },
+    { name: 'Zwarte bonen (blik)', essential: true },
+    { name: 'Linzen (droog of blik)', essential: true },
+    { name: 'Kikkererwten (blik)', essential: false },
+  ],
+  groenten: [
+    { name: 'Spinazie (vers of diepvries)', essential: true },
+    { name: 'Broccoli', essential: true },
+    { name: 'Komkommer', essential: true },
+    { name: 'Cherry tomaten', essential: true },
+    { name: 'Paprika', essential: true },
+    { name: 'Uien', essential: true },
+    { name: 'Knoflook', essential: true },
+    { name: 'Avocado', essential: true },
+    { name: 'Asperges', essential: false },
+    { name: 'Champignons', essential: false },
+  ],
+  pantry: [
+    { name: 'Olijfolie', essential: true },
+    { name: 'Kokosolie', essential: true },
+    { name: 'Tomatenblokjes (blik)', essential: true },
+    { name: 'Tomatenpuree', essential: true },
+    { name: 'Runderbouillon', essential: true },
+  ],
+  kruiden: [
+    { name: 'Zout', essential: true },
+    { name: 'Peper', essential: true },
+    { name: 'Komijn', essential: true },
+    { name: 'Paprikapoeder', essential: true },
+    { name: 'Italiaanse kruiden', essential: true },
+    { name: 'Chilivlokken', essential: false },
+    { name: 'Kaneel', essential: false },
+  ],
+  extra: [
+    { name: 'Whey proteïne', essential: false },
+    { name: 'Chiazaad', essential: false },
+    { name: 'Walnoten / Amandelen', essential: false },
+    { name: 'Room (voor koffie)', essential: false },
+  ],
+};
+
+export const stockCategories = [
+  { key: 'eiwit', name: 'Eiwit', emoji: '🥩' },
+  { key: 'bonen', name: 'Bonen', emoji: '🫘' },
+  { key: 'groenten', name: 'Groenten', emoji: '🥦' },
+  { key: 'pantry', name: 'Voorraadkast', emoji: '🥫' },
+  { key: 'kruiden', name: 'Kruiden', emoji: '🌿' },
+  { key: 'extra', name: 'Extra\'s', emoji: '✨' },
+];
