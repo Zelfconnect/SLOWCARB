@@ -37,7 +37,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                 <Icon 
                   className={cn(
                     'w-5 h-5 transition-transform duration-200',
-                    isActive && 'scale-110'
+                    isActive && 'scale-110 fill-current'
                   )} 
                   strokeWidth={isActive ? 2.5 : 2} 
                 />

@@ -83,8 +83,8 @@ export function RecipeDetailModal({
       
       {/* Modal Container */}
       <div 
-        className="fixed inset-x-4 top-16 bottom-24 z-50 animate-expand-up"
-        style={{ maxHeight: 'calc(100vh - 160px)' }}
+        className="fixed inset-4 z-50 animate-expand-up"
+        style={{ maxHeight: 'calc(100vh - 32px)' }}
       >
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden h-full flex flex-col">
           {/* Header - Fixed */}
@@ -108,7 +108,7 @@ export function RecipeDetailModal({
               </div>
               <button
                 onClick={onToggleFavorite}
-                className={cn('w-10 h-10 rounded-xl transition-all duration-200 backdrop-blur-sm flex items-center justify-center flex-shrink-0', isFavorite ? 'bg-white/30 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20')}
+                className={cn('w-11 h-11 rounded-xl transition-all duration-200 backdrop-blur-sm flex items-center justify-center flex-shrink-0', isFavorite ? 'bg-white/30 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20')}
               >
                 <Heart className={cn('w-5 h-5', isFavorite && 'fill-current')} strokeWidth={2.5} />
               </button>

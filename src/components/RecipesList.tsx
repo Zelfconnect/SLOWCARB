@@ -66,7 +66,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
           <button
             onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
             className={cn(
-              'flex h-9 items-center gap-1.5 px-4 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200',
+              'flex h-11 items-center gap-1.5 px-4 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200',
               showFavoritesOnly 
                 ? 'bg-red-100 text-red-700' 
                 : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'
@@ -79,7 +79,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
           <button
             onClick={() => setActiveCategory('all')}
             className={cn(
-              'flex h-9 items-center gap-1.5 px-4 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200',
+              'flex h-11 items-center gap-1.5 px-4 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200',
               activeCategory === 'all' 
                 ? 'bg-sage-100 text-sage-700 border border-sage-200' 
                 : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'
@@ -93,7 +93,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
               className={cn(
-                'flex h-9 items-center gap-1.5 px-4 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200',
+                'flex h-11 items-center gap-1.5 px-4 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200',
                 activeCategory === cat.id 
                   ? 'bg-sage-100 text-sage-700 border border-sage-200' 
                   : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'

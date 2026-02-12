@@ -180,7 +180,7 @@ export function StockSection({
                 <button
                   onClick={() => onToggleStandardItem(item.id)}
                   className={cn(
-                    'w-11 h-11 -ml-2 rounded-lg border-2 flex items-center justify-center transition-all duration-200 flex-shrink-0',
+                    'min-w-11 min-h-11 -ml-2 rounded-lg border-2 flex items-center justify-center transition-all duration-200 flex-shrink-0',
                     item.checked
                       ? 'bg-sage-500 border-sage-500'
                       : 'border-stone-300 hover:border-sage-400'

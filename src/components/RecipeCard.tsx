@@ -37,7 +37,7 @@ export function RecipeCard({ recipe, isFavorite, onToggleFavorite, onClick }: Re
           <button
             onClick={(e) => { e.stopPropagation(); onToggleFavorite(recipe.id); }}
             className={cn(
-              'p-2.5 rounded-xl transition-all duration-200',
+              'w-11 h-11 rounded-xl transition-all duration-200 flex items-center justify-center',
               isFavorite ? 'bg-red-50 text-red-500 hover:bg-red-100' : 'bg-stone-100 text-stone-400 hover:bg-stone-200 hover:text-stone-600'
             )}
           >

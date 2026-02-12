@@ -186,7 +186,7 @@ export function ShoppingListSection({
                   >
                     <button
                       onClick={() => onToggleItem(item.id)}
-                      className="w-11 h-11 -ml-2 flex items-center justify-center flex-shrink-0"
+                      className="min-w-11 min-h-11 -ml-2 flex items-center justify-center flex-shrink-0"
                     >
                       <div className="w-6 h-6 rounded-lg border-2 border-stone-300 flex items-center justify-center hover:border-sage-400 transition-colors" />
                     </button>
@@ -257,7 +257,7 @@ export function ShoppingListSection({
                   <div key={item.id} className="flex items-center gap-3 p-4">
                     <button
                       onClick={() => onToggleItem(item.id)}
-                      className="w-11 h-11 -ml-2 flex items-center justify-center flex-shrink-0"
+                      className="min-w-11 min-h-11 -ml-2 flex items-center justify-center flex-shrink-0"
                     >
                       <div className="w-6 h-6 rounded-lg bg-sage-500 border-2 border-sage-500 flex items-center justify-center">
                         <Check className="w-4 h-4 text-white" />

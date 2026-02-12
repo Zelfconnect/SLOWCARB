@@ -68,7 +68,7 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
             </div>
             <button
               onClick={() => onToggleFavorite(recipe.id)}
-              className={cn('p-3 rounded-xl transition-all duration-200 backdrop-blur-sm', isFavorite ? 'bg-white/30 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20')}
+              className={cn('w-11 h-11 rounded-xl transition-all duration-200 backdrop-blur-sm flex items-center justify-center', isFavorite ? 'bg-white/30 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20')}
             >
               <Heart className={cn('w-6 h-6', isFavorite && 'fill-current')} strokeWidth={2.5} />
             </button>

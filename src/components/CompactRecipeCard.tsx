@@ -54,7 +54,7 @@ export function CompactRecipeCard({
       <button
         onClick={onToggleFavorite}
         className={cn(
-          'p-2 rounded-lg transition-all duration-200 flex-shrink-0',
+          'w-11 h-11 rounded-lg transition-all duration-200 flex-shrink-0 flex items-center justify-center',
           isFavorite 
             ? 'text-red-500 hover:bg-red-50' 
             : 'text-stone-300 hover:text-stone-500 hover:bg-stone-100'
