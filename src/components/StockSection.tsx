@@ -40,17 +40,17 @@ export function StockSection({
   return (
     <div className="space-y-5 pb-24">
       {/* Section 1: In Huis */}
-      <div className="rounded-2xl p-5 bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200">
+      <div className="rounded-2xl p-5 bg-gradient-to-br from-sky-50 to-sky-100/50 border border-sky-200">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-14 h-14 rounded-xl bg-emerald-200 flex items-center justify-center">
-            <Home className="w-6 h-6 text-emerald-700" />
+          <div className="w-14 h-14 rounded-xl bg-sky-200 flex items-center justify-center">
+            <Home className="w-6 h-6 text-sky-700" />
           </div>
           <div>
-            <h2 className="font-display font-semibold text-lg text-emerald-900">
-              In huis
+            <h2 className="font-display font-semibold text-lg text-sky-900">
+              Voorraadkast
             </h2>
-            <p className="text-sm text-emerald-700">
-              {pantryItems.length} items
+            <p className="text-sm text-sky-700">
+              Altijd in huis · {pantryItems.length} items
             </p>
           </div>
         </div>
@@ -59,7 +59,7 @@ export function StockSection({
           <Button
             variant="outline"
             onClick={onClearPantry}
-            className="w-full h-11 rounded-xl border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+            className="w-full h-11 rounded-xl border-sky-200 text-sky-700 hover:bg-sky-100"
           >
             <Trash2 className="w-4 h-4 mr-2" />
             Lijst leegmaken

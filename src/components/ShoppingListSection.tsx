@@ -20,10 +20,10 @@ interface ShoppingListSectionProps {
 }
 
 const categoryLabels: Record<string, { label: string; emoji: string; color: string }> = {
-  eiwit: { label: 'Eiwit', emoji: '🥩', color: 'bg-rose-50 text-rose-700 border-rose-200' },
-  groente: { label: 'Groente', emoji: '🥬', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  pantry: { label: 'Voorraad', emoji: '🥫', color: 'bg-stone-50 text-stone-700 border-stone-200' },
-  overig: { label: 'Overig', emoji: '📦', color: 'bg-stone-50 text-stone-700 border-stone-200' },
+  eiwit: { label: 'Eiwit', emoji: '🥩', color: 'bg-rose-50/60 text-rose-600 border-rose-100' },
+  groente: { label: 'Groente', emoji: '🥬', color: 'bg-emerald-50/60 text-emerald-600 border-emerald-100' },
+  pantry: { label: 'Voorraad', emoji: '🥫', color: 'bg-stone-50/70 text-stone-600 border-stone-100' },
+  overig: { label: 'Overig', emoji: '📦', color: 'bg-stone-50/70 text-stone-600 border-stone-100' },
 };
 
 export function ShoppingListSection({
@@ -43,7 +43,6 @@ export function ShoppingListSection({
   const [showAddForm, setShowAddForm] = useState(false);
 
   const groupedItems = getByCategory();
-  const uncheckedCount = items.filter((i) => !i.checked).length;
   const checkedCount = items.filter((i) => i.checked).length;
 
   const handleAdd = () => {
@@ -68,11 +67,11 @@ export function ShoppingListSection({
           </div>
           <div>
             <h2 className="font-display font-semibold text-lg text-sage-900">
-              Boodschappenlijst
+              Weekboodschappen
             </h2>
             <p className="text-sm text-sage-700">
-              {uncheckedCount} open
-              {checkedCount > 0 && `, ${checkedCount} afgevinkt`}
+              {items.length} items
+              {checkedCount > 0 && ` · ${checkedCount} afgevinkt`}
             </p>
           </div>
         </div>
@@ -153,10 +152,10 @@ export function ShoppingListSection({
             <ShoppingCart className="w-8 h-8 text-stone-400" />
           </div>
           <p className="text-lg font-display font-medium text-stone-700">
-            Je lijst is leeg
+            Nog geen weekboodschappen
           </p>
           <p className="text-sm mt-1">
-            Voeg items toe vanuit een recept
+            Voeg items toe vanuit je planning of typ er zelf een bij
           </p>
         </div>
       )}
@@ -171,8 +170,8 @@ export function ShoppingListSection({
 
           return (
             <div key={category} className="card-premium overflow-hidden">
-              <div className={cn('p-4 border-b', catConfig.color)}>
-                <h3 className="font-display font-medium flex items-center gap-2">
+              <div className={cn('p-3 border-b', catConfig.color)}>
+                <h3 className="font-display text-sm font-medium flex items-center gap-2">
                   <span>{catConfig.emoji}</span>
                   <span>{catConfig.label}</span>
                   <span className="text-xs opacity-70">({unchecked.length})</span>
