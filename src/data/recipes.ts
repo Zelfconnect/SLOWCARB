@@ -188,7 +188,6 @@ export const recipes: Recipe[] = [
 ];
 
 export const categories = [
-  { id: 'all', name: 'Alles', emoji: '🍽️' },
   { id: 'ontbijt', name: 'Ontbijt', emoji: '🌅' },
   { id: 'lunch', name: 'Lunch', emoji: '☀️' },
   { id: 'avond', name: 'Avond', emoji: '🌙' },

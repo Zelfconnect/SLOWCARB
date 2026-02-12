@@ -59,7 +59,7 @@ export function StockSection({
           <Button
             variant="outline"
             onClick={onClearPantry}
-            className="w-full h-10 rounded-xl border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+            className="w-full h-11 rounded-xl border-emerald-200 text-emerald-700 hover:bg-emerald-100"
           >
             <Trash2 className="w-4 h-4 mr-2" />
             Lijst leegmaken
@@ -119,7 +119,7 @@ export function StockSection({
                       </div>
                       <button
                         onClick={() => onRemoveFromPantry(item.id)}
-                        className="p-2 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                        className="w-11 h-11 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0 flex items-center justify-center"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -137,7 +137,7 @@ export function StockSection({
           </div>
           <p className="text-sm font-medium text-stone-700">Nog niets in huis</p>
           <p className="text-xs mt-1">
-            Klik op "🏠 Ik heb dit al" in je boodschappenlijst
+            Vink items af in je boodschappenlijst en klik "Naar voorraad"
           </p>
         </div>
       )}
@@ -180,7 +180,7 @@ export function StockSection({
                 <button
                   onClick={() => onToggleStandardItem(item.id)}
                   className={cn(
-                    'w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all duration-200 flex-shrink-0',
+                    'w-11 h-11 -ml-2 rounded-lg border-2 flex items-center justify-center transition-all duration-200 flex-shrink-0',
                     item.checked
                       ? 'bg-sage-500 border-sage-500'
                       : 'border-stone-300 hover:border-sage-400'
@@ -208,7 +208,7 @@ export function StockSection({
                 {showAddButton && (
                   <button
                     onClick={() => onAddToShoppingList(item)}
-                    className="px-3 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-800 text-sm font-medium rounded-full transition-colors flex items-center gap-1"
+                    className="h-11 px-4 bg-amber-100 hover:bg-amber-200 text-amber-800 text-sm font-medium rounded-full transition-colors flex items-center gap-1"
                   >
                     <Plus className="w-3 h-3" />
                     Toevoegen

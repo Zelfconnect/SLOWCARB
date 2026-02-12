@@ -129,6 +129,18 @@ function App() {
     }
   };
 
+  const handleMoveCheckedToPantry = () => {
+    const checkedItems = items.filter((item) => item.checked);
+    if (checkedItems.length === 0) return;
+
+    checkedItems.forEach((item) => {
+      const movedItem = moveToPantry(item.id);
+      if (movedItem) addToPantry(movedItem);
+    });
+
+    toast.success(`${checkedItems.length} items naar voorraad verplaatst`);
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -191,6 +203,7 @@ function App() {
                 onRemoveItem={removeItem}
                 onClearChecked={clearChecked}
                 onMoveToPantry={handleMoveToPantry}
+                onMoveCheckedToPantry={handleMoveCheckedToPantry}
                 onAddFromSuggestion={addFromSuggestion}
                 onAddCustomItem={addCustomItem}
                 getByCategory={getByCategory}

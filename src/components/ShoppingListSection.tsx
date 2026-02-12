@@ -12,6 +12,7 @@ interface ShoppingListSectionProps {
   onRemoveItem: (id: string) => void;
   onClearChecked: () => void;
   onMoveToPantry: (id: string) => void;
+  onMoveCheckedToPantry: () => void;
   onAddFromSuggestion: (item: { id: string; name: string; emoji: string; category: string }) => void;
   onAddCustomItem: (name: string) => void;
   getByCategory: () => Record<string, ShoppingItem[]>;
@@ -32,6 +33,7 @@ export function ShoppingListSection({
   onRemoveItem,
   onClearChecked,
   onMoveToPantry,
+  onMoveCheckedToPantry,
   onAddFromSuggestion,
   onAddCustomItem,
   getByCategory,
@@ -83,16 +85,6 @@ export function ShoppingListSection({
             <Plus className="w-4 h-4 mr-2" />
             Toevoegen
           </Button>
-          {checkedCount > 0 && (
-            <Button
-              variant="outline"
-              onClick={onClearChecked}
-              className="h-11 rounded-xl border-stone-200"
-            >
-              <Trash2 className="w-4 h-4 mr-2" />
-              Wis
-            </Button>
-          )}
         </div>
       </div>
 
@@ -144,7 +136,7 @@ export function ShoppingListSection({
                 <span className="flex-1 text-stone-700">{item.name}</span>
                 <button
                   onClick={() => onAddFromSuggestion(item)}
-                  className="px-3 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-800 text-sm font-medium rounded-full transition-colors"
+                  className="h-11 px-4 bg-amber-100 hover:bg-amber-200 text-amber-800 text-sm font-medium rounded-full transition-colors"
                 >
                   + Toevoegen
                 </button>
@@ -194,8 +186,10 @@ export function ShoppingListSection({
                   >
                     <button
                       onClick={() => onToggleItem(item.id)}
-                      className="w-6 h-6 rounded-lg border-2 border-stone-300 flex items-center justify-center hover:border-sage-400 transition-colors flex-shrink-0"
-                    />
+                      className="w-11 h-11 -ml-2 flex items-center justify-center flex-shrink-0"
+                    >
+                      <div className="w-6 h-6 rounded-lg border-2 border-stone-300 flex items-center justify-center hover:border-sage-400 transition-colors" />
+                    </button>
                     <span className="text-xl flex-shrink-0">
                       {getEmojiForIngredient(item.name)}
                     </span>
@@ -211,14 +205,14 @@ export function ShoppingListSection({
                     </div>
                     <button
                       onClick={() => handleMoveToPantry(item.id)}
-                      className="p-2 text-stone-400 hover:text-sage-600 hover:bg-sage-50 rounded-lg transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100"
+                      className="w-11 h-11 text-stone-400 hover:text-sage-600 hover:bg-sage-50 rounded-lg transition-colors flex-shrink-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center justify-center"
                       title="Ik heb dit al"
                     >
                       <Home className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onRemoveItem(item.id)}
-                      className="p-2 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                      className="w-11 h-11 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0 flex items-center justify-center"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -228,6 +222,25 @@ export function ShoppingListSection({
             </div>
           );
         })}
+
+        {checkedCount > 0 && (
+          <div className="flex gap-3">
+            <Button
+              onClick={onMoveCheckedToPantry}
+              className="flex-1 btn-secondary h-11"
+            >
+              <Home className="w-4 h-4 mr-2" />
+              Naar voorraad ({checkedCount})
+            </Button>
+            <Button
+              variant="outline"
+              onClick={onClearChecked}
+              className="h-11 rounded-xl border-stone-200"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
 
         {/* Checked Items */}
         {checkedCount > 0 && (
@@ -244,9 +257,11 @@ export function ShoppingListSection({
                   <div key={item.id} className="flex items-center gap-3 p-4">
                     <button
                       onClick={() => onToggleItem(item.id)}
-                      className="w-6 h-6 rounded-lg bg-sage-500 border-2 border-sage-500 flex items-center justify-center flex-shrink-0"
+                      className="w-11 h-11 -ml-2 flex items-center justify-center flex-shrink-0"
                     >
-                      <Check className="w-4 h-4 text-white" />
+                      <div className="w-6 h-6 rounded-lg bg-sage-500 border-2 border-sage-500 flex items-center justify-center">
+                        <Check className="w-4 h-4 text-white" />
+                      </div>
                     </button>
                     <span className="text-xl flex-shrink-0">
                       {getEmojiForIngredient(item.name)}
@@ -256,7 +271,7 @@ export function ShoppingListSection({
                     </span>
                     <button
                       onClick={() => onRemoveItem(item.id)}
-                      className="p-2 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                      className="w-11 h-11 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0 flex items-center justify-center"
                     >
                       <X className="w-4 h-4" />
                     </button>
