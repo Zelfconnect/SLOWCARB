@@ -22,10 +22,10 @@ const mealConfig = {
     icon: Coffee,
     label: 'Ontbijt',
     subtitle: '30g eiwit binnen 30 min',
-    gradient: 'from-amber-400 to-orange-500',
-    bgGradient: 'from-amber-50 to-orange-50',
-    borderColor: 'border-amber-200',
-    checkColor: 'bg-amber-500',
+    gradient: 'from-sage-400 to-sage-600',
+    bgGradient: 'from-sage-50 to-sage-100',
+    borderColor: 'border-sage-200',
+    checkColor: 'bg-sage-500',
     emoji: '🍳',
   },
   lunch: {
@@ -160,10 +160,10 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
         <div className={cn(
           'flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300',
           streak > 0 
-            ? 'bg-gradient-to-r from-orange-100 to-amber-100 text-orange-700'
+            ? 'bg-gradient-to-r from-sage-100 to-sage-200 text-sage-700'
             : 'bg-stone-100 text-stone-500'
         )}>
-          <Flame className={cn('w-5 h-5', streak > 0 && 'text-orange-500')} />
+          <Flame className={cn('w-5 h-5', streak > 0 && 'text-sage-600')} />
           {streak > 0 ? (
             <>
               <span className="font-display font-semibold">{streak}</span>

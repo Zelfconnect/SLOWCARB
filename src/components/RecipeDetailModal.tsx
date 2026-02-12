@@ -232,20 +232,20 @@ export function RecipeDetailModal({
                   <div className="mt-6">
                     <button
                       onClick={() => setShowTips(!showTips)}
-                      className="w-full flex items-center justify-between p-4 bg-amber-50 rounded-xl border border-amber-100"
+                      className="w-full flex items-center justify-between p-4 bg-stone-50 rounded-xl border border-stone-200"
                     >
-                      <span className="flex items-center gap-2 text-sm font-medium text-amber-900">
+                      <span className="flex items-center gap-2 text-sm font-medium text-stone-800">
                         <Info className="w-4 h-4" />
                         Tips ({recipe.tips.length})
                       </span>
-                      <ChevronUp className={cn('w-4 h-4 text-amber-600 transition-transform', !showTips && 'rotate-180')} />
+                      <ChevronUp className={cn('w-4 h-4 text-stone-500 transition-transform', !showTips && 'rotate-180')} />
                     </button>
                     
                     {showTips && (
-                      <ul className="mt-3 space-y-2 p-4 bg-amber-50/50 rounded-xl">
+                      <ul className="mt-3 space-y-2 p-4 bg-stone-50 rounded-xl">
                         {recipe.tips.map((tip, idx) => (
-                          <li key={idx} className="text-amber-800 text-sm flex items-start gap-2 leading-relaxed">
-                            <span className="text-amber-500 mt-0.5">•</span>{tip}
+                          <li key={idx} className="text-stone-700 text-sm flex items-start gap-2 leading-relaxed">
+                            <span className="text-stone-400 mt-0.5">•</span>{tip}
                           </li>
                         ))}
                       </ul>

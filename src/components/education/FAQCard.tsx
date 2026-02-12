@@ -27,12 +27,12 @@ const answerConfig = {
     iconBg: 'bg-red-500',
   },
   misschien: {
-    bg: 'bg-amber-100',
-    text: 'text-amber-800',
-    border: 'border-amber-200',
+    bg: 'bg-stone-100',
+    text: 'text-stone-800',
+    border: 'border-stone-200',
     icon: HelpCircle,
     label: 'MISSCHIEN',
-    iconBg: 'bg-amber-500',
+    iconBg: 'bg-stone-500',
   },
 };
 

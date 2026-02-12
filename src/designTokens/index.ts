@@ -19,7 +19,7 @@ export const colors = {
     900: '#14532D', // Dark headers
   },
 
-  // Accent (Amber voor highlights/waarschuwingen)
+  // Accent (legacy amber, avoid in UI)
   accent: {
     50: '#FFFBEB',
     100: '#FEF3C7',
@@ -208,18 +208,18 @@ export const transition = {
 export const cardVariants = {
   // Rule cards - Primary green
   rule: {
-    background: `bg-gradient-to-br from-[${colors.primary[600]}] to-[${colors.primary[700]}]`,
+    background: 'bg-gradient-to-br from-primary-600 to-primary-700',
     text: 'text-white',
     icon: 'text-white',
     accent: 'bg-white/10',
   },
 
-  // Concept cards - Amber accent
+  // Concept cards - Neutral stone accent
   concept: {
-    background: `bg-gradient-to-br from-[${colors.accent[500]}] to-[${colors.accent[600]}]`,
+    background: 'bg-gradient-to-br from-stone-600 to-stone-700',
     text: 'text-white',
     icon: 'text-white',
-    accent: 'bg-amber-100',
+    accent: 'bg-stone-100',
   },
 
   // Reference cards - Neutral

@@ -126,12 +126,12 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
           </div>
 
           {recipe.tips && recipe.tips.length > 0 && (
-            <div className="bg-amber-50 rounded-2xl p-5 border border-amber-100">
-              <h3 className="font-display font-semibold text-amber-900 mb-3 flex items-center gap-2"><Info className="w-5 h-5" />Tips</h3>
+            <div className="bg-stone-50 rounded-2xl p-5 border border-stone-200">
+              <h3 className="font-display font-semibold text-stone-800 mb-3 flex items-center gap-2"><Info className="w-5 h-5" />Tips</h3>
               <ul className="space-y-2">
                 {recipe.tips.map((tip, idx) => (
-                  <li key={idx} className="text-amber-800 text-sm flex items-start gap-2 leading-relaxed">
-                    <span className="text-amber-500 mt-0.5">•</span>{tip}
+                  <li key={idx} className="text-stone-700 text-sm flex items-start gap-2 leading-relaxed">
+                    <span className="text-stone-400 mt-0.5">•</span>{tip}
                   </li>
                 ))}
               </ul>

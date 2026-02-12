@@ -73,9 +73,9 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
               WebkitOverflowScrolling: 'touch',
             }}
           >
-            {/* Summary Box - Always at top, amber background */}
-            <div className="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-4">
-              <p className="text-amber-900 font-medium text-sm leading-relaxed">
+            {/* Summary Box - Always at top, calm-neutral background */}
+            <div className="bg-sage-50 border-l-4 border-sage-200 rounded-r-xl p-4">
+              <p className="text-sage-900 font-medium text-sm leading-relaxed">
                 {card.content.summary}
               </p>
             </div>
@@ -92,7 +92,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
                     key={idx}
                     className="flex gap-3 p-3 bg-stone-50 rounded-xl"
                   >
-                    <div className="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
+                    <div className="w-6 h-6 rounded-full bg-sage-200 text-sage-800 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                       {idx + 1}
                     </div>
                     <div>

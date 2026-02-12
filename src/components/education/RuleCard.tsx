@@ -123,12 +123,12 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
             {card.content.exceptions && (
               <>
                 <div className="border-t border-stone-200" />
-                <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
-                  <h3 className="flex items-center gap-2 text-sm font-semibold text-amber-800 mb-2">
+                <div className="bg-stone-50 rounded-xl p-4 border border-stone-200">
+                  <h3 className="flex items-center gap-2 text-sm font-semibold text-stone-800 mb-2">
                     <AlertCircle className="w-4 h-4" />
                     Uitzonderingen
                   </h3>
-                  <p className="text-amber-700 text-sm">{card.content.exceptions}</p>
+                  <p className="text-stone-700 text-sm">{card.content.exceptions}</p>
                 </div>
               </>
             )}

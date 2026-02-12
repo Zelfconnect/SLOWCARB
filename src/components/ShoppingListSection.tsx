@@ -22,7 +22,7 @@ interface ShoppingListSectionProps {
 const categoryLabels: Record<string, { label: string; emoji: string; color: string }> = {
   eiwit: { label: 'Eiwit', emoji: '🥩', color: 'bg-rose-50 text-rose-700 border-rose-200' },
   groente: { label: 'Groente', emoji: '🥬', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  pantry: { label: 'Voorraad', emoji: '🥫', color: 'bg-amber-50 text-amber-700 border-amber-200' },
+  pantry: { label: 'Voorraad', emoji: '🥫', color: 'bg-stone-50 text-stone-700 border-stone-200' },
   overig: { label: 'Overig', emoji: '📦', color: 'bg-stone-50 text-stone-700 border-stone-200' },
 };
 
@@ -117,12 +117,12 @@ export function ShoppingListSection({
       {/* Restock Suggestions - Ontbreekt in voorraad */}
       {restockSuggestions.length > 0 && (
         <div className="card-premium overflow-hidden">
-          <div className="p-4 bg-amber-50 border-b border-amber-100">
-            <h3 className="font-display font-medium text-amber-900 flex items-center gap-2">
+          <div className="p-4 bg-stone-50 border-b border-stone-200">
+            <h3 className="font-display font-medium text-stone-800 flex items-center gap-2">
               <PackagePlus className="w-4 h-4" />
               Ontbreekt in je voorraad
             </h3>
-            <p className="text-xs text-amber-700 mt-1">
+            <p className="text-xs text-stone-600 mt-1">
               Deze staan op je "altijd op voorraad" lijst maar zijn nu op
             </p>
           </div>
@@ -136,7 +136,7 @@ export function ShoppingListSection({
                 <span className="flex-1 text-stone-700">{item.name}</span>
                 <button
                   onClick={() => onAddFromSuggestion(item)}
-                  className="h-11 px-4 bg-amber-100 hover:bg-amber-200 text-amber-800 text-sm font-medium rounded-full transition-colors"
+                  className="h-11 px-4 bg-sage-100 hover:bg-sage-200 text-sage-800 text-sm font-medium rounded-full transition-colors"
                 >
                   + Toevoegen
                 </button>

@@ -23,13 +23,13 @@ function CardPreview({
   onClick: () => void;
 }) {
   // Type-based styling - geen hardcoded colors meer!
-  // Rule = groen, Concept = amber, FAQ/Reference = neutraal
+  // Rule = groen, Concept = neutraal, FAQ/Reference = neutraal
   const getTypeStyle = (type: string) => {
     switch (type) {
       case 'rule':
         return 'from-sage-100 to-sage-50 border-sage-200 hover:border-sage-300';
       case 'concept':
-        return 'from-amber-100 to-amber-50 border-amber-200 hover:border-amber-300';
+        return 'from-stone-100 to-stone-50 border-stone-200 hover:border-stone-300';
       case 'faq':
       case 'reference':
         return 'from-stone-100 to-stone-50 border-stone-200 hover:border-stone-300';
@@ -161,14 +161,14 @@ export function LearnSection() {
           </div>
 
           {/* 30/30 Rule */}
-          <div className="rounded-2xl p-5 bg-gradient-to-br from-amber-500 to-amber-600 text-white">
+          <div className="rounded-2xl p-5 bg-gradient-to-br from-sage-600 to-sage-700 text-white">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
                 ⚡
               </div>
               <div>
                 <h2 className="font-display font-semibold text-lg">De 30/30 Regel</h2>
-                <p className="text-amber-100 text-sm">De gouden regel voor ontbijt</p>
+                <p className="text-sage-100 text-sm">De gouden regel voor ontbijt</p>
               </div>
             </div>
             <p className="text-white/90 mb-4">
@@ -178,10 +178,10 @@ export function LearnSection() {
               <p className="text-sm font-medium text-white mb-2">Waarom dit werkt:</p>
               <ul className="space-y-1">
                 <li className="text-sm text-white/80 flex items-start gap-2">
-                  <span className="text-amber-200">•</span>Stopt spierafbraak
+                  <span className="text-sage-200">•</span>Stopt spierafbraak
                 </li>
                 <li className="text-sm text-white/80 flex items-start gap-2">
-                  <span className="text-amber-200">•</span>Stabiliseert bloedsuiker
+                  <span className="text-sage-200">•</span>Stabiliseert bloedsuiker
                 </li>
               </ul>
             </div>
@@ -251,8 +251,8 @@ export function LearnSection() {
           </div>
 
           {/* Common Mistakes */}
-          <div className="rounded-2xl p-5 bg-gradient-to-br from-amber-50 to-amber-100/50 border border-amber-200">
-            <h3 className="font-display font-semibold text-amber-900 flex items-center gap-2 mb-4">
+          <div className="rounded-2xl p-5 bg-gradient-to-br from-stone-50 to-stone-100/50 border border-stone-200">
+            <h3 className="font-display font-semibold text-stone-800 flex items-center gap-2 mb-4">
               <AlertTriangle className="w-5 h-5" />Veelgemaakte Fouten
             </h3>
             <div className="space-y-3">
@@ -260,9 +260,9 @@ export function LearnSection() {
                 <div key={idx} className="bg-white/60 rounded-xl p-3">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-lg">{mistake.emoji}</span>
-                    <p className="font-medium text-amber-900 text-sm">{mistake.mistake}</p>
+                    <p className="font-medium text-stone-800 text-sm">{mistake.mistake}</p>
                   </div>
-                  <p className="text-amber-700 text-xs ml-7">{mistake.explanation}</p>
+                  <p className="text-stone-600 text-xs ml-7">{mistake.explanation}</p>
                 </div>
               ))}
             </div>

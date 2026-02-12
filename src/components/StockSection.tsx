@@ -16,7 +16,7 @@ interface StockSectionProps {
 const categoryLabels: Record<string, { label: string; emoji: string; color: string }> = {
   eiwit: { label: 'Eiwit', emoji: '🥩', color: 'bg-rose-50 text-rose-700 border-rose-200' },
   groente: { label: 'Groente', emoji: '🥬', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  pantry: { label: 'Voorraad', emoji: '🥫', color: 'bg-amber-50 text-amber-700 border-amber-200' },
+  pantry: { label: 'Voorraad', emoji: '🥫', color: 'bg-stone-50 text-stone-700 border-stone-200' },
   overig: { label: 'Overig', emoji: '📦', color: 'bg-stone-50 text-stone-700 border-stone-200' },
 };
 
@@ -143,21 +143,21 @@ export function StockSection({
       )}
 
       {/* Section 2: Altijd op voorraad (was: Standaard lijst) */}
-      <div className="rounded-2xl p-5 bg-gradient-to-br from-amber-50 to-amber-100/50 border border-amber-200 mt-8">
+      <div className="rounded-2xl p-5 bg-gradient-to-br from-stone-50 to-stone-100/50 border border-stone-200 mt-8">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-14 h-14 rounded-xl bg-amber-200 flex items-center justify-center">
-            <ClipboardList className="w-6 h-6 text-amber-700" />
+          <div className="w-14 h-14 rounded-xl bg-stone-200 flex items-center justify-center">
+            <ClipboardList className="w-6 h-6 text-stone-700" />
           </div>
           <div>
-            <h2 className="font-display font-semibold text-lg text-amber-900">
+            <h2 className="font-display font-semibold text-lg text-stone-900">
               Altijd op voorraad
             </h2>
-            <p className="text-sm text-amber-700">
+            <p className="text-sm text-stone-700">
               {checkedStandardCount} items geselecteerd
             </p>
           </div>
         </div>
-        <p className="text-xs text-amber-600">
+        <p className="text-xs text-stone-600">
           Vink aan wat je standaard in huis wilt hebben. Uitgevinkt = direct op je boodschappenlijst.
         </p>
       </div>
@@ -202,13 +202,13 @@ export function StockSection({
                     <span className="text-xs text-emerald-600">In huis</span>
                   )}
                   {item.checked && !inPantry && (
-                    <span className="text-xs text-amber-600">Ontbreekt</span>
+                    <span className="text-xs text-stone-500">Ontbreekt</span>
                   )}
                 </div>
                 {showAddButton && (
                   <button
                     onClick={() => onAddToShoppingList(item)}
-                    className="h-11 px-4 bg-amber-100 hover:bg-amber-200 text-amber-800 text-sm font-medium rounded-full transition-colors flex items-center gap-1"
+                    className="h-11 px-4 bg-sage-100 hover:bg-sage-200 text-sage-800 text-sm font-medium rounded-full transition-colors flex items-center gap-1"
                   >
                     <Plus className="w-3 h-3" />
                     Toevoegen

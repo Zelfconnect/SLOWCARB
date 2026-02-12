@@ -28,15 +28,15 @@ const variantClasses: Record<CardVariant, string> = {
   // Rule cards - Primary green gradient
   rule: 'bg-gradient-to-br from-primary-600 to-primary-700 text-white',
   
-  // Concept cards - Amber gradient
-  concept: 'bg-gradient-to-br from-accent-500 to-accent-600 text-white',
+  // Concept cards - Neutral stone gradient
+  concept: 'bg-gradient-to-br from-stone-600 to-stone-700 text-white',
   
   // Reference cards - Neutral
   reference: 'bg-white text-warm-900 border border-warm-200',
   
   // Status variants
   success: 'bg-primary-50 text-primary-900 border border-primary-200',
-  warning: 'bg-accent-50 text-accent-900 border border-accent-200',
+  warning: 'bg-stone-50 text-stone-800 border border-stone-200',
   error: 'bg-red-50 text-red-900 border border-red-200',
 };
 

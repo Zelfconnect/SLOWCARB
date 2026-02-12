@@ -27,12 +27,12 @@ export const RULE_TOKENS: EducationTokens = {
 };
 
 // Concept Card: Hoe werkt iets, wetenschappelijke uitleg
-// Kleur: Amber/Orange (warm, informatief)
+// Kleur: Neutraal steen met subtiele sage-tint
 export const CONCEPT_TOKENS: EducationTokens = {
-  background: 'from-amber-500 to-amber-600',  // Amber gradient
+  background: 'from-stone-600 to-stone-700',  // Neutral gradient
   text: '#FFFFFF',
   icon: '#FFFFFF',
-  accent: 'bg-amber-100',  // For summary box
+  accent: 'bg-sage-50',  // For summary box
   borderRadius: 'rounded-3xl',
   maxHeight: '80vh',
 };
