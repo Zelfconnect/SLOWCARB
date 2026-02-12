@@ -115,7 +115,13 @@ export function useShoppingList() {
   const addCustomItem = useCallback((name: string) => {
     setItems(prev => {
       const category = getCategoryForIngredient(name);
-      const unit = getPackageSizes(name)?.unit || 'stuks';
+      const packages = getPackageSizes(name);
+      const unit = packages?.unit || 'stuks';
+      
+      // Use first (smallest) package as default, or 1 if no packages defined
+      const defaultPackage = packages?.packages[0];
+      const defaultAmount = defaultPackage?.amount || 1;
+      const defaultLabel = defaultPackage?.label || (unit === 'stuks' ? `${defaultAmount} stuks` : undefined);
       
       // Check if already exists
       const existingIndex = prev.findIndex(
@@ -133,9 +139,9 @@ export function useShoppingList() {
         category,
         checked: false,
         recipeName: 'Eigen item',
-        amount: 1,
+        amount: defaultAmount,
         unit,
-        packageLabel: undefined,
+        packageLabel: defaultLabel,
         addedAt: new Date().toISOString(),
       }];
     });
