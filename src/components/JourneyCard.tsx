@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BookOpen, ChevronRight, FlaskConical, Info, Lightbulb, PartyPopper, Rocket, RotateCcw, X } from 'lucide-react';
+import { BookOpen, Calendar, ChevronRight, FlaskConical, Info, Lightbulb, PartyPopper, Rocket, RotateCcw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -78,30 +78,59 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
             document.body.style.overflow = '';
           }
         }}>
-          <DialogContent className="rounded-2xl border-0 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-semibold">Start je Slow-Carb Journey</DialogTitle>
+          <DialogContent className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm max-h-[90vh] overflow-y-auto dark:border-gray-800 dark:bg-gray-900 leading-relaxed">
+            <DialogHeader className="text-left gap-3">
+              <DialogTitle className="text-2xl font-['Geist'] font-bold tracking-tight text-gray-950 dark:text-gray-100">
+                Start je Slow-Carb Journey
+              </DialogTitle>
             </DialogHeader>
-            <div className="space-y-5 pt-2">
-              <div>
-                <Label htmlFor="start-date" className="text-warm-700 font-medium">Start datum</Label>
-                <Input id="start-date" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="mt-2" />
+            <div className="space-y-4 pt-1 text-base text-gray-600 dark:text-gray-400">
+              <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 space-y-3">
+                <div>
+                  <Label htmlFor="start-date" className="text-sm font-medium text-gray-500 uppercase tracking-wide">Start datum</Label>
+                  <div className="relative mt-2">
+                    <Input
+                      id="start-date"
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="h-11 rounded-xl border border-gray-200 bg-white px-4 pr-10 text-base text-gray-600 placeholder:text-gray-400 appearance-none focus:ring-2 focus:ring-gray-400 focus:border-transparent dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+                    />
+                    <Calendar className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="cheat-day" className="text-sm font-medium text-gray-500 uppercase tracking-wide">Cheat day</Label>
+                  <Select value={cheatDay} onValueChange={(v) => setCheatDay(v as 'zaterdag' | 'zondag')}>
+                    <SelectTrigger className="mt-2 h-11 rounded-xl border border-gray-200 bg-white px-4 text-base text-gray-600 focus:ring-2 focus:ring-gray-400 focus:border-transparent dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                      <SelectItem value="zaterdag" className="rounded-lg text-gray-700 focus:bg-gray-100 dark:text-gray-100 dark:focus:bg-gray-800">Zaterdag</SelectItem>
+                      <SelectItem value="zondag" className="rounded-lg text-gray-700 focus:bg-gray-100 dark:text-gray-100 dark:focus:bg-gray-800">Zondag</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div>
-                <Label htmlFor="cheat-day" className="text-warm-700 font-medium">Cheat day</Label>
-                <Select value={cheatDay} onValueChange={(v) => setCheatDay(v as 'zaterdag' | 'zondag')}>
-                  <SelectTrigger className="mt-2"><SelectValue /></SelectTrigger>
-                  <SelectContent className="rounded-lg">
-                    <SelectItem value="zaterdag" className="rounded-lg">Zaterdag</SelectItem>
-                    <SelectItem value="zondag" className="rounded-lg">Zondag</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="opacity-90">
+                <Label htmlFor="target-weight" className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                  Streefgewicht <span className="normal-case font-normal text-gray-400">(optioneel)</span>
+                </Label>
+                <Input
+                  id="target-weight"
+                  type="number"
+                  placeholder="85"
+                  value={targetWeight}
+                  onChange={(e) => setTargetWeight(e.target.value)}
+                  className="mt-2 h-11 rounded-xl border border-gray-200 bg-white px-4 text-base text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-gray-400 focus:border-transparent dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+                />
               </div>
-              <div>
-                <Label htmlFor="target-weight" className="text-warm-700 font-medium">Streefgewicht (optioneel)</Label>
-                <Input id="target-weight" type="number" placeholder="bijv. 85" value={targetWeight} onChange={(e) => setTargetWeight(e.target.value)} className="mt-2" />
-              </div>
-              <Button onClick={handleStart} className="w-full bg-primary-600 hover:bg-primary-700 h-12">Start Journey</Button>
+              <Button
+                onClick={handleStart}
+                className="w-full h-11 rounded-xl bg-gray-900 text-white hover:bg-gray-800 active:scale-95 transition-all dark:bg-white dark:text-gray-950 dark:hover:bg-gray-100"
+              >
+                Start Journey
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
