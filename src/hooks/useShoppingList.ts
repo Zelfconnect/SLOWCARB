@@ -31,23 +31,26 @@ function getCategoryForIngredient(name: string): 'eiwit' | 'groente' | 'pantry' 
   return normalizeCategory(name);
 }
 
-// Get emoji for ingredient
+// Get icon key for ingredient
 function getEmojiForIngredient(name: string): string {
   const lower = name.toLowerCase();
-  if (lower.includes('ei')) return '🥚';
-  if (lower.includes('kip') || lower.includes('vlees') || lower.includes('gehakt')) return '🥩';
-  if (lower.includes('bonen') || lower.includes('linzen')) return '🫘';
-  if (lower.includes('tomaat')) return '🍅';
-  if (lower.includes('spinazie') || lower.includes('groente') || lower.includes('sla')) return '🥬';
-  if (lower.includes('broccoli')) return '🥦';
-  if (lower.includes('ui')) return '🧅';
-  if (lower.includes('knoflook')) return '🧄';
-  if (lower.includes('avocado')) return '🥑';
-  if (lower.includes('tonijn') || lower.includes('zalm') || lower.includes('vis')) return '🐟';
-  if (lower.includes('kaas') || lower.includes('huttenkase')) return '🧀';
-  if (lower.includes('olie')) return '🫒';
-  if (lower.includes('noten') || lower.includes('walnoot') || lower.includes('amandel')) return '🥜';
-  return '📦';
+  if (lower.includes('ei')) return 'egg';
+  if (lower.includes('kip') || lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
+  if (lower.includes('bonen') || lower.includes('linzen')) return 'bean';
+  if (
+    lower.includes('tomaat') ||
+    lower.includes('spinazie') ||
+    lower.includes('groente') ||
+    lower.includes('sla') ||
+    lower.includes('broccoli') ||
+    lower.includes('ui') ||
+    lower.includes('knoflook') ||
+    lower.includes('avocado')
+  ) {
+    return 'salad';
+  }
+  if (lower.includes('tonijn') || lower.includes('zalm') || lower.includes('vis')) return 'fish';
+  return 'package';
 }
 
 export function useShoppingList() {

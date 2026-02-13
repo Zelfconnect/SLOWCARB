@@ -1,4 +1,17 @@
-import { Check, Trash2, Package, ClipboardList, Home, Plus } from 'lucide-react';
+import {
+  Check,
+  Trash2,
+  Package,
+  ClipboardList,
+  Home,
+  Plus,
+  Beef,
+  Fish,
+  Egg,
+  Bean,
+  Salad,
+  type LucideIcon,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import type { PantryItem } from '@/types';
@@ -13,12 +26,60 @@ interface StockSectionProps {
   getByCategory: () => Record<string, PantryItem[]>;
 }
 
-const categoryLabels: Record<string, { label: string; emoji: string; color: string }> = {
-  eiwit: { label: 'Eiwit', emoji: '🥩', color: 'bg-rose-50 text-rose-700 border-rose-200' },
-  groente: { label: 'Groente', emoji: '🥬', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  pantry: { label: 'Voorraad', emoji: '🥫', color: 'bg-stone-50 text-stone-700 border-stone-200' },
-  overig: { label: 'Overig', emoji: '📦', color: 'bg-stone-50 text-stone-700 border-stone-200' },
+const categoryLabels: Record<string, { label: string; iconKey: string; color: string }> = {
+  eiwit: { label: 'Eiwit', iconKey: 'beef', color: 'bg-rose-50 text-rose-700 border-rose-200' },
+  groente: { label: 'Groente', iconKey: 'salad', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+  pantry: { label: 'Voorraad', iconKey: 'package', color: 'bg-stone-50 text-stone-700 border-stone-200' },
+  overig: { label: 'Overig', iconKey: 'package', color: 'bg-stone-50 text-stone-700 border-stone-200' },
 };
+
+const iconMap: Record<string, { Icon: LucideIcon; label: string }> = {
+  '🥩': { Icon: Beef, label: 'Vlees' },
+  beef: { Icon: Beef, label: 'Vlees' },
+  '🐟': { Icon: Fish, label: 'Vis' },
+  fish: { Icon: Fish, label: 'Vis' },
+  '🥚': { Icon: Egg, label: 'Eieren' },
+  egg: { Icon: Egg, label: 'Eieren' },
+  '🫘': { Icon: Bean, label: 'Bonen' },
+  bean: { Icon: Bean, label: 'Bonen' },
+  '🥦': { Icon: Salad, label: 'Groenten' },
+  '🥬': { Icon: Salad, label: 'Groenten' },
+  salad: { Icon: Salad, label: 'Groenten' },
+  '🥫': { Icon: Package, label: 'Voorraadkast' },
+  package: { Icon: Package, label: 'Voorraadkast' },
+};
+
+function getIconInfo(value: string) {
+  const normalized = value.replace(/[\s-]/g, '').toLowerCase();
+  return iconMap[value] || iconMap[normalized] || iconMap.package;
+}
+
+function getIconKeyForName(name: string) {
+  const lower = name.toLowerCase();
+  if (lower.includes('ei')) return 'egg';
+  if (lower.includes('kip') || lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
+  if (lower.includes('bonen') || lower.includes('linzen')) return 'bean';
+  if (lower.includes('tonijn') || lower.includes('zalm') || lower.includes('vis')) return 'fish';
+  if (
+    lower.includes('tomaat') ||
+    lower.includes('spinazie') ||
+    lower.includes('groente') ||
+    lower.includes('sla') ||
+    lower.includes('broccoli') ||
+    lower.includes('ui') ||
+    lower.includes('knoflook') ||
+    lower.includes('avocado')
+  ) {
+    return 'salad';
+  }
+  return 'package';
+}
+
+function renderIcon(iconKey: string, ariaLabel: string) {
+  const iconInfo = getIconInfo(iconKey);
+  const Icon = iconInfo.Icon;
+  return <Icon className="w-6 h-6 text-stone-600 flex-shrink-0" aria-label={ariaLabel} />;
+}
 
 export function StockSection({
   pantryItems,
@@ -79,7 +140,7 @@ export function StockSection({
               <div key={category} className="card-premium overflow-hidden">
                 <div className={cn('p-4 border-b', catConfig.color)}>
                   <h3 className="font-display font-medium flex items-center gap-2">
-                    <span>{catConfig.emoji}</span>
+                    {renderIcon(catConfig.iconKey, catConfig.label)}
                     <span>{catConfig.label}</span>
                     <span className="text-xs opacity-70">({catItems.length})</span>
                   </h3>
@@ -90,23 +151,7 @@ export function StockSection({
                       key={item.id}
                       className="flex items-center gap-3 p-4 hover:bg-stone-50 transition-colors"
                     >
-                      <span className="text-xl flex-shrink-0">
-                        {item.name.toLowerCase().includes('ei')
-                          ? '🥚'
-                          : item.name.toLowerCase().includes('kip') ||
-                            item.name.toLowerCase().includes('vlees') ||
-                            item.name.toLowerCase().includes('gehakt')
-                          ? '🥩'
-                          : item.name.toLowerCase().includes('bonen') ||
-                            item.name.toLowerCase().includes('linzen')
-                          ? '🫘'
-                          : item.name.toLowerCase().includes('tomaat')
-                          ? '🍅'
-                          : item.name.toLowerCase().includes('spinazie') ||
-                            item.name.toLowerCase().includes('groente')
-                          ? '🥬'
-                          : '📦'}
-                      </span>
+                      {renderIcon(getIconKeyForName(item.name), item.name)}
                       <div className="flex-1 min-w-0">
                         <span className="text-stone-700 block font-medium">
                           {item.amount} {item.unit} {item.name}
@@ -188,7 +233,7 @@ export function StockSection({
                 >
                   {item.checked && <Check className="w-4 h-4 text-white" />}
                 </button>
-                <span className="text-xl flex-shrink-0">{item.emoji}</span>
+                {renderIcon(item.emoji, item.name)}
                 <div className="flex-1 min-w-0">
                   <span
                     className={cn(

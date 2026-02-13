@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, ChevronDown } from 'lucide-react';
+import { Check, ChevronDown, ChefHat, Package, Refrigerator, Snowflake, type LucideIcon } from 'lucide-react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { cn } from '@/lib/utils';
 
@@ -20,7 +20,7 @@ const DEFAULT_ZONES: AmmoZone[] = [
   {
     id: 'vriezer',
     name: 'De Vriezer',
-    emoji: '🧊',
+    emoji: 'snowflake',
     items: [
       { id: 'kip', name: '2kg kipfilet (of 1 grote zak diepvries)', checked: false },
       { id: 'broccoli', name: '4 zakken diepvries broccoli (1kg)', checked: false },
@@ -31,7 +31,7 @@ const DEFAULT_ZONES: AmmoZone[] = [
   {
     id: 'voorraadkast',
     name: 'De Voorraadkast',
-    emoji: '🥫',
+    emoji: 'package',
     items: [
       { id: 'bonen', name: '12 blikken zwarte bonen (minimum)', checked: false },
       { id: 'tonijn', name: '6 blikken tonijn (emergency dagen)', checked: false },
@@ -44,7 +44,7 @@ const DEFAULT_ZONES: AmmoZone[] = [
   {
     id: 'koelkast',
     name: 'De Koelkast',
-    emoji: '🥶',
+    emoji: 'refrigerator',
     items: [
       { id: 'eieren', name: '2 dozijn eieren (24 stuks)', checked: false },
       { id: 'spinazie-vers', name: '1 zak verse spinazie (zondag recovery)', checked: false },
@@ -54,7 +54,7 @@ const DEFAULT_ZONES: AmmoZone[] = [
   {
     id: 'tools',
     name: 'Airfryer Station',
-    emoji: '🍳',
+    emoji: 'chefhat',
     items: [
       { id: 'bakpapier', name: 'Bakpapier (voor airfryer mandje)', checked: false },
       { id: 'oliespray', name: 'Olie spray fles (geen spuitbus)', checked: false },
@@ -63,6 +63,22 @@ const DEFAULT_ZONES: AmmoZone[] = [
     ],
   },
 ];
+
+const zoneIconMap: Record<string, { Icon: LucideIcon; label: string }> = {
+  '🧊': { Icon: Snowflake, label: 'Vriezer' },
+  snowflake: { Icon: Snowflake, label: 'Vriezer' },
+  '🥫': { Icon: Package, label: 'Voorraadkast' },
+  package: { Icon: Package, label: 'Voorraadkast' },
+  '🥶': { Icon: Refrigerator, label: 'Koelkast' },
+  refrigerator: { Icon: Refrigerator, label: 'Koelkast' },
+  '🍳': { Icon: ChefHat, label: 'Airfryer' },
+  chefhat: { Icon: ChefHat, label: 'Airfryer' },
+};
+
+function getZoneIcon(value: string) {
+  const normalized = value.replace(/[\s-]/g, '').toLowerCase();
+  return zoneIconMap[value] || zoneIconMap[normalized];
+}
 
 function isOptional(item: AmmoItem) {
   return item.name.toLowerCase().includes('optioneel');
@@ -122,6 +138,7 @@ export function AmmoCheck() {
           const status = getZoneStatus(zone);
           const isOpen = openZones.includes(zone.id);
           const panelId = `ammo-panel-${zone.id}`;
+          const zoneIcon = getZoneIcon(zone.emoji);
 
           return (
             <div key={zone.id} className="card-premium overflow-hidden">
@@ -140,7 +157,14 @@ export function AmmoCheck() {
                     )}
                     aria-hidden="true"
                   />
-                  <span className="text-xl" aria-hidden="true">{zone.emoji}</span>
+                  {zoneIcon ? (
+                    <zoneIcon.Icon
+                      className="w-6 h-6 text-stone-600"
+                      aria-label={zone.name}
+                    />
+                  ) : (
+                    <span className="text-xl" aria-hidden="true">{zone.emoji}</span>
+                  )}
                   <span className="font-display font-medium text-stone-800">{zone.name}</span>
                 </div>
                 <ChevronDown

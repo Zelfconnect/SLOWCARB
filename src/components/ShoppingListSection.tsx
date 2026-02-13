@@ -1,5 +1,20 @@
 import { useState } from 'react';
-import { Plus, Trash2, Check, X, ShoppingCart, Home, PackagePlus } from 'lucide-react';
+import {
+  Plus,
+  Trash2,
+  Check,
+  X,
+  ShoppingCart,
+  Home,
+  PackagePlus,
+  Beef,
+  Fish,
+  Egg,
+  Bean,
+  Salad,
+  Package,
+  type LucideIcon,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,12 +34,39 @@ interface ShoppingListSectionProps {
   getEmojiForIngredient: (name: string) => string;
 }
 
-const categoryLabels: Record<string, { label: string; emoji: string; color: string }> = {
-  eiwit: { label: 'Eiwit', emoji: '🥩', color: 'bg-rose-50/60 text-rose-600 border-rose-100' },
-  groente: { label: 'Groente', emoji: '🥬', color: 'bg-emerald-50/60 text-emerald-600 border-emerald-100' },
-  pantry: { label: 'Voorraad', emoji: '🥫', color: 'bg-stone-50/70 text-stone-600 border-stone-100' },
-  overig: { label: 'Overig', emoji: '📦', color: 'bg-stone-50/70 text-stone-600 border-stone-100' },
+const categoryLabels: Record<string, { label: string; iconKey: string; color: string }> = {
+  eiwit: { label: 'Eiwit', iconKey: 'beef', color: 'bg-rose-50/60 text-rose-600 border-rose-100' },
+  groente: { label: 'Groente', iconKey: 'salad', color: 'bg-emerald-50/60 text-emerald-600 border-emerald-100' },
+  pantry: { label: 'Voorraad', iconKey: 'package', color: 'bg-stone-50/70 text-stone-600 border-stone-100' },
+  overig: { label: 'Overig', iconKey: 'package', color: 'bg-stone-50/70 text-stone-600 border-stone-100' },
 };
+
+const iconMap: Record<string, { Icon: LucideIcon; label: string }> = {
+  '🥩': { Icon: Beef, label: 'Vlees' },
+  beef: { Icon: Beef, label: 'Vlees' },
+  '🐟': { Icon: Fish, label: 'Vis' },
+  fish: { Icon: Fish, label: 'Vis' },
+  '🥚': { Icon: Egg, label: 'Eieren' },
+  egg: { Icon: Egg, label: 'Eieren' },
+  '🫘': { Icon: Bean, label: 'Bonen' },
+  bean: { Icon: Bean, label: 'Bonen' },
+  '🥦': { Icon: Salad, label: 'Groenten' },
+  '🥬': { Icon: Salad, label: 'Groenten' },
+  salad: { Icon: Salad, label: 'Groenten' },
+  '🥫': { Icon: Package, label: 'Voorraadkast' },
+  package: { Icon: Package, label: 'Voorraadkast' },
+};
+
+function getIconInfo(value: string) {
+  const normalized = value.replace(/[\s-]/g, '').toLowerCase();
+  return iconMap[value] || iconMap[normalized] || iconMap.package;
+}
+
+function renderIcon(iconKey: string, ariaLabel: string) {
+  const iconInfo = getIconInfo(iconKey);
+  const Icon = iconInfo.Icon;
+  return <Icon className="w-6 h-6 text-stone-600 flex-shrink-0" aria-label={ariaLabel} />;
+}
 
 export function ShoppingListSection({
   items,
@@ -131,7 +173,7 @@ export function ShoppingListSection({
                 key={item.id}
                 className="flex items-center gap-3 p-4 hover:bg-stone-50 transition-colors"
               >
-                <span className="text-xl">{item.emoji}</span>
+                {renderIcon(item.emoji, item.name)}
                 <span className="flex-1 text-stone-700">{item.name}</span>
                 <button
                   onClick={() => onAddFromSuggestion(item)}
@@ -172,7 +214,7 @@ export function ShoppingListSection({
             <div key={category} className="card-premium overflow-hidden">
               <div className={cn('p-3 border-b', catConfig.color)}>
                 <h3 className="font-display text-sm font-medium flex items-center gap-2">
-                  <span>{catConfig.emoji}</span>
+                  {renderIcon(catConfig.iconKey, catConfig.label)}
                   <span>{catConfig.label}</span>
                   <span className="text-xs opacity-70">({unchecked.length})</span>
                 </h3>
@@ -189,9 +231,7 @@ export function ShoppingListSection({
                     >
                       <div className="w-6 h-6 rounded-lg border-2 border-stone-300 flex items-center justify-center hover:border-sage-400 transition-colors" />
                     </button>
-                    <span className="text-xl flex-shrink-0">
-                      {getEmojiForIngredient(item.name)}
-                    </span>
+                    {renderIcon(getEmojiForIngredient(item.name), item.name)}
                     <div className="flex-1 min-w-0">
                       <span className="text-stone-700 block font-medium">
                         {item.packageLabel || `${item.amount} ${item.unit}`} {item.name}
@@ -262,9 +302,7 @@ export function ShoppingListSection({
                         <Check className="w-4 h-4 text-white" />
                       </div>
                     </button>
-                    <span className="text-xl flex-shrink-0">
-                      {getEmojiForIngredient(item.name)}
-                    </span>
+                    {renderIcon(getEmojiForIngredient(item.name), item.name)}
                     <span className="flex-1 text-stone-400 line-through">
                       {item.packageLabel || `${item.amount} ${item.unit}`} {item.name}
                     </span>

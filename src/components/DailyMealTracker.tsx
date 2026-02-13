@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Coffee, Sun, Moon, Check, Flame, Trophy, Calendar } from 'lucide-react';
+import { Coffee, Sun, Moon, Check, Flame, Trophy, Calendar, ChefHat, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { MealEntry } from '@/types';
 
@@ -17,7 +17,18 @@ interface MealCardProps {
   isCheatDay: boolean;
 }
 
-const mealConfig = {
+const mealConfig: Record<MealCardProps['type'], {
+  icon: LucideIcon;
+  label: string;
+  subtitle: string;
+  gradient: string;
+  bgGradient: string;
+  borderColor: string;
+  checkColor: string;
+  emoji?: string;
+  foodIcon?: LucideIcon;
+  foodIconLabel?: string;
+}> = {
   breakfast: {
     icon: Coffee,
     label: 'Ontbijt',
@@ -26,7 +37,8 @@ const mealConfig = {
     bgGradient: 'from-sage-50 to-sage-100',
     borderColor: 'border-sage-200',
     checkColor: 'bg-sage-500',
-    emoji: '🍳',
+    foodIcon: ChefHat,
+    foodIconLabel: 'Ontbijt',
   },
   lunch: {
     icon: Sun,
@@ -90,6 +102,8 @@ function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
         )}>
           {isCompleted ? (
             <Check className="w-6 h-6 text-white" strokeWidth={3} />
+          ) : config.foodIcon ? (
+            <config.foodIcon className="w-6 h-6 text-stone-600" aria-label={config.foodIconLabel ?? config.label} />
           ) : (
             <span className="text-2xl">{config.emoji}</span>
           )}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Home } from 'lucide-react';
+import { X, Home, Beef, Fish, Egg, Bean, Salad, Package, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { getPackageSizes, getDefaultPackage, type PackageSize } from '@/data/packageSizes';
@@ -27,6 +27,49 @@ export function PackageSelectorModal({
   onConfirm,
 }: PackageSelectorModalProps) {
   const [selections, setSelections] = useState<Record<string, SelectedPackage>>({});
+  const iconMap: Record<string, { Icon: LucideIcon; label: string }> = {
+    '🥩': { Icon: Beef, label: 'Vlees' },
+    beef: { Icon: Beef, label: 'Vlees' },
+    '🐟': { Icon: Fish, label: 'Vis' },
+    fish: { Icon: Fish, label: 'Vis' },
+    '🥚': { Icon: Egg, label: 'Eieren' },
+    egg: { Icon: Egg, label: 'Eieren' },
+    '🫘': { Icon: Bean, label: 'Bonen' },
+    bean: { Icon: Bean, label: 'Bonen' },
+    '🥦': { Icon: Salad, label: 'Groenten' },
+    '🥬': { Icon: Salad, label: 'Groenten' },
+    salad: { Icon: Salad, label: 'Groenten' },
+    '🥫': { Icon: Package, label: 'Voorraadkast' },
+    package: { Icon: Package, label: 'Voorraadkast' },
+  };
+
+  const getIconKeyForName = (name: string) => {
+    const lower = name.toLowerCase();
+    if (lower.includes('ei')) return 'egg';
+    if (lower.includes('kip') || lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
+    if (lower.includes('bonen') || lower.includes('linzen')) return 'bean';
+    if (lower.includes('tonijn') || lower.includes('zalm') || lower.includes('vis')) return 'fish';
+    if (
+      lower.includes('tomaat') ||
+      lower.includes('spinazie') ||
+      lower.includes('groente') ||
+      lower.includes('sla') ||
+      lower.includes('broccoli') ||
+      lower.includes('ui') ||
+      lower.includes('knoflook') ||
+      lower.includes('avocado')
+    ) {
+      return 'salad';
+    }
+    return 'package';
+  };
+
+  const renderIcon = (iconKey: string, ariaLabel: string) => {
+    const normalized = iconKey.replace(/[\s-]/g, '').toLowerCase();
+    const iconInfo = iconMap[iconKey] || iconMap[normalized] || iconMap.package;
+    const Icon = iconInfo.Icon;
+    return <Icon className="w-6 h-6 text-stone-600 flex-shrink-0" aria-label={ariaLabel} />;
+  };
 
   // Initialize selections when modal opens
   useEffect(() => {
@@ -160,23 +203,7 @@ export function PackageSelectorModal({
                   <div className="p-4 border-b border-stone-100">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <span className="text-xl">
-                          {ing.name.toLowerCase().includes('ei')
-                            ? '🥚'
-                            : ing.name.toLowerCase().includes('kip') ||
-                              ing.name.toLowerCase().includes('vlees') ||
-                              ing.name.toLowerCase().includes('gehakt')
-                            ? '🥩'
-                            : ing.name.toLowerCase().includes('bonen') ||
-                              ing.name.toLowerCase().includes('linzen')
-                            ? '🫘'
-                            : ing.name.toLowerCase().includes('tomaat')
-                            ? '🍅'
-                            : ing.name.toLowerCase().includes('spinazie') ||
-                              ing.name.toLowerCase().includes('groente')
-                            ? '🥬'
-                            : '📦'}
-                        </span>
+                        {renderIcon(getIconKeyForName(ing.name), ing.name)}
                         <div>
                           <p className="font-medium text-stone-800">{ing.name}</p>
                           <p className="text-xs text-stone-500">
