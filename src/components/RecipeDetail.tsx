@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { getRecipeIcon } from '@/lib/recipeIcons';
 
 interface RecipeDetailProps {
   recipe: Recipe | null;
@@ -29,6 +30,7 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
   const [showAddedToast, setShowAddedToast] = useState(false);
 
   if (!recipe) return null;
+  const RecipeIcon = getRecipeIcon(recipe.icon);
 
   const scaleAmount = (amount: string, multiplier: number): string => {
     const match = amount.match(/^(\d+(?:\.\d+)?)\s*(.*)$/);
@@ -55,8 +57,8 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
         <DialogHeader className="sticky top-0 z-10 p-6 bg-gradient-to-br from-sage-600 to-sage-700">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-4xl">
-                {recipe.emoji}
+              <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <RecipeIcon className="w-6 h-6 text-white" />
               </div>
               <div>
                 <DialogTitle className="text-2xl font-display text-white">{recipe.name}</DialogTitle>

@@ -1,7 +1,8 @@
 import { useRef, useEffect } from 'react';
-import { X, Zap, Lightbulb, ArrowRight } from 'lucide-react';
+import { X, Zap, Lightbulb, ArrowRight, HelpCircle } from 'lucide-react';
 import type { ConceptCard as ConceptCardType } from '@/types';
 import { CONCEPT_TOKENS } from '@/data/educationTokens';
+import { getEducationIcon } from '@/lib/educationIcons';
 
 interface ConceptCardProps {
   card: ConceptCardType;
@@ -45,7 +46,10 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
-                  {card.icon}
+                  {(() => {
+                    const Icon = getEducationIcon(card.icon) ?? HelpCircle;
+                    return <Icon className="w-6 h-6 text-white" aria-hidden="true" />;
+                  })()}
                 </div>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-lg font-display text-white leading-tight">{card.title}</h2>

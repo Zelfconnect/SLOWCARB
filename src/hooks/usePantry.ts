@@ -49,8 +49,8 @@ export function usePantry() {
   }, [setStandardChecked]);
 
   // Get items that need restocking (checked in standard list but not in pantry)
-  const getRestockSuggestions = useCallback((): Array<{ id: string; name: string; emoji: string; category: string }> => {
-    const suggestions: Array<{ id: string; name: string; emoji: string; category: string }> = [];
+  const getRestockSuggestions = useCallback((): Array<{ id: string; name: string; icon: string; category: string }> => {
+    const suggestions: Array<{ id: string; name: string; icon: string; category: string }> = [];
     
     STANDARD_PANTRY_ITEMS.forEach(item => {
       if (standardChecked[item.id]) {

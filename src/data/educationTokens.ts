@@ -105,7 +105,8 @@ export const VALIDATION_RULES = {
 
 // Toegestane icons per type
 export const ALLOWED_ICONS = {
-  rule: ['🚫', '🔄', '🥤', '🍎', '🎉', '⚡', '🥩', '🥚'],
-  concept: ['🔥', '💧', '🫘', '🎚️', '⏱️', '🧬', '📊'],
-  reference: ['✅', '❌', '🎉', '📋', '🍽️'],
+  rule: ['ban', 'refresh-ccw', 'cup-soda', 'apple', 'party-popper', 'zap', 'beef', 'egg'],
+  concept: ['flame', 'droplets', 'bean', 'sliders-horizontal'],
+  faq: ['pizza', 'trending-down', 'coffee', 'cup-soda', 'frown', 'wine'],
+  reference: ['check-circle', 'x-circle', 'party-popper', 'clipboard-list', 'utensils'],
 };

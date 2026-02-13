@@ -1,11 +1,23 @@
 import { useState } from 'react';
-import { Zap, FlaskConical, HelpCircle, CheckCircle2, XCircle, PartyPopper, AlertTriangle, Target, ChevronRight } from 'lucide-react';
+import {
+  AlertTriangle,
+  CheckCircle2,
+  ChevronRight,
+  ClipboardList,
+  FlaskConical,
+  HelpCircle,
+  PartyPopper,
+  Target,
+  XCircle,
+  Zap,
+} from 'lucide-react';
 import { ruleCards, conceptCards, faqCards, yesNoList, commonMistakes } from '@/data/education';
 import { cn } from '@/lib/utils';
 import { ConceptCard } from './education/ConceptCard';
 import { RuleCard } from './education/RuleCard';
 import { FAQCard } from './education/FAQCard';
 import type { EducationCard } from '@/types';
+import { getEducationIcon } from '@/lib/educationIcons';
 
 const learnTabs = [
   { id: 'quick', label: 'Quick Start', icon: Zap },
@@ -76,7 +88,10 @@ function CardPreview({
     >
       <div className="flex items-center gap-3">
         <div className="w-12 h-12 rounded-xl bg-white/70 flex items-center justify-center text-2xl shadow-sm">
-          {card.icon}
+          {(() => {
+            const Icon = getEducationIcon(card.icon) ?? HelpCircle;
+            return <Icon className="w-6 h-6 text-stone-600" aria-hidden="true" />;
+          })()}
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="font-display font-semibold text-stone-800 leading-tight">
@@ -146,7 +161,8 @@ export function LearnSection() {
           {/* The 5 Rules */}
           <div className="space-y-3">
             <h2 className="font-display font-semibold text-stone-800 text-lg flex items-center gap-2">
-              📋 De 5 Regels
+              <ClipboardList className="w-5 h-5 text-sage-600" />
+              De 5 Regels
             </h2>
             {ruleCards
               .filter(card => card.type === 'rule' && (card as Extract<typeof card, { type: 'rule' }>).ruleNumber && (card as Extract<typeof card, { type: 'rule' }>).ruleNumber! > 0)
@@ -164,7 +180,7 @@ export function LearnSection() {
           <div className="rounded-2xl p-5 bg-gradient-to-br from-sage-600 to-sage-700 text-white">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
-                ⚡
+                <Zap className="w-6 h-6 text-white" aria-hidden="true" />
               </div>
               <div>
                 <h2 className="font-display font-semibold text-lg">De 30/30 Regel</h2>
@@ -201,18 +217,23 @@ export function LearnSection() {
           {/* Quick Reference */}
           <div className="space-y-3">
             <h2 className="font-display font-semibold text-stone-800 text-lg flex items-center gap-2">
-              ⚡ Quick Reference
+              <Zap className="w-5 h-5 text-sage-600" />
+              Quick Reference
             </h2>
             
             {/* YES List */}
             <div className="rounded-2xl p-5 bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200">
               <h3 className="font-display font-semibold text-emerald-900 flex items-center gap-2 mb-4">
-                <CheckCircle2 className="w-5 h-5" />✅ JA - Eet onbeperkt
+                <CheckCircle2 className="w-5 h-5" />
+                JA - Eet onbeperkt
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {yesNoList.yes.map((item, idx) => (
                   <div key={idx} className="flex items-center gap-2 text-sm text-emerald-800 bg-white/60 rounded-lg p-2">
-                    <span className="text-lg">{item.emoji}</span>
+                    {(() => {
+                      const Icon = getEducationIcon(item.icon) ?? HelpCircle;
+                      return <Icon className="w-5 h-5 text-emerald-700" aria-hidden="true" />;
+                    })()}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
                 ))}
@@ -222,12 +243,16 @@ export function LearnSection() {
             {/* NO List */}
             <div className="rounded-2xl p-5 bg-gradient-to-br from-red-50 to-red-100/50 border border-red-200">
               <h3 className="font-display font-semibold text-red-900 flex items-center gap-2 mb-4">
-                <XCircle className="w-5 h-5" />❌ NEE - Vermijden
+                <XCircle className="w-5 h-5" />
+                NEE - Vermijden
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {yesNoList.no.map((item, idx) => (
                   <div key={idx} className="flex items-center gap-2 text-sm text-red-800 bg-white/60 rounded-lg p-2">
-                    <span className="text-lg">{item.emoji}</span>
+                    {(() => {
+                      const Icon = getEducationIcon(item.icon) ?? HelpCircle;
+                      return <Icon className="w-5 h-5 text-red-700" aria-hidden="true" />;
+                    })()}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
                 ))}
@@ -237,12 +262,16 @@ export function LearnSection() {
             {/* CHEAT DAY */}
             <div className="rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-purple-100/50 border border-purple-200">
               <h3 className="font-display font-semibold text-purple-900 flex items-center gap-2 mb-4">
-                <PartyPopper className="w-5 h-5" />🎉 CHEAT DAY
+                <PartyPopper className="w-5 h-5" />
+                CHEAT DAY
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {yesNoList.cheat.map((item, idx) => (
                   <div key={idx} className="flex items-center gap-2 text-sm text-purple-800 bg-white/60 rounded-lg p-2">
-                    <span className="text-lg">{item.emoji}</span>
+                    {(() => {
+                      const Icon = getEducationIcon(item.icon) ?? HelpCircle;
+                      return <Icon className="w-5 h-5 text-purple-700" aria-hidden="true" />;
+                    })()}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
                 ))}
@@ -259,7 +288,10 @@ export function LearnSection() {
               {commonMistakes.slice(0, 4).map((mistake, idx) => (
                 <div key={idx} className="bg-white/60 rounded-xl p-3">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-lg">{mistake.emoji}</span>
+                    {(() => {
+                      const Icon = getEducationIcon(mistake.icon) ?? HelpCircle;
+                      return <Icon className="w-5 h-5 text-stone-500" aria-hidden="true" />;
+                    })()}
                     <p className="font-medium text-stone-800 text-sm">{mistake.mistake}</p>
                   </div>
                   <p className="text-stone-600 text-xs ml-7">{mistake.explanation}</p>

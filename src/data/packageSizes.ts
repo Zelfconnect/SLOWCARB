@@ -378,18 +378,18 @@ export const PACKAGE_SIZES: Record<string, IngredientPackages> = {
 
 // Standard pantry items that users might want to always keep stocked
 export const STANDARD_PANTRY_ITEMS = [
-  { id: 'eieren', name: 'Eieren', emoji: '🥚', category: 'eiwit' as const },
-  { id: 'rundergehakt', name: 'Rundergehakt', emoji: '🥩', category: 'eiwit' as const },
-  { id: 'kipfilet', name: 'Kipfilet', emoji: '🍗', category: 'eiwit' as const },
-  { id: 'zwarte bonen', name: 'Zwarte bonen', emoji: '🫘', category: 'pantry' as const },
-  { id: 'kidney bonen', name: 'Kidney bonen', emoji: '🫘', category: 'pantry' as const },
-  { id: 'linzen', name: 'Linzen', emoji: '🫘', category: 'pantry' as const },
-  { id: 'tomatenblokjes', name: 'Tomatenblokjes', emoji: '🥫', category: 'pantry' as const },
-  { id: 'tonijn', name: 'Tonijn', emoji: '🐟', category: 'eiwit' as const },
-  { id: 'spinazie', name: 'Spinazie', emoji: '🥬', category: 'groente' as const },
-  { id: 'broccoli', name: 'Broccoli', emoji: '🥦', category: 'groente' as const },
-  { id: 'ui', name: 'Uien', emoji: '🧅', category: 'groente' as const },
-  { id: 'knoflook', name: 'Knoflook', emoji: '🧄', category: 'groente' as const },
+  { id: 'eieren', name: 'Eieren', icon: 'egg', category: 'eiwit' as const },
+  { id: 'rundergehakt', name: 'Rundergehakt', icon: 'beef', category: 'eiwit' as const },
+  { id: 'kipfilet', name: 'Kipfilet', icon: 'drumstick', category: 'eiwit' as const },
+  { id: 'zwarte bonen', name: 'Zwarte bonen', icon: 'bean', category: 'pantry' as const },
+  { id: 'kidney bonen', name: 'Kidney bonen', icon: 'bean', category: 'pantry' as const },
+  { id: 'linzen', name: 'Linzen', icon: 'bean', category: 'pantry' as const },
+  { id: 'tomatenblokjes', name: 'Tomatenblokjes', icon: 'package', category: 'pantry' as const },
+  { id: 'tonijn', name: 'Tonijn', icon: 'fish', category: 'eiwit' as const },
+  { id: 'spinazie', name: 'Spinazie', icon: 'salad', category: 'groente' as const },
+  { id: 'broccoli', name: 'Broccoli', icon: 'salad', category: 'groente' as const },
+  { id: 'ui', name: 'Uien', icon: 'salad', category: 'groente' as const },
+  { id: 'knoflook', name: 'Knoflook', icon: 'salad', category: 'groente' as const },
 ];
 
 // Helper function to find package sizes for an ingredient

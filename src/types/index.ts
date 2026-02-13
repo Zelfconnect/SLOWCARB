@@ -4,11 +4,14 @@ export interface Ingredient {
   scalable?: boolean;
 }
 
+export type RecipeIconKey = 'cooking-pot' | 'soup' | 'flame' | 'salad' | 'fish' | 'egg';
+export type MealTypeIconKey = 'sunrise' | 'sun' | 'moon' | 'package' | 'flame' | 'apple';
+
 export interface Recipe {
   id: string;
   name: string;
   category: 'ontbijt' | 'lunch' | 'avond' | 'airfryer' | 'mealprep' | 'snack';
-  emoji: string;
+  icon: RecipeIconKey;
   prepTime: string;
   cookTime: string;
   servings: number;
@@ -65,12 +68,47 @@ export interface PantryItem {
 // === NEW EDUCATION CARD TYPES ===
 
 export type EducationCardType = 'concept' | 'rule' | 'faq';
+export type EducationIconKey =
+  | 'apple'
+  | 'ban'
+  | 'bean'
+  | 'beef'
+  | 'cake-slice'
+  | 'calendar'
+  | 'candy'
+  | 'check-circle'
+  | 'clipboard-list'
+  | 'coffee'
+  | 'cup-soda'
+  | 'droplet'
+  | 'droplets'
+  | 'egg'
+  | 'flame'
+  | 'frown'
+  | 'leaf'
+  | 'milk'
+  | 'nut'
+  | 'party-popper'
+  | 'pizza'
+  | 'refresh-ccw'
+  | 'rotate-ccw'
+  | 'salad'
+  | 'sliders-horizontal'
+  | 'sparkles'
+  | 'sprout'
+  | 'target'
+  | 'trending-down'
+  | 'utensils'
+  | 'wheat'
+  | 'wine'
+  | 'x-circle'
+  | 'zap';
 
 export interface EducationCardBase {
   id: string;
   type: EducationCardType;
   title: string;
-  icon: string; // emoji
+  icon: EducationIconKey;
   color?: 'sage' | 'amber' | 'clay' | 'emerald' | 'blue' | 'purple'; // Optional - type determines styling
 }
 
@@ -120,13 +158,13 @@ export interface Rule {
   shortDescription: string;
   fullDescription: string;
   science: string;
-  emoji: string;
+  icon: EducationIconKey;
 }
 
 export interface ScienceTopic {
   id: string;
   title: string;
-  emoji: string;
+  icon: EducationIconKey;
   summary: string;
   content: string[];
 }

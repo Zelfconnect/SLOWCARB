@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Salad } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
@@ -134,7 +135,7 @@ function App() {
         <div className="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center shadow-sm">
-              <span className="text-xl">🥗</span>
+              <Salad className="w-6 h-6 text-white" />
             </div>
             <div>
               <h1 className="font-semibold text-lg text-warm-900 leading-tight">Slow-Carb</h1>

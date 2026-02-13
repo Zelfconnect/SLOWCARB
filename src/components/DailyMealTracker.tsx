@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Coffee, Sun, Moon, Check, Flame, Trophy, Calendar, ChefHat, type LucideIcon } from 'lucide-react';
+import { Coffee, Sun, Moon, Check, Flame, Trophy, Calendar, ChefHat, Salad, Utensils, PartyPopper, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { MealEntry } from '@/types';
 
@@ -17,6 +17,12 @@ interface MealCardProps {
   isCheatDay: boolean;
 }
 
+const mealFoodIcons = {
+  chefhat: ChefHat,
+  salad: Salad,
+  utensils: Utensils,
+} as const;
+
 const mealConfig: Record<MealCardProps['type'], {
   icon: LucideIcon;
   label: string;
@@ -25,8 +31,7 @@ const mealConfig: Record<MealCardProps['type'], {
   bgGradient: string;
   borderColor: string;
   checkColor: string;
-  emoji?: string;
-  foodIcon?: LucideIcon;
+  foodIcon?: keyof typeof mealFoodIcons;
   foodIconLabel?: string;
 }> = {
   breakfast: {
@@ -37,7 +42,7 @@ const mealConfig: Record<MealCardProps['type'], {
     bgGradient: 'from-sage-50 to-sage-100',
     borderColor: 'border-sage-200',
     checkColor: 'bg-sage-500',
-    foodIcon: ChefHat,
+    foodIcon: 'chefhat',
     foodIconLabel: 'Ontbijt',
   },
   lunch: {
@@ -48,7 +53,7 @@ const mealConfig: Record<MealCardProps['type'], {
     bgGradient: 'from-sage-50 to-emerald-50',
     borderColor: 'border-sage-200',
     checkColor: 'bg-sage-500',
-    emoji: '🥗',
+    foodIcon: 'salad',
   },
   dinner: {
     icon: Moon,
@@ -58,7 +63,7 @@ const mealConfig: Record<MealCardProps['type'], {
     bgGradient: 'from-indigo-50 to-purple-50',
     borderColor: 'border-indigo-200',
     checkColor: 'bg-indigo-500',
-    emoji: '🍽️',
+    foodIcon: 'utensils',
   },
 };
 
@@ -66,6 +71,7 @@ function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
   const config = mealConfig[type];
   const Icon = config.icon;
   const [isPressed, setIsPressed] = useState(false);
+  const FoodIcon = config.foodIcon ? mealFoodIcons[config.foodIcon] : null;
 
   return (
     <button
@@ -102,11 +108,9 @@ function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
         )}>
           {isCompleted ? (
             <Check className="w-6 h-6 text-white" strokeWidth={3} />
-          ) : config.foodIcon ? (
-            <config.foodIcon className="w-6 h-6 text-stone-600" aria-label={config.foodIconLabel ?? config.label} />
-          ) : (
-            <span className="text-2xl">{config.emoji}</span>
-          )}
+          ) : FoodIcon ? (
+            <FoodIcon className="w-6 h-6 text-stone-600" aria-label={config.foodIconLabel ?? config.label} />
+          ) : null}
         </div>
 
         {/* Content */}
@@ -119,8 +123,9 @@ function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
               {config.label}
             </h4>
             {isCompleted && (
-              <span className="text-xs font-medium text-white bg-gradient-to-r from-emerald-400 to-emerald-500 px-2 py-0.5 rounded-full">
-                ✓ Klaar
+              <span className="text-xs font-medium text-white bg-gradient-to-r from-emerald-400 to-emerald-500 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                <Check className="w-3 h-3" />
+                Klaar
               </span>
             )}
           </div>
@@ -247,7 +252,7 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
         <div className="bg-gradient-to-r from-clay-50 to-orange-50 rounded-2xl p-4 border border-clay-200">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-clay-400 to-orange-500 flex items-center justify-center shadow-lg">
-              <span className="text-2xl">🎉</span>
+              <PartyPopper className="w-6 h-6 text-white" />
             </div>
             <div>
               <h4 className="font-display font-semibold text-clay-900">Cheat Day!</h4>

@@ -1,6 +1,7 @@
 import { Heart, Clock, Users } from 'lucide-react';
 import type { Recipe } from '@/types';
 import { cn } from '@/lib/utils';
+import { getRecipeIcon } from '@/lib/recipeIcons';
 
 interface CompactRecipeCardProps {
   recipe: Recipe;
@@ -15,14 +16,16 @@ export function CompactRecipeCard({
   onToggleFavorite, 
   onClick 
 }: CompactRecipeCardProps) {
+  const RecipeIcon = getRecipeIcon(recipe.icon);
+
   return (
     <div 
       onClick={onClick}
       className="flex items-center gap-3 p-3 bg-white rounded-xl border border-stone-200 hover:border-sage-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
     >
       {/* Icon */}
-      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-sage-100 to-sage-50 flex items-center justify-center text-xl flex-shrink-0">
-        {recipe.emoji}
+      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-sage-100 to-sage-50 flex items-center justify-center flex-shrink-0">
+        <RecipeIcon className="w-6 h-6 text-stone-600" />
       </div>
       
       {/* Content */}

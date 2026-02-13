@@ -27,11 +27,11 @@ export const dayTips: DayTip[] = [
     day: 3,
     title: 'De Moeilijkste Dag',
     tips: [
-      '💧 DRINK VEEL (2-3 liter)',
-      '🧂 Zout je eten extra (elektrolyten)',
-      '🍽️ Eet GENOEG — dit is niet het moment voor restrictie',
-      '😴 Ga vroeg naar bed',
-      '⏰ Dit is tijdelijk — morgen is beter!',
+      'Drink veel (2-3 liter)',
+      'Zout je eten extra (elektrolyten)',
+      'Eet genoeg — dit is niet het moment voor restrictie',
+      'Ga vroeg naar bed',
+      'Dit is tijdelijk — morgen is beter!',
     ],
     metabolicState: 'Glycogeen is significant gedaald. Hersenen schreeuwen om glucose.',
   },
@@ -70,7 +70,7 @@ export const dayTips: DayTip[] = [
   },
   {
     day: 7,
-    title: 'Cheat Day! 🎉',
+    title: 'Cheat Day!',
     tips: [
       'Geniet van ELKE hap',
       'Geen schuldgevoel — dit is onderdeel van het plan',
@@ -105,7 +105,7 @@ export const weekTips: Record<number, { title: string; tips: string[]; warning?:
   3: {
     title: 'Week 3: De Groove',
     tips: [
-      '⚠️ GEWICHT KAN STILSTAAN — dit is het Whoosh Effect',
+      'Gewicht kan stilstaan — dit is het Whoosh Effect',
       'Je verliest WEL vet, maar vetcellen vullen met water',
       'Meet je buikomtrek — die daalt vaak wél',
       'Geduld — de whoosh komt',

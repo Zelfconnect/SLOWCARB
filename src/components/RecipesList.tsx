@@ -6,6 +6,7 @@ import { RecipeDetailModal } from './RecipeDetailModal';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import type { Ingredient } from '@/types';
+import { getMealTypeIcon } from '@/lib/recipeIcons';
 
 interface RecipesListProps {
   favorites: string[];
@@ -88,21 +89,29 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
             Alles
           </button>
           
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={cn(
-                'flex h-11 items-center gap-1.5 px-4 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200',
-                activeCategory === cat.id 
-                  ? 'bg-sage-100 text-sage-700 border border-sage-200' 
-                  : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'
-              )}
-            >
-              <span className="text-sm">{cat.emoji}</span>
-              {cat.name}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const MealTypeIcon = getMealTypeIcon(cat.icon);
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={cn(
+                  'flex h-11 items-center gap-1.5 px-4 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200',
+                  activeCategory === cat.id 
+                    ? 'bg-sage-100 text-sage-700 border border-sage-200' 
+                    : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'
+                )}
+              >
+                <MealTypeIcon
+                  className={cn(
+                    'w-4 h-4',
+                    activeCategory === cat.id ? 'text-sage-600' : 'text-stone-500'
+                  )}
+                />
+                {cat.name}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -118,7 +127,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
         {filteredRecipes.length === 0 ? (
           <div className="text-center py-12 text-stone-500">
             <div className="w-16 h-16 rounded-2xl bg-stone-100 flex items-center justify-center mx-auto mb-3">
-              <span className="text-3xl">🔍</span>
+              <Search className="w-8 h-8 text-stone-400" />
             </div>
             <p className="font-display font-medium text-stone-700">Geen recepten gevonden</p>
             <p className="text-sm mt-1">Probeer een andere zoekterm</p>

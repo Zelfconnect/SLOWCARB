@@ -1,11 +1,11 @@
-import type { Recipe } from '@/types';
+import type { MealTypeIconKey, Recipe } from '@/types';
 
 export const recipes: Recipe[] = [
   {
     id: 'eiwit-omelet',
     name: 'Eiwitrijke Omelet',
     category: 'ontbijt',
-    emoji: '🍳',
+    icon: 'cooking-pot',
     prepTime: '5 min',
     cookTime: '8 min',
     servings: 1,
@@ -31,7 +31,7 @@ export const recipes: Recipe[] = [
     id: 'huttenkase-bowl',
     name: 'Hüttenkäse Power Bowl',
     category: 'ontbijt',
-    emoji: '🥣',
+    icon: 'soup',
     prepTime: '3 min',
     cookTime: '0 min',
     servings: 1,
@@ -54,7 +54,7 @@ export const recipes: Recipe[] = [
     id: 'mega-chili',
     name: 'Mega Chili Con Carne',
     category: 'mealprep',
-    emoji: '🌶️',
+    icon: 'flame',
     prepTime: '15 min',
     cookTime: '45 min',
     servings: 8,
@@ -85,7 +85,7 @@ export const recipes: Recipe[] = [
     id: 'kip-salade',
     name: 'Mediterrane Kip Salade',
     category: 'lunch',
-    emoji: '🥗',
+    icon: 'salad',
     prepTime: '10 min',
     cookTime: '15 min',
     servings: 2,
@@ -113,7 +113,7 @@ export const recipes: Recipe[] = [
     id: 'zalm-asperges',
     name: 'Zalm met Gegrilde Asperges',
     category: 'avond',
-    emoji: '🐟',
+    icon: 'fish',
     prepTime: '10 min',
     cookTime: '15 min',
     servings: 2,
@@ -139,7 +139,7 @@ export const recipes: Recipe[] = [
     id: 'airfryer-kip',
     name: 'Airfryer Krokante Kip',
     category: 'airfryer',
-    emoji: '🔥',
+    icon: 'flame',
     prepTime: '5 min',
     cookTime: '20 min',
     servings: 2,
@@ -163,7 +163,7 @@ export const recipes: Recipe[] = [
     id: 'eieren-deviled',
     name: 'Deviled Eieren',
     category: 'snack',
-    emoji: '🥚',
+    icon: 'egg',
     prepTime: '10 min',
     cookTime: '10 min',
     servings: 2,
@@ -187,11 +187,11 @@ export const recipes: Recipe[] = [
   },
 ];
 
-export const categories = [
-  { id: 'ontbijt', name: 'Ontbijt', emoji: '🌅' },
-  { id: 'lunch', name: 'Lunch', emoji: '☀️' },
-  { id: 'avond', name: 'Avond', emoji: '🌙' },
-  { id: 'mealprep', name: 'Meal Prep', emoji: '📦' },
-  { id: 'airfryer', name: 'Airfryer', emoji: '🔥' },
-  { id: 'snack', name: 'Snack', emoji: '🥜' },
+export const categories: Array<{ id: Recipe['category']; name: string; icon: MealTypeIconKey }> = [
+  { id: 'ontbijt', name: 'Ontbijt', icon: 'sunrise' },
+  { id: 'lunch', name: 'Lunch', icon: 'sun' },
+  { id: 'avond', name: 'Avond', icon: 'moon' },
+  { id: 'mealprep', name: 'Meal Prep', icon: 'package' },
+  { id: 'airfryer', name: 'Airfryer', icon: 'flame' },
+  { id: 'snack', name: 'Snack', icon: 'apple' },
 ];

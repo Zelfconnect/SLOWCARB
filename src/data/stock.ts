@@ -51,10 +51,10 @@ export const basicStock = {
 };
 
 export const stockCategories = [
-  { key: 'eiwit', name: 'Eiwit', emoji: '🥩' },
-  { key: 'bonen', name: 'Bonen', emoji: '🫘' },
-  { key: 'groenten', name: 'Groenten', emoji: '🥦' },
-  { key: 'pantry', name: 'Voorraadkast', emoji: '🥫' },
-  { key: 'kruiden', name: 'Kruiden', emoji: '🌿' },
-  { key: 'extra', name: 'Extra\'s', emoji: '✨' },
+  { key: 'eiwit', name: 'Eiwit', icon: 'beef' },
+  { key: 'bonen', name: 'Bonen', icon: 'bean' },
+  { key: 'groenten', name: 'Groenten', icon: 'salad' },
+  { key: 'pantry', name: 'Voorraadkast', icon: 'package' },
+  { key: 'kruiden', name: 'Kruiden', icon: 'leaf' },
+  { key: 'extra', name: 'Extra\'s', icon: 'sparkles' },
 ];

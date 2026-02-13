@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { X, Home, Beef, Fish, Egg, Bean, Salad, Package, type LucideIcon } from 'lucide-react';
+import { X, Home, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { getPackageSizes, getDefaultPackage, type PackageSize } from '@/data/packageSizes';
 import type { Ingredient } from '@/types';
+import { getStockIconInfo } from '@/lib/stockIcons';
 
 interface SelectedPackage {
   ingredient: Ingredient;
@@ -27,26 +28,11 @@ export function PackageSelectorModal({
   onConfirm,
 }: PackageSelectorModalProps) {
   const [selections, setSelections] = useState<Record<string, SelectedPackage>>({});
-  const iconMap: Record<string, { Icon: LucideIcon; label: string }> = {
-    '🥩': { Icon: Beef, label: 'Vlees' },
-    beef: { Icon: Beef, label: 'Vlees' },
-    '🐟': { Icon: Fish, label: 'Vis' },
-    fish: { Icon: Fish, label: 'Vis' },
-    '🥚': { Icon: Egg, label: 'Eieren' },
-    egg: { Icon: Egg, label: 'Eieren' },
-    '🫘': { Icon: Bean, label: 'Bonen' },
-    bean: { Icon: Bean, label: 'Bonen' },
-    '🥦': { Icon: Salad, label: 'Groenten' },
-    '🥬': { Icon: Salad, label: 'Groenten' },
-    salad: { Icon: Salad, label: 'Groenten' },
-    '🥫': { Icon: Package, label: 'Voorraadkast' },
-    package: { Icon: Package, label: 'Voorraadkast' },
-  };
-
   const getIconKeyForName = (name: string) => {
     const lower = name.toLowerCase();
     if (lower.includes('ei')) return 'egg';
-    if (lower.includes('kip') || lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
+    if (lower.includes('kip')) return 'drumstick';
+    if (lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
     if (lower.includes('bonen') || lower.includes('linzen')) return 'bean';
     if (lower.includes('tonijn') || lower.includes('zalm') || lower.includes('vis')) return 'fish';
     if (
@@ -65,8 +51,7 @@ export function PackageSelectorModal({
   };
 
   const renderIcon = (iconKey: string, ariaLabel: string) => {
-    const normalized = iconKey.replace(/[\s-]/g, '').toLowerCase();
-    const iconInfo = iconMap[iconKey] || iconMap[normalized] || iconMap.package;
+    const iconInfo = getStockIconInfo(iconKey);
     const Icon = iconInfo.Icon;
     return <Icon className="w-6 h-6 text-stone-600 flex-shrink-0" aria-label={ariaLabel} />;
   };
@@ -152,7 +137,7 @@ export function PackageSelectorModal({
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
-                  🛒
+                  <ShoppingCart className="w-6 h-6 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-lg font-display text-white leading-tight">

@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { X, Check, XCircle, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { FAQCard as FAQCardType } from '@/types';
+import { getEducationIcon } from '@/lib/educationIcons';
 
 interface FAQCardProps {
   card: FAQCardType;
@@ -74,7 +75,10 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
-                  {card.icon}
+                  {(() => {
+                    const Icon = getEducationIcon(card.icon) ?? HelpCircle;
+                    return <Icon className="w-6 h-6 text-white" aria-hidden="true" />;
+                  })()}
                 </div>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-lg font-display text-white leading-tight">{card.title}</h2>

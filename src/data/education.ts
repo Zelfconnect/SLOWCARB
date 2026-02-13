@@ -22,7 +22,7 @@ export const ruleCards: RuleCard[] = [
     type: 'rule',
     title: 'Vermijd "witte" koolhydraten',
     ruleNumber: 1,
-    icon: '🚫',
+    icon: 'ban',
     content: {
       rule: 'Elimineer alle geraffineerde koolhydraten: brood, pasta, rijst, aardappelen, granen.',
       science: 'Witte koolhydraten hebben een hoge glycemische index. Ze worden snel afgebroken tot glucose, wat een insulinepiek veroorzaakt.',
@@ -38,7 +38,7 @@ export const ruleCards: RuleCard[] = [
     type: 'rule',
     title: 'Eet dezelfde maaltijden',
     ruleNumber: 2,
-    icon: '🔄',
+    icon: 'refresh-ccw',
     content: {
       rule: 'Kies 3-4 ontbijten, 3-4 lunches, 3-4 avondeten en roteer deze.',
       science: 'Willpower is een eindige resource. Door keuzes te elimineren, bewaar je mentale energie voor waar het telt.',
@@ -54,7 +54,7 @@ export const ruleCards: RuleCard[] = [
     type: 'rule',
     title: 'Drink geen calorieën',
     ruleNumber: 3,
-    icon: '🥤',
+    icon: 'cup-soda',
     content: {
       rule: 'Geen frisdrank, vruchtensap, melk, bier. Wel: water, thee, koffie.',
       science: 'Vloeibare calorieën triggeren geen verzadiging maar veroorzaken wel insulinepieken.',
@@ -70,7 +70,7 @@ export const ruleCards: RuleCard[] = [
     type: 'rule',
     title: 'Eet geen fruit',
     ruleNumber: 4,
-    icon: '🍎',
+    icon: 'apple',
     content: {
       rule: 'Geen fruit, behalve tomaten en avocado\'s.',
       science: 'Fructose wordt direct door de lever verwerkt en omgezet in vet. Het remt ook leptine, je verzadigingshormoon.',
@@ -87,7 +87,7 @@ export const ruleCards: RuleCard[] = [
     type: 'rule',
     title: 'Neem één cheat day per week',
     ruleNumber: 5,
-    icon: '🎉',
+    icon: 'party-popper',
     content: {
       rule: 'Eén dag per week mag je alles eten wat je wilt.',
       science: 'Leptine reset: Na dagen van calorierestrictie daalt leptine. Een dag van overvloed reset dit.',
@@ -103,7 +103,7 @@ export const ruleCards: RuleCard[] = [
     type: 'rule',
     title: 'De 30/30 Regel',
     ruleNumber: 0, // Special rule, not part of the 5
-    icon: '⚡',
+    icon: 'zap',
     content: {
       rule: 'Eet 30 gram eiwit binnen 30 minuten na het opstaan.',
       science: 'Stopt katabolisme, stabiliseert bloedsuiker, verhoogt thermogenese, en onderdrukt honger.',
@@ -127,7 +127,7 @@ export const conceptCards: ConceptCard[] = [
     type: 'concept',
     title: 'Hoe Vetverbranding Werkt',
     subtitle: 'Wetenschap achter Slow-Carb',
-    icon: '🔥',
+    icon: 'flame',
     content: {
       summary: 'Door insuline laag te houden, schakel je over van suiker- naar vetverbranding.',
       keyPoints: [
@@ -153,7 +153,7 @@ export const conceptCards: ConceptCard[] = [
     type: 'concept',
     title: 'Het Whoosh Effect',
     subtitle: 'Waarom je gewicht soms stilstaat',
-    icon: '💧',
+    icon: 'droplets',
     content: {
       summary: 'Je verliest WEL vet, maar je vetcellen vullen zich tijdelijk met water.',
       keyPoints: [
@@ -179,7 +179,7 @@ export const conceptCards: ConceptCard[] = [
     type: 'concept',
     title: 'Waarom Bonen Cruciaal Zijn',
     subtitle: 'Het geheim van peulvruchten',
-    icon: '🫘',
+    icon: 'bean',
     content: {
       summary: 'Bonen, linzen en kikkererwten zijn essentieel voor succes op Slow-Carb.',
       keyPoints: [
@@ -204,7 +204,7 @@ export const conceptCards: ConceptCard[] = [
     type: 'concept',
     title: 'Insuline: De Vet-Schakelaar',
     subtitle: 'Begrijp dit hormoon',
-    icon: '🎚️',
+    icon: 'sliders-horizontal',
     content: {
       summary: 'Insuline bepaalt of je lichaam vet opslaat of verbrandt.',
       keyPoints: [
@@ -234,7 +234,7 @@ export const faqCards: FAQCard[] = [
     id: 'faq-cheat-alles',
     type: 'faq',
     title: 'Mag ik echt ALLES op cheat day?',
-    icon: '🍕',
+    icon: 'pizza',
     content: {
       answer: 'ja',
       explanation: 'Ja, letterlijk alles. De cheat day is essentieel voor je metabole reset.',
@@ -248,7 +248,7 @@ export const faqCards: FAQCard[] = [
     id: 'faq-plateau',
     type: 'faq',
     title: 'Mijn gewicht staat al 2 weken stil. Wat nu?',
-    icon: '📉',
+    icon: 'trending-down',
     content: {
       answer: 'misschien',
       explanation: 'Dit is waarschijnlijk het Whoosh Effect. Je verliest WEL vet.',
@@ -262,7 +262,7 @@ export const faqCards: FAQCard[] = [
     id: 'faq-koffie-melk',
     type: 'faq',
     title: 'Mag ik koffie met melk?',
-    icon: '☕',
+    icon: 'coffee',
     content: {
       answer: 'nee',
       explanation: 'Melk bevat lactose (suiker) die insuline kan triggeren.',
@@ -276,7 +276,7 @@ export const faqCards: FAQCard[] = [
     id: 'faq-cola-zero',
     type: 'faq',
     title: 'Mag ik Cola Zero?',
-    icon: '🥤',
+    icon: 'cup-soda',
     content: {
       answer: 'misschien',
       explanation: 'Technisch gezien ja, maar het kan bij sommigen honger triggeren.',
@@ -290,7 +290,7 @@ export const faqCards: FAQCard[] = [
     id: 'faq-honger',
     type: 'faq',
     title: 'Ik heb honger tussen maaltijden. Wat nu?',
-    icon: '😰',
+    icon: 'frown',
     content: {
       answer: 'misschien',
       explanation: 'Eet meer bij elke maaltijd, vooral meer bonen en vet.',
@@ -304,7 +304,7 @@ export const faqCards: FAQCard[] = [
     id: 'faq-alcohol',
     type: 'faq',
     title: 'Mag ik alcohol?',
-    icon: '🍷',
+    icon: 'wine',
     content: {
       answer: 'misschien',
       explanation: 'Droge rode wijn (max 2 glazen) is toegestaan.',
@@ -440,34 +440,34 @@ if (allErrors.length > 0) {
 
 export const yesNoList = {
   yes: [
-    { item: 'Alle vlees en vis', emoji: '🥩' },
-    { item: 'Eieren', emoji: '🥚' },
-    { item: 'Alle groenten', emoji: '🥦' },
-    { item: 'Alle bonen en linzen', emoji: '🫘' },
-    { item: 'Kruiden en specerijen', emoji: '🌿' },
-    { item: 'Olijfolie, kokosolie', emoji: '🫒' },
-    { item: 'Avocado', emoji: '🥑' },
-    { item: 'Hüttenkäse', emoji: '🧀' },
-    { item: 'Noten (max 10 per dag)', emoji: '🥜' },
+    { item: 'Alle vlees en vis', icon: 'beef' },
+    { item: 'Eieren', icon: 'egg' },
+    { item: 'Alle groenten', icon: 'salad' },
+    { item: 'Alle bonen en linzen', icon: 'bean' },
+    { item: 'Kruiden en specerijen', icon: 'leaf' },
+    { item: 'Olijfolie, kokosolie', icon: 'droplet' },
+    { item: 'Avocado', icon: 'sprout' },
+    { item: 'Hüttenkäse', icon: 'milk' },
+    { item: 'Noten (max 10 per dag)', icon: 'nut' },
   ],
   no: [
-    { item: 'Brood, pasta, rijst', emoji: '🍞' },
-    { item: 'Alle granen', emoji: '🌾' },
-    { item: 'Fruit (behalve tomaat)', emoji: '🍎' },
-    { item: 'Zuivel (behalve cottage)', emoji: '🥛' },
-    { item: 'Frisdrank, sap, bier', emoji: '🥤' },
-    { item: 'Toegevoegde suiker', emoji: '🍬' },
+    { item: 'Brood, pasta, rijst', icon: 'wheat' },
+    { item: 'Alle granen', icon: 'wheat' },
+    { item: 'Fruit (behalve tomaat)', icon: 'apple' },
+    { item: 'Zuivel (behalve cottage)', icon: 'milk' },
+    { item: 'Frisdrank, sap, bier', icon: 'cup-soda' },
+    { item: 'Toegevoegde suiker', icon: 'candy' },
   ],
   cheat: [
-    { item: 'Alles mag', emoji: '🍕' },
-    { item: 'Geen schuld', emoji: '✨' },
-    { item: 'Volgende dag: terug', emoji: '🔄' },
+    { item: 'Alles mag', icon: 'pizza' },
+    { item: 'Geen schuld', icon: 'sparkles' },
+    { item: 'Volgende dag: terug', icon: 'rotate-ccw' },
   ],
 };
 
 export const commonMistakes = [
-  { mistake: 'Te weinig eten', explanation: 'Slow-carb is geen calorierestrictie.', emoji: '🍽️' },
-  { mistake: 'Bonen overslaan', explanation: 'Bonen zijn essentieel voor verzadiging.', emoji: '🫘' },
-  { mistake: 'Te weinig eiwit bij ontbijt', explanation: 'De 30/30 regel is de anker van je dag.', emoji: '🍳' },
-  { mistake: 'Cheat day skippen', explanation: 'Je hebt de metabole reset nodig.', emoji: '🎉' },
+  { mistake: 'Te weinig eten', explanation: 'Slow-carb is geen calorierestrictie.', icon: 'utensils' },
+  { mistake: 'Bonen overslaan', explanation: 'Bonen zijn essentieel voor verzadiging.', icon: 'bean' },
+  { mistake: 'Te weinig eiwit bij ontbijt', explanation: 'De 30/30 regel is de anker van je dag.', icon: 'egg' },
+  { mistake: 'Cheat day skippen', explanation: 'Je hebt de metabole reset nodig.', icon: 'party-popper' },
 ];

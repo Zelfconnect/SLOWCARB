@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Check, ChevronDown, ChefHat, Package, Refrigerator, Snowflake, type LucideIcon } from 'lucide-react';
+import { AlertTriangle, Check, CheckCircle2, ChefHat, ChevronDown, Package, Refrigerator, Snowflake, Target, type LucideIcon } from 'lucide-react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { cn } from '@/lib/utils';
 
 interface AmmoZone {
   id: string;
   name: string;
-  emoji: string;
+  icon: string;
   items: AmmoItem[];
 }
 
@@ -20,7 +20,7 @@ const DEFAULT_ZONES: AmmoZone[] = [
   {
     id: 'vriezer',
     name: 'De Vriezer',
-    emoji: 'snowflake',
+    icon: 'snowflake',
     items: [
       { id: 'kip', name: '2kg kipfilet (of 1 grote zak diepvries)', checked: false },
       { id: 'broccoli', name: '4 zakken diepvries broccoli (1kg)', checked: false },
@@ -31,7 +31,7 @@ const DEFAULT_ZONES: AmmoZone[] = [
   {
     id: 'voorraadkast',
     name: 'De Voorraadkast',
-    emoji: 'package',
+    icon: 'package',
     items: [
       { id: 'bonen', name: '12 blikken zwarte bonen (minimum)', checked: false },
       { id: 'tonijn', name: '6 blikken tonijn (emergency dagen)', checked: false },
@@ -44,7 +44,7 @@ const DEFAULT_ZONES: AmmoZone[] = [
   {
     id: 'koelkast',
     name: 'De Koelkast',
-    emoji: 'refrigerator',
+    icon: 'refrigerator',
     items: [
       { id: 'eieren', name: '2 dozijn eieren (24 stuks)', checked: false },
       { id: 'spinazie-vers', name: '1 zak verse spinazie (zondag recovery)', checked: false },
@@ -54,7 +54,7 @@ const DEFAULT_ZONES: AmmoZone[] = [
   {
     id: 'tools',
     name: 'Airfryer Station',
-    emoji: 'chefhat',
+    icon: 'chefhat',
     items: [
       { id: 'bakpapier', name: 'Bakpapier (voor airfryer mandje)', checked: false },
       { id: 'oliespray', name: 'Olie spray fles (geen spuitbus)', checked: false },
@@ -65,19 +65,15 @@ const DEFAULT_ZONES: AmmoZone[] = [
 ];
 
 const zoneIconMap: Record<string, { Icon: LucideIcon; label: string }> = {
-  '🧊': { Icon: Snowflake, label: 'Vriezer' },
   snowflake: { Icon: Snowflake, label: 'Vriezer' },
-  '🥫': { Icon: Package, label: 'Voorraadkast' },
   package: { Icon: Package, label: 'Voorraadkast' },
-  '🥶': { Icon: Refrigerator, label: 'Koelkast' },
   refrigerator: { Icon: Refrigerator, label: 'Koelkast' },
-  '🍳': { Icon: ChefHat, label: 'Airfryer' },
   chefhat: { Icon: ChefHat, label: 'Airfryer' },
 };
 
 function getZoneIcon(value: string) {
   const normalized = value.replace(/[\s-]/g, '').toLowerCase();
-  return zoneIconMap[value] || zoneIconMap[normalized];
+  return zoneIconMap[value] || zoneIconMap[normalized] || zoneIconMap.package;
 }
 
 function isOptional(item: AmmoItem) {
@@ -124,7 +120,7 @@ export function AmmoCheck() {
       <div className="rounded-2xl p-5 bg-gradient-to-br from-sage-50 to-sage-100/60 border border-sage-200">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-sage-200 flex items-center justify-center">
-            <span className="text-xl">🎯</span>
+            <Target className="w-6 h-6 text-sage-800" aria-hidden="true" />
           </div>
           <div>
             <h2 className="font-display font-semibold text-lg text-sage-900">Ammo Check</h2>
@@ -138,7 +134,7 @@ export function AmmoCheck() {
           const status = getZoneStatus(zone);
           const isOpen = openZones.includes(zone.id);
           const panelId = `ammo-panel-${zone.id}`;
-          const zoneIcon = getZoneIcon(zone.emoji);
+          const zoneIcon = getZoneIcon((zone as { icon?: string; emoji?: string }).icon ?? (zone as { emoji?: string }).emoji ?? 'package');
 
           return (
             <div key={zone.id} className="card-premium overflow-hidden">
@@ -157,14 +153,10 @@ export function AmmoCheck() {
                     )}
                     aria-hidden="true"
                   />
-                  {zoneIcon ? (
-                    <zoneIcon.Icon
-                      className="w-6 h-6 text-stone-600"
-                      aria-label={zone.name}
-                    />
-                  ) : (
-                    <span className="text-xl" aria-hidden="true">{zone.emoji}</span>
-                  )}
+                  <zoneIcon.Icon
+                    className="w-6 h-6 text-stone-600"
+                    aria-label={zone.name}
+                  />
                   <span className="font-display font-medium text-stone-800">{zone.name}</span>
                 </div>
                 <ChevronDown
@@ -216,14 +208,20 @@ export function AmmoCheck() {
 
       {overallStatus === 'locked' ? (
         <div className="card-premium p-4 bg-emerald-50 border border-emerald-100">
-          <p className="font-display font-semibold text-emerald-800">✅ Locked and loaded</p>
+          <p className="font-display font-semibold text-emerald-800 flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5" />
+            Locked and loaded
+          </p>
           <p className="text-sm text-emerald-700 mt-1">
             Je bent klaar voor de komende 2 weken. Go prep.
           </p>
         </div>
       ) : (
         <div className="card-premium p-4 bg-rose-50 border border-rose-100">
-          <p className="font-display font-semibold text-rose-800">⚠️ Voorraad laag</p>
+          <p className="font-display font-semibold text-rose-800 flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5" />
+            Voorraad laag
+          </p>
           <p className="text-sm text-rose-700 mt-1">Tijd voor een groothandel run.</p>
         </div>
       )}

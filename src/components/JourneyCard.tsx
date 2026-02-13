@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Rocket, RotateCcw, ChevronRight, Info, X, Lightbulb, BookOpen, FlaskConical } from 'lucide-react';
+import { BookOpen, ChevronRight, FlaskConical, Info, Lightbulb, PartyPopper, Rocket, RotateCcw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -121,7 +121,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
         <div className="flex items-start justify-between mb-5">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center">
-              {isCheatDay ? <span className="text-3xl">🎉</span> : <Rocket className="w-7 h-7" />}
+              {isCheatDay ? <PartyPopper className="w-7 h-7" /> : <Rocket className="w-7 h-7" />}
             </div>
             <div>
               <h3 className="font-semibold text-xl text-white">
@@ -214,7 +214,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center text-4xl">
-                      💡
+                      <Lightbulb className="w-8 h-8 text-white" aria-hidden="true" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h2 className="text-xl font-semibold text-white leading-tight">

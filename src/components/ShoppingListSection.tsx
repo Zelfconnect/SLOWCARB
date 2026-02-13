@@ -1,37 +1,23 @@
 import { useState } from 'react';
-import {
-  Plus,
-  Trash2,
-  Check,
-  X,
-  ShoppingCart,
-  Home,
-  PackagePlus,
-  Beef,
-  Fish,
-  Egg,
-  Bean,
-  Salad,
-  Package,
-  type LucideIcon,
-} from 'lucide-react';
+import { Plus, Trash2, Check, X, ShoppingCart, Home, PackagePlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { ShoppingItem } from '@/types';
+import { getStockIconInfo } from '@/lib/stockIcons';
 
 interface ShoppingListSectionProps {
   items: ShoppingItem[];
-  restockSuggestions: Array<{ id: string; name: string; emoji: string; category: string }>;
+  restockSuggestions: Array<{ id: string; name: string; icon: string; category: string }>;
   onToggleItem: (id: string) => void;
   onRemoveItem: (id: string) => void;
   onClearChecked: () => void;
   onMoveToPantry: (id: string) => void;
   onMoveCheckedToPantry: () => void;
-  onAddFromSuggestion: (item: { id: string; name: string; emoji: string; category: string }) => void;
+  onAddFromSuggestion: (item: { id: string; name: string; icon: string; category: string }) => void;
   onAddCustomItem: (name: string) => void;
   getByCategory: () => Record<string, ShoppingItem[]>;
-  getEmojiForIngredient: (name: string) => string;
+  getIconKeyForIngredient: (name: string) => string;
 }
 
 const categoryLabels: Record<string, { label: string; iconKey: string; color: string }> = {
@@ -41,29 +27,8 @@ const categoryLabels: Record<string, { label: string; iconKey: string; color: st
   overig: { label: 'Overig', iconKey: 'package', color: 'bg-stone-50/70 text-stone-600 border-stone-100' },
 };
 
-const iconMap: Record<string, { Icon: LucideIcon; label: string }> = {
-  '🥩': { Icon: Beef, label: 'Vlees' },
-  beef: { Icon: Beef, label: 'Vlees' },
-  '🐟': { Icon: Fish, label: 'Vis' },
-  fish: { Icon: Fish, label: 'Vis' },
-  '🥚': { Icon: Egg, label: 'Eieren' },
-  egg: { Icon: Egg, label: 'Eieren' },
-  '🫘': { Icon: Bean, label: 'Bonen' },
-  bean: { Icon: Bean, label: 'Bonen' },
-  '🥦': { Icon: Salad, label: 'Groenten' },
-  '🥬': { Icon: Salad, label: 'Groenten' },
-  salad: { Icon: Salad, label: 'Groenten' },
-  '🥫': { Icon: Package, label: 'Voorraadkast' },
-  package: { Icon: Package, label: 'Voorraadkast' },
-};
-
-function getIconInfo(value: string) {
-  const normalized = value.replace(/[\s-]/g, '').toLowerCase();
-  return iconMap[value] || iconMap[normalized] || iconMap.package;
-}
-
 function renderIcon(iconKey: string, ariaLabel: string) {
-  const iconInfo = getIconInfo(iconKey);
+  const iconInfo = getStockIconInfo(iconKey);
   const Icon = iconInfo.Icon;
   return <Icon className="w-6 h-6 text-stone-600 flex-shrink-0" aria-label={ariaLabel} />;
 }
@@ -79,7 +44,7 @@ export function ShoppingListSection({
   onAddFromSuggestion,
   onAddCustomItem,
   getByCategory,
-  getEmojiForIngredient,
+  getIconKeyForIngredient,
 }: ShoppingListSectionProps) {
   const [newItem, setNewItem] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
@@ -173,7 +138,7 @@ export function ShoppingListSection({
                 key={item.id}
                 className="flex items-center gap-3 p-4 hover:bg-stone-50 transition-colors"
               >
-                {renderIcon(item.emoji, item.name)}
+                {renderIcon(item.icon, item.name)}
                 <span className="flex-1 text-stone-700">{item.name}</span>
                 <button
                   onClick={() => onAddFromSuggestion(item)}
@@ -231,7 +196,7 @@ export function ShoppingListSection({
                     >
                       <div className="w-6 h-6 rounded-lg border-2 border-stone-300 flex items-center justify-center hover:border-sage-400 transition-colors" />
                     </button>
-                    {renderIcon(getEmojiForIngredient(item.name), item.name)}
+                    {renderIcon(getIconKeyForIngredient(item.name), item.name)}
                     <div className="flex-1 min-w-0">
                       <span className="text-stone-700 block font-medium">
                         {item.packageLabel || `${item.amount} ${item.unit}`} {item.name}
@@ -302,7 +267,7 @@ export function ShoppingListSection({
                         <Check className="w-4 h-4 text-white" />
                       </div>
                     </button>
-                    {renderIcon(getEmojiForIngredient(item.name), item.name)}
+                    {renderIcon(getIconKeyForIngredient(item.name), item.name)}
                     <span className="flex-1 text-stone-400 line-through">
                       {item.packageLabel || `${item.amount} ${item.unit}`} {item.name}
                     </span>

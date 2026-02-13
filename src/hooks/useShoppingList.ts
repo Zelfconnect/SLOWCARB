@@ -32,10 +32,11 @@ function getCategoryForIngredient(name: string): 'eiwit' | 'groente' | 'pantry' 
 }
 
 // Get icon key for ingredient
-function getEmojiForIngredient(name: string): string {
+function getIconKeyForIngredient(name: string): string {
   const lower = name.toLowerCase();
   if (lower.includes('ei')) return 'egg';
-  if (lower.includes('kip') || lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
+  if (lower.includes('kip')) return 'drumstick';
+  if (lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
   if (lower.includes('bonen') || lower.includes('linzen')) return 'bean';
   if (
     lower.includes('tomaat') ||
@@ -151,7 +152,7 @@ export function useShoppingList() {
   }, [setItems]);
 
   // Add from restock suggestion
-  const addFromSuggestion = useCallback((item: { id: string; name: string; emoji: string; category: string }) => {
+  const addFromSuggestion = useCallback((item: { id: string; name: string; icon: string; category: string }) => {
     setItems(prev => {
       // Check if already exists
       const existingIndex = prev.findIndex(
@@ -258,6 +259,6 @@ export function useShoppingList() {
     getByCategory,
     getCheckedItems,
     getTotalCount,
-    getEmojiForIngredient,
+    getIconKeyForIngredient,
   };
 }

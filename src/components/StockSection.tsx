@@ -1,28 +1,16 @@
-import {
-  Check,
-  Trash2,
-  Package,
-  ClipboardList,
-  Home,
-  Plus,
-  Beef,
-  Fish,
-  Egg,
-  Bean,
-  Salad,
-  type LucideIcon,
-} from 'lucide-react';
+import { Check, Trash2, Package, ClipboardList, Home, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import type { PantryItem } from '@/types';
+import { getStockIconInfo } from '@/lib/stockIcons';
 
 interface StockSectionProps {
   pantryItems: PantryItem[];
-  standardItems: Array<{ id: string; name: string; emoji: string; category: string; checked: boolean }>;
+  standardItems: Array<{ id: string; name: string; icon: string; category: string; checked: boolean }>;
   onRemoveFromPantry: (id: string) => void;
   onToggleStandardItem: (id: string) => void;
   onClearPantry: () => void;
-  onAddToShoppingList: (item: { id: string; name: string; emoji: string; category: string }) => void;
+  onAddToShoppingList: (item: { id: string; name: string; icon: string; category: string }) => void;
   getByCategory: () => Record<string, PantryItem[]>;
 }
 
@@ -33,31 +21,11 @@ const categoryLabels: Record<string, { label: string; iconKey: string; color: st
   overig: { label: 'Overig', iconKey: 'package', color: 'bg-stone-50 text-stone-700 border-stone-200' },
 };
 
-const iconMap: Record<string, { Icon: LucideIcon; label: string }> = {
-  '🥩': { Icon: Beef, label: 'Vlees' },
-  beef: { Icon: Beef, label: 'Vlees' },
-  '🐟': { Icon: Fish, label: 'Vis' },
-  fish: { Icon: Fish, label: 'Vis' },
-  '🥚': { Icon: Egg, label: 'Eieren' },
-  egg: { Icon: Egg, label: 'Eieren' },
-  '🫘': { Icon: Bean, label: 'Bonen' },
-  bean: { Icon: Bean, label: 'Bonen' },
-  '🥦': { Icon: Salad, label: 'Groenten' },
-  '🥬': { Icon: Salad, label: 'Groenten' },
-  salad: { Icon: Salad, label: 'Groenten' },
-  '🥫': { Icon: Package, label: 'Voorraadkast' },
-  package: { Icon: Package, label: 'Voorraadkast' },
-};
-
-function getIconInfo(value: string) {
-  const normalized = value.replace(/[\s-]/g, '').toLowerCase();
-  return iconMap[value] || iconMap[normalized] || iconMap.package;
-}
-
 function getIconKeyForName(name: string) {
   const lower = name.toLowerCase();
   if (lower.includes('ei')) return 'egg';
-  if (lower.includes('kip') || lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
+  if (lower.includes('kip')) return 'drumstick';
+  if (lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
   if (lower.includes('bonen') || lower.includes('linzen')) return 'bean';
   if (lower.includes('tonijn') || lower.includes('zalm') || lower.includes('vis')) return 'fish';
   if (
@@ -76,7 +44,7 @@ function getIconKeyForName(name: string) {
 }
 
 function renderIcon(iconKey: string, ariaLabel: string) {
-  const iconInfo = getIconInfo(iconKey);
+  const iconInfo = getStockIconInfo(iconKey);
   const Icon = iconInfo.Icon;
   return <Icon className="w-6 h-6 text-stone-600 flex-shrink-0" aria-label={ariaLabel} />;
 }
@@ -233,7 +201,7 @@ export function StockSection({
                 >
                   {item.checked && <Check className="w-4 h-4 text-white" />}
                 </button>
-                {renderIcon(item.emoji, item.name)}
+                {renderIcon(item.icon, item.name)}
                 <div className="flex-1 min-w-0">
                   <span
                     className={cn(

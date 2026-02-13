@@ -1,6 +1,7 @@
 import { Heart, Clock, Users } from 'lucide-react';
 import type { Recipe } from '@/types';
 import { cn } from '@/lib/utils';
+import { getRecipeIcon } from '@/lib/recipeIcons';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -10,13 +11,15 @@ interface RecipeCardProps {
 }
 
 export function RecipeCard({ recipe, isFavorite, onToggleFavorite, onClick }: RecipeCardProps) {
+  const RecipeIcon = getRecipeIcon(recipe.icon);
+
   return (
     <div onClick={onClick} className="card-premium cursor-pointer group">
       <div className="p-5">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-sage-100 to-sage-50 flex items-center justify-center text-3xl shadow-soft">
-              {recipe.emoji}
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-sage-100 to-sage-50 flex items-center justify-center shadow-soft">
+              <RecipeIcon className="w-6 h-6 text-stone-600" />
             </div>
             <div>
               <h3 className="font-display font-semibold text-stone-800 text-lg leading-tight group-hover:text-sage-700 transition-colors">

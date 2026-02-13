@@ -7,7 +7,7 @@ export const fiveRules: Rule[] = [
     shortDescription: 'Geen brood, pasta, rijst, aardappelen, granen, tortilla\'s, pannenkoeken.',
     fullDescription: 'Elimineer alle geraffineerde koolhydraten die snel worden omgezet in glucose. Dit zijn de grootste boosdoeners van insulinepieken.',
     science: 'Witte koolhydraten hebben een hoge glycemische index (GI). Ze worden snel afgebroken tot glucose, wat een insulinepiek veroorzaakt. Na de piek volgt een crash, waardoor je weer honger krijgt.',
-    emoji: '🚫',
+    icon: 'ban',
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const fiveRules: Rule[] = [
     shortDescription: 'Kies 3-4 ontbijten, 3-4 lunches, 3-4 avondeten en roteer.',
     fullDescription: 'Beslissingsmoeheid is de vijand van consistentie. Hoe minder je hoeft na te denken, hoe groter de kans dat je volhoudt.',
     science: 'Willpower is een eindige resource (ego depletion). Door keuzes te elimineren, bewaar je mentale energie voor waar het telt.',
-    emoji: '🔄',
+    icon: 'refresh-ccw',
   },
   {
     id: 3,
@@ -23,7 +23,7 @@ export const fiveRules: Rule[] = [
     shortDescription: 'Geen frisdrank, vruchtensap, melk, bier. Wel: water, thee, koffie (zwart of met kleine splash room).',
     fullDescription: 'Vloeibare calorieën triggeren geen verzadiging maar veroorzaken wel insulinepieken.',
     science: 'Je maag heeft geen "volume-sensor" voor vloeistoffen op dezelfde manier als voor vast voedsel.',
-    emoji: '🥤',
+    icon: 'cup-soda',
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ export const fiveRules: Rule[] = [
     shortDescription: 'Geen fruit, behalve tomaten en avocado\'s (technisch gezien vruchten, maar laag in fructose).',
     fullDescription: 'Fructose wordt direct door de lever verwerkt en omgezet in vet. Het remt ook leptine (je verzadigingshormoon).',
     science: 'Fructose volgt een unieke metabolische route. Anders dan glucose, dat door alle cellen kan worden gebruikt, gaat fructose rechtstreeks naar de lever.',
-    emoji: '🍎',
+    icon: 'apple',
   },
   {
     id: 5,
@@ -39,7 +39,7 @@ export const fiveRules: Rule[] = [
     shortDescription: 'Eén dag per week (meestal zaterdag of zondag) mag je alles eten wat je wilt. Letterlijk alles.',
     fullDescription: 'Dit voorkomt metabole aanpassing, reset leptine, en houdt je mentaal gezond.',
     science: 'Leptine reset: Na dagen van calorierestrictie daalt leptine. Een dag van overvloed reset dit. Metabole boost: Je lichaam past zich aan aan lagere calorie-inname door je metabolisme te vertragen.',
-    emoji: '🎉',
+    icon: 'party-popper',
   },
 ];
 
@@ -57,34 +57,34 @@ export const thirtyRule = {
     '250g Hüttenkäse = ~30g eiwit',
     'Restjes van gisteren werken ook',
   ],
-  emoji: '⚡',
+  icon: 'zap',
 };
 
 export const yesNoList = {
   yes: [
-    { item: 'Alle vlees en vis', emoji: '🥩' },
-    { item: 'Eieren', emoji: '🥚' },
-    { item: 'Alle groenten', emoji: '🥦' },
-    { item: 'Alle bonen en linzen', emoji: '🫘' },
-    { item: 'Kruiden en specerijen', emoji: '🌿' },
-    { item: 'Olijfolie, kokosolie', emoji: '🫒' },
-    { item: 'Avocado', emoji: '🥑' },
-    { item: 'Hüttenkäse (cottage cheese)', emoji: '🧀' },
-    { item: 'Noten (max 10 per dag)', emoji: '🥜' },
+    { item: 'Alle vlees en vis', icon: 'beef' },
+    { item: 'Eieren', icon: 'egg' },
+    { item: 'Alle groenten', icon: 'salad' },
+    { item: 'Alle bonen en linzen', icon: 'bean' },
+    { item: 'Kruiden en specerijen', icon: 'leaf' },
+    { item: 'Olijfolie, kokosolie', icon: 'droplet' },
+    { item: 'Avocado', icon: 'sprout' },
+    { item: 'Hüttenkäse (cottage cheese)', icon: 'milk' },
+    { item: 'Noten (max 10 per dag)', icon: 'nut' },
   ],
   no: [
-    { item: 'Brood, pasta, rijst, aardappelen', emoji: '🍞' },
-    { item: 'Alle granen', emoji: '🌾' },
-    { item: 'Fruit (behalve tomaat, avocado)', emoji: '🍎' },
-    { item: 'Zuivel (behalve cottage cheese)', emoji: '🥛' },
-    { item: 'Frisdrank, sap, bier', emoji: '🥤' },
-    { item: 'Alles met toegevoegde suiker', emoji: '🍬' },
+    { item: 'Brood, pasta, rijst, aardappelen', icon: 'wheat' },
+    { item: 'Alle granen', icon: 'wheat' },
+    { item: 'Fruit (behalve tomaat, avocado)', icon: 'apple' },
+    { item: 'Zuivel (behalve cottage cheese)', icon: 'milk' },
+    { item: 'Frisdrank, sap, bier', icon: 'cup-soda' },
+    { item: 'Alles met toegevoegde suiker', icon: 'candy' },
   ],
   cheat: [
-    { item: 'Alles mag', emoji: '🍕' },
-    { item: 'Eet waar je zin in hebt', emoji: '🍰' },
-    { item: 'Geen schuld', emoji: '✨' },
-    { item: 'Volgende dag: terug naar protocol', emoji: '🔄' },
+    { item: 'Alles mag', icon: 'pizza' },
+    { item: 'Eet waar je zin in hebt', icon: 'cake-slice' },
+    { item: 'Geen schuld', icon: 'sparkles' },
+    { item: 'Volgende dag: terug naar protocol', icon: 'rotate-ccw' },
   ],
 };
 
@@ -92,7 +92,7 @@ export const scienceTopics: ScienceTopic[] = [
   {
     id: 'vetverbranding',
     title: 'Hoe Vetverbranding Werkt',
-    emoji: '🔥',
+    icon: 'flame',
     summary: 'Door insuline laag te houden, schakel je over van suiker- naar vetverbranding.',
     content: [
       'Vet Opslaan (Lipogenese)\n\n1. Je eet koolhydraten → glucose in bloed\n2. Pancreas maakt insuline\n3. Insuline activeert LPL op vetcellen\n4. LPL trekt vetzuren uit bloed naar vetcel\n5. Vetcel groeit',
@@ -102,7 +102,7 @@ export const scienceTopics: ScienceTopic[] = [
   {
     id: 'whoosh',
     title: 'Het Whoosh Effect',
-    emoji: '💧',
+    icon: 'droplets',
     summary: 'Waarom je gewicht soms stilstaat terwijl je wel vet verliest.',
     content: [
       'Wat je ziet:\n\n- Week 1-2: Snel gewichtsverlies (2-4 kg)\n- Week 3: Gewicht staat stil\n- Week 4: Plotseling 1-2 kg erbij kwijt',
@@ -112,7 +112,7 @@ export const scienceTopics: ScienceTopic[] = [
   {
     id: 'bonen',
     title: 'Waarom Bonen Cruciaal Zijn',
-    emoji: '🫘',
+    icon: 'bean',
     summary: 'Bonen, linzen en kikkererwten zijn essentieel voor succes.',
     content: [
       'Resistente Zetmeel\n\nPeulvruchten bevatten resistente zetmeel — koolhydraten die je dunne darm niet kan afbreken.',
@@ -143,9 +143,9 @@ export const faqs: FAQ[] = [
 ];
 
 export const commonMistakes = [
-  { mistake: 'Te weinig eten', explanation: 'Slow-carb is geen calorierestrictie. Eet tot je vol zit.', emoji: '🍽️' },
-  { mistake: 'Bonen overslaan', explanation: 'Bonen zijn essentieel voor verzadiging, darmgezondheid, en langdurige energie.', emoji: '🫘' },
-  { mistake: 'Te weinig eiwit bij ontbijt', explanation: 'De 30/30 regel is niet optioneel. Dit is de anker van je dag.', emoji: '🍳' },
-  { mistake: 'Cheat day skippen', explanation: 'Je hebt de metabole reset nodig. Skippen werkt tegen je.', emoji: '🎉' },
-  { mistake: 'Cheat day wordt cheat weekend', explanation: 'Eén dag. Niet twee. Niet "vanaf vrijdagavond".', emoji: '📅' },
+  { mistake: 'Te weinig eten', explanation: 'Slow-carb is geen calorierestrictie. Eet tot je vol zit.', icon: 'utensils' },
+  { mistake: 'Bonen overslaan', explanation: 'Bonen zijn essentieel voor verzadiging, darmgezondheid, en langdurige energie.', icon: 'bean' },
+  { mistake: 'Te weinig eiwit bij ontbijt', explanation: 'De 30/30 regel is niet optioneel. Dit is de anker van je dag.', icon: 'egg' },
+  { mistake: 'Cheat day skippen', explanation: 'Je hebt de metabole reset nodig. Skippen werkt tegen je.', icon: 'party-popper' },
+  { mistake: 'Cheat day wordt cheat weekend', explanation: 'Eén dag. Niet twee. Niet "vanaf vrijdagavond".', icon: 'calendar' },
 ];
