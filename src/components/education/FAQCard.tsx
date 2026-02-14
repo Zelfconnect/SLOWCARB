@@ -1,5 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { X, Check, XCircle, HelpCircle } from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import type { FAQCard as FAQCardType } from '@/types';
 import { getEducationIcon } from '@/lib/educationIcons';
@@ -40,38 +42,17 @@ const answerConfig = {
 export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
   const answerStyle = answerConfig[card.content.answer];
   const AnswerIcon = answerStyle.icon;
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-fade-in"
-        onClick={onClose}
-      />
-
-      {/* Modal - Smaller for FAQ */}
-      <div
-        className="fixed inset-x-4 top-24 bottom-auto z-50 animate-expand-up"
-        style={{ maxHeight: '65vh' }}
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent
+        showCloseButton={false}
+        className="inset-x-4 top-24 bottom-auto translate-x-0 translate-y-0 max-w-none max-h-[65vh] rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
       >
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col">
-          {/* Header - Neutral gray */}
-          <div className="p-5 bg-gradient-to-br from-stone-600 to-stone-700 flex-shrink-0">
+        {/* Header - Neutral gray */}
+        <div className="p-5 bg-gradient-to-br from-stone-600 to-stone-700 flex-shrink-0 rounded-t-3xl">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
@@ -95,14 +76,14 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
           </div>
 
           {/* Content */}
-          <div
-            ref={contentRef}
-            className="p-5 space-y-4 overflow-y-auto"
-            style={{
-              paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
-              WebkitOverflowScrolling: 'touch',
-            }}
-          >
+          <ScrollArea className="flex-1">
+            <div
+              ref={contentRef}
+              className="p-5 space-y-4"
+              style={{
+                paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
+              }}
+            >
             {/* Direct Answer */}
             <div className={cn(
               'rounded-xl p-4 border-2 flex items-center gap-3',
@@ -151,12 +132,12 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
 
             {/* Bottom spacing */}
             <div className="h-2" />
-          </div>
+            </div>
+          </ScrollArea>
 
           {/* Scroll indicator gradient */}
           <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-3xl" />
-        </div>
-      </div>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 }

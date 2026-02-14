@@ -86,7 +86,7 @@ export function ShoppingListSection({
         <div className="flex gap-3">
           <Button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="flex-1 btn-primary h-11"
+            className="flex-1 h-11"
           >
             <Plus className="w-4 h-4 mr-2" />
             Toevoegen
@@ -106,7 +106,7 @@ export function ShoppingListSection({
             className="input-premium"
           />
           <div className="flex gap-3">
-            <Button onClick={handleAdd} className="flex-1 btn-primary h-11">
+            <Button onClick={handleAdd} className="flex-1 h-11">
               Toevoegen
             </Button>
             <Button
@@ -231,7 +231,7 @@ export function ShoppingListSection({
           <div className="flex gap-3">
             <Button
               onClick={onMoveCheckedToPantry}
-              className="flex-1 btn-secondary h-11"
+              className="flex-1 h-11"
             >
               <Home className="w-4 h-4 mr-2" />
               Naar voorraad ({checkedCount})

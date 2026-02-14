@@ -1,5 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { X, Zap, Lightbulb, ArrowRight, HelpCircle } from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ConceptCard as ConceptCardType } from '@/types';
 import { CONCEPT_TOKENS } from '@/data/educationTokens';
 import { getEducationIcon } from '@/lib/educationIcons';
@@ -14,35 +16,15 @@ interface ConceptCardProps {
 export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCardProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-fade-in"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div
-        className="fixed inset-x-4 top-20 bottom-28 z-50 animate-expand-up"
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent
+        showCloseButton={false}
+        className="inset-x-4 top-16 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
         style={{ maxHeight: CONCEPT_TOKENS.maxHeight }}
       >
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden h-full flex flex-col">
-          {/* Header - ALWAYS Amber/Orange */}
-          <div className={`p-5 bg-gradient-to-br ${CONCEPT_TOKENS.background} flex-shrink-0`}>
+        {/* Header - ALWAYS Amber/Orange */}
+        <div className={`p-5 bg-gradient-to-br ${CONCEPT_TOKENS.background} flex-shrink-0 rounded-t-3xl`}>
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
@@ -69,14 +51,14 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
           </div>
 
           {/* Content - Scrollable */}
-          <div
-            ref={contentRef}
-            className="flex-1 overflow-y-auto p-5 space-y-5"
-            style={{
-              paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
-              WebkitOverflowScrolling: 'touch',
-            }}
-          >
+          <ScrollArea className="flex-1">
+            <div
+              ref={contentRef}
+              className="p-5 space-y-5"
+              style={{
+                paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
+              }}
+            >
             {/* Summary Box - Always at top, calm-neutral background */}
             <div className="bg-sage-50 border-l-4 border-sage-200 rounded-r-xl p-4">
               <p className="text-sage-900 font-medium text-sm leading-relaxed">
@@ -142,12 +124,12 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
 
             {/* Bottom spacing */}
             <div className="h-4" />
-          </div>
+            </div>
+          </ScrollArea>
 
           {/* Scroll indicator gradient */}
           <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-3xl" />
-        </div>
-      </div>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 }

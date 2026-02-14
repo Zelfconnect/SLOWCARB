@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BookOpen, Calendar, ChevronRight, FlaskConical, Info, Lightbulb, PartyPopper, Rocket, RotateCcw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -27,21 +28,6 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [cheatDay, setCheatDay] = useState<'zaterdag' | 'zondag'>('zaterdag');
   const [targetWeight, setTargetWeight] = useState('');
-
-  // Body scroll lock voor tip dialog
-  useEffect(() => {
-    if (showTipDialog) {
-      document.body.classList.add('card-expanded');
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.classList.remove('card-expanded');
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.classList.remove('card-expanded');
-      document.body.style.overflow = '';
-    };
-  }, [showTipDialog]);
 
   const handleStart = () => {
     onStartJourney(startDate, cheatDay, targetWeight ? parseFloat(targetWeight) : undefined);
@@ -224,22 +210,13 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
       )}
 
       {/* Tip Dialog */}
-      {showTipDialog && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
-            onClick={() => setShowTipDialog(false)}
-          />
-          
-          {/* Modal Container */}
-          <div 
-            className="fixed inset-x-4 top-16 bottom-24 z-50"
-            style={{ maxHeight: 'calc(100vh - 160px)' }}
-          >
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden h-full flex flex-col">
-              {/* Header */}
-              <div className="p-6 bg-gradient-to-br from-primary-600 to-primary-700 flex-shrink-0">
+      <Dialog open={showTipDialog} onOpenChange={(open) => !open && setShowTipDialog(false)}>
+        <DialogContent
+          showCloseButton={false}
+          className="inset-x-4 top-16 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
+        >
+          {/* Header */}
+          <div className="p-6 bg-gradient-to-br from-primary-600 to-primary-700 flex-shrink-0 rounded-t-3xl">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center text-4xl">
@@ -265,7 +242,8 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+              <ScrollArea className="flex-1">
+                <div className="p-6 space-y-6">
                 {/* Tips voor vandaag */}
                 <div>
                   <h3 className="font-semibold text-warm-800 text-lg mb-4 flex items-center gap-2">
@@ -327,14 +305,13 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                 )}
 
                 <div className="h-4" />
-              </div>
+                </div>
+              </ScrollArea>
 
               {/* Scroll indicator gradient */}
-              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-2xl" />
-            </div>
-          </div>
-        </>
-      )}
+              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-3xl" />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

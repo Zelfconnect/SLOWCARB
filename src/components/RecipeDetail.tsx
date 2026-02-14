@@ -108,7 +108,7 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
               ))}
             </ul>
             
-            <Button onClick={handleAddToShoppingList} className="w-full mt-5 btn-primary h-12 text-base">
+            <Button onClick={handleAddToShoppingList} className="w-full mt-5 h-12 text-base">
               <Plus className="w-5 h-5 mr-2" />Voeg toe aan boodschappenlijst
             </Button>
           </div>

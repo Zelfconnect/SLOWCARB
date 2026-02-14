@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { X, Home, ShoppingCart } from 'lucide-react';
+import { Home, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { getPackageSizes, getDefaultPackage, type PackageSize } from '@/data/packageSizes';
 import type { Ingredient } from '@/types';
 import { getStockIconInfo } from '@/lib/stockIcons';
@@ -79,17 +81,6 @@ export function PackageSelectorModal({
     }
   }, [isOpen, ingredients]);
 
-  // Body scroll lock
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
 
   const handlePackageSelect = (ingredientName: string, pkg: PackageSize) => {
     setSelections((prev) => ({
@@ -117,53 +108,34 @@ export function PackageSelectorModal({
     onClose();
   };
 
-  if (!isOpen) return null;
-
   const allItemsAlreadyHave = Object.values(selections).every((item) => item.alreadyHave);
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-fade-in"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div className="fixed inset-x-4 top-16 bottom-24 z-50 animate-expand-up">
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden h-full flex flex-col">
-          {/* Header */}
-          <div className="p-5 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
-                  <ShoppingCart className="w-6 h-6 text-white" aria-hidden="true" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h2 className="text-lg font-display text-white leading-tight">
-                    Toevoegen aan lijst
-                  </h2>
-                  <p className="text-sm text-white/80 mt-0.5 truncate">{recipeName}</p>
-                </div>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent
+        showCloseButton={false}
+        className="inset-x-4 top-16 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
+      >
+        {/* Header */}
+        <div className="p-5 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <ShoppingCart className="w-6 h-6 text-white" aria-hidden="true" />
               </div>
-              <button
-                onClick={onClose}
-                className="w-10 h-10 rounded-xl bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200 flex items-center justify-center flex-shrink-0"
-                aria-label="Sluiten"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex-1 min-w-0">
+                <h2 className="text-lg font-display text-white leading-tight">
+                  Toevoegen aan lijst
+                </h2>
+                <p className="text-sm text-white/80 mt-0.5 truncate">{recipeName}</p>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Content */}
-          <div
-            className="flex-1 overflow-y-auto p-5 space-y-4"
-            style={{
-              paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
-              WebkitOverflowScrolling: 'touch',
-            }}
-          >
+        {/* Content */}
+        <ScrollArea className="flex-1">
+          <div className="p-5 space-y-4">
             <p className="text-sm text-stone-500">
               Selecteer hoe je het wilt kopen:
             </p>
@@ -248,21 +220,21 @@ export function PackageSelectorModal({
             {/* Bottom spacing */}
             <div className="h-4" />
           </div>
+        </ScrollArea>
 
-          {/* Footer */}
-          <div className="p-5 border-t border-stone-100 bg-white flex-shrink-0">
-            <Button
-              onClick={handleConfirm}
-              disabled={allItemsAlreadyHave}
-              className="w-full btn-primary h-12 text-base"
-            >
-              {allItemsAlreadyHave
-                ? 'Alles al in huis'
-                : `Toevoegen (${Object.values(selections).filter((s) => !s.alreadyHave).length} items)`}
-            </Button>
-          </div>
+        {/* Footer */}
+        <div className="p-5 border-t border-stone-100 bg-white flex-shrink-0 rounded-b-3xl">
+          <Button
+            onClick={handleConfirm}
+            disabled={allItemsAlreadyHave}
+            className="w-full" size="xl"
+          >
+            {allItemsAlreadyHave
+              ? 'Alles al in huis'
+              : `Toevoegen (${Object.values(selections).filter((s) => !s.alreadyHave).length} items)`}
+          </Button>
         </div>
-      </div>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 }
