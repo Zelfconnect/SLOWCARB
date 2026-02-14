@@ -51,7 +51,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
   return (
     <Dialog open={true}>
       <DialogContent 
-        className="fixed inset-0 w-full h-full max-w-none p-0 m-0 border-none"
+        className="fixed inset-0 z-50 w-full h-full max-w-none p-0 m-0 border-none bg-white"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
