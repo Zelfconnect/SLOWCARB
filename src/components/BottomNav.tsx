@@ -1,4 +1,4 @@
-import { LayoutDashboard, ChefHat, BookOpen, ShoppingCart } from 'lucide-react';
+import { LayoutDashboard, ChefHat, BookOpen, ShoppingCart, Cog } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface BottomNavProps {
@@ -11,6 +11,7 @@ const navItems = [
   { id: 'recipes', label: 'Recepten', icon: ChefHat },
   { id: 'learn', label: 'Leren', icon: BookOpen },
   { id: 'shopping', label: 'Boodschappen', icon: ShoppingCart },
+  { id: 'settings', label: 'Instellingen', icon: Cog },
 ];
 
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {

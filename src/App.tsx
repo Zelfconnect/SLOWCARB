@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Salad } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
 import { LearnSection } from '@/components/LearnSection';
 import { Shopping } from '@/pages/Shopping';
+import { SettingsTab } from '@/components/SettingsTab';
+import { OnboardingWizard } from '@/components/OnboardingWizard';
 import { PackageSelectorModal } from '@/components/PackageSelectorModal';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useJourney } from '@/hooks/useJourney';
 import { useShoppingList } from '@/hooks/useShoppingList';
 import { usePantry } from '@/hooks/usePantry';
+import { useUserStore } from '@/store/useUserStore';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import type { Ingredient } from '@/types';
@@ -21,9 +24,12 @@ function App() {
   const [packageSelectorOpen, setPackageSelectorOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<{ name: string; ingredients: Ingredient[] } | null>(null);
   
+  const { profile, loadProfile, updateProfile } = useUserStore();
   const { favorites, toggleFavorite } = useFavorites();
   const { 
     journey, 
+    weightLog,
+    mealLog,
     startJourney, 
     resetJourney, 
     getCurrentTip, 
@@ -36,6 +42,33 @@ function App() {
   
   const { addItemsFromPackage } = useShoppingList();
   const { addToPantry } = usePantry();
+
+  useEffect(() => {
+    loadProfile();
+  }, [loadProfile]);
+
+  if (!profile || !profile.hasCompletedOnboarding) {
+    return (
+      <OnboardingWizard
+        onComplete={(data) => {
+          updateProfile({
+            hasCompletedOnboarding: true,
+            name: data.name,
+            weightGoal: data.weightGoal,
+            isVegetarian: data.vegetarian,
+            vegetarian: data.vegetarian,
+            allergies: '',
+            hasAirfryer: data.hasAirfryer,
+            sportsRegularly: data.sportsRegularly,
+            doesSport: data.sportsRegularly,
+            cheatDay: data.cheatDay,
+            createdAt: new Date().toISOString(),
+          });
+          startJourney(new Date().toISOString().split('T')[0], data.cheatDay, data.weightGoal);
+        }}
+      />
+    );
+  }
 
   // Handle opening package selector from recipe
   const handleOpenPackageSelector = (recipeName: string, ingredients: Ingredient[]) => {
@@ -109,6 +142,8 @@ function App() {
             todayMeals={getTodayMeals()}
             streak={getStreak()}
             onToggleMeal={toggleMeal}
+            mealEntries={mealLog}
+            weightLog={weightLog}
           />
         );
       case 'recipes':
@@ -123,6 +158,8 @@ function App() {
         return <LearnSection />;
       case 'shopping':
         return <Shopping />;
+      case 'settings':
+        return <SettingsTab />;
       default:
         return null;
     }

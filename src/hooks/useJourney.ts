@@ -1,5 +1,7 @@
+import { addDays, format, isAfter, isBefore, isSameDay, startOfWeek } from 'date-fns';
+import { nl } from 'date-fns/locale';
 import { useLocalStorage } from './useLocalStorage';
-import type { Journey, WeightEntry, MealEntry } from '@/types';
+import type { DayStatus, Journey, WeightEntry, MealEntry } from '@/types';
 import { getCurrentDayTip } from '@/data/journey';
 
 const defaultJourney: Journey = {
@@ -103,4 +105,47 @@ export function useJourney() {
     toggleMeal,
     getStreak,
   };
+}
+
+export function getWeekData(journey: Journey, mealEntries: MealEntry[]): DayStatus[] {
+  const today = new Date();
+  const currentWeekStart = startOfWeek(today, { weekStartsOn: 1 });
+  const startDate = journey.startDate ? new Date(journey.startDate) : null;
+
+  return Array.from({ length: 7 }, (_, i) => {
+    const date = addDays(currentWeekStart, i);
+    const dateStr = format(date, 'yyyy-MM-dd');
+    const dayLabel = format(date, 'EEEEEE', { locale: nl });
+
+    const mealEntry = mealEntries.find(entry => entry.date === dateStr);
+    const completed = mealEntry ? mealEntry.breakfast && mealEntry.lunch && mealEntry.dinner : false;
+
+    const dayName = format(date, 'EEEE', { locale: nl }).toLowerCase();
+    const isCheatDay = !startDate || !isBefore(date, startDate) ? dayName === journey.cheatDay : false;
+    const isToday = isSameDay(date, today);
+    const isFuture = isAfter(date, today) || (startDate ? isBefore(date, startDate) : false);
+
+    return {
+      label: dayLabel,
+      date: dateStr,
+      completed,
+      isCheatDay,
+      isToday,
+      isFuture,
+    };
+  });
+}
+
+export function getDaysUntilCheatDay(journey: Journey): number {
+  const today = new Date();
+  const currentDay = format(today, 'EEEE', { locale: nl }).toLowerCase();
+
+  const daysOfWeek = ['maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag', 'zondag'];
+  const currentIndex = daysOfWeek.indexOf(currentDay);
+  const cheatIndex = daysOfWeek.indexOf(journey.cheatDay);
+
+  let diff = cheatIndex - currentIndex;
+  if (diff <= 0) diff += 7;
+
+  return diff;
 }

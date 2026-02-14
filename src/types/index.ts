@@ -35,6 +35,15 @@ export interface MealEntry {
   dinner: boolean;
 }
 
+export interface DayStatus {
+  label: string;
+  date: string;
+  completed: boolean;
+  isCheatDay: boolean;
+  isToday: boolean;
+  isFuture: boolean;
+}
+
 export interface DayTip {
   day: number;
   title: string;
@@ -187,4 +196,18 @@ export interface AppState {
 export interface WeightEntry {
   date: string;
   weight: number;
+}
+
+export interface UserProfile {
+  hasCompletedOnboarding: boolean;
+  name: string;
+  weightGoal: number;
+  isVegetarian: boolean;
+  vegetarian: boolean;
+  allergies: string;
+  hasAirfryer: boolean;
+  sportsRegularly: boolean;
+  doesSport: boolean;
+  cheatDay: "zaterdag" | "zondag";
+  createdAt: string;
 }
