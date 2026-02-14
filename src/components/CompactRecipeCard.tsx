@@ -2,6 +2,9 @@ import { Heart, Clock, Users } from 'lucide-react';
 import type { Recipe } from '@/types';
 import { cn } from '@/lib/utils';
 import { getRecipeIcon } from '@/lib/recipeIcons';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 interface CompactRecipeCardProps {
   recipe: Recipe;
@@ -19,9 +22,9 @@ export function CompactRecipeCard({
   const RecipeIcon = getRecipeIcon(recipe.icon);
 
   return (
-    <div 
+    <Card
       onClick={onClick}
-      className="flex items-center gap-3 p-3 bg-white rounded-xl border border-stone-200 hover:border-sage-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
+      className="flex-row items-center gap-3 p-3 rounded-xl py-3 hover:border-sage-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
     >
       {/* Icon */}
       <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-sage-100 to-sage-50 flex items-center justify-center flex-shrink-0">
@@ -43,31 +46,30 @@ export function CompactRecipeCard({
             {recipe.servings}p
           </span>
           {recipe.tags.slice(0, 2).map((tag) => (
-            <span 
-              key={tag} 
-              className="text-[10px] bg-sage-50 text-sage-600 px-1.5 py-0.5 rounded font-medium"
-            >
+            <Badge variant="secondary" key={tag} className="text-[10px] bg-sage-50 text-sage-600 px-1.5 py-0.5 border-0 font-medium">
               {tag}
-            </span>
+            </Badge>
           ))}
         </div>
       </div>
       
       {/* Favorite button */}
-      <button
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={onToggleFavorite}
         className={cn(
-          'w-11 h-11 rounded-lg transition-all duration-200 flex-shrink-0 flex items-center justify-center',
-          isFavorite 
-            ? 'text-red-500 hover:bg-red-50' 
+          'rounded-lg',
+          isFavorite
+            ? 'text-red-500 hover:bg-red-50'
             : 'text-stone-300 hover:text-stone-500 hover:bg-stone-100'
         )}
       >
-        <Heart 
-          className={cn('w-5 h-5', isFavorite && 'fill-current')} 
-          strokeWidth={isFavorite ? 2.5 : 2} 
+        <Heart
+          className={cn('w-5 h-5', isFavorite && 'fill-current')}
+          strokeWidth={isFavorite ? 2.5 : 2}
         />
-      </button>
-    </div>
+      </Button>
+    </Card>
   );
 }

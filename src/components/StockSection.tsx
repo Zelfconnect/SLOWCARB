@@ -1,6 +1,8 @@
-import { Check, Trash2, Package, ClipboardList, Home, Plus } from 'lucide-react';
+import { Trash2, Package, ClipboardList, Home, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import type { PantryItem } from '@/types';
 import { getStockIconInfo } from '@/lib/stockIcons';
 
@@ -105,7 +107,7 @@ export function StockSection({
             const catConfig = categoryLabels[category] || categoryLabels.overig;
 
             return (
-              <div key={category} className="card-premium overflow-hidden">
+              <Card key={category} className="rounded-2xl py-0 gap-0 overflow-hidden">
                 <div className={cn('p-4 border-b', catConfig.color)}>
                   <h3 className="font-display font-medium flex items-center gap-2">
                     {renderIcon(catConfig.iconKey, catConfig.label)}
@@ -130,16 +132,18 @@ export function StockSection({
                           </span>
                         )}
                       </div>
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
                         onClick={() => onRemoveFromPantry(item.id)}
-                        className="w-11 h-11 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0 flex items-center justify-center"
+                        className="text-stone-400 hover:text-red-500 hover:bg-red-50 flex-shrink-0"
                       >
                         <Trash2 className="w-4 h-4" />
-                      </button>
+                      </Button>
                     </div>
                   ))}
                 </div>
-              </div>
+              </Card>
             );
           })}
         </div>
@@ -176,7 +180,7 @@ export function StockSection({
       </div>
 
       {/* Standard Items */}
-      <div className="card-premium overflow-hidden">
+      <Card className="rounded-2xl py-0 gap-0 overflow-hidden">
         <div className="divide-y divide-stone-100">
           {standardItems.map((item) => {
             const inPantry = isInPantry(item.name);
@@ -190,17 +194,11 @@ export function StockSection({
                   item.checked ? 'bg-sage-50/50' : 'hover:bg-stone-50'
                 )}
               >
-                <button
-                  onClick={() => onToggleStandardItem(item.id)}
-                  className={cn(
-                    'min-w-11 min-h-11 -ml-2 rounded-lg border-2 flex items-center justify-center transition-all duration-200 flex-shrink-0',
-                    item.checked
-                      ? 'bg-sage-500 border-sage-500'
-                      : 'border-stone-300 hover:border-sage-400'
-                  )}
-                >
-                  {item.checked && <Check className="w-4 h-4 text-white" />}
-                </button>
+                <Checkbox
+                  checked={item.checked}
+                  onCheckedChange={() => onToggleStandardItem(item.id)}
+                  className="size-6 rounded-lg data-[state=checked]:bg-sage-500 data-[state=checked]:border-sage-500"
+                />
                 {renderIcon(item.icon, item.name)}
                 <div className="flex-1 min-w-0">
                   <span
@@ -219,19 +217,21 @@ export function StockSection({
                   )}
                 </div>
                 {showAddButton && (
-                  <button
+                  <Button
+                    variant="secondary"
+                    size="sm"
                     onClick={() => onAddToShoppingList(item)}
-                    className="h-11 px-4 bg-sage-100 hover:bg-sage-200 text-sage-800 text-sm font-medium rounded-full transition-colors flex items-center gap-1"
+                    className="rounded-full bg-sage-100 hover:bg-sage-200 text-sage-800"
                   >
                     <Plus className="w-3 h-3" />
                     Toevoegen
-                  </button>
+                  </Button>
                 )}
               </div>
             );
           })}
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
