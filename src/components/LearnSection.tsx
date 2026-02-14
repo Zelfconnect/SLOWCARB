@@ -13,17 +13,12 @@ import {
 } from 'lucide-react';
 import { ruleCards, conceptCards, faqCards, yesNoList, commonMistakes } from '@/data/education';
 import { cn } from '@/lib/utils';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ConceptCard } from './education/ConceptCard';
 import { RuleCard } from './education/RuleCard';
 import { FAQCard } from './education/FAQCard';
 import type { EducationCard } from '@/types';
 import { getEducationIcon } from '@/lib/educationIcons';
-
-const learnTabs = [
-  { id: 'quick', label: 'Quick Start', icon: Zap },
-  { id: 'science', label: 'Wetenschap', icon: FlaskConical },
-  { id: 'faq', label: 'FAQ', icon: HelpCircle },
-];
 
 // Card preview component for the list view
 // Gebruikt semantisch type-based styling systeem
@@ -108,36 +103,30 @@ function CardPreview({
 }
 
 export function LearnSection() {
-  const [activeTab, setActiveTab] = useState('quick');
   const [openCardId, setOpenCardId] = useState<string | null>(null);
 
   // Find the currently open card
-  const openCard = openCardId 
+  const openCard = openCardId
     ? [...ruleCards, ...conceptCards, ...faqCards].find(c => c.id === openCardId)
     : null;
 
   return (
     <div className="space-y-6 pb-24">
+      <Tabs defaultValue="quick">
       {/* Tabs */}
-      <div className="flex gap-2 p-1 bg-stone-100 rounded-2xl">
-        {learnTabs.map((tab) => {
-          const Icon = tab.icon;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={cn(
-                'flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 flex-1',
-                activeTab === tab.id ? 'bg-white text-sage-700 shadow-soft' : 'text-stone-500 hover:text-stone-700'
-              )}
-            >
-              <Icon className="w-4 h-4" />{tab.label}
-            </button>
-          );
-        })}
-      </div>
+      <TabsList className="w-full bg-stone-100 rounded-2xl p-1 h-auto">
+        <TabsTrigger value="quick" className="flex-1 gap-2 rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+          <Zap className="w-4 h-4" />Quick Start
+        </TabsTrigger>
+        <TabsTrigger value="science" className="flex-1 gap-2 rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+          <FlaskConical className="w-4 h-4" />Wetenschap
+        </TabsTrigger>
+        <TabsTrigger value="faq" className="flex-1 gap-2 rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+          <HelpCircle className="w-4 h-4" />FAQ
+        </TabsTrigger>
+      </TabsList>
 
-      {activeTab === 'quick' && (
+      <TabsContent value="quick">
         <div className="space-y-5">
           {/* Progress Indicator */}
           <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
@@ -300,9 +289,9 @@ export function LearnSection() {
             </div>
           </div>
         </div>
-      )}
+      </TabsContent>
 
-      {activeTab === 'science' && (
+      <TabsContent value="science">
         <div className="space-y-5">
           {/* Intro */}
           <div className="bg-gradient-to-br from-stone-700 to-stone-800 rounded-2xl p-5 text-white">
@@ -326,9 +315,9 @@ export function LearnSection() {
             ))}
           </div>
         </div>
-      )}
+      </TabsContent>
 
-      {activeTab === 'faq' && (
+      <TabsContent value="faq">
         <div className="space-y-5">
           {/* Intro */}
           <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
@@ -352,7 +341,8 @@ export function LearnSection() {
             ))}
           </div>
         </div>
-      )}
+      </TabsContent>
+      </Tabs>
 
       {/* Render the appropriate card modal */}
       {openCard && openCard.type === 'concept' && (

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Coffee, Sun, Moon, Check, Flame, Trophy, Calendar, ChefHat, Salad, Utensils, PartyPopper, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import type { MealEntry } from '@/types';
 
 interface DailyMealTrackerProps {
@@ -123,10 +126,10 @@ function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
               {config.label}
             </h4>
             {isCompleted && (
-              <span className="text-xs font-medium text-white bg-gradient-to-r from-emerald-400 to-emerald-500 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+              <Badge className="bg-gradient-to-r from-emerald-400 to-emerald-500 text-white border-0">
                 <Check className="w-3 h-3" />
                 Klaar
-              </span>
+              </Badge>
             )}
           </div>
           <p className={cn(
@@ -176,12 +179,15 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
         </div>
         
         {/* Streak badge */}
-        <div className={cn(
-          'flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300',
-          streak > 0 
-            ? 'bg-gradient-to-r from-sage-100 to-sage-200 text-sage-700'
-            : 'bg-stone-100 text-stone-500'
-        )}>
+        <Badge
+          variant="secondary"
+          className={cn(
+            'gap-2 px-4 py-2 rounded-xl transition-all duration-300 text-sm',
+            streak > 0
+              ? 'bg-gradient-to-r from-sage-100 to-sage-200 text-sage-700 border-0'
+              : 'bg-stone-100 text-stone-500 border-0'
+          )}
+        >
           <Flame className={cn('w-5 h-5', streak > 0 && 'text-sage-600')} />
           {streak > 0 ? (
             <>
@@ -191,19 +197,19 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
           ) : (
             <span className="text-xs font-medium">Start streak</span>
           )}
-        </div>
+        </Badge>
       </div>
 
       {/* Progress bar */}
-      <div className="relative h-3 bg-stone-100 rounded-full overflow-hidden">
-        <div 
+      <div className="relative">
+        <Progress
+          value={progress}
           className={cn(
-            'absolute inset-y-0 left-0 rounded-full transition-all duration-700 ease-out',
-            allCompleted 
-              ? 'bg-gradient-to-r from-emerald-400 via-sage-400 to-emerald-500'
-              : 'bg-gradient-to-r from-sage-400 to-sage-500'
+            'h-3 bg-stone-100',
+            allCompleted
+              ? '[&>[data-slot=progress-indicator]]:bg-gradient-to-r [&>[data-slot=progress-indicator]]:from-emerald-400 [&>[data-slot=progress-indicator]]:via-sage-400 [&>[data-slot=progress-indicator]]:to-emerald-500'
+              : '[&>[data-slot=progress-indicator]]:bg-gradient-to-r [&>[data-slot=progress-indicator]]:from-sage-400 [&>[data-slot=progress-indicator]]:to-sage-500'
           )}
-          style={{ width: `${progress}%` }}
         />
         {allCompleted && (
           <div className="absolute inset-0 bg-white/30 animate-pulse rounded-full" />
@@ -234,32 +240,36 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
 
       {/* Celebration when all completed */}
       {allCompleted && (
-        <div className="bg-gradient-to-r from-emerald-50 to-sage-50 rounded-2xl p-4 border border-emerald-200 animate-in fade-in slide-in-from-bottom-2">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-sage-500 flex items-center justify-center shadow-lg">
-              <Trophy className="w-6 h-6 text-white" />
+        <Card className="bg-gradient-to-r from-emerald-50 to-sage-50 rounded-2xl p-4 border-emerald-200 shadow-sm animate-in fade-in slide-in-from-bottom-2">
+          <CardContent className="p-0">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-sage-500 flex items-center justify-center shadow-lg">
+                <Trophy className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h4 className="font-display font-semibold text-emerald-900">Perfecte dag!</h4>
+                <p className="text-sm text-emerald-700">Je hebt alle maaltijden volgens het protocol gegeten.</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-display font-semibold text-emerald-900">Perfecte dag!</h4>
-              <p className="text-sm text-emerald-700">Je hebt alle maaltijden volgens het protocol gegeten.</p>
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Cheat day message */}
       {isCheatDay && (
-        <div className="bg-gradient-to-r from-clay-50 to-orange-50 rounded-2xl p-4 border border-clay-200">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-clay-400 to-orange-500 flex items-center justify-center shadow-lg">
-              <PartyPopper className="w-6 h-6 text-white" />
+        <Card className="bg-gradient-to-r from-clay-50 to-orange-50 rounded-2xl p-4 border-clay-200 shadow-sm">
+          <CardContent className="p-0">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-clay-400 to-orange-500 flex items-center justify-center shadow-lg">
+                <PartyPopper className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h4 className="font-display font-semibold text-clay-900">Cheat Day!</h4>
+                <p className="text-sm text-clay-700">Geniet vandaag van alles wat je lekker vindt!</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-display font-semibold text-clay-900">Cheat Day!</h4>
-              <p className="text-sm text-clay-700">Geniet vandaag van alles wat je lekker vindt!</p>
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

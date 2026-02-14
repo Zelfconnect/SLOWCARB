@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { AlertTriangle, Check, CheckCircle2, ChefHat, ChevronDown, Package, Refrigerator, Snowflake, Target, type LucideIcon } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ChefHat, Package, Refrigerator, Snowflake, Target, type LucideIcon } from 'lucide-react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { cn } from '@/lib/utils';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface AmmoZone {
   id: string;
@@ -91,13 +93,6 @@ function getAllZonesStatus(zones: AmmoZone[]): 'locked' | 'restock' {
 
 export function AmmoCheck() {
   const [zones, setZones] = useLocalStorage<AmmoZone[]>('slowcarb-ammo-v1', DEFAULT_ZONES);
-  const [openZones, setOpenZones] = useState<string[]>([]);
-
-  const toggleZone = (zoneId: string) => {
-    setOpenZones((prev) =>
-      prev.includes(zoneId) ? prev.filter((id) => id !== zoneId) : [...prev, zoneId]
-    );
-  };
 
   const toggleItem = (zoneId: string, itemId: string) => {
     setZones((prev) =>
@@ -129,22 +124,18 @@ export function AmmoCheck() {
         </div>
       </div>
 
-      <div className="space-y-3">
+      <Accordion type="multiple" className="space-y-3">
         {zones.map((zone) => {
           const status = getZoneStatus(zone);
-          const isOpen = openZones.includes(zone.id);
-          const panelId = `ammo-panel-${zone.id}`;
           const zoneIcon = getZoneIcon((zone as { icon?: string; emoji?: string }).icon ?? (zone as { emoji?: string }).emoji ?? 'package');
 
           return (
-            <div key={zone.id} className="card-premium overflow-hidden">
-              <button
-                type="button"
-                onClick={() => toggleZone(zone.id)}
-                aria-expanded={isOpen}
-                aria-controls={panelId}
-                className="w-full flex items-center justify-between px-4 min-h-12 text-left"
-              >
+            <AccordionItem
+              key={zone.id}
+              value={zone.id}
+              className="bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden"
+            >
+              <AccordionTrigger className="px-4 min-h-12 hover:no-underline">
                 <div className="flex items-center gap-3">
                   <span
                     className={cn(
@@ -159,36 +150,28 @@ export function AmmoCheck() {
                   />
                   <span className="font-display font-medium text-stone-800">{zone.name}</span>
                 </div>
-                <ChevronDown
-                  className={cn(
-                    'w-5 h-5 text-stone-500 transition-transform',
-                    isOpen && 'rotate-180'
-                  )}
-                  aria-hidden="true"
-                />
-              </button>
-
-              {isOpen && (
-                <div id={panelId} className="border-t border-stone-100">
+              </AccordionTrigger>
+              <AccordionContent className="pb-0">
+                <div className="border-t border-stone-100">
                   {zone.items.map((item) => (
                     <button
                       key={item.id}
                       type="button"
                       onClick={() => toggleItem(zone.id, item.id)}
-                      className="w-full flex items-start gap-3 px-4 py-3 min-h-11 text-left hover:bg-stone-50 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-3 min-h-11 text-left hover:bg-stone-50 transition-colors"
                     >
-                      <span className="min-w-11 min-h-11 -ml-2 flex items-center justify-center flex-shrink-0">
-                        <span
-                          className={cn(
-                            'w-6 h-6 rounded-lg border-2 flex items-center justify-center',
-                            item.checked
-                              ? 'bg-emerald-500 border-emerald-500'
-                              : 'border-stone-300'
-                          )}
-                        >
-                          {item.checked && <Check className="w-4 h-4 text-white" />}
-                        </span>
-                      </span>
+                      <Checkbox
+                        checked={item.checked}
+                        onCheckedChange={() => toggleItem(zone.id, item.id)}
+                        className={cn(
+                          'size-6 rounded-lg border-2',
+                          item.checked
+                            ? 'data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500'
+                            : 'border-stone-300'
+                        )}
+                        onClick={(e) => e.stopPropagation()}
+                        aria-label={item.name}
+                      />
                       <span
                         className={cn(
                           'text-sm font-medium',
@@ -200,30 +183,34 @@ export function AmmoCheck() {
                     </button>
                   ))}
                 </div>
-              )}
-            </div>
+              </AccordionContent>
+            </AccordionItem>
           );
         })}
-      </div>
+      </Accordion>
 
       {overallStatus === 'locked' ? (
-        <div className="card-premium p-4 bg-emerald-50 border border-emerald-100">
-          <p className="font-display font-semibold text-emerald-800 flex items-center gap-2">
-            <CheckCircle2 className="w-5 h-5" />
-            Locked and loaded
-          </p>
-          <p className="text-sm text-emerald-700 mt-1">
-            Je bent klaar voor de komende 2 weken. Go prep.
-          </p>
-        </div>
+        <Card className="bg-emerald-50 border-emerald-100 py-0">
+          <CardContent className="p-4">
+            <p className="font-display font-semibold text-emerald-800 flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5" />
+              Locked and loaded
+            </p>
+            <p className="text-sm text-emerald-700 mt-1">
+              Je bent klaar voor de komende 2 weken. Go prep.
+            </p>
+          </CardContent>
+        </Card>
       ) : (
-        <div className="card-premium p-4 bg-rose-50 border border-rose-100">
-          <p className="font-display font-semibold text-rose-800 flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5" />
-            Voorraad laag
-          </p>
-          <p className="text-sm text-rose-700 mt-1">Tijd voor een groothandel run.</p>
-        </div>
+        <Card className="bg-rose-50 border-rose-100 py-0">
+          <CardContent className="p-4">
+            <p className="font-display font-semibold text-rose-800 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5" />
+              Voorraad laag
+            </p>
+            <p className="text-sm text-rose-700 mt-1">Tijd voor een groothandel run.</p>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
