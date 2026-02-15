@@ -74,7 +74,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
               <div className="space-y-6 w-full">
                 <DialogHeader>
                   <DialogTitle className="text-2xl text-center">Welkom bij SlowCarb</DialogTitle>
-                  <p className="text-center text-gray-600">Je persoonlijke slow-carb coach</p>
+                  <p className="text-center text-muted-foreground">Je persoonlijke slow-carb coach</p>
                 </DialogHeader>
                 <div className="space-y-2">
                   <Label htmlFor="name">Je naam</Label>
@@ -114,7 +114,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                   <p className="text-center text-lg font-semibold">
                     {data.weightGoal} kg
                   </p>
-                  <p className="text-center text-gray-600">
+                  <p className="text-center text-muted-foreground">
                     In ongeveer {weekEstimate} weken
                   </p>
                 </div>
@@ -186,7 +186,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
               <div className="space-y-6 w-full">
                 <DialogHeader>
                   <DialogTitle className="text-2xl text-center">Kies je cheat day</DialogTitle>
-                  <p className="text-center text-gray-600">Dit is je wekelijkse vrije dag</p>
+                  <p className="text-center text-muted-foreground">Dit is je wekelijkse vrije dag</p>
                 </DialogHeader>
                 <RadioGroup
                   value={data.cheatDay}
