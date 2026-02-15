@@ -24,7 +24,7 @@ function App() {
   const [packageSelectorOpen, setPackageSelectorOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<{ name: string; ingredients: Ingredient[] } | null>(null);
   
-  const { profile, loadProfile, updateProfile } = useUserStore();
+  const { profile, isLoaded, loadProfile, updateProfile } = useUserStore();
   const { favorites, toggleFavorite } = useFavorites();
   const { 
     journey, 
@@ -46,6 +46,10 @@ function App() {
   useEffect(() => {
     loadProfile();
   }, [loadProfile]);
+
+  if (!isLoaded) {
+    return null;
+  }
 
   if (!profile || !profile.hasCompletedOnboarding) {
     return (

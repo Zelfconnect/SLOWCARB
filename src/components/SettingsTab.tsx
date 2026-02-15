@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,10 +26,10 @@ export function SettingsTab() {
 
   if (!profile) {
     return (
-      <div className="space-y-6 pb-24 px-4">
+      <div className="space-y-6 pb-24">
         <Card>
           <CardContent className="pt-6">
-            <p className="text-center text-gray-600">Geen profiel gevonden</p>
+            <p className="text-center text-muted-foreground">Geen profiel gevonden</p>
           </CardContent>
         </Card>
       </div>
@@ -73,7 +74,7 @@ export function SettingsTab() {
   };
 
   return (
-    <div className="space-y-6 pb-24 px-4">
+    <div className="space-y-6 pb-24">
       {/* Profile Section */}
       <Card>
         <CardHeader>
@@ -88,7 +89,9 @@ export function SettingsTab() {
               onChange={(e) => handleNameChange(e.target.value)}
             />
           </div>
-          
+
+          <Separator />
+
           <div>
             <Label htmlFor="weight-goal">Gewichtsdoel (kg)</Label>
             <Slider
@@ -98,11 +101,13 @@ export function SettingsTab() {
               value={[profile.weightGoal || 10]}
               onValueChange={handleWeightGoalChange}
             />
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               {profile.weightGoal || 10} kg afvallen
             </p>
           </div>
-          
+
+          <Separator />
+
           <div>
             <Label>Cheat day</Label>
             <RadioGroup
@@ -136,6 +141,7 @@ export function SettingsTab() {
               onCheckedChange={handleVegetarianToggle}
             />
           </div>
+          <Separator />
           <div className="flex items-center justify-between">
             <Label htmlFor="airfryer">Heeft airfryer</Label>
             <Switch
@@ -144,6 +150,7 @@ export function SettingsTab() {
               onCheckedChange={handleAirfryerToggle}
             />
           </div>
+          <Separator />
           <div className="flex items-center justify-between">
             <Label htmlFor="sports">Sport regelmatig</Label>
             <Switch
@@ -183,6 +190,8 @@ export function SettingsTab() {
             </AlertDialogContent>
           </AlertDialog>
 
+          <Separator />
+
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="destructive" className="w-full">
@@ -198,10 +207,7 @@ export function SettingsTab() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Annuleer</AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-red-600 hover:bg-red-700"
-                  onClick={handleClearAllData}
-                >
+                <AlertDialogAction onClick={handleClearAllData}>
                   Wis alles
                 </AlertDialogAction>
               </AlertDialogFooter>
@@ -216,7 +222,7 @@ export function SettingsTab() {
           <CardTitle>Over SlowCarb</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
-          <p className="text-sm text-gray-600">Versie 3.0.0</p>
+          <p className="text-sm text-muted-foreground">Versie 3.0.0</p>
           <a
             href="mailto:support@slowcarb.nl"
             className="text-sm text-sage-600 hover:underline block"
