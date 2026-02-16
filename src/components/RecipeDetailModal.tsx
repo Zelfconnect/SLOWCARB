@@ -50,7 +50,7 @@ export function RecipeDetailModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="inset-x-4 top-20 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col z-30"
+        className="inset-x-4 top-20 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col z-40"
       >
         {/* Header */}
         <div className="p-5 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">
@@ -58,7 +58,7 @@ export function RecipeDetailModal({
             <div className="flex items-center gap-3">
               <button
                 onClick={onClose}
-                className="w-10 h-10 rounded-xl bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200 flex items-center justify-center flex-shrink-0"
+                className="w-10 h-10 rounded-xl bg-white text-sage-700 hover:bg-white/90 shadow-sm transition-all duration-200 flex items-center justify-center flex-shrink-0"
                 aria-label="Terug"
               >
                 <ArrowLeft className="w-5 h-5" />

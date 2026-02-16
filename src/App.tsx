@@ -194,7 +194,7 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-md mx-auto px-4 py-6">
+      <main className="max-w-md mx-auto px-4 pt-8 pb-6">
         {renderContent()}
       </main>
 
