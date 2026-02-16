@@ -53,7 +53,7 @@ export function RecipeDetailModal({
         className="inset-x-4 top-20 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col z-40"
       >
         {/* Header */}
-        <div className="p-5 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">
+            <div className="pt-6 px-5 pb-5 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <button
@@ -85,13 +85,13 @@ export function RecipeDetailModal({
           <TabsList className="bg-transparent rounded-none border-b border-stone-200 p-0 flex-shrink-0">
             <TabsTrigger
               value="ingredients"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-sage-500 data-[state=active]:bg-transparent data-[state=active]:shadow-none text-stone-500 data-[state=active]:text-sage-700"
+              className="rounded-none border-b border-transparent data-[state=active]:border-b-2 data-[state=active]:border-sage-500 data-[state=active]:bg-transparent data-[state=active]:shadow-none text-stone-500 data-[state=active]:text-sage-700"
             >
               Ingrediënten
             </TabsTrigger>
             <TabsTrigger
               value="instructions"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-sage-500 data-[state=active]:bg-transparent data-[state=active]:shadow-none text-stone-500 data-[state=active]:text-sage-700"
+              className="rounded-none border-b border-transparent data-[state=active]:border-b-2 data-[state=active]:border-sage-500 data-[state=active]:bg-transparent data-[state=active]:shadow-none text-stone-500 data-[state=active]:text-sage-700"
             >
               Bereiding
             </TabsTrigger>

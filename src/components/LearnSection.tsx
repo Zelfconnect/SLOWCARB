@@ -111,7 +111,7 @@ export function LearnSection() {
     : null;
 
   return (
-    <div className="space-y-6 pb-24">
+  <div className="space-y-8 pb-24">
       <Tabs defaultValue="quick">
       {/* Tabs */}
       <TabsList className="w-full bg-stone-100 rounded-2xl p-1 h-auto">
