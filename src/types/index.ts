@@ -10,7 +10,7 @@ export type MealTypeIconKey = 'sunrise' | 'sun' | 'moon' | 'package' | 'flame' |
 export interface Recipe {
   id: string;
   name: string;
-  category: 'ontbijt' | 'lunch' | 'avond' | 'airfryer' | 'mealprep' | 'snack';
+  category: 'ontbijt' | 'lunch' | 'avond' | 'airfryer' | 'mealprep' | 'snack' | 'meal-prep' | 'no-time';
   icon: RecipeIconKey;
   prepTime: string;
   cookTime: string;

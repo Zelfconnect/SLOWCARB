@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Search, Heart } from 'lucide-react';
-import { recipes, categories } from '@/data/recipes';
+import { RECIPES, RECIPE_CATEGORIES } from '@/data/recipeLoader';
 import { CompactRecipeCard } from './CompactRecipeCard';
 import { RecipeDetailModal } from './RecipeDetailModal';
 import { Input } from '@/components/ui/input';
@@ -21,7 +21,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
 
   const filteredRecipes = useMemo(() => {
-    let filtered = recipes;
+    let filtered = RECIPES;
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(r =>
@@ -30,7 +30,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
         r.tags.some(t => t.toLowerCase().includes(query))
       );
     }
-    if (activeCategory !== 'all') filtered = filtered.filter(r => r.category === activeCategory);
+    if (activeCategory !== 'all') filtered = filtered.filter(r => r.tags.includes(activeCategory));
     if (showFavoritesOnly) filtered = filtered.filter(r => favorites.includes(r.id));
     return filtered.sort((a, b) => {
       const aFav = favorites.includes(a.id);
@@ -42,7 +42,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
   }, [searchQuery, activeCategory, showFavoritesOnly, favorites]);
 
   const selectedRecipe = selectedRecipeId 
-    ? recipes.find(r => r.id === selectedRecipeId) 
+    ? RECIPES.find(r => r.id === selectedRecipeId) 
     : null;
 
   return (
@@ -89,7 +89,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
             Alles
           </button>
           
-          {categories.map((cat) => {
+          {RECIPE_CATEGORIES.map((cat) => {
             const MealTypeIcon = getMealTypeIcon(cat.icon);
             return (
               <button
