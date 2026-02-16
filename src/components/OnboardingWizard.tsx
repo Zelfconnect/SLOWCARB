@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
 import {
   Dialog,
-  DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -50,26 +50,27 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
   return (
     <Dialog open={true}>
-      <DialogContent 
-        className="fixed inset-0 z-50 w-full h-full max-w-none p-0 m-0 border-none bg-white"
-        onPointerDownOutside={(e) => e.preventDefault()}
-        onEscapeKeyDown={(e) => e.preventDefault()}
-      >
-        <div className="flex flex-col h-full">
-          {/* Progress indicator */}
-          <div className="flex justify-center gap-2 pt-8 pb-4">
-            {[1, 2, 3, 4, 5].map((step) => (
-              <div
-                key={step}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  step <= currentStep ? 'bg-sage-600' : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Content
+          className="fixed inset-0 z-50 w-full h-full max-w-none p-0 m-0 border-none bg-white outline-none"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
+          <div className="flex flex-col h-full">
+            {/* Progress indicator */}
+            <div className="flex justify-center gap-2 pt-8 pb-4">
+              {[1, 2, 3, 4, 5].map((step) => (
+                <div
+                  key={step}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    step <= currentStep ? 'bg-sage-600' : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
 
-          {/* Content */}
-          <div className="flex-1 flex flex-col items-center justify-center px-6 max-w-md mx-auto w-full">
+            {/* Content */}
+            <div className="flex-1 flex flex-col items-center justify-center px-6 max-w-md mx-auto w-full">
             {currentStep === 1 && (
               <div className="space-y-6 w-full">
                 <DialogHeader>
@@ -249,9 +250,10 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                 </Button>
               </div>
             )}
+            </div>
           </div>
-        </div>
-      </DialogContent>
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
     </Dialog>
   );
 }
