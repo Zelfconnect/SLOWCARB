@@ -72,13 +72,15 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
 
             {/* Science Section */}
             <div>
-              <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-stone-500 mb-3">
-                <FlaskConical className="w-4 h-4" />
-                De Wetenschap
-              </h3>
-              <p className="text-stone-700 leading-relaxed text-sm">
-                {card.content.science}
-              </p>
+              <div className="space-y-2">
+                <h3 className="flex items-center gap-2 text-base font-semibold text-stone-700">
+                  <FlaskConical className="w-4 h-4" />
+                  De Wetenschap
+                </h3>
+                <p className="text-stone-700 text-sm leading-relaxed">
+                  {card.content.science}
+                </p>
+              </div>
             </div>
 
             {/* Divider */}
@@ -86,7 +88,7 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
 
             {/* Tips Section - Always 3 tips */}
             <div>
-              <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-stone-500 mb-3">
+              <h3 className="flex items-center gap-2 text-base font-semibold text-stone-700 mb-3">
                 <Lightbulb className="w-4 h-4" />
                 Praktische Tips
               </h3>
@@ -94,12 +96,12 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
                 {card.content.tips.map((tip, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-3 p-3 bg-sage-50 rounded-xl"
+                    className="flex items-start gap-3 p-4 bg-sage-50 rounded-xl"
                   >
                     <span className="w-5 h-5 rounded-full bg-sage-500 text-white flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                       {idx + 1}
                     </span>
-                    <p className="text-stone-700 text-sm">{tip}</p>
+                    <p className="text-stone-700 text-sm leading-relaxed">{tip}</p>
                   </div>
                 ))}
               </div>
@@ -110,11 +112,13 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
               <>
                 <div className="border-t border-stone-200" />
                 <div className="bg-stone-50 rounded-xl p-4 border border-stone-200">
-                  <h3 className="flex items-center gap-2 text-sm font-semibold text-stone-800 mb-2">
-                    <AlertCircle className="w-4 h-4" />
-                    Uitzonderingen
-                  </h3>
-                  <p className="text-stone-700 text-sm">{card.content.exceptions}</p>
+                  <div className="space-y-2">
+                    <h3 className="flex items-center gap-2 text-base font-semibold text-stone-800">
+                      <AlertCircle className="w-4 h-4" />
+                      Uitzonderingen
+                    </h3>
+                    <p className="text-stone-700 text-sm leading-relaxed">{card.content.exceptions}</p>
+                  </div>
                 </div>
               </>
             )}

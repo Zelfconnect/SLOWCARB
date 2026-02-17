@@ -76,14 +76,14 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
                 {card.content.keyPoints.map((point, idx) => (
                   <div
                     key={idx}
-                    className="flex gap-3 p-3 bg-stone-50 rounded-xl"
+                    className="flex gap-3 p-4 bg-stone-50 rounded-xl"
                   >
                     <div className="w-6 h-6 rounded-full bg-sage-200 text-sage-800 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                       {idx + 1}
                     </div>
-                    <div>
-                      <p className="font-medium text-stone-800 text-sm">{point.title}</p>
-                      <p className="text-stone-600 text-xs mt-0.5">{point.text}</p>
+                    <div className="space-y-2">
+                      <p className="text-base font-semibold text-stone-800">{point.title}</p>
+                      <p className="text-stone-600 text-sm leading-relaxed">{point.text}</p>
                     </div>
                   </div>
                 ))}
@@ -93,11 +93,13 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
             {/* Fun Fact - Optional */}
             {card.content.funFact && (
               <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                <h3 className="flex items-center gap-2 text-sm font-semibold text-blue-800 mb-2">
-                  <Lightbulb className="w-4 h-4" />
-                  Wist je dat?
-                </h3>
-                <p className="text-blue-700 text-sm">{card.content.funFact}</p>
+                <div className="space-y-2">
+                  <h3 className="flex items-center gap-2 text-base font-semibold text-blue-800">
+                    <Lightbulb className="w-4 h-4" />
+                    Wist je dat?
+                  </h3>
+                  <p className="text-blue-700 text-sm leading-relaxed">{card.content.funFact}</p>
+                </div>
               </div>
             )}
 
@@ -108,16 +110,16 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
                   Gerelateerd
                 </h3>
                 <div className="space-y-2">
-                  {card.content.relatedCards.map((relatedId) => (
-                    <button
-                      key={relatedId}
-                      onClick={() => onOpenRelated(relatedId)}
-                      className="w-full flex items-center justify-between p-3 bg-stone-50 hover:bg-stone-100 rounded-xl transition-colors text-left"
-                    >
-                      <span className="text-stone-700 text-sm">{relatedId}</span>
-                      <ArrowRight className="w-4 h-4 text-stone-400" />
-                    </button>
-                  ))}
+                {card.content.relatedCards.map((relatedId) => (
+                  <button
+                    key={relatedId}
+                    onClick={() => onOpenRelated(relatedId)}
+                    className="w-full flex items-center justify-between p-4 bg-stone-50 hover:bg-stone-100 rounded-xl transition-colors text-left"
+                  >
+                    <span className="text-stone-700 text-sm leading-relaxed">{relatedId}</span>
+                    <ArrowRight className="w-4 h-4 text-stone-400" />
+                  </button>
+                ))}
                 </div>
               </div>
             )}

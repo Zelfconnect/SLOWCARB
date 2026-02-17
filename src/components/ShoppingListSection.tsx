@@ -124,7 +124,7 @@ export function ShoppingListSection({
       {restockSuggestions.length > 0 && (
         <div className="card-premium overflow-hidden">
           <div className="p-4 bg-stone-50 border-b border-stone-200">
-            <h3 className="font-display font-medium text-stone-800 flex items-center gap-2">
+            <h3 className="text-base font-semibold text-stone-800 flex items-center gap-2">
               <PackagePlus className="w-4 h-4" />
               Ontbreekt in je voorraad
             </h3>
@@ -136,7 +136,7 @@ export function ShoppingListSection({
             {restockSuggestions.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-3 p-4 hover:bg-stone-50 transition-colors"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-stone-50 transition-colors"
               >
                 {renderIcon(item.icon, item.name)}
                 <span className="flex-1 text-stone-700">{item.name}</span>
@@ -158,10 +158,10 @@ export function ShoppingListSection({
           <div className="w-20 h-20 rounded-2xl bg-stone-100 flex items-center justify-center mx-auto mb-4">
             <ShoppingCart className="w-8 h-8 text-stone-400" />
           </div>
-          <p className="text-lg font-display font-medium text-stone-700">
+          <p className="text-base font-semibold text-stone-600">
             Nog geen weekboodschappen
           </p>
-          <p className="text-sm mt-1">
+          <p className="text-sm mt-1 text-stone-500">
             Voeg items toe vanuit je planning of typ er zelf een bij
           </p>
         </div>
@@ -178,7 +178,7 @@ export function ShoppingListSection({
           return (
             <div key={category} className="card-premium overflow-hidden">
               <div className={cn('p-3 border-b', catConfig.color)}>
-                <h3 className="font-display text-sm font-medium flex items-center gap-2">
+                <h3 className="text-base font-semibold flex items-center gap-2">
                   {renderIcon(catConfig.iconKey, catConfig.label)}
                   <span>{catConfig.label}</span>
                   <span className="text-xs opacity-70">({unchecked.length})</span>
@@ -188,7 +188,7 @@ export function ShoppingListSection({
                 {unchecked.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center gap-3 p-4 hover:bg-stone-50 transition-colors group"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-stone-50 transition-colors group"
                   >
                     <button
                       onClick={() => onToggleItem(item.id)}
@@ -250,7 +250,7 @@ export function ShoppingListSection({
         {checkedCount > 0 && (
           <div className="card-premium overflow-hidden opacity-60">
             <div className="p-4 bg-stone-50 border-b border-stone-100">
-              <h3 className="font-display font-medium text-stone-500">
+              <h3 className="text-base font-semibold text-stone-500">
                 Afgevinkt ({checkedCount})
               </h3>
             </div>
@@ -258,7 +258,7 @@ export function ShoppingListSection({
               {items
                 .filter((i) => i.checked)
                 .map((item) => (
-                  <div key={item.id} className="flex items-center gap-3 p-4">
+                  <div key={item.id} className="flex items-center gap-3 px-4 py-3">
                     <button
                       onClick={() => onToggleItem(item.id)}
                       className="min-w-11 min-h-11 -ml-2 flex items-center justify-center flex-shrink-0"

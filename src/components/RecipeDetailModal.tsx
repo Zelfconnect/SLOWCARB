@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heart, Clock, ChefHat, Users, ShoppingCart, Info, ArrowLeft } from 'lucide-react';
+import { Heart, Clock, ChefHat, Users, ShoppingCart, Info, ChevronLeft } from 'lucide-react';
 import type { Recipe } from '@/types';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -50,22 +50,24 @@ export function RecipeDetailModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="inset-x-4 top-20 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col z-40"
+        className="inset-x-4 top-20 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col z-50"
       >
         {/* Header */}
-            <div className="pt-6 px-5 pb-5 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">
+        <div className="p-4 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
-              <button
+              <Button
                 onClick={onClose}
-                className="w-10 h-10 rounded-xl bg-white text-sage-700 hover:bg-white/90 shadow-sm transition-all duration-200 flex items-center justify-center flex-shrink-0"
+                variant="outline"
+                className="min-h-11 bg-white text-stone-900 border-stone-200 hover:bg-stone-100 shadow-sm px-3 gap-1.5 flex-shrink-0"
                 aria-label="Terug"
               >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-lg font-display text-white leading-tight">{recipe.name}</h2>
-                <div className="flex items-center gap-3 mt-1 text-xs text-sage-100">
+                <ChevronLeft className="w-4 h-4" />
+                Terug
+              </Button>
+              <div className="flex-1 min-w-0 space-y-1">
+                <h2 className="text-xl font-bold text-white leading-tight">{recipe.name}</h2>
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
                   <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{recipe.prepTime} prep</span>
                   <span className="flex items-center gap-1"><ChefHat className="w-3 h-3" />{recipe.cookTime}</span>
                 </div>
@@ -82,16 +84,16 @@ export function RecipeDetailModal({
 
         {/* Tabs + Content */}
         <Tabs defaultValue="ingredients" className="flex flex-col flex-1 min-h-0 gap-0">
-          <TabsList className="bg-transparent rounded-none border-b border-stone-200 p-0 flex-shrink-0">
+          <TabsList className="bg-stone-100 rounded-none border-b border-stone-200 p-1 flex-shrink-0 h-auto w-full">
             <TabsTrigger
               value="ingredients"
-              className="rounded-none border-b border-transparent data-[state=active]:border-b-2 data-[state=active]:border-sage-500 data-[state=active]:bg-transparent data-[state=active]:shadow-none text-stone-500 data-[state=active]:text-sage-700"
+              className="rounded-md data-[state=active]:bg-sage-600 data-[state=active]:text-white data-[state=active]:font-semibold data-[state=active]:shadow-none text-muted-foreground"
             >
               Ingrediënten
             </TabsTrigger>
             <TabsTrigger
               value="instructions"
-              className="rounded-none border-b border-transparent data-[state=active]:border-b-2 data-[state=active]:border-sage-500 data-[state=active]:bg-transparent data-[state=active]:shadow-none text-stone-500 data-[state=active]:text-sage-700"
+              className="rounded-md data-[state=active]:bg-sage-600 data-[state=active]:text-white data-[state=active]:font-semibold data-[state=active]:shadow-none text-muted-foreground"
             >
               Bereiding
             </TabsTrigger>

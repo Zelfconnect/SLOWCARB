@@ -77,11 +77,11 @@ function CardPreview({
     <button
       onClick={onClick}
       className={cn(
-        'w-full p-4 rounded-2xl border-2 bg-gradient-to-br text-left transition-all duration-200 hover:shadow-md group',
+        'w-full rounded-2xl border-2 bg-gradient-to-br text-left transition-all duration-200 hover:shadow-md group',
         getTypeStyle(card.type)
       )}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 p-4">
         <div className="w-12 h-12 rounded-xl bg-white/70 flex items-center justify-center text-2xl shadow-sm">
           {(() => {
             const Icon = getEducationIcon(card.icon) ?? HelpCircle;
@@ -114,14 +114,14 @@ export function LearnSection() {
   <div className="space-y-8">
       <Tabs defaultValue="quick">
       {/* Tabs */}
-      <TabsList className="w-full bg-stone-100 rounded-2xl p-1 h-auto">
-        <TabsTrigger value="quick" className="flex-1 gap-2 rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+      <TabsList className="w-full bg-stone-100 rounded-2xl p-1 h-auto mb-4">
+        <TabsTrigger value="quick" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
           <Zap className="w-4 h-4" />Quick Start
         </TabsTrigger>
-        <TabsTrigger value="science" className="flex-1 gap-2 rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+        <TabsTrigger value="science" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
           <FlaskConical className="w-4 h-4" />Wetenschap
         </TabsTrigger>
-        <TabsTrigger value="faq" className="flex-1 gap-2 rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+        <TabsTrigger value="faq" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
           <HelpCircle className="w-4 h-4" />FAQ
         </TabsTrigger>
       </TabsList>
@@ -132,7 +132,7 @@ export function LearnSection() {
           <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
             <div className="flex items-center gap-3 mb-3">
               <Target className="w-6 h-6" />
-              <h2 className="font-display font-semibold text-lg">Jouw Slow-Carb Journey</h2>
+              <h2 className="font-display font-semibold text-lg">Jouw Startplan</h2>
             </div>
             <p className="text-sage-100 text-sm mb-4">
               Doorloop de 5 regels om het dieet te begrijpen. Klik op een regel voor de volledige uitleg.
@@ -148,8 +148,8 @@ export function LearnSection() {
           </div>
 
           {/* The 5 Rules */}
-          <div className="space-y-3">
-            <h2 className="font-display font-semibold text-stone-800 text-lg flex items-center gap-2">
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
               <ClipboardList className="w-5 h-5 text-sage-600" />
               De 5 Regels
             </h2>
@@ -204,8 +204,8 @@ export function LearnSection() {
           </div>
 
           {/* Quick Reference */}
-          <div className="space-y-3">
-            <h2 className="font-display font-semibold text-stone-800 text-lg flex items-center gap-2">
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
               <Zap className="w-5 h-5 text-sage-600" />
               Quick Reference
             </h2>
@@ -270,7 +270,7 @@ export function LearnSection() {
 
           {/* Common Mistakes */}
           <div className="rounded-2xl p-5 bg-gradient-to-br from-stone-50 to-stone-100/50 border border-stone-200">
-            <h3 className="font-display font-semibold text-stone-800 flex items-center gap-2 mb-4">
+            <h3 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
               <AlertTriangle className="w-5 h-5" />Veelgemaakte Fouten
             </h3>
             <div className="space-y-3">
@@ -300,12 +300,16 @@ export function LearnSection() {
               <h2 className="font-display font-semibold text-lg">De Wetenschap</h2>
             </div>
             <p className="text-stone-300 text-sm">
-              Begrijp waarom Slow-Carb werkt. Klik op een topic voor de volledige uitleg.
+              Begrijp waarom dit werkt. Klik op een topic voor de volledige uitleg.
             </p>
           </div>
 
           {/* Science Topics */}
-          <div className="space-y-3">
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
+              <FlaskConical className="w-5 h-5 text-stone-600" />
+              Onderwerpen
+            </h2>
             {conceptCards.map((card) => (
               <CardPreview
                 key={card.id}
@@ -326,12 +330,16 @@ export function LearnSection() {
               <h2 className="font-display font-semibold text-lg">Veelgestelde Vragen</h2>
             </div>
             <p className="text-sage-100 text-sm">
-              Antwoorden op de meest voorkomende vragen over Slow-Carb.
+              Antwoorden op de meest voorkomende vragen over dit protocol.
             </p>
           </div>
 
           {/* FAQ Cards */}
-          <div className="space-y-3">
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-sage-600" />
+              Veelgestelde Vragen
+            </h2>
             {faqCards.map((card) => (
               <CardPreview
                 key={card.id}

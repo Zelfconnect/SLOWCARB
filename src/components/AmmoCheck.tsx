@@ -135,7 +135,7 @@ export function AmmoCheck() {
               value={zone.id}
               className="bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden"
             >
-              <AccordionTrigger className="px-4 min-h-12 hover:no-underline">
+              <AccordionTrigger className="px-4 min-h-12 hover:no-underline [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-warm-600 [&>svg]:transition-transform [&>svg]:duration-200 [&>svg]:p-3 [&>svg]:box-content">
                 <div className="flex items-center gap-3">
                   <span
                     className={cn(
@@ -148,7 +148,7 @@ export function AmmoCheck() {
                     className="w-6 h-6 text-stone-600"
                     aria-label={zone.name}
                   />
-                  <span className="font-display font-medium text-stone-800">{zone.name}</span>
+                  <span className="text-base font-semibold text-stone-800">{zone.name}</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pb-0">

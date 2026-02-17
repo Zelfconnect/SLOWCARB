@@ -109,7 +109,7 @@ export function StockSection({
             return (
               <Card key={category} className="rounded-2xl py-0 gap-0 overflow-hidden">
                 <div className={cn('p-4 border-b', catConfig.color)}>
-                  <h3 className="font-display font-medium flex items-center gap-2">
+                  <h3 className="text-base font-semibold flex items-center gap-2">
                     {renderIcon(catConfig.iconKey, catConfig.label)}
                     <span>{catConfig.label}</span>
                     <span className="text-xs opacity-70">({catItems.length})</span>
@@ -119,7 +119,7 @@ export function StockSection({
                   {catItems.map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-center gap-3 p-4 hover:bg-stone-50 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-stone-50 transition-colors"
                     >
                       {renderIcon(getIconKeyForName(item.name), item.name)}
                       <div className="flex-1 min-w-0">
@@ -148,12 +148,12 @@ export function StockSection({
           })}
         </div>
       ) : (
-        <div className="text-center py-8 text-stone-500">
+        <div className="text-center py-10 text-stone-500">
           <div className="w-16 h-16 rounded-2xl bg-stone-100 flex items-center justify-center mx-auto mb-3">
             <Package className="w-6 h-6 text-stone-400" />
           </div>
-          <p className="text-sm font-medium text-stone-700">Nog niets in huis</p>
-          <p className="text-xs mt-1">
+          <p className="text-base font-semibold text-stone-600">Nog niets in huis</p>
+          <p className="text-sm mt-1 text-stone-500">
             Vink items af in je boodschappenlijst en klik "Naar voorraad"
           </p>
         </div>
@@ -190,14 +190,14 @@ export function StockSection({
               <div
                 key={item.id}
                 className={cn(
-                  'w-full p-4 flex items-center gap-4 transition-colors',
+                  'w-full px-4 py-3 flex items-center gap-4 transition-colors',
                   item.checked ? 'bg-sage-50/50' : 'hover:bg-stone-50'
                 )}
               >
                 <Checkbox
                   checked={item.checked}
                   onCheckedChange={() => onToggleStandardItem(item.id)}
-                  className="size-6 rounded-lg data-[state=checked]:bg-sage-500 data-[state=checked]:border-sage-500"
+                  className="w-5 h-5 rounded-lg data-[state=checked]:bg-sage-500 data-[state=checked]:border-sage-500"
                 />
                 {renderIcon(item.icon, item.name)}
                 <div className="flex-1 min-w-0">

@@ -104,8 +104,9 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             </div>
 
             {/* Explanation */}
-            <div>
-              <p className="text-stone-700 leading-relaxed text-sm">
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-stone-800">Uitleg</h3>
+              <p className="text-stone-700 text-sm leading-relaxed">
                 {card.content.explanation}
               </p>
             </div>
@@ -114,15 +115,15 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             {card.content.nuance && card.content.nuance.length > 0 && (
               <>
                 <div className="border-t border-stone-200" />
-                <div>
-                  <h3 className="text-sm font-semibold text-stone-500 mb-2">
+                <div className="space-y-2">
+                  <h3 className="text-base font-semibold text-stone-800">
                     Let op
                   </h3>
                   <div className="space-y-2">
                     {card.content.nuance.map((n, idx) => (
                       <div key={idx} className="flex items-start gap-2">
                         <span className="text-stone-400 mt-0.5">•</span>
-                        <p className="text-stone-600 text-sm">{n}</p>
+                        <p className="text-stone-600 text-sm leading-relaxed">{n}</p>
                       </div>
                     ))}
                   </div>
