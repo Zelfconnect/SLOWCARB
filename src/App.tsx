@@ -39,6 +39,7 @@ function App() {
     isCheatDay,
     getTodayMeals,
     toggleMeal,
+    logWeight,
     getStreak
   } = useJourney();
   
@@ -150,6 +151,7 @@ function App() {
             onToggleMeal={toggleMeal}
             mealEntries={mealLog}
             weightLog={weightLog}
+            onLogWeight={logWeight}
           />
         );
       case 'recipes':

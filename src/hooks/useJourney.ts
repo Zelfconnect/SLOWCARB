@@ -43,6 +43,17 @@ export function useJourney() {
     });
   };
 
+  const logWeight = (weight: number, date?: string) => {
+    const entryDate = date ?? new Date().toISOString().split('T')[0];
+
+    setWeightLog(prev => {
+      const withoutSameDay = prev.filter(entry => entry.date !== entryDate);
+      return [...withoutSameDay, { date: entryDate, weight }].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+    });
+  };
+
   const getStreak = () => {
     if (mealLog.length === 0) return 0;
     const sorted = [...mealLog].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -103,6 +114,7 @@ export function useJourney() {
     isCheatDay,
     getTodayMeals,
     toggleMeal,
+    logWeight,
     getStreak,
   };
 }

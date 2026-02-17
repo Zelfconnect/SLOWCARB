@@ -9,8 +9,23 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export function QuickActionFAB() {
+interface QuickActionFABProps {
+  onLogWeight?: () => void;
+  onLogMeal?: () => void;
+}
+
+export function QuickActionFAB({ onLogWeight, onLogMeal }: QuickActionFABProps) {
   const [open, setOpen] = useState(false);
+
+  const handleLogMeal = () => {
+    setOpen(false);
+    onLogMeal?.();
+  };
+
+  const handleLogWeight = () => {
+    setOpen(false);
+    onLogWeight?.();
+  };
 
   return (
     <div className="fixed bottom-20 right-4 z-50">
@@ -37,10 +52,10 @@ export function QuickActionFAB() {
           sideOffset={12}
           className="z-[60]"
         >
-          <DropdownMenuItem onClick={() => console.log('Log Maaltijd')}>
+          <DropdownMenuItem onClick={handleLogMeal}>
             Log Maaltijd
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => console.log('Log Gewicht')}>
+          <DropdownMenuItem onClick={handleLogWeight}>
             Log Gewicht
           </DropdownMenuItem>
         </DropdownMenuContent>

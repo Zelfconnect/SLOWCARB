@@ -1,3 +1,4 @@
+import { useMemo, useRef, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
@@ -6,6 +7,9 @@ import { WeeklyProgressGrid } from './WeeklyProgressGrid';
 import { CheatDayCountdown } from './CheatDayCountdown';
 import { WeightProgressCard } from './WeightProgressCard';
 import { QuickActionFAB } from './QuickActionFAB';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { getDaysUntilCheatDay, getWeekData } from '@/hooks/useJourney';
 import type { Journey, MealEntry, WeightEntry } from '@/types';
 
@@ -21,6 +25,7 @@ interface DashboardProps {
   onToggleMeal: (meal: 'breakfast' | 'lunch' | 'dinner') => void;
   mealEntries: MealEntry[];
   weightLog: WeightEntry[];
+  onLogWeight: (weight: number, date?: string) => void;
 }
 
 export function Dashboard({
@@ -35,7 +40,43 @@ export function Dashboard({
   onToggleMeal,
   mealEntries,
   weightLog,
+  onLogWeight,
 }: DashboardProps) {
+  const [weightDialogOpen, setWeightDialogOpen] = useState(false);
+  const [weightInput, setWeightInput] = useState('');
+  const mealTrackerRef = useRef<HTMLDivElement | null>(null);
+  const today = useMemo(() => new Date().toISOString().split('T')[0], []);
+  const todayLabel = useMemo(
+    () => new Date(today).toLocaleDateString('nl-NL'),
+    [today]
+  );
+
+  const sortedWeights = [...weightLog].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+  const startWeight = sortedWeights[0]?.weight;
+  const latestWeight = sortedWeights[sortedWeights.length - 1]?.weight;
+
+  const openWeightDialog = () => {
+    const prefilledWeight = latestWeight ?? journey.targetWeight;
+    setWeightInput(prefilledWeight ? prefilledWeight.toFixed(1) : '');
+    setWeightDialogOpen(true);
+  };
+
+  const handleMealAction = () => {
+    mealTrackerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const handleSaveWeight = () => {
+    const parsed = Number.parseFloat(weightInput);
+    if (!Number.isFinite(parsed) || parsed < 40 || parsed > 200) {
+      return;
+    }
+
+    onLogWeight(Math.round(parsed * 10) / 10, today);
+    setWeightDialogOpen(false);
+  };
+
   if (!journey.startDate) {
     return (
       <div className="space-y-6 pb-24">
@@ -50,7 +91,36 @@ export function Dashboard({
           streak={streak}
           onToggleMeal={onToggleMeal}
         />
-        <QuickActionFAB />
+        <QuickActionFAB onLogWeight={openWeightDialog} />
+
+        <Dialog open={weightDialogOpen} onOpenChange={setWeightDialogOpen}>
+          <DialogContent className="max-w-sm rounded-2xl p-0">
+            <div className="p-6 space-y-4">
+              <DialogHeader className="space-y-1 text-left">
+                <DialogTitle>Log je gewicht</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-stone-700" htmlFor="weight-input-start">
+                  Gewicht (kg)
+                </label>
+                <Input
+                  id="weight-input-start"
+                  type="number"
+                  min={40}
+                  max={200}
+                  step={0.1}
+                  value={weightInput}
+                  onChange={(event) => setWeightInput(event.target.value)}
+                  placeholder="Bijv. 82.5"
+                />
+              </div>
+              <p className="text-sm text-stone-600">Datum: {todayLabel}</p>
+              <Button type="button" className="w-full" onClick={handleSaveWeight}>
+                Opslaan
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
@@ -59,12 +129,6 @@ export function Dashboard({
   const daysUntilCheatDay = getDaysUntilCheatDay(journey);
   const hasFutureDays = weekData.some(day => day.isFuture);
   const perfectWeek = !hasFutureDays && weekData.every(day => day.isCheatDay || day.completed);
-
-  const sortedWeights = [...weightLog].sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-  );
-  const startWeight = sortedWeights[0]?.weight;
-  const latestWeight = sortedWeights[sortedWeights.length - 1]?.weight;
 
   return (
     <div className="space-y-4 pb-24">
@@ -99,12 +163,14 @@ export function Dashboard({
         </div>
       ) : (
         <>
-          <DailyMealTracker
-            todayMeals={todayMeals}
-            streak={streak}
-            onToggleMeal={onToggleMeal}
-            isCheatDay={isCheatDay}
-          />
+          <div ref={mealTrackerRef}>
+            <DailyMealTracker
+              todayMeals={todayMeals}
+              streak={streak}
+              onToggleMeal={onToggleMeal}
+              isCheatDay={isCheatDay}
+            />
+          </div>
 
           <CheatDayCountdown daysUntilCheatDay={daysUntilCheatDay} />
         </>
@@ -114,8 +180,38 @@ export function Dashboard({
         weightLog={weightLog}
         startWeight={startWeight}
         currentWeight={latestWeight}
+        onOpenLog={openWeightDialog}
       />
-      <QuickActionFAB />
+      <QuickActionFAB onLogWeight={openWeightDialog} onLogMeal={handleMealAction} />
+
+      <Dialog open={weightDialogOpen} onOpenChange={setWeightDialogOpen}>
+        <DialogContent className="max-w-sm rounded-2xl p-0">
+          <div className="p-6 space-y-4">
+            <DialogHeader className="space-y-1 text-left">
+              <DialogTitle>Log je gewicht</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-stone-700" htmlFor="weight-input">
+                Gewicht (kg)
+              </label>
+              <Input
+                id="weight-input"
+                type="number"
+                min={40}
+                max={200}
+                step={0.1}
+                value={weightInput}
+                onChange={(event) => setWeightInput(event.target.value)}
+                placeholder="Bijv. 82.5"
+              />
+            </div>
+            <p className="text-sm text-stone-600">Datum: {todayLabel}</p>
+            <Button type="button" className="w-full" onClick={handleSaveWeight}>
+              Opslaan
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
