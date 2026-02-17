@@ -111,7 +111,7 @@ export function LearnSection() {
     : null;
 
   return (
-  <div className="space-y-8 pb-24">
+  <div className="space-y-8">
       <Tabs defaultValue="quick">
       {/* Tabs */}
       <TabsList className="w-full bg-stone-100 rounded-2xl p-1 h-auto">
@@ -126,7 +126,7 @@ export function LearnSection() {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="quick">
+      <TabsContent value="quick" className="pb-24">
         <div className="space-y-5">
           {/* Progress Indicator */}
           <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
@@ -291,7 +291,7 @@ export function LearnSection() {
         </div>
       </TabsContent>
 
-      <TabsContent value="science">
+      <TabsContent value="science" className="pb-24">
         <div className="space-y-5">
           {/* Intro */}
           <div className="bg-gradient-to-br from-stone-700 to-stone-800 rounded-2xl p-5 text-white">
@@ -317,7 +317,7 @@ export function LearnSection() {
         </div>
       </TabsContent>
 
-      <TabsContent value="faq">
+      <TabsContent value="faq" className="pb-24">
         <div className="space-y-5">
           {/* Intro */}
           <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">

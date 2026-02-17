@@ -133,7 +133,7 @@ export function SettingsTab() {
           <CardTitle>Voorkeuren</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <Label htmlFor="vegetarian">Vegetarisch</Label>
             <Switch
               id="vegetarian"
@@ -142,7 +142,7 @@ export function SettingsTab() {
             />
           </div>
           <Separator />
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <Label htmlFor="airfryer">Heeft airfryer</Label>
             <Switch
               id="airfryer"
@@ -151,7 +151,7 @@ export function SettingsTab() {
             />
           </div>
           <Separator />
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <Label htmlFor="sports">Sport regelmatig</Label>
             <Switch
               id="sports"
