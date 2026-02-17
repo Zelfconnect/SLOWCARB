@@ -26,7 +26,7 @@ export function SettingsTab() {
 
   if (!profile) {
     return (
-      <div className="space-y-6 pb-24">
+      <div className="space-y-6 pb-6">
         <Card>
           <CardContent className="pt-6">
             <p className="text-center text-muted-foreground">Geen profiel gevonden</p>
@@ -74,7 +74,7 @@ export function SettingsTab() {
   };
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-6">
       {/* Profile Section */}
       <Card>
         <CardHeader>

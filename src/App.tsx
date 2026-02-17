@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Salad } from 'lucide-react';
+import { Cog } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
 import { LearnSection } from '@/components/LearnSection';
 import { Shopping } from '@/pages/Shopping';
 import { SettingsTab } from '@/components/SettingsTab';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { OnboardingWizard } from '@/components/OnboardingWizard';
 import { PackageSelectorModal } from '@/components/PackageSelectorModal';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -20,6 +21,7 @@ import './App.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [settingsOpen, setSettingsOpen] = useState(false);
   // Package Selector state
   const [packageSelectorOpen, setPackageSelectorOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<{ name: string; ingredients: Ingredient[] } | null>(null);
@@ -162,8 +164,6 @@ function App() {
         return <LearnSection />;
       case 'shopping':
         return <Shopping />;
-      case 'settings':
-        return <SettingsTab />;
       default:
         return null;
     }
@@ -171,30 +171,33 @@ function App() {
 
   return (
     <div className="min-h-screen bg-warm-50">
-      {/* Header - NEW DESIGN SYSTEM (64px fixed height) */}
-      <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-warm-200">
-        <div className="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center shadow-sm">
-              <Salad className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="font-semibold text-lg text-warm-900 leading-tight">Slow-Carb</h1>
-              <p className="text-xs text-warm-500 font-medium">Companion</p>
-            </div>
+      <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
+        <header className="fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-md border-b border-warm-200 z-30">
+          <div className="max-w-md mx-auto h-full px-4 flex items-center justify-between">
+            <h1 className="text-lg font-bold text-warm-900">SlowCarb</h1>
+            <button
+              type="button"
+              onClick={() => setSettingsOpen(true)}
+              className="text-warm-600 hover:text-warm-800 transition-colors"
+              aria-label="Open instellingen"
+            >
+              <Cog className="w-5 h-5" />
+            </button>
           </div>
-          {journey.startDate && (
-            <div className="px-3 py-1.5 bg-warm-100 rounded-full">
-              <span className="text-sm font-medium text-warm-700">
-                Dag {getProgress().day}
-              </span>
-            </div>
-          )}
-        </div>
-      </header>
+        </header>
+
+        <SheetContent side="right" className="w-full sm:max-w-md p-0">
+          <SheetHeader className="border-b border-warm-200">
+            <SheetTitle>Instellingen</SheetTitle>
+          </SheetHeader>
+          <div className="flex-1 overflow-y-auto p-4">
+            <SettingsTab />
+          </div>
+        </SheetContent>
+      </Sheet>
 
       {/* Main Content */}
-      <main className="max-w-md mx-auto px-4 pt-8 pb-6">
+      <main className="max-w-md mx-auto px-4 pt-14 pb-6">
         {renderContent()}
       </main>
 
