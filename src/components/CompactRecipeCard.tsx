@@ -24,7 +24,7 @@ export function CompactRecipeCard({
   return (
     <Card
       onClick={onClick}
-      className="flex-row items-center gap-3 p-3 rounded-xl py-3 hover:border-sage-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
+      className="flex-row items-center gap-3 p-3 rounded-xl py-3 min-h-[72px] hover:border-sage-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
     >
       {/* Icon */}
       <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-sage-100 to-sage-50 flex items-center justify-center flex-shrink-0">
@@ -33,7 +33,7 @@ export function CompactRecipeCard({
       
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <h3 className="font-display font-semibold text-stone-800 text-sm leading-tight truncate group-hover:text-sage-700 transition-colors">
+        <h3 className="font-display font-semibold text-stone-800 text-sm leading-tight line-clamp-2 group-hover:text-sage-700 transition-colors">
           {recipe.name}
         </h3>
         <div className="flex items-center gap-2 mt-1 text-xs text-stone-500">
