@@ -188,11 +188,11 @@ function App() {
           </div>
         </header>
 
-        <SheetContent side="right" className="w-full sm:max-w-md p-0">
-          <SheetHeader className="border-b border-warm-200">
+        <SheetContent side="right" className="z-[60] w-full overflow-y-auto bg-white p-4 sm:max-w-md">
+          <SheetHeader className="-mx-4 border-b border-warm-200 px-4">
             <SheetTitle>Instellingen</SheetTitle>
           </SheetHeader>
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="pt-4">
             <SettingsTab />
           </div>
         </SheetContent>
