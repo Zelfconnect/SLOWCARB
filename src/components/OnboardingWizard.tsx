@@ -82,12 +82,12 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
             {/* Content */}
             <div className="flex-1 flex flex-col items-start justify-start pt-8 px-6">
             {currentStep === 1 && (
-              <Card className="max-w-md w-full mx-auto">
+              <Card className="max-w-md w-full mx-auto rounded-2xl">
                 <CardHeader>
                   <CardTitle className="text-2xl text-center">Welkom bij SlowCarb</CardTitle>
                   <p className="text-center text-muted-foreground">Je persoonlijke slow-carb coach</p>
                 </CardHeader>
-                <CardContent className="space-y-2">
+                <CardContent className="space-y-4">
                   <Label htmlFor="name">Je naam</Label>
                   <Input
                     id="name"
@@ -97,7 +97,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                     onKeyDown={(e) => e.key === 'Enter' && handleNext()}
                   />
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="mt-6">
                   <Button
                     className="w-full"
                     onClick={handleNext}
@@ -110,7 +110,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
             )}
 
             {currentStep === 2 && (
-              <Card className="max-w-md w-full mx-auto">
+              <Card className="max-w-md w-full mx-auto rounded-2xl">
                 <CardHeader>
                   <CardTitle className="text-2xl text-center">Wat is je doel?</CardTitle>
                 </CardHeader>
@@ -131,7 +131,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                     In ongeveer {weekEstimate} weken
                   </p>
                 </CardContent>
-                <CardFooter className="flex gap-3">
+                <CardFooter className="mt-6 flex gap-3">
                   <Button variant="ghost" onClick={handleBack} className="shrink-0">
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
@@ -143,58 +143,55 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
             )}
 
             {currentStep === 3 && (
-              <Card className="max-w-md w-full mx-auto">
+              <Card className="max-w-md w-full mx-auto rounded-2xl">
                 <CardHeader>
                   <CardTitle className="text-2xl text-center">Jouw voorkeuren</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-2">
+                  <Label
+                    htmlFor="vegetarian"
+                    className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
+                  >
                     <Checkbox
                       id="vegetarian"
                       checked={data.vegetarian}
+                      className="h-6 w-6"
                       onCheckedChange={(checked) =>
                         setData({ ...data, vegetarian: checked as boolean })
                       }
                     />
-                    <Label
-                      htmlFor="vegetarian"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Ik ben vegetarisch
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
+                    <span>Ik ben vegetarisch</span>
+                  </Label>
+                  <Label
+                    htmlFor="airfryer"
+                    className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
+                  >
                     <Checkbox
                       id="airfryer"
                       checked={data.hasAirfryer}
+                      className="h-6 w-6"
                       onCheckedChange={(checked) =>
                         setData({ ...data, hasAirfryer: checked as boolean })
                       }
                     />
-                    <Label
-                      htmlFor="airfryer"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Ik heb een airfryer
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
+                    <span>Ik heb een airfryer</span>
+                  </Label>
+                  <Label
+                    htmlFor="sports"
+                    className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
+                  >
                     <Checkbox
                       id="sports"
                       checked={data.sportsRegularly}
+                      className="h-6 w-6"
                       onCheckedChange={(checked) =>
                         setData({ ...data, sportsRegularly: checked as boolean })
                       }
                     />
-                    <Label
-                      htmlFor="sports"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Ik sport regelmatig
-                    </Label>
-                  </div>
+                    <span>Ik sport regelmatig</span>
+                  </Label>
                 </CardContent>
-                <CardFooter className="flex gap-3">
+                <CardFooter className="mt-6 flex gap-3">
                   <Button variant="ghost" onClick={handleBack} className="shrink-0">
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
@@ -206,7 +203,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
             )}
 
             {currentStep === 4 && (
-              <Card className="max-w-md w-full mx-auto">
+              <Card className="max-w-md w-full mx-auto rounded-2xl">
                 <CardHeader>
                   <CardTitle className="text-2xl text-center">Kies je cheat day</CardTitle>
                   <p className="text-center text-muted-foreground">Dit is je wekelijkse vrije dag</p>
@@ -214,21 +211,28 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                 <CardContent>
                   <RadioGroup
                     value={data.cheatDay}
+                    className="space-y-2"
                     onValueChange={(value: 'zaterdag' | 'zondag') =>
                       setData({ ...data, cheatDay: value })
                     }
                   >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="zaterdag" id="saturday" />
-                      <Label htmlFor="saturday">Zaterdag</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="zondag" id="sunday" />
-                      <Label htmlFor="sunday">Zondag</Label>
-                    </div>
+                    <Label
+                      htmlFor="saturday"
+                      className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
+                    >
+                      <RadioGroupItem value="zaterdag" id="saturday" className="h-6 w-6" />
+                      <span>Zaterdag</span>
+                    </Label>
+                    <Label
+                      htmlFor="sunday"
+                      className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
+                    >
+                      <RadioGroupItem value="zondag" id="sunday" className="h-6 w-6" />
+                      <span>Zondag</span>
+                    </Label>
                   </RadioGroup>
                 </CardContent>
-                <CardFooter className="flex gap-3">
+                <CardFooter className="mt-6 flex gap-3">
                   <Button variant="ghost" onClick={handleBack} className="shrink-0">
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
@@ -240,7 +244,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
             )}
 
             {currentStep === 5 && (
-              <Card className="max-w-md w-full mx-auto">
+              <Card className="max-w-md w-full mx-auto rounded-2xl">
                 <CardHeader>
                   <CardTitle className="text-2xl text-center">Klaar om te starten!</CardTitle>
                 </CardHeader>
@@ -271,7 +275,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                     )}
                   </div>
                 </CardContent>
-                <CardFooter className="flex gap-3">
+                <CardFooter className="mt-6 flex gap-3">
                   <Button variant="ghost" onClick={handleBack} className="shrink-0">
                     <ChevronLeft className="h-4 w-4" />
                   </Button>

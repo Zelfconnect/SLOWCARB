@@ -1,0 +1,82 @@
+{
+  "timestamp": "2026-02-16T14:33:32.376Z",
+  "url": "https://slowcarb-new.vercel.app",
+  "screens": [
+    {
+      "screenName": "Home/Dashboard",
+      "slowCarbCompanionCount": 0,
+      "headerOverlapIssues": [],
+      "backButtonIssues": [],
+      "zIndexIssues": [
+        {
+          "className": "translate-x-[-50%] translate-y-[-50%] rounded-2xl ",
+          "zIndex": "50",
+          "visible": true
+        }
+      ],
+      "spacingIssues": null,
+      "textCrampingIssues": [],
+      "otherIssues": []
+    },
+    {
+      "screenName": "Recipes List",
+      "slowCarbCompanionCount": 0,
+      "headerOverlapIssues": [],
+      "backButtonIssues": [],
+      "zIndexIssues": [],
+      "spacingIssues": null,
+      "textCrampingIssues": [],
+      "otherIssues": []
+    },
+    {
+      "screenName": "Recipe Detail",
+      "skipped": true
+    },
+    {
+      "screenName": "Cheat Day Dashboard",
+      "slowCarbCompanionCount": 0,
+      "headerOverlapIssues": [],
+      "backButtonIssues": [],
+      "zIndexIssues": [
+        {
+          "className": "translate-x-[-50%] translate-y-[-50%] rounded-2xl ",
+          "zIndex": "50",
+          "visible": true
+        }
+      ],
+      "spacingIssues": null,
+      "textCrampingIssues": [],
+      "otherIssues": []
+    },
+    {
+      "screenName": "Meal Plan",
+      "slowCarbCompanionCount": 0,
+      "headerOverlapIssues": [],
+      "backButtonIssues": [],
+      "zIndexIssues": [],
+      "spacingIssues": null,
+      "textCrampingIssues": [],
+      "otherIssues": []
+    },
+    {
+      "screenName": "Shopping",
+      "slowCarbCompanionCount": 0,
+      "headerOverlapIssues": [],
+      "backButtonIssues": [],
+      "zIndexIssues": [],
+      "spacingIssues": null,
+      "textCrampingIssues": [],
+      "otherIssues": []
+    },
+    {
+      "screenName": "Settings",
+      "slowCarbCompanionCount": 0,
+      "headerOverlapIssues": [],
+      "backButtonIssues": [],
+      "zIndexIssues": [],
+      "spacingIssues": null,
+      "textCrampingIssues": [],
+      "otherIssues": []
+    }
+  ]
+}

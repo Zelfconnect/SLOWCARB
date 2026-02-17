@@ -1,0 +1,198 @@
+{
+  "audit_date": "2026-02-16",
+  "url": "https://slowcarb-new.vercel.app",
+  "screenshots": [
+    "01-home-dashboard.png",
+    "02-recipes-list.jpg",
+    "03-recipe-detail-modal.jpg",
+    "04-cheat-day-selected.png",
+    "05-meal-plan-tracking.png",
+    "06-shopping.png",
+    "07-settings.png",
+    "08-leren-learn.jpg"
+  ],
+  "branding_occurrences": {
+    "total_count": 8,
+    "details": [
+      { "screen": "01-home-dashboard.png", "count": 1, "location": "header banner" },
+      { "screen": "02-recipes-list.jpg", "count": 1, "location": "header banner" },
+      { "screen": "03-recipe-detail-modal.jpg", "count": 1, "location": "header banner (background)" },
+      { "screen": "04-cheat-day-selected.png", "count": 1, "location": "header banner" },
+      { "screen": "05-meal-plan-tracking.png", "count": 1, "location": "header banner" },
+      { "screen": "06-shopping.png", "count": 1, "location": "header banner" },
+      { "screen": "07-settings.png", "count": 1, "location": "header banner" },
+      { "screen": "08-leren-learn.jpg", "count": 1, "location": "header banner" }
+    ]
+  },
+  "bugs": [
+    {
+      "id": "BUG-001",
+      "screen": "recipe-detail-modal",
+      "severity": "high",
+      "description": "Recipe detail modal has poor back button visibility. The back button appears in top-left with insufficient contrast against the dark green modal header background.",
+      "component": "RecipeDetailModal.tsx",
+      "visual_evidence": "03-recipe-detail-modal.jpg",
+      "specifics": {
+        "back_button_color": "White/light on dark green",
+        "positioning": "Top-left of modal header",
+        "contrast_issue": "Insufficient contrast, button text 'Terug' barely visible"
+      }
+    },
+    {
+      "id": "BUG-002",
+      "screen": "recipe-detail-modal",
+      "severity": "medium",
+      "description": "Recipe detail modal overlays on top of recipe list content, creating z-index layering that obscures background content. Modal backdrop opacity may be too light.",
+      "component": "RecipeDetailModal.tsx",
+      "visual_evidence": "03-recipe-detail-modal.jpg",
+      "specifics": {
+        "z_index_issue": "Modal appears over recipe list",
+        "backdrop_opacity": "Background content visible through modal overlay",
+        "layering": "Recipe cards visible beneath modal"
+      }
+    },
+    {
+      "id": "BUG-003",
+      "screen": "recipes-list",
+      "severity": "low",
+      "description": "Branding 'Slow-Carb Companion' appears on every screen header. While consistent, this creates visual repetition that could be streamlined.",
+      "component": "Header.tsx",
+      "visual_evidence": "02-recipes-list.jpg, 01-home-dashboard.png, all screens",
+      "specifics": {
+        "occurrence_count": 8,
+        "recommendation": "Consider abbreviating or removing on sub-pages"
+      }
+    },
+    {
+      "id": "BUG-004",
+      "screen": "home-dashboard",
+      "severity": "low",
+      "description": "Header to main content spacing appears minimal. The green '0 dagen on protocol' card sits very close to the header, reducing breathing room.",
+      "component": "Dashboard.tsx",
+      "visual_evidence": "01-home-dashboard.png",
+      "specifics": {
+        "spacing_issue": "Insufficient top padding/margin between header and content",
+        "affected_element": "Protocol status card",
+        "recommendation": "Add 16-24px additional spacing"
+      }
+    },
+    {
+      "id": "BUG-005",
+      "screen": "recipe-detail-modal",
+      "severity": "medium",
+      "description": "Recipe title 'Krokante Kip Drumsticks' in modal header may be cramped on smaller screens. Title, prep time, and cook time all compete for space in the header area.",
+      "component": "RecipeDetailModal.tsx",
+      "visual_evidence": "03-recipe-detail-modal.jpg",
+      "specifics": {
+        "text_cramping": "Header contains title + metadata + back button + favorite icon",
+        "recommendation": "Consider stacking or increasing header height"
+      }
+    },
+    {
+      "id": "BUG-006",
+      "screen": "recipes-list",
+      "severity": "low",
+      "description": "Recipe cards show consistent layout but favorite/heart icons on the right may overlap with card content on narrower viewports.",
+      "component": "RecipeCard.tsx",
+      "visual_evidence": "02-recipes-list.jpg",
+      "specifics": {
+        "potential_overlap": "Heart icon positioned at absolute right",
+        "responsive_concern": "May clip recipe metadata on mobile"
+      }
+    },
+    {
+      "id": "BUG-007",
+      "screen": "settings",
+      "severity": "low",
+      "description": "Settings page sections (Profile, Voorkeuren, Data & Privacy) have good spacing, but the header 'Slow-Carb Companion' and 'Dag 1' create a busy top area.",
+      "component": "Settings.tsx, Header.tsx",
+      "visual_evidence": "07-settings.png",
+      "specifics": {
+        "visual_clutter": "Header branding + day indicator takes significant vertical space",
+        "recommendation": "Consider condensing header on settings page"
+      }
+    },
+    {
+      "id": "BUG-008",
+      "screen": "shopping",
+      "severity": "low",
+      "description": "Shopping page 'Ammo Check' card has good visual hierarchy, but expandable section indicators (chevrons) could be more prominent.",
+      "component": "Shopping.tsx",
+      "visual_evidence": "06-shopping.png",
+      "specifics": {
+        "usability_issue": "Chevron icons on right may not be immediately obvious as interactive",
+        "recommendation": "Consider larger chevrons or hover states"
+      }
+    },
+    {
+      "id": "BUG-009",
+      "screen": "leren-learn",
+      "severity": "medium",
+      "description": "Learn page has dense content with multiple color-coded sections. While informative, vertical spacing between sections could be improved for readability.",
+      "component": "Learn.tsx",
+      "visual_evidence": "08-leren-learn.jpg",
+      "specifics": {
+        "spacing_issue": "Sections like 'De 5 Regels', 'Quick Reference', 'CHEAT DAY' are tightly packed",
+        "recommendation": "Add 24-32px vertical spacing between major sections"
+      }
+    },
+    {
+      "id": "BUG-010",
+      "screen": "home-dashboard",
+      "severity": "low",
+      "description": "Meal cards (Ontbijt, Lunch, Avondeten) have consistent styling but the circular icon + title + subtitle creates a dense layout that may feel cramped.",
+      "component": "MealCard.tsx",
+      "visual_evidence": "01-home-dashboard.png, 05-meal-plan-tracking.png",
+      "specifics": {
+        "text_density": "Icon + heading + description all in single row",
+        "recommendation": "Consider stacking elements or increasing card height"
+      }
+    },
+    {
+      "id": "BUG-011",
+      "screen": "cheat-day",
+      "severity": "low",
+      "description": "Day selector pills (ma, di, wo, etc.) have good visual feedback for selection (orange highlight), but inactive days have low contrast gray text.",
+      "component": "DaySelector.tsx",
+      "visual_evidence": "04-cheat-day-selected.png",
+      "specifics": {
+        "contrast_issue": "Inactive day labels are light gray on light background",
+        "accessibility_concern": "May not meet WCAG AA contrast ratios",
+        "recommendation": "Darken inactive day text"
+      }
+    },
+    {
+      "id": "BUG-012",
+      "screen": "recipe-detail-modal",
+      "severity": "medium",
+      "description": "Modal tabs (Ingrediënten, Bereiding) use underline for active state, but the active tab indicator is subtle and may not be immediately obvious.",
+      "component": "RecipeDetailModal.tsx",
+      "visual_evidence": "03-recipe-detail-modal.jpg",
+      "specifics": {
+        "ui_clarity": "Active tab 'Ingrediënten' has thin underline",
+        "recommendation": "Use bolder underline or background color for active tab"
+      }
+    }
+  ],
+  "summary": {
+    "total_bugs": 12,
+    "high_severity": 1,
+    "medium_severity": 4,
+    "low_severity": 7,
+    "primary_concerns": [
+      "Back button visibility in modals (high)",
+      "Modal z-index and backdrop opacity (medium)",
+      "Spacing consistency across screens (multiple low)",
+      "Text contrast and readability (medium to low)",
+      "Responsive design concerns for recipe cards (low)"
+    ],
+    "recommendations": [
+      "Improve back button contrast in modal headers",
+      "Review and standardize spacing between header and main content",
+      "Add more vertical spacing in dense content areas (Learn page)",
+      "Consider responsive breakpoints for recipe cards and meal cards",
+      "Enhance interactive element affordances (chevrons, tabs)",
+      "Review color contrast for accessibility compliance"
+    ]
+  }
+}
