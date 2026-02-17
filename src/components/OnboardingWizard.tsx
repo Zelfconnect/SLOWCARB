@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import {
-  Dialog,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { ChevronLeft } from 'lucide-react';
 
 interface OnboardingData {
   name: string;
@@ -46,6 +50,12 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
     }
   };
 
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   const weekEstimate = Math.ceil(data.weightGoal * 0.6);
 
   return (
@@ -70,14 +80,14 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
             </div>
 
             {/* Content */}
-            <div className="flex-1 flex flex-col items-center justify-center px-6 max-w-md mx-auto w-full">
+            <div className="flex-1 flex flex-col items-start justify-start pt-8 px-6">
             {currentStep === 1 && (
-              <div className="space-y-6 w-full">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl text-center">Welkom bij SlowCarb</DialogTitle>
+              <Card className="max-w-md w-full mx-auto">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-center">Welkom bij SlowCarb</CardTitle>
                   <p className="text-center text-muted-foreground">Je persoonlijke slow-carb coach</p>
-                </DialogHeader>
-                <div className="space-y-2">
+                </CardHeader>
+                <CardContent className="space-y-2">
                   <Label htmlFor="name">Je naam</Label>
                   <Input
                     id="name"
@@ -86,23 +96,25 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                     onChange={(e) => setData({ ...data, name: e.target.value })}
                     onKeyDown={(e) => e.key === 'Enter' && handleNext()}
                   />
-                </div>
-                <Button
-                  className="w-full"
-                  onClick={handleNext}
-                  disabled={!data.name.trim()}
-                >
-                  Volgende
-                </Button>
-              </div>
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    className="w-full"
+                    onClick={handleNext}
+                    disabled={!data.name.trim()}
+                  >
+                    Volgende
+                  </Button>
+                </CardFooter>
+              </Card>
             )}
 
             {currentStep === 2 && (
-              <div className="space-y-6 w-full">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl text-center">Wat is je doel?</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
+              <Card className="max-w-md w-full mx-auto">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-center">Wat is je doel?</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <Label htmlFor="weight-goal">Hoeveel kilo wil je afvallen?</Label>
                   <Slider
                     id="weight-goal"
@@ -118,19 +130,24 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                   <p className="text-center text-muted-foreground">
                     In ongeveer {weekEstimate} weken
                   </p>
-                </div>
-                <Button className="w-full" onClick={handleNext}>
-                  Volgende
-                </Button>
-              </div>
+                </CardContent>
+                <CardFooter className="flex gap-3">
+                  <Button variant="ghost" onClick={handleBack} className="shrink-0">
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button className="flex-1" onClick={handleNext}>
+                    Volgende
+                  </Button>
+                </CardFooter>
+              </Card>
             )}
 
             {currentStep === 3 && (
-              <div className="space-y-6 w-full">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl text-center">Jouw voorkeuren</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
+              <Card className="max-w-md w-full mx-auto">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-center">Jouw voorkeuren</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="vegetarian"
@@ -176,46 +193,58 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       Ik sport regelmatig
                     </Label>
                   </div>
-                </div>
-                <Button className="w-full" onClick={handleNext}>
-                  Volgende
-                </Button>
-              </div>
+                </CardContent>
+                <CardFooter className="flex gap-3">
+                  <Button variant="ghost" onClick={handleBack} className="shrink-0">
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button className="flex-1" onClick={handleNext}>
+                    Volgende
+                  </Button>
+                </CardFooter>
+              </Card>
             )}
 
             {currentStep === 4 && (
-              <div className="space-y-6 w-full">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl text-center">Kies je cheat day</DialogTitle>
+              <Card className="max-w-md w-full mx-auto">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-center">Kies je cheat day</CardTitle>
                   <p className="text-center text-muted-foreground">Dit is je wekelijkse vrije dag</p>
-                </DialogHeader>
-                <RadioGroup
-                  value={data.cheatDay}
-                  onValueChange={(value: 'zaterdag' | 'zondag') =>
-                    setData({ ...data, cheatDay: value })
-                  }
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="zaterdag" id="saturday" />
-                    <Label htmlFor="saturday">Zaterdag</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="zondag" id="sunday" />
-                    <Label htmlFor="sunday">Zondag</Label>
-                  </div>
-                </RadioGroup>
-                <Button className="w-full" onClick={handleNext}>
-                  Volgende
-                </Button>
-              </div>
+                </CardHeader>
+                <CardContent>
+                  <RadioGroup
+                    value={data.cheatDay}
+                    onValueChange={(value: 'zaterdag' | 'zondag') =>
+                      setData({ ...data, cheatDay: value })
+                    }
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="zaterdag" id="saturday" />
+                      <Label htmlFor="saturday">Zaterdag</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="zondag" id="sunday" />
+                      <Label htmlFor="sunday">Zondag</Label>
+                    </div>
+                  </RadioGroup>
+                </CardContent>
+                <CardFooter className="flex gap-3">
+                  <Button variant="ghost" onClick={handleBack} className="shrink-0">
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button className="flex-1" onClick={handleNext}>
+                    Volgende
+                  </Button>
+                </CardFooter>
+              </Card>
             )}
 
             {currentStep === 5 && (
-              <div className="space-y-6 w-full">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl text-center">Klaar om te starten!</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
+              <Card className="max-w-md w-full mx-auto">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-center">Klaar om te starten!</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <div className="bg-gray-50 rounded-lg p-4 space-y-2">
                     <p>
                       <span className="font-semibold">Naam:</span> {data.name}
@@ -241,14 +270,19 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       </>
                     )}
                   </div>
-                </div>
-                <Button
-                  className="w-full bg-sage-600 hover:bg-sage-700"
-                  onClick={handleNext}
-                >
-                  Start je Journey
-                </Button>
-              </div>
+                </CardContent>
+                <CardFooter className="flex gap-3">
+                  <Button variant="ghost" onClick={handleBack} className="shrink-0">
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    className="flex-1 bg-sage-600 hover:bg-sage-700"
+                    onClick={handleNext}
+                  >
+                    Start je Journey
+                  </Button>
+                </CardFooter>
+              </Card>
             )}
             </div>
           </div>
