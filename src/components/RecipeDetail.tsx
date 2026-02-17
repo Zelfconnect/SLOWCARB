@@ -53,8 +53,8 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto p-0 border-0 rounded-3xl shadow-2xl">
-        <DialogHeader className="sticky top-0 z-10 p-6 bg-gradient-to-br from-sage-600 to-sage-700">
+      <DialogContent className="max-w-lg max-h-[90dvh] p-0 border-0 rounded-3xl shadow-2xl">
+        <DialogHeader className="sticky top-0 z-10 p-6 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -77,7 +77,7 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
           </div>
         </DialogHeader>
 
-        <div className="p-6 space-y-8">
+        <div className="flex-1 overflow-y-auto p-6 space-y-8">
           <div className="bg-sage-50 rounded-2xl p-5 border border-sage-100">
             <label className="flex items-center gap-2 text-sm font-medium text-sage-800 mb-3">
               <Users className="w-4 h-4" />Hoeveel porties?
@@ -108,7 +108,7 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
               ))}
             </ul>
             
-            <Button onClick={handleAddToShoppingList} className="w-full mt-5 h-12 text-base">
+            <Button onClick={handleAddToShoppingList} className="w-full mt-5 h-12 text-base flex-shrink-0">
               <Plus className="w-5 h-5 mr-2" />Voeg toe aan boodschappenlijst
             </Button>
           </div>
