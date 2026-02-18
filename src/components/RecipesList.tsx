@@ -59,7 +59,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
       </div>
 
       {/* Filter Chips - Horizontal scroll with fade */}
-      <div className="relative -mx-5">
+      <div className="relative -mx-5 max-w-full overflow-hidden">
         {/* Fade indicator on right */}
         <div className="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-cream to-transparent pointer-events-none z-10" />
         

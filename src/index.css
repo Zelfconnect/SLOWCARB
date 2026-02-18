@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 @layer base {
   :root {
     --background: 40 25% 97%;
@@ -194,4 +199,3 @@ input:focus-visible {
 * {
   -webkit-tap-highlight-color: transparent;
 }
-

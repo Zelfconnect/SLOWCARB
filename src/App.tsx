@@ -172,7 +172,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-warm-50">
+    <div className="min-h-[100dvh] bg-warm-50 overflow-x-hidden">
       <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
         <header className="fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-md border-b border-warm-200 z-30">
           <div className="max-w-md mx-auto h-full px-4 flex items-center justify-between">
@@ -199,7 +199,7 @@ function App() {
       </Sheet>
 
       {/* Main Content */}
-      <main className="max-w-md mx-auto px-4 pt-14 pb-6">
+      <main className="max-w-md mx-auto px-4 pt-14 pb-6 overflow-hidden">
         {renderContent()}
       </main>
 
