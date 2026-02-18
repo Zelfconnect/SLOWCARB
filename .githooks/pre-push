@@ -1,0 +1,37 @@
+#!/bin/bash
+# pre-push hook — Block push without QA evidence
+#
+# Checks:
+# 1. Last commit was made by codex-pipeline.sh or quick-fix.sh
+# 2. OR has --no-verify bypass
+#
+# Install: git config core.hooksPath .githooks
+
+LAST_MSG=$(git log -1 --pretty=%B)
+
+# Allow if commit came from pipeline
+if echo "$LAST_MSG" | grep -q "Pipeline: codex-pipeline.sh"; then
+  exit 0
+fi
+
+# Allow quick fixes (they have build+test checks built in)
+if echo "$LAST_MSG" | grep -q "^fix:"; then
+  exit 0
+fi
+
+# Allow merge commits
+if echo "$LAST_MSG" | grep -q "^Merge"; then
+  exit 0
+fi
+
+# Block everything else
+echo ""
+echo "❌ Push blocked: commit not from codex-pipeline.sh or quick-fix.sh"
+echo ""
+echo "Use one of:"
+echo "  ~/clawd/scripts/codex-pipeline.sh <prd> <project>  (full pipeline)"
+echo "  ~/clawd/scripts/quick-fix.sh <project> \"desc\"      (small fix)"
+echo ""
+echo "Emergency bypass: git push --no-verify"
+echo ""
+exit 1
