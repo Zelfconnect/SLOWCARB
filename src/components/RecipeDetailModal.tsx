@@ -50,7 +50,7 @@ export function RecipeDetailModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="mx-0 sm:mx-auto max-w-lg h-[100dvh] sm:h-auto sm:max-h-[85dvh] rounded-none sm:rounded-3xl border-0 shadow-2xl p-0 flex flex-col z-50"
+        className="!w-full sm:w-full sm:mx-auto max-w-lg h-[100dvh] sm:h-auto sm:max-h-[85dvh] rounded-none sm:rounded-3xl border-0 shadow-2xl p-0 flex flex-col z-50"
       >
         {/* Header */}
         <div className="p-4 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-none sm:rounded-t-3xl">
