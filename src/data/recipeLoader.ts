@@ -30,19 +30,27 @@ type RawRecipeFile = {
 };
 
 const CATEGORY_TAGS = {
+  eiwitrijk: 'eiwitrijk',
+  ontbijt: 'ontbijt',
+  lunch: 'lunch',
+  avondeten: 'avondeten',
   quick: 'airfryer',
   mealPrep: 'meal-prep',
   noTime: 'no-time',
 } as const;
 
-const CATEGORY_LABELS: Record<keyof typeof CATEGORY_TAGS, ImportedRecipe['category']> = {
+const CATEGORY_LABELS: Record<'quick' | 'mealPrep' | 'noTime', ImportedRecipe['category']> = {
   quick: 'Quick',
   mealPrep: 'Meal Prep',
   noTime: 'No-Time',
 };
 
 const RECIPE_CATEGORIES: Array<{ id: string; name: string; icon: MealTypeIconKey }> = [
-  { id: CATEGORY_TAGS.quick, name: 'Quick', icon: 'flame' },
+  { id: CATEGORY_TAGS.eiwitrijk, name: 'Eiwitrijk', icon: 'flame' },
+  { id: CATEGORY_TAGS.ontbijt, name: 'Ontbijt', icon: 'sunrise' },
+  { id: CATEGORY_TAGS.lunch, name: 'Lunch', icon: 'sun' },
+  { id: CATEGORY_TAGS.avondeten, name: 'Avondeten', icon: 'moon' },
+  { id: CATEGORY_TAGS.quick, name: 'Airfryer', icon: 'flame' },
   { id: CATEGORY_TAGS.mealPrep, name: 'Meal Prep', icon: 'package' },
   { id: CATEGORY_TAGS.noTime, name: 'No-Time', icon: 'sun' },
 ];
@@ -173,6 +181,7 @@ const toAppRecipe = (raw: RawRecipe): AppRecipe => {
     steps: raw.steps,
     tips: raw.mealPrepTip ? [raw.mealPrepTip] : undefined,
     tags: raw.tags,
+    ...(raw.macros ? { macros: raw.macros } : {}),
   };
 };
 
@@ -213,7 +222,13 @@ export const RECIPES = ((): AppRecipe[] => {
   for (const recipe of (recipesJson as RawRecipeFile).recipes) {
     unique.set(recipe.id, recipe);
   }
-  return Array.from(unique.values()).map(toAppRecipe);
+  return Array.from(unique.values()).map((rawRecipe) => {
+    const recipe = toAppRecipe(rawRecipe) as AppRecipe & { macros?: RawRecipe['macros'] };
+    if (recipe.macros && typeof recipe.macros.protein === 'number' && recipe.macros.protein >= 25) {
+      recipe.tags.push('eiwitrijk');
+    }
+    return recipe;
+  });
 })();
 
 export { recipeDatabase as RECIPE_DATABASE, RECIPE_CATEGORIES };

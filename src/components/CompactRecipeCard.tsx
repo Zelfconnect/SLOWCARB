@@ -20,6 +20,7 @@ export function CompactRecipeCard({
   onClick 
 }: CompactRecipeCardProps) {
   const RecipeIcon = getRecipeIcon(recipe.icon);
+  const protein = (recipe as Recipe & { macros?: { protein?: number } }).macros?.protein;
 
   return (
     <Card
@@ -41,15 +42,25 @@ export function CompactRecipeCard({
             <Clock className="w-3 h-3" />
             {recipe.prepTime}
           </span>
+          <span className="text-stone-300">|</span>
           <span className="flex items-center gap-1">
             <Users className="w-3 h-3" />
             {recipe.servings}p
           </span>
-          {recipe.tags.slice(0, 2).map((tag) => (
-            <Badge variant="secondary" key={tag} className="text-[10px] bg-sage-50 text-sage-600 px-1.5 py-0.5 border-0 font-medium">
-              {tag}
-            </Badge>
-          ))}
+          {protein != null && (
+            <>
+              <span className="text-stone-300">|</span>
+              <Badge
+                variant="secondary"
+                className={cn(
+                  'text-[10px] px-1.5 py-0.5 border-0 font-medium',
+                  protein >= 25 ? 'text-sage-600 bg-sage-50' : 'text-stone-400 bg-stone-100'
+                )}
+              >
+                {protein}g eiwit
+              </Badge>
+            </>
+          )}
         </div>
       </div>
       

@@ -16,7 +16,9 @@
       "tags": [
         "airfryer",
         "meal-prep",
-        "beginner"
+        "beginner",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "6-8 kip drumsticks",
@@ -46,7 +48,9 @@
       "subtitle": "Pork rind method",
       "time": 20,
       "tags": [
-        "airfryer"
+        "airfryer",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "2 kipfilets, in repen",
@@ -79,7 +83,8 @@
       "tags": [
         "airfryer",
         "meal-prep",
-        "beginner"
+        "beginner",
+        "avondeten"
       ],
       "ingredients": [
         "4-6 kip dijen",
@@ -111,7 +116,9 @@
       "tags": [
         "airfryer",
         "meal-prep",
-        "no-time"
+        "no-time",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "500g rundergehakt",
@@ -142,7 +149,8 @@
       "tags": [
         "airfryer",
         "no-time",
-        "beginner"
+        "beginner",
+        "avondeten"
       ],
       "ingredients": [
         "400g entrecote of biefstuk, in blokjes",
@@ -174,7 +182,9 @@
       "tags": [
         "airfryer",
         "meal-prep",
-        "beginner"
+        "beginner",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "2 kopjes broccoli roosjes",
@@ -206,7 +216,8 @@
       "tags": [
         "airfryer",
         "no-time",
-        "beginner"
+        "beginner",
+        "avondeten"
       ],
       "ingredients": [
         "1 bos groene asperges",
@@ -238,7 +249,9 @@
       "time": 12,
       "tags": [
         "airfryer",
-        "beginner"
+        "beginner",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "2 courgettes, in frietjes",
@@ -270,7 +283,8 @@
       "time": 25,
       "tags": [
         "airfryer",
-        "meal-prep"
+        "meal-prep",
+        "avondeten"
       ],
       "ingredients": [
         "4 kipfilets, in stukken",
@@ -303,7 +317,8 @@
       "time": 12,
       "tags": [
         "airfryer",
-        "beginner"
+        "beginner",
+        "avondeten"
       ],
       "ingredients": [
         "400g varkenshaas, in 3cm plakken",
@@ -334,7 +349,8 @@
       "time": 15,
       "tags": [
         "airfryer",
-        "beginner"
+        "beginner",
+        "lunch"
       ],
       "ingredients": [
         "1 blik kikkererwten",
@@ -366,7 +382,9 @@
       "tags": [
         "airfryer",
         "no-time",
-        "beginner"
+        "beginner",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "250g champignons, gehalveerd",
@@ -396,7 +414,8 @@
       "time": 25,
       "tags": [
         "airfryer",
-        "meal-prep"
+        "meal-prep",
+        "avondeten"
       ],
       "ingredients": [
         "8-10 kippenvleugels",
@@ -428,7 +447,9 @@
       "time": 12,
       "tags": [
         "airfryer",
-        "beginner"
+        "beginner",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "2 visfilets",
@@ -460,7 +481,9 @@
       "tags": [
         "airfryer",
         "meal-prep",
-        "no-time"
+        "no-time",
+        "ontbijt",
+        "lunch"
       ],
       "ingredients": [
         "6-8 plakken bacon"
@@ -487,7 +510,8 @@
       "time": 45,
       "tags": [
         "meal-prep",
-        "batch"
+        "batch",
+        "avondeten"
       ],
       "ingredients": [
         "500g rundergehakt",
@@ -523,7 +547,9 @@
       "time": 25,
       "tags": [
         "meal-prep",
-        "batch"
+        "batch",
+        "ontbijt",
+        "lunch"
       ],
       "ingredients": [
         "10 eieren",
@@ -556,7 +582,9 @@
       "subtitle": "5 complete maaltijden",
       "time": 30,
       "tags": [
-        "meal-prep"
+        "meal-prep",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "500g kipfilet, in blokjes",
@@ -589,7 +617,8 @@
       "time": 15,
       "tags": [
         "meal-prep",
-        "no-time"
+        "no-time",
+        "avondeten"
       ],
       "ingredients": [
         "450g rundergehakt",
@@ -623,7 +652,8 @@
       "time": 45,
       "tags": [
         "meal-prep",
-        "batch"
+        "batch",
+        "avondeten"
       ],
       "ingredients": [
         "6 kippendijen",
@@ -657,7 +687,9 @@
       "subtitle": "Vegetarisch vullend",
       "time": 20,
       "tags": [
-        "meal-prep"
+        "meal-prep",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "2 blikken linzen",
@@ -691,7 +723,8 @@
       "subtitle": "Met bloemkoolrijst",
       "time": 30,
       "tags": [
-        "meal-prep"
+        "meal-prep",
+        "avondeten"
       ],
       "ingredients": [
         "500g kipfilet, in stukken",
@@ -725,7 +758,8 @@
       "time": 35,
       "tags": [
         "meal-prep",
-        "batch"
+        "batch",
+        "avondeten"
       ],
       "ingredients": [
         "500g kipfilet",
@@ -759,7 +793,9 @@
       "subtitle": "Oven batch",
       "time": 40,
       "tags": [
-        "meal-prep"
+        "meal-prep",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "500g kip of tofu, in stukken",
@@ -793,7 +829,8 @@
       "subtitle": "Met kokosmelk",
       "time": 30,
       "tags": [
-        "meal-prep"
+        "meal-prep",
+        "avondeten"
       ],
       "ingredients": [
         "400g runderreepjes",
@@ -827,7 +864,9 @@
       "time": 25,
       "tags": [
         "meal-prep",
-        "batch"
+        "batch",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "600g kipfilet",
@@ -864,7 +903,9 @@
       "tags": [
         "meal-prep",
         "batch",
-        "beginner"
+        "beginner",
+        "ontbijt",
+        "lunch"
       ],
       "ingredients": [
         "12 eieren"
@@ -891,7 +932,8 @@
       "time": 10,
       "tags": [
         "no-time",
-        "beginner"
+        "beginner",
+        "ontbijt"
       ],
       "ingredients": [
         "3 eieren",
@@ -921,7 +963,9 @@
       "time": 15,
       "tags": [
         "no-time",
-        "beginner"
+        "beginner",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "1 diepvries kipfilet",
@@ -950,7 +994,8 @@
       "time": 5,
       "tags": [
         "no-time",
-        "beginner"
+        "beginner",
+        "lunch"
       ],
       "ingredients": [
         "1 blik tonijn op water",
@@ -980,7 +1025,9 @@
       "time": 3,
       "tags": [
         "no-time",
-        "beginner"
+        "beginner",
+        "ontbijt",
+        "lunch"
       ],
       "ingredients": [
         "1/2 kopje cottage cheese",
@@ -1010,7 +1057,9 @@
       "time": 2,
       "tags": [
         "no-time",
-        "beginner"
+        "beginner",
+        "lunch",
+        "avondeten"
       ],
       "ingredients": [
         "150g pre-cooked kip",
@@ -1039,7 +1088,9 @@
       "time": 1,
       "tags": [
         "no-time",
-        "beginner"
+        "beginner",
+        "ontbijt",
+        "lunch"
       ],
       "ingredients": [
         "1 scoop eiwit poeder",
@@ -1067,7 +1118,9 @@
       "time": 8,
       "tags": [
         "no-time",
-        "beginner"
+        "beginner",
+        "ontbijt",
+        "lunch"
       ],
       "ingredients": [
         "2 eieren",
@@ -1097,7 +1150,8 @@
       "time": 5,
       "tags": [
         "no-time",
-        "beginner"
+        "beginner",
+        "avondeten"
       ],
       "ingredients": [
         "3 hardgekookte eieren",
