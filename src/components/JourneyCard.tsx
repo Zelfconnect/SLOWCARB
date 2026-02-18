@@ -64,7 +64,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
             document.body.style.overflow = '';
           }
         }}>
-          <DialogContent className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm max-h-[90vh] overflow-y-auto dark:border-gray-800 dark:bg-gray-900 leading-relaxed">
+          <DialogContent className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm max-h-[85dvh] overflow-y-auto dark:border-gray-800 dark:bg-gray-900 leading-relaxed">
             <DialogHeader className="text-left gap-3">
               <DialogTitle className="text-2xl font-['Geist'] font-bold tracking-tight text-gray-950 dark:text-gray-100">
                 Start je Slow-Carb Journey
@@ -213,7 +213,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
       <Dialog open={showTipDialog} onOpenChange={(open) => !open && setShowTipDialog(false)}>
         <DialogContent
           showCloseButton={false}
-          className="inset-x-4 top-16 bottom-24 translate-x-0 translate-y-0 max-w-none rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
+          className="mx-4 sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
         >
           {/* Header */}
           <div className="p-6 bg-gradient-to-br from-primary-600 to-primary-700 flex-shrink-0 rounded-t-3xl">
