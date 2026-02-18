@@ -49,7 +49,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="mx-0 sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
+        className="mx-0 sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border border-stone-200 shadow-xl p-0 flex flex-col"
       >
         {/* Header - Neutral gray */}
         <div className="p-5 bg-gradient-to-br from-stone-600 to-stone-700 flex-shrink-0 rounded-t-3xl">
