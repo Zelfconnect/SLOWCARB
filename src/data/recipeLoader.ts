@@ -98,7 +98,7 @@ const parseIngredient = (text: string): Ingredient => {
   const hasNaarSmaak = /naar\s+smaak/i.test(trimmed);
   return {
     name: trimmed.replace(/naar\s+smaak/i, '').trim() || trimmed,
-    amount: hasNaarSmaak ? 'naar smaak' : 'naar smaak',
+    amount: 'naar smaak',
     scalable: false,
   };
 };

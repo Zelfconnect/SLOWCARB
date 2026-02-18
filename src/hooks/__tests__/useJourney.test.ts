@@ -57,12 +57,9 @@ describe('getDaysUntilCheatDay', () => {
     expect(getDaysUntilCheatDay(makeJourney('zondag'))).toBe(1);
   });
 
-  // BUG: when today IS the cheat day, `diff` equals 0, but the condition
-  // `if (diff <= 0)` adds 7, returning 7 instead of 0.
-  // Fix: change `<= 0` to `< 0` in getDaysUntilCheatDay.
-  it('returns 7 (bug: should be 0) when today is Saturday and cheat day is Saturday', () => {
+  it('returns 0 when today is Saturday and cheat day is Saturday', () => {
     vi.setSystemTime(new Date('2024-01-13T12:00:00.000Z'));
-    expect(getDaysUntilCheatDay(makeJourney('zaterdag'))).toBe(7); // known bug
+    expect(getDaysUntilCheatDay(makeJourney('zaterdag'))).toBe(0);
   });
 });
 

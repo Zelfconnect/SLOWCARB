@@ -157,7 +157,7 @@ export function getDaysUntilCheatDay(journey: Journey): number {
   const cheatIndex = daysOfWeek.indexOf(journey.cheatDay);
 
   let diff = cheatIndex - currentIndex;
-  if (diff <= 0) diff += 7;
+  if (diff < 0) diff += 7;
 
   return diff;
 }
