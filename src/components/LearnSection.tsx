@@ -104,6 +104,7 @@ function CardPreview({
 
 export function LearnSection() {
   const [openCardId, setOpenCardId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'quickstart' | 'science' | 'faq'>('quickstart');
 
   // Find the currently open card
   const openCard = openCardId
@@ -112,10 +113,10 @@ export function LearnSection() {
 
   return (
   <div className="space-y-8">
-      <Tabs defaultValue="quick">
+      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'quickstart' | 'science' | 'faq')}>
       {/* Tabs */}
       <TabsList className="w-full bg-stone-100 rounded-2xl p-1 h-auto mb-4">
-        <TabsTrigger value="quick" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+        <TabsTrigger value="quickstart" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
           <Zap className="w-4 h-4" />Quick Start
         </TabsTrigger>
         <TabsTrigger value="science" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
@@ -126,7 +127,7 @@ export function LearnSection() {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="quick" className="pb-24">
+      <TabsContent value="quickstart" className="max-h-[calc(100dvh-12rem)] overflow-y-auto pb-24">
         <div className="space-y-5">
           {/* Progress Indicator */}
           <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
@@ -291,7 +292,7 @@ export function LearnSection() {
         </div>
       </TabsContent>
 
-      <TabsContent value="science" className="pb-24">
+      <TabsContent value="science" className="max-h-[calc(100dvh-12rem)] overflow-y-auto pb-24">
         <div className="space-y-5">
           {/* Intro */}
           <div className="bg-gradient-to-br from-stone-700 to-stone-800 rounded-2xl p-5 text-white">
@@ -321,7 +322,7 @@ export function LearnSection() {
         </div>
       </TabsContent>
 
-      <TabsContent value="faq" className="pb-24">
+      <TabsContent value="faq" className="max-h-[calc(100dvh-12rem)] overflow-y-auto pb-24">
         <div className="space-y-5">
           {/* Intro */}
           <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">

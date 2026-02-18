@@ -12,11 +12,15 @@ export function StreakHeroCard({ streak, currentWeek, currentDay, isCheatDay }: 
 
   return (
     <div className="bg-gradient-to-br from-sage-500 to-sage-600 rounded-xl p-6 text-white">
-      <div className="flex items-center gap-3 mb-2">
+      <div className="flex items-start gap-3 mb-2">
         {!isCheatDay && <Flame className="w-8 h-8" />}
-        <span className="text-3xl font-bold">
-          {isCheatDay ? '🍕 Cheat Day!' : `${streak} dagen on protocol`}
-        </span>
+        {isCheatDay ? (
+          <span className="text-3xl leading-tight font-bold">🍕 Cheat Day!</span>
+        ) : (
+          <span className="text-2xl sm:text-3xl leading-tight font-bold">
+            {streak} dagen <span className="block sm:inline">on protocol</span>
+          </span>
+        )}
       </div>
       {isCheatDay ? (
         <p className="text-sage-100">Week {currentWeek} • Geniet ervan — morgen weer protocol</p>

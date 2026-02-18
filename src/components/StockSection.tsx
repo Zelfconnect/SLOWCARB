@@ -197,7 +197,7 @@ export function StockSection({
                 <Checkbox
                   checked={item.checked}
                   onCheckedChange={() => onToggleStandardItem(item.id)}
-                  className="w-5 h-5 rounded-lg data-[state=checked]:bg-sage-500 data-[state=checked]:border-sage-500"
+                  className="w-5 h-5 rounded-lg border-2 border-stone-300 data-[state=checked]:bg-sage-500 data-[state=checked]:border-sage-500"
                 />
                 {renderIcon(item.icon, item.name)}
                 <div className="flex-1 min-w-0">

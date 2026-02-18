@@ -185,7 +185,7 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
             'gap-2 px-4 py-2 rounded-xl transition-all duration-300 text-sm',
             streak > 0
               ? 'bg-gradient-to-r from-sage-100 to-sage-200 text-sage-700 border-0'
-              : 'bg-stone-100 text-stone-500 border-0'
+              : 'border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 shadow-sm'
           )}
         >
           <Flame className={cn('w-5 h-5', streak > 0 && 'text-sage-600')} />
@@ -205,7 +205,7 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
         <Progress
           value={progress}
           className={cn(
-            'h-3 bg-stone-100',
+            'h-1.5 rounded-full bg-stone-200',
             allCompleted
               ? '[&>[data-slot=progress-indicator]]:bg-gradient-to-r [&>[data-slot=progress-indicator]]:from-emerald-400 [&>[data-slot=progress-indicator]]:via-sage-400 [&>[data-slot=progress-indicator]]:to-emerald-500'
               : '[&>[data-slot=progress-indicator]]:bg-gradient-to-r [&>[data-slot=progress-indicator]]:from-sage-400 [&>[data-slot=progress-indicator]]:to-sage-500'

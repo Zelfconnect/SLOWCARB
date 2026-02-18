@@ -172,9 +172,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-warm-50 overflow-x-hidden">
+    <div className="h-[100dvh] bg-warm-50 overflow-x-hidden overflow-y-hidden flex flex-col">
       <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <header className="fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-md border-b border-warm-200 z-30">
+        <header className="sticky top-0 left-0 right-0 h-14 bg-white/95 backdrop-blur-md border-b border-warm-200 z-50 shrink-0">
           <div className="max-w-md mx-auto h-full px-4 flex items-center justify-between">
             <h1 className="text-lg font-bold text-warm-900">SlowCarb</h1>
             <button
@@ -199,7 +199,7 @@ function App() {
       </Sheet>
 
       {/* Main Content */}
-      <main className="max-w-md mx-auto px-4 pt-14 pb-6 overflow-hidden">
+      <main className="w-full max-w-md mx-auto px-4 pt-4 pb-28 overflow-y-auto overscroll-contain flex-1">
         {renderContent()}
       </main>
 

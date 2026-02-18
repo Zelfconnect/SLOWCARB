@@ -58,9 +58,15 @@ export function Dashboard({
   const latestWeight = sortedWeights[sortedWeights.length - 1]?.weight;
 
   const openWeightDialog = () => {
-    const prefilledWeight = latestWeight ?? journey.targetWeight;
-    setWeightInput(prefilledWeight ? prefilledWeight.toFixed(1) : '');
+    setWeightInput('');
     setWeightDialogOpen(true);
+  };
+
+  const handleWeightDialogOpenChange = (open: boolean) => {
+    if (open) {
+      setWeightInput('');
+    }
+    setWeightDialogOpen(open);
   };
 
   const handleMealAction = () => {
@@ -74,6 +80,7 @@ export function Dashboard({
     }
 
     onLogWeight(Math.round(parsed * 10) / 10, today);
+    setWeightInput('');
     setWeightDialogOpen(false);
   };
 
@@ -93,7 +100,7 @@ export function Dashboard({
         />
         <QuickActionFAB onLogWeight={openWeightDialog} />
 
-        <Dialog open={weightDialogOpen} onOpenChange={setWeightDialogOpen}>
+        <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
           <DialogContent className="max-w-sm rounded-2xl p-0">
             <div className="p-6 space-y-4">
               <DialogHeader className="space-y-1 text-left">
@@ -184,7 +191,7 @@ export function Dashboard({
       />
       <QuickActionFAB onLogWeight={openWeightDialog} onLogMeal={handleMealAction} />
 
-      <Dialog open={weightDialogOpen} onOpenChange={setWeightDialogOpen}>
+      <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
         <DialogContent className="max-w-sm rounded-2xl p-0">
           <div className="p-6 space-y-4">
             <DialogHeader className="space-y-1 text-left">
