@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { Fragment, useState, useMemo } from 'react';
 import { Search, Heart } from 'lucide-react';
 import { RECIPES, RECIPE_CATEGORIES } from '@/data/recipeLoader';
 import { CompactRecipeCard } from './CompactRecipeCard';
@@ -58,16 +58,12 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
         />
       </div>
 
-      {/* Filter Chips - Horizontal scroll with fade */}
-      <div className="relative -mx-5 max-w-full overflow-hidden">
-        {/* Fade indicator on right */}
-        <div className="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-cream to-transparent pointer-events-none z-10" />
-        
-        <div className="flex flex-nowrap gap-2 overflow-x-auto px-5 pb-2 scrollbar-hide [&::-webkit-scrollbar]:hidden">
+      {/* Filter Chips */}
+      <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
             className={cn(
-              'flex h-11 flex-none items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-xs font-medium transition-all duration-200',
+              'flex h-9 flex-none items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-xs font-medium transition-all duration-200',
               showFavoritesOnly 
                 ? 'bg-red-100 text-red-700' 
                 : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'
@@ -80,7 +76,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
           <button
             onClick={() => setActiveCategory('all')}
             className={cn(
-              'flex h-11 flex-none items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-xs font-medium transition-all duration-200',
+              'flex h-9 flex-none items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-xs font-medium transition-all duration-200',
               activeCategory === 'all' 
                 ? 'bg-sage-100 text-sage-700 border border-sage-200' 
                 : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'
@@ -92,27 +88,28 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
           {RECIPE_CATEGORIES.map((cat) => {
             const MealTypeIcon = getMealTypeIcon(cat.icon);
             return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={cn(
-                  'flex h-11 flex-none items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-xs font-medium transition-all duration-200',
-                  activeCategory === cat.id 
-                    ? 'bg-sage-100 text-sage-700 border border-sage-200' 
-                    : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'
-                )}
-              >
-                <MealTypeIcon
+              <Fragment key={cat.id}>
+                {cat.id === 'airfryer' && <div key="sep" className="w-px h-6 bg-stone-200 self-center" />}
+                <button
+                  onClick={() => setActiveCategory(cat.id)}
                   className={cn(
-                    'w-4 h-4',
-                    activeCategory === cat.id ? 'text-sage-600' : 'text-stone-500'
+                    'flex h-9 flex-none items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-xs font-medium transition-all duration-200',
+                    activeCategory === cat.id 
+                      ? 'bg-sage-100 text-sage-700 border border-sage-200' 
+                      : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-300'
                   )}
-                />
-                {cat.name}
-              </button>
+                >
+                  <MealTypeIcon
+                    className={cn(
+                      'w-4 h-4',
+                      activeCategory === cat.id ? 'text-sage-600' : 'text-stone-500'
+                    )}
+                  />
+                  {cat.name}
+                </button>
+              </Fragment>
             );
           })}
-        </div>
       </div>
 
       {/* Recipe Count */}
