@@ -53,7 +53,7 @@ export function CompactRecipeCard({
               <Badge
                 variant="secondary"
                 className={cn(
-                  'text-[10px] px-1.5 py-0.5 border-0 font-medium',
+                  'text-sm px-1.5 py-0.5 border-0 font-medium',
                   protein >= 25 ? 'text-sage-600 bg-sage-50' : 'text-stone-400 bg-stone-100'
                 )}
               >
