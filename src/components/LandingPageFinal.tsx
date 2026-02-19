@@ -124,7 +124,7 @@ const features: Feature[] = [
 
 const testimonials: Testimonial[] = [
   {
-    quote: 'Ik heb 5 jaar geprobeerd om af te vallen. Met SlowCarb lukte het in 6 weken. Het voelde niet eens als dieeten.',
+    quote: 'Ik heb 5 jaar geprobeerd om af te vallen. Met SlowCarb lukte het in 6 weken. Het voelde niet eens als een dieet.',
     name: 'Mark de Vries',
     result: '-9 kg in 5 weken',
   },
@@ -393,7 +393,7 @@ export default function LandingPageFinal() {
         data-index={0}
         className="relative flex min-h-[70vh] items-center overflow-hidden md:min-h-[80vh]"
         style={{
-          backgroundImage: 'url(/images/landing/HERO.jpg)',
+          backgroundImage: 'url(/images/landing/HERO.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -466,7 +466,7 @@ export default function LandingPageFinal() {
             Herkenbaar?
           </span>
           <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-            Dienen die het altijd over een nieuw dieet hebben
+            Mensen die het altijd over een nieuw dieet hebben
           </h2>
         </div>
 
@@ -500,7 +500,7 @@ export default function LandingPageFinal() {
             <p className="max-w-3xl text-lg leading-relaxed text-stone-600">
               Geen calorieën tellen, geen honger, geen verwarring. Gewoon 5 simpele regels die je
               leven veranderen. Onze gebruikers verliezen gemiddeld 8-10 kg in de eerste 6 weken —
-              zonder de sportschool te zien.
+              zonder de sportschool te bezoeken.
             </p>
           </div>
 
@@ -512,7 +512,7 @@ export default function LandingPageFinal() {
           >
             <div className='relative overflow-hidden rounded-3xl shadow-lg'>
               <img
-                src="/images/landing/LIFESTYLE.jpg"
+                src="/images/landing/LIFESTYLE.webp"
                 alt="Gezonde levensstijl en transformatie"
                 loading="lazy"
                 className='h-64 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-80'
@@ -551,7 +551,7 @@ export default function LandingPageFinal() {
           >
             <div className='relative overflow-hidden rounded-3xl shadow-lg'>
               <img
-                src="/images/landing/HEROBREAKFAST.jpg"
+                src="/images/landing/HEROBREAKFAST.webp"
                 alt="Gezond ontbijt met eiwitten en groenten"
                 loading="lazy"
                 className='h-48 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-64'
@@ -620,7 +620,7 @@ export default function LandingPageFinal() {
         >
           <div className='relative overflow-hidden rounded-3xl shadow-lg'>
             <img
-              src="/images/landing/MEALPREP.jpg"
+              src="/images/landing/MEALPREP.webp"
               alt="Meal prep containers met gezonde maaltijden"
               loading="lazy"
               className='h-56 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-72'
@@ -805,7 +805,7 @@ export default function LandingPageFinal() {
                 Klaar om te beginnen?
               </h2>
               <p className="mx-auto mb-10 max-w-xl text-xl text-sage-200 lg:mx-0">
-                Join 500+ mensen die hun lichaam al hebben getransformeerd met SlowCarb.
+                Sluit je aan bij 500+ mensen die hun lichaam al hebben getransformeerd met SlowCarb.
               </p>
 
               <Button
@@ -842,7 +842,7 @@ export default function LandingPageFinal() {
             >
               <div className='relative overflow-hidden rounded-3xl shadow-lg'>
                 <img
-                  src="/images/landing/CHEATDAY.jpg"
+                  src="/images/landing/CHEATDAY.webp"
                   alt="Cheat day met heerlijke lekkernijen"
                   loading="lazy"
                   className='w-full h-full object-cover saturate-[0.85] brightness-105 contrast-105'
@@ -862,7 +862,7 @@ export default function LandingPageFinal() {
               visibleSections[8]
             )}`}
           >
-            <p className="text-sm">© 2025 SlowCarb. Alle rechten voorbehouden.</p>
+            <p className="text-sm">© 2026 SlowCarb. Alle rechten voorbehouden.</p>
             <div className="flex items-center gap-6 text-sm">
               <a href="#" className="transition-colors hover:text-white">
                 Privacy
