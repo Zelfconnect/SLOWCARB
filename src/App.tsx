@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Cog } from 'lucide-react';
+import LandingPage from '@/components/LandingPage';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
@@ -20,6 +21,10 @@ import type { Ingredient } from '@/types';
 import './App.css';
 
 function App() {
+  // Show landing page via ?landing=1 query param
+  const isLanding = new URLSearchParams(window.location.search).has('landing');
+  if (isLanding) return <LandingPage />;
+
   const [activeTab, setActiveTab] = useState('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);
   // Package Selector state

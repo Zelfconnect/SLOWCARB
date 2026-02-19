@@ -1,0 +1,32 @@
+#!/bin/bash
+# pre-commit hook — Block direct source edits (must come through Codex)
+#
+# Only allows commits from codex CLI or explicit bypass
+
+# Check if running inside codex
+if [ -n "$CODEX_SESSION" ] || [ -n "$OPENAI_CODEX" ]; then
+  exit 0
+fi
+
+# Check for codex-pipeline or quick-fix marker
+if [ -f "/tmp/slowcarb-codex-active" ]; then
+  exit 0
+fi
+
+# Allow non-src changes (config, docs, hooks, etc)
+CHANGED_SRC=$(git diff --cached --name-only | grep "^src/" || true)
+if [ -z "$CHANGED_SRC" ]; then
+  exit 0
+fi
+
+echo ""
+echo "❌ Commit blocked: Direct source code edit detected"
+echo ""
+echo "Files in src/ can only be changed via Codex:"
+echo "$CHANGED_SRC"
+echo ""
+echo "Use: codex exec -s danger-full-access \"<PRD>\""
+echo ""
+echo "Emergency bypass (Jesper only): git commit --no-verify"
+echo ""
+exit 1

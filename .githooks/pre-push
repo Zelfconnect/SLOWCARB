@@ -1,37 +1,35 @@
 #!/bin/bash
-# pre-push hook — Block push without QA evidence
-#
-# Checks:
-# 1. Last commit was made by codex-pipeline.sh or quick-fix.sh
-# 2. OR has --no-verify bypass
+# pre-push hook — Block push without Kimi QA evidence
 #
 # Install: git config core.hooksPath .githooks
 
 LAST_MSG=$(git log -1 --pretty=%B)
-
-# Allow if commit came from pipeline
-if echo "$LAST_MSG" | grep -q "Pipeline: codex-pipeline.sh"; then
-  exit 0
-fi
-
-# Allow quick fixes (they have build+test checks built in)
-if echo "$LAST_MSG" | grep -q "^fix:"; then
-  exit 0
-fi
+KIMI_QA_FLAG="/tmp/slowcarb-kimi-qa-done"
 
 # Allow merge commits
 if echo "$LAST_MSG" | grep -q "^Merge"; then
   exit 0
 fi
 
-# Block everything else
+# Check for Kimi QA evidence (flag file less than 30 min old)
+if [ -f "$KIMI_QA_FLAG" ]; then
+  age=$(( $(date +%s) - $(stat -f %m "$KIMI_QA_FLAG") ))
+  if [ "$age" -lt 1800 ]; then
+    echo "✅ Kimi QA verified ($(($age / 60))m ago)"
+    rm -f "$KIMI_QA_FLAG"
+    exit 0
+  else
+    echo "⚠️  Kimi QA flag too old ($(($age / 60))m) — run QA again"
+  fi
+fi
+
+# Block
 echo ""
-echo "❌ Push blocked: commit not from codex-pipeline.sh or quick-fix.sh"
+echo "❌ Push blocked: No Kimi QA evidence"
 echo ""
-echo "Use one of:"
-echo "  ~/clawd/scripts/codex-pipeline.sh <prd> <project>  (full pipeline)"
-echo "  ~/clawd/scripts/quick-fix.sh <project> \"desc\"      (small fix)"
+echo "After deploy changes, run:"
+echo "  touch /tmp/slowcarb-kimi-qa-done   (after Kimi QA passes)"
 echo ""
-echo "Emergency bypass: git push --no-verify"
+echo "Emergency bypass (Jesper only): git push --no-verify"
 echo ""
 exit 1
