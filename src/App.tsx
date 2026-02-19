@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Cog } from 'lucide-react';
 import LandingPage from '@/components/LandingPageFinal';
+import WelcomePage from '@/components/WelcomePage';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
@@ -21,6 +22,10 @@ import type { Ingredient } from '@/types';
 import './App.css';
 
 function App() {
+  // Show welcome page via ?welcome=1 query param
+  const isWelcome = new URLSearchParams(window.location.search).has('welcome');
+  if (isWelcome) return <WelcomePage />;
+
   // Show landing page via ?landing=1 query param
   const isLanding = new URLSearchParams(window.location.search).has('landing');
   if (isLanding) return <LandingPage />;
