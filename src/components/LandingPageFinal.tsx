@@ -391,69 +391,47 @@ export default function LandingPageFinal() {
       <section
         ref={setRef(0)}
         data-index={0}
-        className="relative overflow-hidden"
+        className="relative flex min-h-[70vh] items-center overflow-hidden md:min-h-[80vh]"
+        style={{
+          backgroundImage: 'url(/images/landing/HERO.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-sage-600 via-sage-600 to-sage-700" />
-        <div
-          className="absolute inset-0 opacity-50"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
+        <div className="absolute inset-0 bg-sage-900/60" />
 
-        <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 md:pb-40 md:pt-32 lg:px-8">
-          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
-            {/* Text Content */}
-            <div
-              className={`order-2 text-center lg:order-1 lg:text-left transition-all duration-700 ${revealClass(
-                visibleSections[0]
-              )}`}
-            >
-              <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm">
-                Gebaseerd op het 4-Hour Body protocol
-              </span>
-              <h1 className="font-display text-4xl font-bold leading-tight text-white text-shadow md:text-5xl lg:text-6xl">
-                8-10 kg kwijt
-                <br />
-                in 6 weken
-              </h1>
-              <p className="mx-auto mb-10 mt-6 max-w-xl text-xl leading-relaxed text-sage-100 md:text-2xl lg:mx-0">
-                Geen calorie-tellen. Geen bullshit. Gewoon eten wat werkt.
-              </p>
+        <div className="relative z-10 mx-auto w-full max-w-3xl px-5 pb-24 pt-20 text-center md:pb-40 md:pt-32">
+          <div
+            className={`transition-all duration-700 ${revealClass(
+              visibleSections[0]
+            )}`}
+          >
+            <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm">
+              Gebaseerd op het 4-Hour Body protocol
+            </span>
+            <h1 className="font-display text-4xl font-bold leading-tight text-white text-shadow md:text-5xl lg:text-6xl">
+              8-10 kg kwijt
+              <br />
+              in 6 weken
+            </h1>
+            <p className="mx-auto mb-10 mt-6 max-w-xl text-xl leading-relaxed text-sage-100 md:text-2xl">
+              Geen calorie-tellen. Geen bullshit. Gewoon eten wat werkt.
+            </p>
 
-              <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
-                <Button
-                  onClick={scrollToPricing}
-                  size="lg"
-                  className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
-                >
-                  Start nu — €29 early bird
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </div>
-
-              <p className="text-sm font-medium text-sage-200">
-                Eenmalige betaling • Geen abonnement • Direct toegang
-              </p>
+            <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Button
+                onClick={scrollToPricing}
+                size="lg"
+                className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
+              >
+                Start nu — €29 early bird
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </div>
 
-            {/* Hero Image */}
-            <div
-              className={`order-1 lg:order-2 transition-all duration-700 ${revealClass(
-                visibleSections[0]
-              )}`}
-              style={{ transitionDelay: '200ms' }}
-            >
-              <div className='relative overflow-hidden rounded-3xl shadow-lg'>
-                <img
-                  src="/images/landing/HERO.jpg"
-                  alt="Heerlijke gezonde diner met groenten en eiwitten"
-                  className='w-full h-full object-cover saturate-[0.85] brightness-105 contrast-105'
-                />
-                <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
-                <div className='absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-sage-700 to-transparent' />
-              </div>
-            </div>
+            <p className="text-sm font-medium text-sage-200">
+              Eenmalige betaling • Geen abonnement • Direct toegang
+            </p>
           </div>
         </div>
 
