@@ -56,9 +56,9 @@ type FAQ = {
 // DATA
 // ============================================
 const painPoints = [
-  { icon: RotateCcw, text: 'Elke maandag opnieuw beginnen met een dieet' },
-  { icon: Calculator, text: 'Calorie-apps die het erger maken dan het probleem' },
-  { icon: Clock, text: 'Geen tijd om elke dag te bedenken wat je eet' },
+  { icon: RotateCcw, text: 'Elke maandag "opnieuw beginnen" en vrijdag weer stoppen' },
+  { icon: Calculator, text: 'Calorieën tellen tot je gek wordt — en dan toch niet afvallen' },
+  { icon: Clock, text: 'Geen idee wat je moet eten, elke dag opnieuw dezelfde strijd' },
 ] as const;
 
 const rules: Rule[] = [
@@ -93,7 +93,7 @@ const features: Feature[] = [
   {
     icon: ChefHat,
     title: '35+ recepten',
-    description: 'Ontbijt, lunch, diner en snacks — allemaal getest, allemaal lekker, allemaal binnen 20 minuten klaar.',
+    description: 'Ontbijt, lunch en diner. Allemaal getest, allemaal lekker, allemaal binnen 20 minuten op tafel.',
   },
   {
     icon: Smartphone,
@@ -107,35 +107,35 @@ const features: Feature[] = [
   },
   {
     icon: BookOpen,
-    title: 'Wekelijkse educatie',
-    description: 'Begrijp de wetenschap achter het protocol. Waarom werkt het? Wat gebeurt er in je lichaam?',
+    title: 'Wekelijkse inzichten',
+    description: 'Korte uitleg waarom het protocol werkt. Geen droge theorie — praktische kennis die je gemotiveerd houdt.',
   },
   {
     icon: PartyPopper,
-    title: 'Cheatday protocol',
-    description: 'De complete handleiding voor jouw cheatday — inclusief tips om schade te beperken.',
+    title: 'Cheatday handleiding',
+    description: 'Eén dag per week eet je wat je wilt. Pizza, ijs, alles mag. Dit is geen beloning — het is onderdeel van het protocol.',
   },
   {
     icon: TrendingUp,
-    title: 'Voortgang tracking',
-    description: 'Houd je gewicht en meetingen bij. Zie visueel hoe je lichaam verandert.',
+    title: 'Voortgang bijhouden',
+    description: 'Log je gewicht en zie de trend. Niks motiveert zo hard als een dalende lijn.',
   },
 ];
 
 const testimonials: Testimonial[] = [
   {
-    quote: 'Ik heb 5 jaar geprobeerd om af te vallen. Met SlowCarb lukte het in 6 weken. Het voelde niet eens als een dieet.',
-    name: 'Mark de Vries',
+    quote: 'Vijf jaar lang elk dieet geprobeerd. Dit is het eerste waar ik niet over na hoef te denken. Regels volgen, eten, klaar.',
+    name: 'Mark',
     result: '-9 kg in 5 weken',
   },
   {
-    quote: 'Eindelijk geen geklooi meer met calorieën. Ik eet mezelf vol en val nog steeds af. De cheatday maakt het vol te houden.',
-    name: 'Lisa van den Berg',
+    quote: 'Ik eet me drie keer per dag vol en val af. De cheatday op zaterdag zorgt dat ik het de rest van de week makkelijk volhoud.',
+    name: 'Lisa',
     result: '-11 kg in 8 weken',
   },
   {
-    quote: 'De recepten zijn simpel en snel. Als drukke ondernemer heb ik geen tijd voor ingewikkeld gedoe. Dit werkt perfect.',
-    name: 'Thomas Jansen',
+    quote: 'Geen apps, geen weegschaaltjes voor eten, geen gedoe. Binnen een week had ik mijn ritme. Dat had ik niet verwacht.',
+    name: 'Thomas',
     result: '-7 kg in 6 weken',
   },
 ];
@@ -466,7 +466,7 @@ export default function LandingPageFinal() {
             Herkenbaar?
           </span>
           <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-            Mensen die het altijd over een nieuw dieet hebben
+            Ken je dit?
           </h2>
         </div>
 
@@ -494,13 +494,11 @@ export default function LandingPageFinal() {
                 <Check className="h-5 w-5 text-white" strokeWidth={3} />
               </div>
               <h3 className="font-display text-2xl font-bold text-stone-800">
-                SlowCarb is anders.
+                Waarom dit wél werkt.
               </h3>
             </div>
             <p className="max-w-3xl text-lg leading-relaxed text-stone-600">
-              Geen calorieën tellen, geen honger, geen verwarring. Gewoon 5 simpele regels die je
-              leven veranderen. Onze gebruikers verliezen gemiddeld 8-10 kg in de eerste 6 weken —
-              zonder de sportschool te bezoeken.
+              Diëten falen omdat ze op willskracht leunen. SlowCarb werkt omdat het willskracht vervangt door simpele regels. Geen calorieën tellen, geen honger lijden, geen verwarring. Gewoon 5 regels volgen en eten tot je vol zit. Het resultaat: 8-10 kg in 6 weken — zonder de sportschool.
             </p>
           </div>
 
@@ -538,7 +536,7 @@ export default function LandingPageFinal() {
               De 5 Regels
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-stone-600">
-              Dat is alles. Geen ingewikkelde berekeningen, geen dure supplementen.
+              Geen berekeningen. Geen supplementen. Gewoon deze regels volgen en eten tot je vol zit.
             </p>
           </div>
 
@@ -607,7 +605,7 @@ export default function LandingPageFinal() {
             Alles wat je nodig hebt
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-stone-600">
-            Geen extra apps, geen dure coaches. Gewoon een compleet systeem dat werkt.
+            Alles om vandaag te starten en vol te houden. Geen losse eindjes.
           </p>
         </div>
 
@@ -793,61 +791,40 @@ export default function LandingPageFinal() {
           }}
         />
 
-        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28 lg:px-8">
-          <div className="grid items-center gap-10 lg:grid-cols-2">
-            {/* Text Content */}
-            <div
-              className={`text-center lg:text-left transition-all duration-700 ${revealClass(
-                visibleSections[7]
-              )}`}
+        <div className="relative mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28 lg:px-8 text-center">
+          <div
+            className={`transition-all duration-700 ${revealClass(
+              visibleSections[7]
+            )}`}
+          >
+            <h2 className="mb-6 font-display text-3xl font-bold text-white text-shadow md:text-5xl">
+              Klaar om te beginnen?
+            </h2>
+            <p className="mx-auto mb-10 max-w-xl text-xl text-sage-200">
+              Over 6 weken kun je 8-10 kg lichter zijn. Zonder honger, zonder twijfel, zonder gedoe.
+            </p>
+
+            <Button
+              onClick={scrollToPricing}
+              size="lg"
+              className="h-14 rounded-xl bg-white px-10 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
             >
-              <h2 className="mb-6 font-display text-3xl font-bold text-white text-shadow md:text-5xl">
-                Klaar om te beginnen?
-              </h2>
-              <p className="mx-auto mb-10 max-w-xl text-xl text-sage-200 lg:mx-0">
-                Sluit je aan bij 500+ mensen die hun lichaam al hebben getransformeerd met SlowCarb.
-              </p>
+              Start nu — €29 early bird
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
 
-              <Button
-                onClick={scrollToPricing}
-                size="lg"
-                className="h-14 rounded-xl bg-white px-10 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
-              >
-                Start nu — €29 early bird
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-300 lg:justify-start">
-                <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4" />
-                  <span>500+ recepten bekeken</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4" />
-                  <span>Direct toegang</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4" />
-                  <span>Geen abonnement</span>
-                </div>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-300">
+              <div className="flex items-center gap-2">
+                <Check className="h-4 w-4" />
+                <span>Direct toegang</span>
               </div>
-            </div>
-
-            {/* Cheat Day Image */}
-            <div
-              className={`transition-all duration-700 ${revealClass(
-                visibleSections[7]
-              )}`}
-              style={{ transitionDelay: '200ms' }}
-            >
-              <div className='relative overflow-hidden rounded-3xl shadow-lg'>
-                <img
-                  src="/images/landing/CHEATDAY.webp"
-                  alt="Cheat day met heerlijke lekkernijen"
-                  loading="lazy"
-                  className='w-full h-full object-cover saturate-[0.85] brightness-105 contrast-105'
-                />
-                <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
+              <div className="flex items-center gap-2">
+                <Check className="h-4 w-4" />
+                <span>Geen abonnement</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="h-4 w-4" />
+                <span>30 dagen geld-terug</span>
               </div>
             </div>
           </div>
