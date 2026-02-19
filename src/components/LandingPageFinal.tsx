@@ -401,38 +401,55 @@ export default function LandingPageFinal() {
           }}
         />
 
-        <div className="relative mx-auto max-w-5xl px-4 pb-24 pt-20 sm:px-6 md:pb-40 md:pt-32 lg:px-8">
-          <div
-            className={`text-center transition-all duration-700 ${revealClass(
-              visibleSections[0]
-            )}`}
-          >
-            <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm">
-              Gebaseerd op het 4-Hour Body protocol
-            </span>
-            <h1 className="font-display text-4xl font-bold leading-tight text-white text-shadow md:text-6xl lg:text-7xl">
-              8-10 kg kwijt
-              <br />
-              in 6 weken
-            </h1>
-            <p className="mx-auto mb-10 mt-6 max-w-2xl text-xl leading-relaxed text-sage-100 md:text-2xl">
-              Geen calorie-tellen. Geen bullshit. Gewoon eten wat werkt.
-            </p>
+        <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 md:pb-40 md:pt-32 lg:px-8">
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+            {/* Text Content */}
+            <div
+              className={`order-2 text-center lg:order-1 lg:text-left transition-all duration-700 ${revealClass(
+                visibleSections[0]
+              )}`}
+            >
+              <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm">
+                Gebaseerd op het 4-Hour Body protocol
+              </span>
+              <h1 className="font-display text-4xl font-bold leading-tight text-white text-shadow md:text-5xl lg:text-6xl">
+                8-10 kg kwijt
+                <br />
+                in 6 weken
+              </h1>
+              <p className="mx-auto mb-10 mt-6 max-w-xl text-xl leading-relaxed text-sage-100 md:text-2xl lg:mx-0">
+                Geen calorie-tellen. Geen bullshit. Gewoon eten wat werkt.
+              </p>
 
-            <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button
-                onClick={scrollToPricing}
-                size="lg"
-                className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
-              >
-                Start nu — €29 early bird
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
+                <Button
+                  onClick={scrollToPricing}
+                  size="lg"
+                  className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
+                >
+                  Start nu — €29 early bird
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
+
+              <p className="text-sm font-medium text-sage-200">
+                Eenmalige betaling • Geen abonnement • Direct toegang
+              </p>
             </div>
 
-            <p className="text-sm font-medium text-sage-200">
-              Eenmalige betaling • Geen abonnement • Direct toegang
-            </p>
+            {/* Hero Image */}
+            <div
+              className={`order-1 lg:order-2 transition-all duration-700 ${revealClass(
+                visibleSections[0]
+              )}`}
+              style={{ transitionDelay: '200ms' }}
+            >
+              <img
+                src="/images/landing/HERO.jpg"
+                alt="Heerlijke gezonde diner met groenten en eiwitten"
+                className="w-full rounded-2xl object-cover shadow-2xl"
+              />
+            </div>
           </div>
         </div>
 
@@ -483,25 +500,41 @@ export default function LandingPageFinal() {
           ))}
         </div>
 
-        <div
-          className={`rounded-3xl border border-sage-100 bg-gradient-to-br from-sage-50 to-stone-50 p-8 md:p-12 transition-all duration-700 ${revealClass(
-            visibleSections[1]
-          )}`}
-          style={{ transitionDelay: '400ms' }}
-        >
-          <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sage-600">
-              <Check className="h-5 w-5 text-white" strokeWidth={3} />
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+          <div
+            className={`rounded-3xl border border-sage-100 bg-gradient-to-br from-sage-50 to-stone-50 p-8 md:p-12 transition-all duration-700 ${revealClass(
+              visibleSections[1]
+            )}`}
+            style={{ transitionDelay: '400ms' }}
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sage-600">
+                <Check className="h-5 w-5 text-white" strokeWidth={3} />
+              </div>
+              <h3 className="font-display text-2xl font-bold text-stone-800">
+                SlowCarb is anders.
+              </h3>
             </div>
-            <h3 className="font-display text-2xl font-bold text-stone-800">
-              SlowCarb is anders.
-            </h3>
+            <p className="max-w-3xl text-lg leading-relaxed text-stone-600">
+              Geen calorieën tellen, geen honger, geen verwarring. Gewoon 5 simpele regels die je
+              leven veranderen. Onze gebruikers verliezen gemiddeld 8-10 kg in de eerste 6 weken —
+              zonder de sportschool te zien.
+            </p>
           </div>
-          <p className="max-w-3xl text-lg leading-relaxed text-stone-600">
-            Geen calorieën tellen, geen honger, geen verwarring. Gewoon 5 simpele regels die je
-            leven veranderen. Onze gebruikers verliezen gemiddeld 8-10 kg in de eerste 6 weken —
-            zonder de sportschool te zien.
-          </p>
+
+          <div
+            className={`transition-all duration-700 ${revealClass(
+              visibleSections[1]
+            )}`}
+            style={{ transitionDelay: '500ms' }}
+          >
+            <img
+              src="/images/landing/LIFESTYLE.jpg"
+              alt="Gezonde levensstijl en transformatie"
+              loading="lazy"
+              className="h-64 w-full rounded-2xl object-cover shadow-card md:h-80"
+            />
+          </div>
         </div>
       </section>
 
@@ -522,6 +555,21 @@ export default function LandingPageFinal() {
             <p className="mx-auto mt-4 max-w-2xl text-stone-600">
               Dat is alles. Geen ingewikkelde berekeningen, geen dure supplementen.
             </p>
+          </div>
+
+          {/* Breakfast Image */}
+          <div
+            className={`mb-10 transition-all duration-700 ${revealClass(
+              visibleSections[2]
+            )}`}
+            style={{ transitionDelay: '100ms' }}
+          >
+            <img
+              src="/images/landing/HEROBREAKFAST.jpg"
+              alt="Gezond ontbijt met eiwitten en groenten"
+              loading="lazy"
+              className="h-48 w-full rounded-2xl object-cover shadow-card md:h-64"
+            />
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -573,6 +621,21 @@ export default function LandingPageFinal() {
           <p className="mx-auto mt-4 max-w-2xl text-stone-600">
             Geen extra apps, geen dure coaches. Gewoon een compleet systeem dat werkt.
           </p>
+        </div>
+
+        {/* Meal Prep Image */}
+        <div
+          className={`mb-10 transition-all duration-700 ${revealClass(
+            visibleSections[3]
+          )}`}
+          style={{ transitionDelay: '100ms' }}
+        >
+          <img
+            src="/images/landing/MEALPREP.jpg"
+            alt="Meal prep containers met gezonde maaltijden"
+            loading="lazy"
+            className="h-56 w-full rounded-2xl object-cover shadow-card md:h-72"
+          />
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -739,41 +802,59 @@ export default function LandingPageFinal() {
           }}
         />
 
-        <div className="relative mx-auto max-w-4xl px-4 py-20 sm:px-6 md:py-28 lg:px-8">
-          <div
-            className={`text-center transition-all duration-700 ${revealClass(
-              visibleSections[7]
-            )}`}
-          >
-            <h2 className="mb-6 font-display text-3xl font-bold text-white text-shadow md:text-5xl">
-              Klaar om te beginnen?
-            </h2>
-            <p className="mx-auto mb-10 max-w-xl text-xl text-sage-200">
-              Join 500+ mensen die hun lichaam al hebben getransformeerd met SlowCarb.
-            </p>
-
-            <Button
-              onClick={scrollToPricing}
-              size="lg"
-              className="h-14 rounded-xl bg-white px-10 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
+        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28 lg:px-8">
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            {/* Text Content */}
+            <div
+              className={`text-center lg:text-left transition-all duration-700 ${revealClass(
+                visibleSections[7]
+              )}`}
             >
-              Start nu — €29 early bird
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+              <h2 className="mb-6 font-display text-3xl font-bold text-white text-shadow md:text-5xl">
+                Klaar om te beginnen?
+              </h2>
+              <p className="mx-auto mb-10 max-w-xl text-xl text-sage-200 lg:mx-0">
+                Join 500+ mensen die hun lichaam al hebben getransformeerd met SlowCarb.
+              </p>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-300">
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4" />
-                <span>500+ recepten bekeken</span>
+              <Button
+                onClick={scrollToPricing}
+                size="lg"
+                className="h-14 rounded-xl bg-white px-10 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
+              >
+                Start nu — €29 early bird
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-300 lg:justify-start">
+                <div className="flex items-center gap-2">
+                  <Check className="h-4 w-4" />
+                  <span>500+ recepten bekeken</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="h-4 w-4" />
+                  <span>Direct toegang</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="h-4 w-4" />
+                  <span>Geen abonnement</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4" />
-                <span>Direct toegang</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4" />
-                <span>Geen abonnement</span>
-              </div>
+            </div>
+
+            {/* Cheat Day Image */}
+            <div
+              className={`transition-all duration-700 ${revealClass(
+                visibleSections[7]
+              )}`}
+              style={{ transitionDelay: '200ms' }}
+            >
+              <img
+                src="/images/landing/CHEATDAY.jpg"
+                alt="Cheat day met heerlijke lekkernijen"
+                loading="lazy"
+                className="w-full rounded-2xl object-cover shadow-2xl"
+              />
             </div>
           </div>
         </div>
