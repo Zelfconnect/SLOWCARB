@@ -380,8 +380,14 @@ function FloatingMobileCTA({ onClick }: { onClick: () => void }) {
 export default function LandingPageFinal() {
   const { visibleSections, setRef } = useSectionReveal(9);
 
+  const stripeUrl = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
+
   const scrollToPricing = () => {
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const openCheckout = () => {
+    window.open(stripeUrl, '_blank');
   };
 
   return (
@@ -419,7 +425,7 @@ export default function LandingPageFinal() {
 
             <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button
-                onClick={scrollToPricing}
+                onClick={openCheckout}
                 size="lg"
                 className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
               >
@@ -725,7 +731,7 @@ export default function LandingPageFinal() {
             </ul>
 
             <Button
-              onClick={scrollToPricing}
+              onClick={openCheckout}
               size="lg"
               className="h-14 w-full rounded-xl bg-sage-600 text-lg font-semibold text-white shadow-soft hover:bg-sage-700"
             >
@@ -804,7 +810,7 @@ export default function LandingPageFinal() {
             </p>
 
             <Button
-              onClick={scrollToPricing}
+              onClick={openCheckout}
               size="lg"
               className="h-14 rounded-xl bg-white px-10 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
             >
@@ -855,7 +861,7 @@ export default function LandingPageFinal() {
       </footer>
 
       {/* Floating Mobile CTA */}
-      <FloatingMobileCTA onClick={scrollToPricing} />
+      <FloatingMobileCTA onClick={openCheckout} />
     </div>
   );
 }
