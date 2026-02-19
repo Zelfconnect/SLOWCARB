@@ -444,11 +444,15 @@ export default function LandingPageFinal() {
               )}`}
               style={{ transitionDelay: '200ms' }}
             >
-              <img
-                src="/images/landing/HERO.jpg"
-                alt="Heerlijke gezonde diner met groenten en eiwitten"
-                className="w-full rounded-2xl object-cover shadow-2xl"
-              />
+              <div className='relative overflow-hidden rounded-3xl shadow-lg'>
+                <img
+                  src="/images/landing/HERO.jpg"
+                  alt="Heerlijke gezonde diner met groenten en eiwitten"
+                  className='w-full h-full object-cover saturate-[0.85] brightness-105 contrast-105'
+                />
+                <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
+                <div className='absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-sage-700 to-transparent' />
+              </div>
             </div>
           </div>
         </div>
@@ -528,12 +532,15 @@ export default function LandingPageFinal() {
             )}`}
             style={{ transitionDelay: '500ms' }}
           >
-            <img
-              src="/images/landing/LIFESTYLE.jpg"
-              alt="Gezonde levensstijl en transformatie"
-              loading="lazy"
-              className="h-64 w-full rounded-2xl object-cover shadow-card md:h-80"
-            />
+            <div className='relative overflow-hidden rounded-3xl shadow-lg'>
+              <img
+                src="/images/landing/LIFESTYLE.jpg"
+                alt="Gezonde levensstijl en transformatie"
+                loading="lazy"
+                className='h-64 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-80'
+              />
+              <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
+            </div>
           </div>
         </div>
       </section>
@@ -564,12 +571,15 @@ export default function LandingPageFinal() {
             )}`}
             style={{ transitionDelay: '100ms' }}
           >
-            <img
-              src="/images/landing/HEROBREAKFAST.jpg"
-              alt="Gezond ontbijt met eiwitten en groenten"
-              loading="lazy"
-              className="h-48 w-full rounded-2xl object-cover shadow-card md:h-64"
-            />
+            <div className='relative overflow-hidden rounded-3xl shadow-lg'>
+              <img
+                src="/images/landing/HEROBREAKFAST.jpg"
+                alt="Gezond ontbijt met eiwitten en groenten"
+                loading="lazy"
+                className='h-48 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-64'
+              />
+              <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
+            </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -630,12 +640,15 @@ export default function LandingPageFinal() {
           )}`}
           style={{ transitionDelay: '100ms' }}
         >
-          <img
-            src="/images/landing/MEALPREP.jpg"
-            alt="Meal prep containers met gezonde maaltijden"
-            loading="lazy"
-            className="h-56 w-full rounded-2xl object-cover shadow-card md:h-72"
-          />
+          <div className='relative overflow-hidden rounded-3xl shadow-lg'>
+            <img
+              src="/images/landing/MEALPREP.jpg"
+              alt="Meal prep containers met gezonde maaltijden"
+              loading="lazy"
+              className='h-56 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-72'
+            />
+            <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -849,12 +862,15 @@ export default function LandingPageFinal() {
               )}`}
               style={{ transitionDelay: '200ms' }}
             >
-              <img
-                src="/images/landing/CHEATDAY.jpg"
-                alt="Cheat day met heerlijke lekkernijen"
-                loading="lazy"
-                className="w-full rounded-2xl object-cover shadow-2xl"
-              />
+              <div className='relative overflow-hidden rounded-3xl shadow-lg'>
+                <img
+                  src="/images/landing/CHEATDAY.jpg"
+                  alt="Cheat day met heerlijke lekkernijen"
+                  loading="lazy"
+                  className='w-full h-full object-cover saturate-[0.85] brightness-105 contrast-105'
+                />
+                <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
+              </div>
             </div>
           </div>
         </div>
