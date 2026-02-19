@@ -357,19 +357,18 @@ function TestimonialCard({
 
 function FloatingMobileCTA({ onClick }: { onClick: () => void }) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-stone-200 p-4 md:hidden safe-bottom">
-      <div className="flex items-center justify-between gap-4">
+    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+      <div className="mx-3 mb-3 flex items-center justify-between rounded-2xl bg-sage-700/95 backdrop-blur-md px-4 py-3 shadow-lg">
         <div className="flex flex-col">
-          <span className="text-lg font-bold text-stone-900">€29</span>
-          <span className="text-xs text-stone-500">Eerste 100 — daarna €47</span>
+          <span className="text-sm font-bold text-white">€29 <span className="text-xs font-normal text-sage-300 line-through">€47</span></span>
+          <span className="text-[11px] text-sage-300">Nog 100 plekken</span>
         </div>
-        <Button
+        <button
           onClick={onClick}
-          className="bg-sage-600 hover:bg-sage-700 text-white rounded-xl px-6 font-semibold shadow-elevated"
+          className="rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-sage-700 shadow-sm active:scale-95 transition-transform"
         >
-          Start nu
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+          Start nu →
+        </button>
       </div>
     </div>
   );
