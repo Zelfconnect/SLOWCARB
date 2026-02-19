@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Cog } from 'lucide-react';
-import LandingPage from '@/components/LandingPage';
+import LandingPage from '@/components/LandingPageFinal';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
