@@ -1,19 +1,11 @@
 import { useState } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Dialog } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card';
 import { ChevronLeft } from 'lucide-react';
 
 interface OnboardingData {
@@ -42,7 +34,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
   const handleNext = () => {
     if (currentStep === 1 && !data.name.trim()) return;
-    
+
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -57,241 +49,287 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
   };
 
   const weekEstimate = Math.ceil(data.weightGoal * 0.6);
+  const cheatDayLabel = data.cheatDay.charAt(0).toUpperCase() + data.cheatDay.slice(1);
 
   return (
-    <Dialog open={true}>
+    <DialogPrimitive.Root open>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Content
-          className="fixed inset-0 z-50 w-full h-full max-w-none p-0 m-0 border-none bg-white outline-none"
+          className="fixed inset-0 z-50 h-full w-full max-w-none border-none bg-warm-50 p-0 outline-none"
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <div className="flex flex-col h-full">
-            {/* Progress indicator */}
-            <div className="flex justify-center gap-2 pt-8 pb-4">
-              {[1, 2, 3, 4, 5].map((step) => (
-                <div
-                  key={step}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    step <= currentStep ? 'bg-sage-600' : 'bg-gray-300'
+          <div className="flex min-h-screen flex-col bg-gradient-to-b from-cream via-warm-50 to-warm-100/70">
+            <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-6 pb-8 pt-8 sm:px-8">
+              <div className="mb-8 flex items-center justify-between">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleBack}
+                  className={`text-warm-700 hover:bg-transparent hover:text-warm-900 ${
+                    currentStep === 1 ? 'invisible' : ''
                   }`}
-                />
-              ))}
-            </div>
+                  aria-label="Vorige stap"
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </Button>
 
-            {/* Content */}
-            <div className="flex-1 flex flex-col items-start justify-start pt-8 px-6">
-            {currentStep === 1 && (
-              <Card className="max-w-md w-full mx-auto rounded-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center">Welkom bij SlowCarb</CardTitle>
-                  <p className="text-center text-muted-foreground">Je persoonlijke slow-carb coach</p>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Label htmlFor="name">Je naam</Label>
-                  <Input
-                    id="name"
-                    placeholder="Hoe mogen we je noemen?"
-                    value={data.name}
-                    onChange={(e) => setData({ ...data, name: e.target.value })}
-                    onKeyDown={(e) => e.key === 'Enter' && handleNext()}
-                  />
-                </CardContent>
-                <CardFooter className="mt-6">
-                  <Button
-                    className="w-full"
-                    onClick={handleNext}
-                    disabled={!data.name.trim()}
-                  >
-                    Volgende
-                  </Button>
-                </CardFooter>
-              </Card>
-            )}
-
-            {currentStep === 2 && (
-              <Card className="max-w-md w-full mx-auto rounded-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center">Wat is je doel?</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Label htmlFor="weight-goal">Hoeveel kilo wil je afvallen?</Label>
-                  <Slider
-                    id="weight-goal"
-                    min={3}
-                    max={20}
-                    step={1}
-                    value={[data.weightGoal]}
-                    onValueChange={(value) => setData({ ...data, weightGoal: value[0] })}
-                  />
-                  <p className="text-center text-lg font-semibold">
-                    {data.weightGoal} kg
-                  </p>
-                  <p className="text-center text-muted-foreground">
-                    In ongeveer {weekEstimate} weken
-                  </p>
-                </CardContent>
-                <CardFooter className="mt-6 flex gap-3">
-                  <Button variant="ghost" onClick={handleBack} className="shrink-0">
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button className="flex-1" onClick={handleNext}>
-                    Volgende
-                  </Button>
-                </CardFooter>
-              </Card>
-            )}
-
-            {currentStep === 3 && (
-              <Card className="max-w-md w-full mx-auto rounded-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center">Jouw voorkeuren</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Label
-                    htmlFor="vegetarian"
-                    className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
-                  >
-                    <Checkbox
-                      id="vegetarian"
-                      checked={data.vegetarian}
-                      className="h-6 w-6"
-                      onCheckedChange={(checked) =>
-                        setData({ ...data, vegetarian: checked as boolean })
-                      }
+                <div className="flex justify-center gap-3">
+                  {[1, 2, 3, 4, 5].map((step) => (
+                    <div
+                      key={step}
+                      className={`h-3.5 w-3.5 rounded-full transition-colors ${
+                        step <= currentStep ? 'bg-sage-600' : 'bg-warm-200'
+                      }`}
                     />
-                    <span>Ik ben vegetarisch</span>
-                  </Label>
-                  <Label
-                    htmlFor="airfryer"
-                    className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
-                  >
-                    <Checkbox
-                      id="airfryer"
-                      checked={data.hasAirfryer}
-                      className="h-6 w-6"
-                      onCheckedChange={(checked) =>
-                        setData({ ...data, hasAirfryer: checked as boolean })
-                      }
-                    />
-                    <span>Ik heb een airfryer</span>
-                  </Label>
-                  <Label
-                    htmlFor="sports"
-                    className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
-                  >
-                    <Checkbox
-                      id="sports"
-                      checked={data.sportsRegularly}
-                      className="h-6 w-6"
-                      onCheckedChange={(checked) =>
-                        setData({ ...data, sportsRegularly: checked as boolean })
-                      }
-                    />
-                    <span>Ik sport regelmatig</span>
-                  </Label>
-                </CardContent>
-                <CardFooter className="mt-6 flex gap-3">
-                  <Button variant="ghost" onClick={handleBack} className="shrink-0">
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button className="flex-1" onClick={handleNext}>
-                    Volgende
-                  </Button>
-                </CardFooter>
-              </Card>
-            )}
+                  ))}
+                </div>
 
-            {currentStep === 4 && (
-              <Card className="max-w-md w-full mx-auto rounded-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center">Kies je cheat day</CardTitle>
-                  <p className="text-center text-muted-foreground">Dit is je wekelijkse vrije dag</p>
-                </CardHeader>
-                <CardContent>
-                  <RadioGroup
-                    value={data.cheatDay}
-                    className="space-y-2"
-                    onValueChange={(value: 'zaterdag' | 'zondag') =>
-                      setData({ ...data, cheatDay: value })
-                    }
-                  >
-                    <Label
-                      htmlFor="saturday"
-                      className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
+                <div className="h-10 w-10" />
+              </div>
+
+              <div className="flex flex-1 flex-col">
+                {currentStep === 1 && (
+                  <section className="flex flex-1 flex-col">
+                    <div className="space-y-4 text-center">
+                      <span className="block text-6xl leading-none">🌱</span>
+                      <h1 className="text-3xl font-bold text-warm-900">Hé, hoe heet je?</h1>
+                      <p className="text-base text-warm-600">
+                        We personaliseren jouw slow-carb journey
+                      </p>
+                    </div>
+
+                    <div className="mt-10 space-y-5">
+                      <Label htmlFor="name" className="text-sm font-medium text-warm-700">
+                        Je naam
+                      </Label>
+                      <Input
+                        id="name"
+                        placeholder="Hoe mogen we je noemen?"
+                        value={data.name}
+                        onChange={(e) => setData({ ...data, name: e.target.value })}
+                        onKeyDown={(e) => e.key === 'Enter' && handleNext()}
+                        className="h-14 rounded-2xl border-warm-300 bg-white/90 px-5 text-lg text-warm-900 placeholder:text-warm-400"
+                      />
+                    </div>
+
+                    <div className="mt-auto pt-8">
+                      <Button
+                        type="button"
+                        onClick={handleNext}
+                        disabled={!data.name.trim()}
+                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                      >
+                        Volgende
+                      </Button>
+                    </div>
+                  </section>
+                )}
+
+                {currentStep === 2 && (
+                  <section className="flex flex-1 flex-col">
+                    <div className="space-y-4 text-center">
+                      <span className="block text-6xl leading-none">🎯</span>
+                      <h1 className="text-3xl font-bold text-warm-900">Hoeveel wil je afvallen?</h1>
+                      <p className="text-base text-warm-600">
+                        Kies je doel, dan berekenen wij direct een realistische timeline
+                      </p>
+                    </div>
+
+                    <div className="mt-10 rounded-3xl border border-warm-200 bg-white/80 p-6">
+                      <Label htmlFor="weight-goal" className="text-sm font-medium text-warm-700">
+                        Gewichtsdoel
+                      </Label>
+                      <Slider
+                        id="weight-goal"
+                        min={3}
+                        max={20}
+                        step={1}
+                        value={[data.weightGoal]}
+                        onValueChange={(value) => setData({ ...data, weightGoal: value[0] })}
+                        className="mt-5"
+                      />
+                      <p className="mt-6 text-center text-2xl font-bold text-warm-900">
+                        {data.weightGoal} kg in ~{weekEstimate} weken
+                      </p>
+                    </div>
+
+                    <div className="mt-auto pt-8">
+                      <Button
+                        type="button"
+                        onClick={handleNext}
+                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                      >
+                        Volgende
+                      </Button>
+                    </div>
+                  </section>
+                )}
+
+                {currentStep === 3 && (
+                  <section className="flex flex-1 flex-col">
+                    <div className="space-y-4 text-center">
+                      <span className="block text-6xl leading-none">⚙️</span>
+                      <h1 className="text-3xl font-bold text-warm-900">Jouw voorkeuren</h1>
+                      <p className="text-base text-warm-600">
+                        Zo stemmen we recepten en tips beter af op jouw routine
+                      </p>
+                    </div>
+
+                    <div className="mt-10 space-y-3">
+                      <Label
+                        htmlFor="vegetarian"
+                        className="flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border border-warm-200 bg-white/85 px-4 py-3 text-base font-medium text-warm-800"
+                      >
+                        <Checkbox
+                          id="vegetarian"
+                          checked={data.vegetarian}
+                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600"
+                          onCheckedChange={(checked) =>
+                            setData({ ...data, vegetarian: checked as boolean })
+                          }
+                        />
+                        <span>Ik ben vegetarisch</span>
+                      </Label>
+
+                      <Label
+                        htmlFor="airfryer"
+                        className="flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border border-warm-200 bg-white/85 px-4 py-3 text-base font-medium text-warm-800"
+                      >
+                        <Checkbox
+                          id="airfryer"
+                          checked={data.hasAirfryer}
+                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600"
+                          onCheckedChange={(checked) =>
+                            setData({ ...data, hasAirfryer: checked as boolean })
+                          }
+                        />
+                        <span>Ik heb een airfryer</span>
+                      </Label>
+
+                      <Label
+                        htmlFor="sports"
+                        className="flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border border-warm-200 bg-white/85 px-4 py-3 text-base font-medium text-warm-800"
+                      >
+                        <Checkbox
+                          id="sports"
+                          checked={data.sportsRegularly}
+                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600"
+                          onCheckedChange={(checked) =>
+                            setData({ ...data, sportsRegularly: checked as boolean })
+                          }
+                        />
+                        <span>Ik sport regelmatig</span>
+                      </Label>
+                    </div>
+
+                    <div className="mt-auto pt-8">
+                      <Button
+                        type="button"
+                        onClick={handleNext}
+                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                      >
+                        Volgende
+                      </Button>
+                    </div>
+                  </section>
+                )}
+
+                {currentStep === 4 && (
+                  <section className="flex flex-1 flex-col">
+                    <div className="space-y-4 text-center">
+                      <span className="block text-6xl leading-none">🎉</span>
+                      <h1 className="text-3xl font-bold text-warm-900">Kies je cheat day</h1>
+                      <p className="text-base text-warm-600">
+                        Plan je vrije dag slim in zodat je de rest van de week consistent blijft
+                      </p>
+                    </div>
+
+                    <RadioGroup
+                      value={data.cheatDay}
+                      className="mt-10 gap-3"
+                      onValueChange={(value: 'zaterdag' | 'zondag') =>
+                        setData({ ...data, cheatDay: value })
+                      }
                     >
-                      <RadioGroupItem value="zaterdag" id="saturday" className="h-6 w-6" />
-                      <span>Zaterdag</span>
-                    </Label>
-                    <Label
-                      htmlFor="sunday"
-                      className="flex min-h-[56px] items-center gap-3 cursor-pointer text-base font-medium"
-                    >
-                      <RadioGroupItem value="zondag" id="sunday" className="h-6 w-6" />
-                      <span>Zondag</span>
-                    </Label>
-                  </RadioGroup>
-                </CardContent>
-                <CardFooter className="mt-6 flex gap-3">
-                  <Button variant="ghost" onClick={handleBack} className="shrink-0">
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button className="flex-1" onClick={handleNext}>
-                    Volgende
-                  </Button>
-                </CardFooter>
-              </Card>
-            )}
+                      <Label
+                        htmlFor="saturday"
+                        className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-semibold transition-colors ${
+                          data.cheatDay === 'zaterdag'
+                            ? 'border-sage-600 bg-sage-50 text-sage-700'
+                            : 'border-warm-200 bg-white/85 text-warm-800'
+                        }`}
+                      >
+                        <RadioGroupItem
+                          value="zaterdag"
+                          id="saturday"
+                          className="h-6 w-6 border-warm-300 text-sage-600"
+                        />
+                        <span>Zaterdag</span>
+                      </Label>
 
-            {currentStep === 5 && (
-              <Card className="max-w-md w-full mx-auto rounded-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center">Klaar om te starten!</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-                    <p>
-                      <span className="font-semibold">Naam:</span> {data.name}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Doel:</span> {data.weightGoal} kg afvallen
-                    </p>
-                    <p>
-                      <span className="font-semibold">Tijdsindicatie:</span> {weekEstimate} weken
-                    </p>
-                    <p>
-                      <span className="font-semibold">Cheat day:</span>{' '}
-                      {data.cheatDay.charAt(0).toUpperCase() + data.cheatDay.slice(1)}
-                    </p>
-                    {(data.vegetarian || data.hasAirfryer || data.sportsRegularly) && (
-                      <>
-                        <p className="font-semibold">Voorkeuren:</p>
-                        <ul className="list-disc list-inside text-sm">
-                          {data.vegetarian && <li>Vegetarisch</li>}
-                          {data.hasAirfryer && <li>Heeft airfryer</li>}
-                          {data.sportsRegularly && <li>Sport regelmatig</li>}
-                        </ul>
-                      </>
-                    )}
-                  </div>
-                </CardContent>
-                <CardFooter className="mt-6 flex gap-3">
-                  <Button variant="ghost" onClick={handleBack} className="shrink-0">
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    className="flex-1 bg-sage-600 hover:bg-sage-700"
-                    onClick={handleNext}
-                  >
-                    Start je Journey
-                  </Button>
-                </CardFooter>
-              </Card>
-            )}
+                      <Label
+                        htmlFor="sunday"
+                        className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-semibold transition-colors ${
+                          data.cheatDay === 'zondag'
+                            ? 'border-sage-600 bg-sage-50 text-sage-700'
+                            : 'border-warm-200 bg-white/85 text-warm-800'
+                        }`}
+                      >
+                        <RadioGroupItem
+                          value="zondag"
+                          id="sunday"
+                          className="h-6 w-6 border-warm-300 text-sage-600"
+                        />
+                        <span>Zondag</span>
+                      </Label>
+                    </RadioGroup>
+
+                    <div className="mt-auto pt-8">
+                      <Button
+                        type="button"
+                        onClick={handleNext}
+                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                      >
+                        Volgende
+                      </Button>
+                    </div>
+                  </section>
+                )}
+
+                {currentStep === 5 && (
+                  <section className="flex flex-1 flex-col">
+                    <div className="space-y-4 text-center">
+                      <span className="block text-6xl leading-none">🚀</span>
+                      <h1 className="text-3xl font-bold text-warm-900">Klaar, {data.name || 'jij'}!</h1>
+                      <p className="text-base text-warm-600">
+                        Jouw slow-carb journey begint nu. Je zult het niet regret.
+                      </p>
+                    </div>
+
+                    <div className="mt-10 rounded-3xl border border-warm-200 bg-white/85 p-6 text-center">
+                      <p className="text-lg font-semibold text-warm-900">
+                        Doel: {data.weightGoal} kg in ~{weekEstimate} weken · Cheat day: {cheatDayLabel}
+                      </p>
+                    </div>
+
+                    <div className="mt-auto pt-8">
+                      <Button
+                        type="button"
+                        onClick={handleNext}
+                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                      >
+                        Start mijn journey →
+                      </Button>
+                    </div>
+                  </section>
+                )}
+              </div>
             </div>
           </div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
-    </Dialog>
+    </DialogPrimitive.Root>
   );
 }
