@@ -25,6 +25,7 @@ import {
   Quote,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { STORAGE_KEYS } from '@/lib/storageKeys';
 
 // ============================================
 // TYPES
@@ -379,8 +380,23 @@ function FloatingMobileCTA({ onClick }: { onClick: () => void }) {
 // ============================================
 export default function LandingPageFinal() {
   const { visibleSections, setRef } = useSectionReveal(9);
+  const [showAppButton, setShowAppButton] = useState(false);
 
   const stripeUrl = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
+
+  useEffect(() => {
+    const storedProfile = localStorage.getItem(STORAGE_KEYS.PROFILE);
+    if (!storedProfile) return;
+
+    try {
+      const parsedProfile = JSON.parse(storedProfile) as { hasCompletedOnboarding?: boolean };
+      if (parsedProfile.hasCompletedOnboarding === true) {
+        setShowAppButton(true);
+      }
+    } catch {
+      setShowAppButton(false);
+    }
+  }, []);
 
   const openCheckout = () => {
     window.open(stripeUrl, '_blank');
@@ -388,6 +404,15 @@ export default function LandingPageFinal() {
 
   return (
     <div className="min-h-screen bg-cream">
+      {showAppButton && (
+        <a
+          href="/?app=1"
+          className="fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-full bg-sage-600 px-4 py-2 text-sm text-white shadow-md transition-colors hover:bg-sage-700 sm:left-auto sm:right-4 sm:translate-x-0"
+        >
+          Open je app →
+        </a>
+      )}
+
       {/* Hero Section */}
       <section
         ref={setRef(0)}

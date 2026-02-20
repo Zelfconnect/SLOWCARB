@@ -1,7 +1,7 @@
 {
   "name": "SlowCarb Companion",
   "short_name": "SlowCarb",
-  "start_url": "./",
+  "start_url": "./?app=1",
   "display": "standalone",
   "background_color": "#FAFAF8",
   "theme_color": "#3d623d",
