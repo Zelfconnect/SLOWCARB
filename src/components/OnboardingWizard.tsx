@@ -96,7 +96,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       <span className="block text-6xl leading-none">🌱</span>
                       <h1 className="text-3xl font-bold text-warm-900">Hé, hoe heet je?</h1>
                       <p className="text-base text-warm-600">
-                        We personaliseren jouw slow-carb journey
+                        We personaliseren jouw slow carb journey
                       </p>
                     </div>
 
@@ -326,21 +326,23 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
                     <div className="relative z-10 mt-10 grid grid-cols-2 gap-3">
                       <div className="rounded-2xl border border-warm-200 bg-warm-100/80 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-warm-600">🎯 Doel</p>
+                        <span className="mb-1 block text-2xl leading-none">🎯</span>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-warm-600">Doel</p>
                         <p className="mt-1 text-lg font-bold text-warm-900">{data.weightGoal} kg</p>
                       </div>
                       <div className="rounded-2xl border border-sage-200 bg-sage-50 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">📅 Timeline</p>
+                        <span className="mb-1 block text-2xl leading-none">📅</span>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">Timeline</p>
                         <p className="mt-1 text-lg font-bold text-sage-900">~{weekEstimate} weken</p>
                       </div>
                       <div className="rounded-2xl border border-warm-200 bg-warm-100/80 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-warm-600">
-                          🎉 Cheat day
-                        </p>
+                        <span className="mb-1 block text-2xl leading-none">🎉</span>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-warm-600">Cheat day</p>
                         <p className="mt-1 text-lg font-bold text-warm-900">{cheatDayLabel}</p>
                       </div>
                       <div className="rounded-2xl border border-sage-200 bg-sage-50 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">🥗 Voorkeur</p>
+                        <span className="mb-1 block text-2xl leading-none">🥗</span>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">Voorkeur</p>
                         <p className="mt-1 text-base font-bold text-sage-900">
                           {data.vegetarian && data.hasAirfryer
                             ? 'Vegetarisch + Airfryer'
