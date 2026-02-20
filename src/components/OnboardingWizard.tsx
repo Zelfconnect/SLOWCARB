@@ -170,7 +170,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                 {currentStep === 3 && (
                   <section className="flex flex-1 flex-col">
                     <div className="space-y-4 text-center">
-                      <span className="block text-6xl leading-none">⚙️</span>
+                      <span className="block text-6xl leading-none">🍽️</span>
                       <h1 className="text-3xl font-bold text-warm-900">Jouw voorkeuren</h1>
                       <p className="text-base text-warm-600">
                         Zo stemmen we recepten en tips beter af op jouw routine
@@ -180,12 +180,16 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                     <div className="mt-10 space-y-3">
                       <Label
                         htmlFor="vegetarian"
-                        className="flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border border-warm-200 bg-white/85 px-4 py-3 text-base font-medium text-warm-800"
+                        className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-medium transition-colors ${
+                          data.vegetarian
+                            ? 'border-sage-200 bg-sage-50 text-sage-800'
+                            : 'border-warm-200 bg-white/85 text-warm-800'
+                        }`}
                       >
                         <Checkbox
                           id="vegetarian"
                           checked={data.vegetarian}
-                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600"
+                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
                           onCheckedChange={(checked) =>
                             setData({ ...data, vegetarian: checked as boolean })
                           }
@@ -195,12 +199,16 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
                       <Label
                         htmlFor="airfryer"
-                        className="flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border border-warm-200 bg-white/85 px-4 py-3 text-base font-medium text-warm-800"
+                        className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-medium transition-colors ${
+                          data.hasAirfryer
+                            ? 'border-sage-200 bg-sage-50 text-sage-800'
+                            : 'border-warm-200 bg-white/85 text-warm-800'
+                        }`}
                       >
                         <Checkbox
                           id="airfryer"
                           checked={data.hasAirfryer}
-                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600"
+                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
                           onCheckedChange={(checked) =>
                             setData({ ...data, hasAirfryer: checked as boolean })
                           }
@@ -210,12 +218,16 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
                       <Label
                         htmlFor="sports"
-                        className="flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border border-warm-200 bg-white/85 px-4 py-3 text-base font-medium text-warm-800"
+                        className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-medium transition-colors ${
+                          data.sportsRegularly
+                            ? 'border-sage-200 bg-sage-50 text-sage-800'
+                            : 'border-warm-200 bg-white/85 text-warm-800'
+                        }`}
                       >
                         <Checkbox
                           id="sports"
                           checked={data.sportsRegularly}
-                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600"
+                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
                           onCheckedChange={(checked) =>
                             setData({ ...data, sportsRegularly: checked as boolean })
                           }
@@ -299,22 +311,49 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                 )}
 
                 {currentStep === 5 && (
-                  <section className="flex flex-1 flex-col">
+                  <section className="relative flex flex-1 flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-sage-50 via-warm-50 to-sage-100/60 p-4 sm:p-6">
+                    <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-sage-200/40 blur-xl" />
+                    <div className="pointer-events-none absolute left-6 top-12 h-3 w-3 rounded-full bg-warm-300/70" />
+                    <div className="pointer-events-none absolute right-14 top-20 h-2.5 w-2.5 rounded-full bg-sage-400/70" />
+                    <div className="pointer-events-none absolute bottom-16 left-10 h-2 w-2 rounded-full bg-warm-400/70" />
+                    <div className="pointer-events-none absolute bottom-24 right-8 h-3 w-3 rounded-full bg-sage-300/80" />
+
                     <div className="space-y-4 text-center">
                       <span className="block text-6xl leading-none">🚀</span>
                       <h1 className="text-3xl font-bold text-warm-900">Klaar, {data.name || 'jij'}!</h1>
-                      <p className="text-base text-warm-600">
-                        Jouw slow-carb journey begint nu. Je zult het niet regret.
-                      </p>
+                      <p className="text-base text-warm-600">Dit wordt de beste beslissing van je jaar.</p>
                     </div>
 
-                    <div className="mt-10 rounded-3xl border border-warm-200 bg-white/85 p-6 text-center">
-                      <p className="text-lg font-semibold text-warm-900">
-                        Doel: {data.weightGoal} kg in ~{weekEstimate} weken · Cheat day: {cheatDayLabel}
-                      </p>
+                    <div className="relative z-10 mt-10 grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl border border-warm-200 bg-warm-100/80 p-4">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-warm-600">🎯 Doel</p>
+                        <p className="mt-1 text-lg font-bold text-warm-900">{data.weightGoal} kg</p>
+                      </div>
+                      <div className="rounded-2xl border border-sage-200 bg-sage-50 p-4">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">📅 Timeline</p>
+                        <p className="mt-1 text-lg font-bold text-sage-900">~{weekEstimate} weken</p>
+                      </div>
+                      <div className="rounded-2xl border border-warm-200 bg-warm-100/80 p-4">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-warm-600">
+                          🎉 Cheat day
+                        </p>
+                        <p className="mt-1 text-lg font-bold text-warm-900">{cheatDayLabel}</p>
+                      </div>
+                      <div className="rounded-2xl border border-sage-200 bg-sage-50 p-4">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">🥗 Voorkeur</p>
+                        <p className="mt-1 text-base font-bold text-sage-900">
+                          {data.vegetarian && data.hasAirfryer
+                            ? 'Vegetarisch + Airfryer'
+                            : data.vegetarian
+                              ? 'Vegetarisch'
+                              : data.hasAirfryer
+                                ? 'Airfryer'
+                                : 'Standaard'}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="mt-auto pt-8">
+                    <div className="relative z-10 mt-auto pt-8">
                       <Button
                         type="button"
                         onClick={handleNext}
