@@ -294,7 +294,7 @@ export function AmmoCheck() {
           const zoneIcon = getZoneIcon(zone.icon);
 
           return (
-            <AccordionItem key={zone.id} value={zone.id} className="card-website overflow-hidden">
+            <AccordionItem key={zone.id} value={zone.id} className="rounded-2xl border border-warm-200 bg-white shadow-soft overflow-hidden">
               <AccordionTrigger className="min-h-[74px] px-5 py-4 hover:no-underline [&>svg]:h-5 [&>svg]:w-5 [&>svg]:box-content [&>svg]:p-2 [&>svg]:text-stone-500 [&>svg]:transition-transform [&>svg]:duration-200">
                 <div className="grid min-w-0 flex-1 grid-cols-[auto_auto_1fr] items-center gap-4 pr-3">
                   <span

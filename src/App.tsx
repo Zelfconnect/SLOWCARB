@@ -6,7 +6,7 @@ import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
 import { LearnSection } from '@/components/LearnSection';
-import { Shopping } from '@/pages/Shopping';
+import { AmmoCheck } from '@/components/AmmoCheck';
 import { SettingsTab } from '@/components/SettingsTab';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { OnboardingWizard } from '@/components/OnboardingWizard';
@@ -105,8 +105,8 @@ function App() {
         );
       case 'learn':
         return <LearnSection />;
-      case 'shopping':
-        return <Shopping />;
+      case 'ammo':
+        return <AmmoCheck />;
       default:
         return null;
     }

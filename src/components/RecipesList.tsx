@@ -5,17 +5,12 @@ import { CompactRecipeCard } from './CompactRecipeCard';
 import { RecipeDetailModal } from './RecipeDetailModal';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import type { Ingredient, Recipe } from '@/types';
+import type { Recipe } from '@/types';
 import { getMealTypeIcon } from '@/lib/recipeIcons';
 
 interface RecipesListProps {
   favorites: string[];
   onToggleFavorite: (id: string) => void;
-  onOpenPackageSelector?: (
-    recipeName: string,
-    ingredients: Ingredient[],
-    portionMultiplier: number
-  ) => void;
 }
 
 const CATEGORY_SECTIONS: Array<{ id: Recipe['category']; label: string }> = [
@@ -24,7 +19,7 @@ const CATEGORY_SECTIONS: Array<{ id: Recipe['category']; label: string }> = [
   { id: 'no-time', label: 'No-Time' },
 ];
 
-export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector }: RecipesListProps) {
+export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -200,10 +195,6 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
           isOpen={true}
           isFavorite={favorites.includes(selectedRecipe.id)}
           onToggleFavorite={() => onToggleFavorite(selectedRecipe.id)}
-          onOpenPackageSelector={onOpenPackageSelector ? (portionMultiplier) => {
-            onOpenPackageSelector(selectedRecipe.name, selectedRecipe.ingredients, portionMultiplier);
-            setSelectedRecipeId(null);
-          } : undefined}
           onClose={() => setSelectedRecipeId(null)}
         />
       )}
