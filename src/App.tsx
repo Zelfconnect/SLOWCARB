@@ -17,13 +17,15 @@ import { Toaster } from '@/components/ui/sonner';
 import './App.css';
 
 function App() {
+  const searchParams = new URLSearchParams(window.location.search);
+
   // Show welcome page via ?welcome=1 query param
-  const isWelcome = new URLSearchParams(window.location.search).has('welcome');
+  const isWelcome = searchParams.get('welcome') === '1';
   if (isWelcome) return <WelcomePage />;
 
-  // Show landing page via ?landing=1 query param
-  const isLanding = new URLSearchParams(window.location.search).has('landing');
-  if (isLanding) return <LandingPage />;
+  // Only show app when explicitly requested via ?app=1
+  const isApp = searchParams.get('app') === '1';
+  if (!isApp) return <LandingPage />;
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);

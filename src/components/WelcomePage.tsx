@@ -12,8 +12,6 @@ const confettiDots = Array.from({ length: 24 }, (_, index) => ({
 }));
 
 export default function WelcomePage() {
-  const appRootHref = window.location.pathname;
-
   return (
     <div className="relative min-h-[100dvh] overflow-hidden bg-cream px-5 py-8">
       <style>{`
@@ -91,7 +89,7 @@ export default function WelcomePage() {
         </section>
 
         <a
-          href={appRootHref}
+          href="/?app=1"
           className="inline-flex h-14 items-center justify-center rounded-xl bg-sage-600 px-8 text-lg font-semibold text-white shadow-soft transition-colors hover:bg-sage-700"
         >
           Open SlowCarb →
