@@ -14,8 +14,23 @@ export function WeightSparkline({ data, className }: WeightSparklineProps) {
   const max = Math.max(...values);
   const range = max - min || 1;
 
-  const width = 100;
-  const height = 30;
+  const width = 120;
+  const height = 24;
+  const midY = height / 2;
+
+  if (data.length === 1) {
+    return (
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className={cn('w-full text-stone-500', className)}
+        role="img"
+        aria-label="Gewichtsontwikkeling"
+      >
+        <line x1="0" y1={midY} x2={width} y2={midY} stroke="currentColor" strokeOpacity="0.25" strokeWidth="1.5" />
+        <circle cx={width / 2} cy={midY} r="3" fill="currentColor" />
+      </svg>
+    );
+  }
 
   const points = data.map((entry, index) => {
     const x = data.length === 1 ? width / 2 : (index / (data.length - 1)) * width;
@@ -31,11 +46,13 @@ export function WeightSparkline({ data, className }: WeightSparklineProps) {
   return (
     <svg
       viewBox={`0 0 ${width} ${height}`}
-      className={cn('w-full text-warm-600', className)}
+      className={cn('w-full text-stone-600', className)}
       role="img"
       aria-label="Gewichtsontwikkeling"
     >
+      <line x1="0" y1={midY} x2={width} y2={midY} stroke="currentColor" strokeOpacity="0.2" strokeWidth="1" />
       <path d={path} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <circle cx={points[points.length - 1].x} cy={points[points.length - 1].y} r="2.5" fill="currentColor" />
     </svg>
   );
 }

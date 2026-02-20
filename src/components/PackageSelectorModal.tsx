@@ -7,6 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { getPackageSizes, getDefaultPackage, type PackageSize } from '@/data/packageSizes';
 import type { Ingredient } from '@/types';
 import { getStockIconInfo } from '@/lib/stockIcons';
+import { getIconKeyForIngredient } from '@/lib/ingredientIcons';
 
 interface SelectedPackage {
   ingredient: Ingredient;
@@ -18,6 +19,7 @@ interface PackageSelectorModalProps {
   isOpen: boolean;
   recipeName: string;
   ingredients: Ingredient[];
+  portionMultiplier: number;
   onClose: () => void;
   onConfirm: (items: SelectedPackage[]) => void;
 }
@@ -26,31 +28,11 @@ export function PackageSelectorModal({
   isOpen,
   recipeName,
   ingredients,
+  portionMultiplier,
   onClose,
   onConfirm,
 }: PackageSelectorModalProps) {
   const [selections, setSelections] = useState<Record<string, SelectedPackage>>({});
-  const getIconKeyForName = (name: string) => {
-    const lower = name.toLowerCase();
-    if (lower.includes('ei')) return 'egg';
-    if (lower.includes('kip')) return 'drumstick';
-    if (lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
-    if (lower.includes('bonen') || lower.includes('linzen')) return 'bean';
-    if (lower.includes('tonijn') || lower.includes('zalm') || lower.includes('vis')) return 'fish';
-    if (
-      lower.includes('tomaat') ||
-      lower.includes('spinazie') ||
-      lower.includes('groente') ||
-      lower.includes('sla') ||
-      lower.includes('broccoli') ||
-      lower.includes('ui') ||
-      lower.includes('knoflook') ||
-      lower.includes('avocado')
-    ) {
-      return 'salad';
-    }
-    return 'package';
-  };
 
   const renderIcon = (iconKey: string, ariaLabel: string) => {
     const iconInfo = getStockIconInfo(iconKey);
@@ -58,14 +40,14 @@ export function PackageSelectorModal({
     return <Icon className="w-6 h-6 text-stone-600 flex-shrink-0" aria-label={ariaLabel} />;
   };
 
-  // Initialize selections when modal opens
   useEffect(() => {
     if (isOpen) {
       const initialSelections: Record<string, SelectedPackage> = {};
 
       ingredients.forEach((ing) => {
         const packages = getPackageSizes(ing.name);
-        const requiredAmount = parseFloat(ing.amount.match(/\d+/)?.[0] || '1');
+        const parsedIngredientAmount = parseFloat(ing.amount.match(/[\d.,]+/)?.[0]?.replace(',', '.') || '1');
+        const requiredAmount = ing.scalable ? parsedIngredientAmount * portionMultiplier : parsedIngredientAmount;
         const defaultPkg = packages
           ? getDefaultPackage(ing.name, requiredAmount) || packages.packages[0]
           : { amount: requiredAmount, label: ing.amount };
@@ -79,7 +61,7 @@ export function PackageSelectorModal({
 
       setSelections(initialSelections);
     }
-  }, [isOpen, ingredients]);
+  }, [isOpen, ingredients, portionMultiplier, recipeName]);
 
 
   const handlePackageSelect = (ingredientName: string, pkg: PackageSize) => {
@@ -103,18 +85,19 @@ export function PackageSelectorModal({
   };
 
   const handleConfirm = () => {
-    const selectedItems = Object.values(selections).filter((item) => !item.alreadyHave);
+    const selectedItems = Object.values(selections);
     onConfirm(selectedItems);
     onClose();
   };
 
   const allItemsAlreadyHave = Object.values(selections).every((item) => item.alreadyHave);
+  const itemsToAddCount = Object.values(selections).filter((item) => !item.alreadyHave).length;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="max-w-lg max-h-[85dvh] rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
+        className="flex max-h-[85dvh] max-w-lg flex-col rounded-3xl border border-stone-100 bg-white p-0 shadow-elevated"
       >
         {/* Header */}
         <div className="p-5 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">
@@ -124,7 +107,7 @@ export function PackageSelectorModal({
                 <ShoppingCart className="w-6 h-6 text-white" aria-hidden="true" />
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="text-lg font-display text-white leading-tight">
+                <h2 className="font-display text-xl leading-tight text-white">
                   Toevoegen aan lijst
                 </h2>
                 <p className="text-sm text-white/80 mt-0.5 truncate">{recipeName}</p>
@@ -150,17 +133,17 @@ export function PackageSelectorModal({
                 <div
                   key={index}
                   className={cn(
-                    'rounded-2xl border-2 transition-all duration-200',
+                    'rounded-2xl border p-0 shadow-soft transition-all duration-200',
                     selection.alreadyHave
-                      ? 'bg-stone-50 border-stone-200 opacity-60'
-                      : 'bg-white border-stone-200'
+                      ? 'border-stone-200 bg-stone-50 opacity-60'
+                      : 'border-stone-100 bg-white'
                   )}
                 >
                   {/* Ingredient Header */}
                   <div className="p-4 border-b border-stone-100">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        {renderIcon(getIconKeyForName(ing.name), ing.name)}
+                        {renderIcon(getIconKeyForIngredient(ing.name), ing.name)}
                         <div>
                           <p className="font-medium text-stone-800">{ing.name}</p>
                           <p className="text-xs text-stone-500">
@@ -173,7 +156,7 @@ export function PackageSelectorModal({
                       <button
                         onClick={() => handleAlreadyHaveToggle(ing.name)}
                         className={cn(
-                          'flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200',
+                          'flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-200',
                           selection.alreadyHave
                             ? 'bg-sage-100 text-sage-700'
                             : 'bg-stone-100 text-stone-500 hover:bg-stone-200'
@@ -195,11 +178,11 @@ export function PackageSelectorModal({
                               key={pkgIndex}
                               onClick={() => handlePackageSelect(ing.name, pkg)}
                               className={cn(
-                                'px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border-2',
+                                'rounded-xl border px-4 py-2.5 text-sm font-medium transition-all duration-200',
                                 selection.selectedPackage.amount === pkg.amount &&
                                   selection.selectedPackage.label === pkg.label
-                                  ? 'bg-sage-600 text-white border-sage-600'
-                                  : 'bg-stone-50 text-stone-700 border-stone-200 hover:border-sage-300'
+                                  ? 'border-sage-600 bg-sage-600 text-white'
+                                  : 'border-stone-200 bg-stone-50 text-stone-700 hover:border-sage-300'
                               )}
                             >
                               {pkg.label}
@@ -208,7 +191,7 @@ export function PackageSelectorModal({
                         </div>
                       ) : (
                         <p className="text-sm text-stone-500 italic">
-                          Geen package opties beschikbaar - wordt toegevoegd als "{ing.amount}"
+                          Geen verpakkingsopties beschikbaar. Dit wordt toegevoegd als "{ing.amount}".
                         </p>
                       )}
                     </div>
@@ -223,15 +206,15 @@ export function PackageSelectorModal({
         </ScrollArea>
 
         {/* Footer */}
-        <div className="p-5 border-t border-stone-100 bg-white flex-shrink-0 rounded-b-3xl">
+        <div className="flex-shrink-0 rounded-b-3xl border-t border-stone-100 bg-white p-5">
           <Button
             onClick={handleConfirm}
-            disabled={allItemsAlreadyHave}
-            className="w-full" size="xl"
+            className="w-full rounded-xl bg-sage-600 text-white hover:bg-sage-700 disabled:bg-stone-200 disabled:text-stone-500"
+            size="xl"
           >
             {allItemsAlreadyHave
-              ? 'Alles al in huis'
-              : `Toevoegen (${Object.values(selections).filter((s) => !s.alreadyHave).length} items)`}
+              ? `Naar voorraad (${Object.values(selections).length} items)`
+              : `Toevoegen (${itemsToAddCount} items)`}
           </Button>
         </div>
       </DialogContent>

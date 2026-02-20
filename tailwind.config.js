@@ -10,8 +10,8 @@ export default {
       // TYPOGRAFIE
       // ============================================
       fontFamily: {
-        display: ['Inter', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
+        sans: ['Satoshi', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
 
       // ============================================

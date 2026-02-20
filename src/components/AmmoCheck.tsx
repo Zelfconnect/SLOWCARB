@@ -111,20 +111,20 @@ export function AmmoCheck() {
   const overallStatus = getAllZonesStatus(zones);
 
   return (
-    <div className="space-y-4 pb-24">
-      <div className="rounded-2xl p-5 bg-gradient-to-br from-sage-50 to-sage-100/60 border border-sage-200">
+    <div className="space-y-5 pb-24">
+      <div className="rounded-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-5 text-white shadow-soft">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-sage-200 flex items-center justify-center">
-            <Target className="w-6 h-6 text-sage-800" aria-hidden="true" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
+            <Target className="h-6 w-6 text-white" aria-hidden="true" />
           </div>
           <div>
-            <h2 className="font-display font-semibold text-lg text-sage-900">Ammo Check</h2>
-            <p className="text-sm text-sage-700">Check je zones. Iets leeg? Restock.</p>
+            <h2 className="font-display text-2xl font-semibold leading-tight text-white">Ammo Check</h2>
+            <p className="mt-1 text-base text-sage-100">Check je zones. Iets leeg? Restock.</p>
           </div>
         </div>
       </div>
 
-      <Accordion type="multiple" className="space-y-3">
+      <Accordion type="multiple" className="space-y-4">
         {zones.map((zone) => {
           const status = getZoneStatus(zone);
           const zoneIcon = getZoneIcon((zone as { icon?: string; emoji?: string }).icon ?? (zone as { emoji?: string }).emoji ?? 'package');
@@ -133,32 +133,34 @@ export function AmmoCheck() {
             <AccordionItem
               key={zone.id}
               value={zone.id}
-              className="bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden"
+              className="card-website overflow-hidden"
             >
-              <AccordionTrigger className="px-4 min-h-12 hover:no-underline [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-warm-600 [&>svg]:transition-transform [&>svg]:duration-200 [&>svg]:p-3 [&>svg]:box-content">
+              <AccordionTrigger className="min-h-[74px] px-5 py-4 hover:no-underline [&>svg]:h-5 [&>svg]:w-5 [&>svg]:box-content [&>svg]:p-2 [&>svg]:text-stone-500 [&>svg]:transition-transform [&>svg]:duration-200">
                 <div className="flex items-center gap-3">
                   <span
                     className={cn(
-                      'w-3 h-3 rounded-full',
-                      status === 'green' ? 'bg-emerald-500' : 'bg-rose-500'
+                      'h-3 w-3 rounded-full',
+                      status === 'green' ? 'bg-sage-500' : 'bg-clay-400'
                     )}
                     aria-hidden="true"
                   />
-                  <zoneIcon.Icon
-                    className="w-6 h-6 text-stone-600"
-                    aria-label={zone.name}
-                  />
-                  <span className="text-base font-semibold text-stone-800">{zone.name}</span>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-stone-50">
+                    <zoneIcon.Icon
+                      className="h-5 w-5 text-stone-600"
+                      aria-label={zone.name}
+                    />
+                  </div>
+                  <span className="font-display text-2xl font-semibold leading-tight text-stone-800">{zone.name}</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pb-0">
-                <div className="border-t border-stone-100">
+                <div className="border-t border-stone-200 bg-white">
                   {zone.items.map((item) => (
                     <button
                       key={item.id}
                       type="button"
                       onClick={() => toggleItem(zone.id, item.id)}
-                      className="w-full flex items-center gap-3 px-4 py-3 min-h-11 text-left hover:bg-stone-50 transition-colors"
+                      className="flex min-h-12 w-full items-center gap-3 border-b border-stone-100 px-5 py-3 text-left transition-colors hover:bg-stone-50/70 last:border-b-0"
                     >
                       <Checkbox
                         checked={item.checked}
@@ -166,16 +168,16 @@ export function AmmoCheck() {
                         className={cn(
                           'size-6 rounded-lg border-2',
                           item.checked
-                            ? 'data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500'
-                            : 'border-stone-300'
+                            ? 'data-[state=checked]:bg-sage-500 data-[state=checked]:border-sage-500'
+                            : 'border-stone-300 bg-white'
                         )}
                         onClick={(e) => e.stopPropagation()}
                         aria-label={item.name}
                       />
                       <span
                         className={cn(
-                          'text-sm font-medium',
-                          item.checked ? 'text-emerald-700' : 'text-stone-700'
+                          'text-base leading-relaxed font-medium',
+                          item.checked ? 'text-sage-700' : 'text-stone-700'
                         )}
                       >
                         {item.name}
@@ -190,25 +192,25 @@ export function AmmoCheck() {
       </Accordion>
 
       {overallStatus === 'locked' ? (
-        <Card className="bg-emerald-50 border-emerald-100 py-0">
+        <Card className="border-sage-200 bg-gradient-to-br from-sage-50 to-sage-100/40 py-0 shadow-soft">
           <CardContent className="p-4">
-            <p className="font-display font-semibold text-emerald-800 flex items-center gap-2">
+            <p className="flex items-center gap-2 font-display font-semibold text-sage-800">
               <CheckCircle2 className="w-5 h-5" />
               Locked and loaded
             </p>
-            <p className="text-sm text-emerald-700 mt-1">
+            <p className="mt-1 text-sm text-sage-700">
               Je bent klaar voor de komende 2 weken. Go prep.
             </p>
           </CardContent>
         </Card>
       ) : (
-        <Card className="bg-rose-50 border-rose-100 py-0">
+        <Card className="border-clay-200 bg-gradient-to-br from-clay-50 to-clay-100/40 py-0 shadow-soft">
           <CardContent className="p-4">
-            <p className="font-display font-semibold text-rose-800 flex items-center gap-2">
+            <p className="flex items-center gap-2 font-display font-semibold text-clay-800">
               <AlertTriangle className="w-5 h-5" />
               Voorraad laag
             </p>
-            <p className="text-sm text-rose-700 mt-1">Tijd voor een groothandel run.</p>
+            <p className="mt-1 text-sm text-clay-700">Tijd voor een groothandel run.</p>
           </CardContent>
         </Card>
       )}

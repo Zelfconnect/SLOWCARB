@@ -1,5 +1,6 @@
 import {
   Apple,
+  Clock,
   CookingPot,
   Egg,
   Fish,
@@ -10,6 +11,7 @@ import {
   Soup,
   Sun,
   Sunrise,
+  Zap,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -29,6 +31,8 @@ export const MEAL_TYPE_ICONS = {
   package: Package,
   flame: Flame,
   apple: Apple,
+  zap: Zap,
+  clock: Clock,
 } as const;
 
 export function getRecipeIcon(key: keyof typeof RECIPE_ICONS): LucideIcon {

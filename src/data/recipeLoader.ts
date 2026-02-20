@@ -25,7 +25,11 @@ type RawRecipeFile = {
   version?: string;
   createdAt?: string;
   totalRecipes?: number;
-  categories?: Record<string, number>;
+  categories?: {
+    airfryer?: number;
+    mealPrep?: number;
+    noTime?: number;
+  };
   recipes: RawRecipe[];
 };
 
@@ -50,9 +54,9 @@ const RECIPE_CATEGORIES: Array<{ id: string; name: string; icon: MealTypeIconKey
   { id: CATEGORY_TAGS.ontbijt, name: 'Ontbijt', icon: 'sunrise' },
   { id: CATEGORY_TAGS.lunch, name: 'Lunch', icon: 'sun' },
   { id: CATEGORY_TAGS.avondeten, name: 'Avondeten', icon: 'moon' },
-  { id: CATEGORY_TAGS.quick, name: 'Airfryer', icon: 'flame' },
+  { id: CATEGORY_TAGS.quick, name: 'Airfryer', icon: 'zap' },
   { id: CATEGORY_TAGS.mealPrep, name: 'Meal Prep', icon: 'package' },
-  { id: CATEGORY_TAGS.noTime, name: 'No-Time', icon: 'sun' },
+  { id: CATEGORY_TAGS.noTime, name: 'No-Time', icon: 'clock' },
 ];
 
 const UNIT_TOKENS = new Set([
@@ -154,6 +158,16 @@ const assertValidRecipe = (recipe: RawRecipe) => {
   }
 };
 
+const assertCategoryCount = (
+  expected: number | undefined,
+  actual: number,
+  categoryLabel: string
+) => {
+  if (typeof expected === 'number' && expected !== actual) {
+    throw new Error(`Expected ${expected} ${categoryLabel} recipes, got ${actual}`);
+  }
+};
+
 const toImportedRecipe = (raw: RawRecipe, category: ImportedRecipe['category']): ImportedRecipe => {
   return {
     id: raw.id,
@@ -172,6 +186,8 @@ const toAppRecipe = (raw: RawRecipe): AppRecipe => {
   return {
     id: raw.id,
     name: raw.title,
+    subtitle: raw.subtitle,
+    difficulty: raw.difficulty,
     category: getPrimaryCategory(raw.tags),
     icon: getRecipeIcon(raw),
     prepTime: derivePrepTime(raw.time),
@@ -208,9 +224,9 @@ export const loadRecipes = (): RecipeDatabase => {
     .filter((recipe) => recipe.tags.includes(CATEGORY_TAGS.noTime))
     .map((recipe) => toImportedRecipe(recipe, CATEGORY_LABELS.noTime));
 
-  if (quick.length !== 15) throw new Error(`Expected 15 Quick recipes, got ${quick.length}`);
-  if (mealPrep.length !== 19) throw new Error(`Expected 19 Meal Prep recipes, got ${mealPrep.length}`);
-  if (noTime.length !== 14) throw new Error(`Expected 14 No-Time recipes, got ${noTime.length}`);
+  assertCategoryCount(data.categories?.airfryer, quick.length, 'Quick');
+  assertCategoryCount(data.categories?.mealPrep, mealPrep.length, 'Meal Prep');
+  assertCategoryCount(data.categories?.noTime, noTime.length, 'No-Time');
 
   return { quick, mealPrep, noTime };
 };

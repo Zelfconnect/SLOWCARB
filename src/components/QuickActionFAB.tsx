@@ -50,7 +50,7 @@ export function QuickActionFAB({ onLogWeight, onLogMeal }: QuickActionFABProps) 
           align="end"
           side="top"
           sideOffset={12}
-          className="z-[60] rounded-xl border border-warm-200 bg-white shadow-xl"
+          className="z-[60] rounded-xl border border-stone-200 bg-white shadow-xl"
         >
           <DropdownMenuItem onClick={handleLogMeal}>
             Log Maaltijd

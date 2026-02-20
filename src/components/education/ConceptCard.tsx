@@ -15,12 +15,13 @@ interface ConceptCardProps {
 
 export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCardProps) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const HeaderIcon = getEducationIcon(card.icon) ?? HelpCircle;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border border-stone-200 shadow-xl p-0 flex flex-col"
+        className="sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border border-stone-100 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
         style={{ maxHeight: CONCEPT_TOKENS.maxHeight }}
       >
         {/* Header - ALWAYS Amber/Orange */}
@@ -28,10 +29,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
-                  {(() => {
-                    const Icon = getEducationIcon(card.icon) ?? HelpCircle;
-                    return <Icon className="w-6 h-6 text-white" aria-hidden="true" />;
-                  })()}
+                  <HeaderIcon className="w-6 h-6 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-lg font-display text-white leading-tight">{card.title}</h2>
@@ -51,7 +49,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
           </div>
 
           {/* Content - Scrollable */}
-          <ScrollArea className="flex-1">
+          <ScrollArea className="flex-1 min-h-0">
             <div
               ref={contentRef}
               className="p-5 space-y-5"
@@ -60,7 +58,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
               }}
             >
             {/* Summary Box - Always at top, calm-neutral background */}
-            <div className="bg-sage-50 border-l-4 border-sage-200 rounded-r-xl p-4">
+            <div className="rounded-xl p-4 border border-sage-100 bg-gradient-to-br from-sage-50 to-sage-100/70 shadow-sm">
               <p className="text-sage-900 font-medium text-sm leading-relaxed">
                 {card.content.summary}
               </p>
@@ -76,7 +74,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
                 {card.content.keyPoints.map((point, idx) => (
                   <div
                     key={idx}
-                    className="flex gap-3 p-4 bg-stone-50 rounded-xl"
+                    className="flex gap-3 p-4 rounded-xl border border-stone-100 bg-gradient-to-br from-white to-stone-50 shadow-sm"
                   >
                     <div className="w-6 h-6 rounded-full bg-sage-200 text-sage-800 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                       {idx + 1}
@@ -92,13 +90,13 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
 
             {/* Fun Fact - Optional */}
             {card.content.funFact && (
-              <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
+              <div className="rounded-xl p-4 border border-stone-200 bg-gradient-to-br from-stone-50 to-white shadow-sm">
                 <div className="space-y-2">
-                  <h3 className="flex items-center gap-2 text-base font-semibold text-blue-800">
+                  <h3 className="flex items-center gap-2 text-base font-semibold text-stone-800">
                     <Lightbulb className="w-4 h-4" />
                     Wist je dat?
                   </h3>
-                  <p className="text-blue-700 text-sm leading-relaxed">{card.content.funFact}</p>
+                  <p className="text-stone-700 text-sm leading-relaxed">{card.content.funFact}</p>
                 </div>
               </div>
             )}
@@ -114,7 +112,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
                   <button
                     key={relatedId}
                     onClick={() => onOpenRelated(relatedId)}
-                    className="w-full flex items-center justify-between p-4 bg-stone-50 hover:bg-stone-100 rounded-xl transition-colors text-left"
+                    className="w-full flex items-center justify-between p-4 rounded-xl border border-stone-100 bg-gradient-to-br from-white to-stone-50 hover:from-stone-50 hover:to-stone-100/80 shadow-sm transition-colors text-left"
                   >
                     <span className="text-stone-700 text-sm leading-relaxed">{relatedId}</span>
                     <ArrowRight className="w-4 h-4 text-stone-400" />

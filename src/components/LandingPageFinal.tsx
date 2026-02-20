@@ -382,10 +382,6 @@ export default function LandingPageFinal() {
 
   const stripeUrl = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
 
-  const scrollToPricing = () => {
-    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const openCheckout = () => {
     window.open(stripeUrl, '_blank');
   };

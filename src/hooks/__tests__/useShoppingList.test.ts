@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { beforeEach, describe, it, expect } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { useShoppingList } from '../useShoppingList';
@@ -7,6 +7,10 @@ import { useShoppingList } from '../useShoppingList';
 const pkg = (name: string, amount: number) => ({
   ingredient: { name, amount: `${amount} g` },
   selectedPackage: { amount, label: `${amount} g` },
+});
+
+beforeEach(() => {
+  window.localStorage.clear();
 });
 
 // ─── addItemsFromPackage — consolidation ──────────────────────────────────────
@@ -209,5 +213,122 @@ describe('removeItem', () => {
     const milkId = result.current.items.find((i: any) => i.name === 'melk')!.id;
     act(() => result.current.removeItem(milkId));
     expect(result.current.items.some((i: any) => i.name === 'eieren')).toBe(true);
+  });
+});
+
+describe('addFromSuggestion', () => {
+  it('adds a suggestion as a shopping item', () => {
+    const { result } = renderHook(() => useShoppingList());
+
+    act(() => {
+      result.current.addFromSuggestion({
+        id: 'eieren',
+        name: 'Eieren',
+        icon: 'egg',
+        category: 'eiwit',
+      });
+    });
+
+    expect(result.current.items).toHaveLength(1);
+    expect(result.current.items[0].name).toBe('Eieren');
+    expect(result.current.items[0].recipeName).toBe('Van voorraad');
+  });
+
+  it('does not add duplicate unchecked suggestion', () => {
+    const { result } = renderHook(() => useShoppingList());
+
+    act(() => {
+      result.current.addFromSuggestion({
+        id: 'eieren',
+        name: 'Eieren',
+        icon: 'egg',
+        category: 'eiwit',
+      });
+      result.current.addFromSuggestion({
+        id: 'eieren',
+        name: 'eieren',
+        icon: 'egg',
+        category: 'eiwit',
+      });
+    });
+
+    expect(result.current.items).toHaveLength(1);
+  });
+});
+
+describe('moveToPantry', () => {
+  it('returns pantry item and removes the shopping item', () => {
+    const { result } = renderHook(() => useShoppingList());
+
+    act(() => {
+      result.current.addCustomItem('eieren');
+    });
+
+    const shoppingItemId = result.current.items[0].id;
+    let pantryItem = null;
+    act(() => {
+      pantryItem = result.current.moveToPantry(shoppingItemId);
+    });
+
+    expect(pantryItem?.name).toBe('eieren');
+    expect(result.current.items).toHaveLength(0);
+  });
+
+  it('returns null when item id does not exist', () => {
+    const { result } = renderHook(() => useShoppingList());
+    let pantryItem = null;
+    act(() => {
+      pantryItem = result.current.moveToPantry('missing-id');
+    });
+    expect(pantryItem).toBeNull();
+  });
+});
+
+describe('getCheckedItems', () => {
+  it('returns only checked items', () => {
+    const { result } = renderHook(() => useShoppingList());
+
+    act(() => {
+      result.current.addCustomItem('melk');
+      result.current.addCustomItem('eieren');
+    });
+
+    const milkId = result.current.items.find((item) => item.name === 'melk')!.id;
+    act(() => {
+      result.current.toggleItem(milkId);
+    });
+
+    const checkedItems = result.current.getCheckedItems();
+    expect(checkedItems).toHaveLength(1);
+    expect(checkedItems[0].name).toBe('melk');
+  });
+});
+
+describe('unit-aware consolidation', () => {
+  it('keeps items separate when units differ', () => {
+    window.localStorage.setItem(
+      'slowcarb-shopping-v2',
+      JSON.stringify([
+        {
+          id: 'legacy-item',
+          name: 'kipfilet',
+          category: 'eiwit',
+          checked: false,
+          recipeName: 'Legacy lijst',
+          amount: 1,
+          unit: 'stuks',
+          packageLabel: '1 stuk',
+          addedAt: new Date().toISOString(),
+        },
+      ])
+    );
+
+    const { result } = renderHook(() => useShoppingList());
+
+    act(() => {
+      result.current.addItemsFromPackage('Recept A', [pkg('kipfilet', 500)]);
+    });
+
+    expect(result.current.items).toHaveLength(2);
   });
 });

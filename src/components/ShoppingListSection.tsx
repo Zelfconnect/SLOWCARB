@@ -210,7 +210,8 @@ export function ShoppingListSection({
                     <button
                       onClick={() => handleMoveToPantry(item.id)}
                       className="w-11 h-11 text-stone-400 hover:text-sage-600 hover:bg-sage-50 rounded-lg transition-colors flex-shrink-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center justify-center"
-                      title="Ik heb dit al"
+                      title="Naar voorraad"
+                      aria-label="Verplaats naar voorraad"
                     >
                       <Home className="w-4 h-4" />
                     </button>

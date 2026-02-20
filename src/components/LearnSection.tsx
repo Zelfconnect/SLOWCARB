@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { createElement, useState } from 'react';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -20,6 +20,15 @@ import { FAQCard } from './education/FAQCard';
 import type { EducationCard } from '@/types';
 import { getEducationIcon } from '@/lib/educationIcons';
 
+function renderEducationIcon(iconKey: string, className: string) {
+  const IconComponent = getEducationIcon(iconKey as Parameters<typeof getEducationIcon>[0]);
+  if (!IconComponent) {
+    return <HelpCircle className={className} aria-hidden="true" />;
+  }
+
+  return createElement(IconComponent, { className, 'aria-hidden': true });
+}
+
 // Card preview component for the list view
 // Gebruikt semantisch type-based styling systeem
 function CardPreview({
@@ -29,17 +38,20 @@ function CardPreview({
   card: EducationCard;
   onClick: () => void;
 }) {
+  const isRule = card.type === 'rule';
+
   // Type-based styling - geen hardcoded colors meer!
   // Rule = groen, Concept = neutraal, FAQ/Reference = neutraal
   const getTypeStyle = (type: string) => {
     switch (type) {
       case 'rule':
-        return 'from-sage-100 to-sage-50 border-sage-200 hover:border-sage-300';
+        // Match CompactRecipeCard style: white bg, specific shadow, no border
+        return 'bg-white border-transparent shadow-[0_6px_18px_rgba(47,94,63,0.08)] hover:shadow-[0_10px_24px_rgba(47,94,63,0.14)]';
       case 'concept':
-        return 'from-stone-100 to-stone-50 border-stone-200 hover:border-stone-300';
+        return 'from-stone-100 to-stone-50 border-stone-200 shadow-[0_8px_20px_-16px_rgba(30,41,59,0.35)] hover:border-stone-300';
       case 'faq':
       case 'reference':
-        return 'from-stone-100 to-stone-50 border-stone-200 hover:border-stone-300';
+        return 'from-stone-100 to-stone-50 border-stone-200 shadow-[0_8px_20px_-16px_rgba(30,41,59,0.35)] hover:border-stone-300';
       default:
         return 'from-stone-100 to-stone-50 border-stone-200';
     }
@@ -77,26 +89,42 @@ function CardPreview({
     <button
       onClick={onClick}
       className={cn(
-        'w-full rounded-2xl border-2 bg-gradient-to-br text-left transition-all duration-200 hover:shadow-md group',
+        'w-full rounded-2xl text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-400/60',
+        // Rules don't use border-2, others do
+        isRule ? '' : 'border-2 bg-gradient-to-br',
         getTypeStyle(card.type)
       )}
     >
-      <div className="flex items-center gap-3 p-4">
-        <div className="w-12 h-12 rounded-xl bg-white/70 flex items-center justify-center text-2xl shadow-sm">
-          {(() => {
-            const Icon = getEducationIcon(card.icon) ?? HelpCircle;
-            return <Icon className="w-6 h-6 text-stone-600" aria-hidden="true" />;
-          })()}
+      <div className={cn("flex items-center gap-3", isRule ? "px-3.5 py-3" : "p-4")}>
+        <div className={cn(
+          "flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-[1.03]",
+          isRule 
+            ? "w-10 h-10 rounded-full bg-sage-100" 
+            : "w-12 h-12 rounded-xl bg-white/80 shadow-sm text-2xl"
+        )}>
+          {renderEducationIcon(
+            card.icon, 
+            isRule ? 'w-5 h-5 text-sage-600' : 'w-6 h-6 text-stone-600'
+          )}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-display font-semibold text-stone-800 leading-tight">
+          <h3 className={cn(
+            "font-display font-semibold leading-tight transition-colors",
+            isRule ? "text-stone-800 text-sm group-hover:text-sage-700" : "text-stone-800"
+          )}>
             {card.title}
           </h3>
           {getSubtitle() && (
-            <p className="text-sm text-stone-500 mt-0.5">{getSubtitle()}</p>
+            <p className={cn(
+              "mt-0.5",
+              isRule ? "text-xs text-stone-500" : "text-sm text-stone-600"
+            )}>{getSubtitle()}</p>
           )}
         </div>
-        <ChevronRight className="w-5 h-5 text-stone-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+        <ChevronRight className={cn(
+          "transition-transform flex-shrink-0",
+          isRule ? "w-4 h-4 text-stone-300 group-hover:text-sage-500" : "w-5 h-5 text-stone-500 group-hover:translate-x-1"
+        )} />
       </div>
     </button>
   );
@@ -112,25 +140,25 @@ export function LearnSection() {
     : null;
 
   return (
-  <div className="space-y-8">
+  <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'quickstart' | 'science' | 'faq')}>
       {/* Tabs */}
-      <TabsList className="w-full bg-stone-100 rounded-2xl p-1 h-auto mb-4">
-        <TabsTrigger value="quickstart" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+      <TabsList className="mb-4 h-auto w-full rounded-2xl bg-stone-100 p-1.5">
+        <TabsTrigger value="quickstart" className="flex-1 gap-2 rounded-xl px-4 py-2.5 text-stone-500 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft">
           <Zap className="w-4 h-4" />Quick Start
         </TabsTrigger>
-        <TabsTrigger value="science" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+        <TabsTrigger value="science" className="flex-1 gap-2 rounded-xl px-4 py-2.5 text-stone-500 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft">
           <FlaskConical className="w-4 h-4" />Wetenschap
         </TabsTrigger>
-        <TabsTrigger value="faq" className="flex-1 gap-2 rounded-xl px-4 py-2 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft text-stone-500">
+        <TabsTrigger value="faq" className="flex-1 gap-2 rounded-xl px-4 py-2.5 text-stone-500 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft">
           <HelpCircle className="w-4 h-4" />FAQ
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="quickstart" className="max-h-[calc(100dvh-12rem)] overflow-y-auto pb-24">
+      <TabsContent value="quickstart" className="pb-4">
         <div className="space-y-5">
           {/* Progress Indicator */}
-          <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
+          <div className="rounded-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-soft">
             <div className="flex items-center gap-3 mb-3">
               <Target className="w-6 h-6" />
               <h2 className="font-display font-semibold text-lg">Jouw Startplan</h2>
@@ -138,19 +166,11 @@ export function LearnSection() {
             <p className="text-sage-100 text-sm mb-4">
               Doorloop de 5 regels om het dieet te begrijpen. Klik op een regel voor de volledige uitleg.
             </p>
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map((num) => (
-                <div 
-                  key={num}
-                  className="h-2 flex-1 rounded-full bg-white/30"
-                />
-              ))}
-            </div>
           </div>
 
           {/* The 5 Rules */}
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
+          <div className="space-y-4 rounded-3xl border border-sage-100 bg-gradient-to-b from-white to-sage-50/40 p-5 shadow-soft">
+            <h2 className="text-lg font-semibold text-stone-800 flex items-center gap-2">
               <ClipboardList className="w-5 h-5 text-sage-600" />
               De 5 Regels
             </h2>
@@ -167,7 +187,7 @@ export function LearnSection() {
           </div>
 
           {/* 30/30 Rule */}
-          <div className="rounded-2xl p-5 bg-gradient-to-br from-sage-600 to-sage-700 text-white">
+          <div className="rounded-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-soft">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
                 <Zap className="w-6 h-6 text-white" aria-hidden="true" />
@@ -212,18 +232,15 @@ export function LearnSection() {
             </h2>
             
             {/* YES List */}
-            <div className="rounded-2xl p-5 bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200">
-              <h3 className="font-display font-semibold text-emerald-900 flex items-center gap-2 mb-4">
+            <div className="rounded-2xl border border-sage-200 bg-gradient-to-br from-sage-50 to-sage-100/30 p-5 shadow-soft">
+              <h3 className="mb-4 flex items-center gap-2 font-display font-semibold text-sage-900">
                 <CheckCircle2 className="w-5 h-5" />
                 JA - Eet onbeperkt
               </h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 min-[460px]:grid-cols-2 gap-2.5">
                 {yesNoList.yes.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-sm text-emerald-800 bg-white/60 rounded-lg p-2">
-                    {(() => {
-                      const Icon = getEducationIcon(item.icon) ?? HelpCircle;
-                      return <Icon className="w-5 h-5 text-emerald-700" aria-hidden="true" />;
-                    })()}
+                  <div key={idx} className="flex items-center gap-2 rounded-xl bg-white/70 px-3 py-2.5 text-sm text-sage-800">
+                    {renderEducationIcon(item.icon, 'w-5 h-5 text-sage-700')}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
                 ))}
@@ -231,18 +248,15 @@ export function LearnSection() {
             </div>
 
             {/* NO List */}
-            <div className="rounded-2xl p-5 bg-gradient-to-br from-red-50 to-red-100/50 border border-red-200">
-              <h3 className="font-display font-semibold text-red-900 flex items-center gap-2 mb-4">
+            <div className="rounded-2xl border border-clay-200 bg-gradient-to-br from-clay-50 to-clay-100/30 p-5 shadow-soft">
+              <h3 className="mb-4 flex items-center gap-2 font-display font-semibold text-clay-900">
                 <XCircle className="w-5 h-5" />
                 NEE - Vermijden
               </h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 min-[460px]:grid-cols-2 gap-2.5">
                 {yesNoList.no.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-sm text-red-800 bg-white/60 rounded-lg p-2">
-                    {(() => {
-                      const Icon = getEducationIcon(item.icon) ?? HelpCircle;
-                      return <Icon className="w-5 h-5 text-red-700" aria-hidden="true" />;
-                    })()}
+                  <div key={idx} className="flex items-center gap-2 rounded-xl bg-white/70 px-3 py-2.5 text-sm text-clay-800">
+                    {renderEducationIcon(item.icon, 'w-5 h-5 text-clay-700')}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
                 ))}
@@ -250,18 +264,15 @@ export function LearnSection() {
             </div>
 
             {/* CHEAT DAY */}
-            <div className="rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-purple-100/50 border border-purple-200">
-              <h3 className="font-display font-semibold text-purple-900 flex items-center gap-2 mb-4">
+            <div className="rounded-2xl border border-stone-200 bg-gradient-to-br from-stone-50 to-stone-100/40 p-5 shadow-soft">
+              <h3 className="mb-4 flex items-center gap-2 font-display font-semibold text-stone-900">
                 <PartyPopper className="w-5 h-5" />
                 CHEAT DAY
               </h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 min-[460px]:grid-cols-2 gap-2.5">
                 {yesNoList.cheat.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-sm text-purple-800 bg-white/60 rounded-lg p-2">
-                    {(() => {
-                      const Icon = getEducationIcon(item.icon) ?? HelpCircle;
-                      return <Icon className="w-5 h-5 text-purple-700" aria-hidden="true" />;
-                    })()}
+                  <div key={idx} className="flex items-center gap-2 rounded-xl bg-white/70 px-3 py-2.5 text-sm text-stone-800">
+                    {renderEducationIcon(item.icon, 'w-5 h-5 text-stone-700')}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
                 ))}
@@ -270,18 +281,15 @@ export function LearnSection() {
           </div>
 
           {/* Common Mistakes */}
-          <div className="rounded-2xl p-5 bg-gradient-to-br from-stone-50 to-stone-100/50 border border-stone-200">
+          <div className="rounded-2xl border border-stone-200 bg-gradient-to-br from-stone-50 to-stone-100/40 p-5 shadow-soft">
             <h3 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
               <AlertTriangle className="w-5 h-5" />Veelgemaakte Fouten
             </h3>
             <div className="space-y-3">
               {commonMistakes.slice(0, 4).map((mistake, idx) => (
-                <div key={idx} className="bg-white/60 rounded-xl p-3">
+                <div key={idx} className="rounded-xl bg-white/75 p-3">
                   <div className="flex items-center gap-2 mb-1">
-                    {(() => {
-                      const Icon = getEducationIcon(mistake.icon) ?? HelpCircle;
-                      return <Icon className="w-5 h-5 text-stone-500" aria-hidden="true" />;
-                    })()}
+                    {renderEducationIcon(mistake.icon, 'w-5 h-5 text-stone-500')}
                     <p className="font-medium text-stone-800 text-sm">{mistake.mistake}</p>
                   </div>
                   <p className="text-stone-600 text-xs ml-7">{mistake.explanation}</p>
@@ -292,7 +300,7 @@ export function LearnSection() {
         </div>
       </TabsContent>
 
-      <TabsContent value="science" className="max-h-[calc(100dvh-12rem)] overflow-y-auto pb-24">
+      <TabsContent value="science" className="pb-4">
         <div className="space-y-5">
           {/* Intro */}
           <div className="bg-gradient-to-br from-stone-700 to-stone-800 rounded-2xl p-5 text-white">
@@ -322,7 +330,7 @@ export function LearnSection() {
         </div>
       </TabsContent>
 
-      <TabsContent value="faq" className="max-h-[calc(100dvh-12rem)] overflow-y-auto pb-24">
+      <TabsContent value="faq" className="pb-4">
         <div className="space-y-5">
           {/* Intro */}
           <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">

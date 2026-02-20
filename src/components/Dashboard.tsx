@@ -86,7 +86,7 @@ export function Dashboard({
 
   if (!journey.startDate) {
     return (
-      <div className="space-y-6 pb-24 overflow-hidden">
+      <div className="space-y-6 overflow-hidden pb-24">
         <JourneyCard
           journey={journey}
           progress={progress}
@@ -101,7 +101,7 @@ export function Dashboard({
         <QuickActionFAB onLogWeight={openWeightDialog} />
 
         <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
-          <DialogContent className="max-w-sm rounded-2xl p-0">
+          <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
             <div className="p-6 space-y-4">
               <DialogHeader className="space-y-1 text-left">
                 <DialogTitle>Log je gewicht</DialogTitle>
@@ -138,7 +138,7 @@ export function Dashboard({
   const perfectWeek = !hasFutureDays && weekData.every(day => day.isCheatDay || day.completed);
 
   return (
-    <div className="space-y-4 pb-24 overflow-hidden">
+    <div className="space-y-5 overflow-hidden pb-24">
       <StreakHeroCard
         streak={streak}
         currentWeek={progress.week}
@@ -146,23 +146,9 @@ export function Dashboard({
         isCheatDay={isCheatDay}
       />
 
-      <WeeklyProgressGrid weekData={weekData} />
-
-      {perfectWeek && (
-        <div className="bg-gradient-to-br from-sage-400 to-sage-500 rounded-xl p-4 text-white">
-          <div className="flex items-center gap-3">
-            <Trophy className="w-6 h-6" />
-            <div>
-              <p className="font-bold">Perfect week!</p>
-              <p className="text-sm text-sage-100">6 dagen protocol + cheat day</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {isCheatDay ? (
-        <div className="bg-clay-50 rounded-xl p-6 border border-clay-200">
-          <h3 className="text-lg font-bold text-clay-900 mb-2">🍕 Cheat Day!</h3>
+        <div className="rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/90 to-clay-100/80 p-6 shadow-soft">
+          <h3 className="mb-2 font-display text-xl font-semibold text-clay-900">🍕 Cheat Day!</h3>
           <p className="text-clay-700">
             Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp.
             Geniet ervan en ga morgen weer terug naar het protocol.
@@ -183,16 +169,33 @@ export function Dashboard({
         </>
       )}
 
+      <WeeklyProgressGrid weekData={weekData} />
+
+      {perfectWeek && (
+        <div className="rounded-2xl border border-sage-200 bg-gradient-to-br from-sage-100 to-sage-200/70 p-5 shadow-soft">
+          <div className="flex items-center gap-3 text-sage-900">
+            <div className="h-9 w-9 rounded-lg bg-sage-200 flex items-center justify-center">
+              <Trophy className="w-4 h-4" />
+            </div>
+            <div>
+              <p className="font-semibold">Perfecte week</p>
+              <p className="text-sm text-sage-700">6 dagen protocol + cheat day</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <WeightProgressCard
         weightLog={weightLog}
         startWeight={startWeight}
         currentWeight={latestWeight}
+        targetWeight={journey.targetWeight}
         onOpenLog={openWeightDialog}
       />
       <QuickActionFAB onLogWeight={openWeightDialog} onLogMeal={handleMealAction} />
 
       <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
-        <DialogContent className="max-w-sm rounded-2xl p-0">
+        <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
           <div className="p-6 space-y-4">
             <DialogHeader className="space-y-1 text-left">
               <DialogTitle>Log je gewicht</DialogTitle>

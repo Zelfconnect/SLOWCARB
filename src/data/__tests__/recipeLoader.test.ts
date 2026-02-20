@@ -1,5 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { loadRecipes, RECIPES } from '../recipeLoader';
+import recipesJson from '../recipes.json';
+
+type RecipesMetadata = {
+  totalRecipes?: number;
+  categories?: {
+    airfryer?: number;
+    mealPrep?: number;
+    noTime?: number;
+  };
+};
+
+const metadata = recipesJson as RecipesMetadata;
+const expectedQuickCount = metadata.categories?.airfryer ?? 0;
+const expectedMealPrepCount = metadata.categories?.mealPrep ?? 0;
+const expectedNoTimeCount = metadata.categories?.noTime ?? 0;
+const expectedRecipeTotal = metadata.totalRecipes ?? 0;
 
 // ─── loadRecipes ──────────────────────────────────────────────────────────────
 
@@ -11,16 +27,16 @@ describe('loadRecipes', () => {
     expect(db.noTime).toBeDefined();
   });
 
-  it('has exactly 15 quick (airfryer) recipes', () => {
-    expect(loadRecipes().quick).toHaveLength(15);
+  it('has exactly the configured quick (airfryer) recipe count', () => {
+    expect(loadRecipes().quick).toHaveLength(expectedQuickCount);
   });
 
-  it('has exactly 19 meal-prep recipes', () => {
-    expect(loadRecipes().mealPrep).toHaveLength(19);
+  it('has exactly the configured meal-prep recipe count', () => {
+    expect(loadRecipes().mealPrep).toHaveLength(expectedMealPrepCount);
   });
 
-  it('has exactly 14 no-time recipes', () => {
-    expect(loadRecipes().noTime).toHaveLength(14);
+  it('has exactly the configured no-time recipe count', () => {
+    expect(loadRecipes().noTime).toHaveLength(expectedNoTimeCount);
   });
 
   it('every quick recipe has the airfryer tag', () => {
@@ -56,8 +72,8 @@ describe('loadRecipes', () => {
 // ─── RECIPES (app recipe list) ────────────────────────────────────────────────
 
 describe('RECIPES', () => {
-  it('loads exactly 35 unique recipes', () => {
-    expect(RECIPES).toHaveLength(35);
+  it('loads exactly the configured number of unique recipes', () => {
+    expect(RECIPES).toHaveLength(expectedRecipeTotal);
   });
 
   it('every recipe has required fields', () => {

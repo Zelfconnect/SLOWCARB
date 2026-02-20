@@ -1,8 +1,8 @@
-import { Heart, Clock, Users } from 'lucide-react';
+import { Heart, Clock, Users, ChevronRight } from 'lucide-react';
 import type { Recipe } from '@/types';
 import { cn } from '@/lib/utils';
 import { getRecipeIcon } from '@/lib/recipeIcons';
-import { Card } from '@/components/ui/card';
+import { getCategoryAccent } from '@/lib/recipeCardStyle';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
@@ -13,47 +13,95 @@ interface CompactRecipeCardProps {
   onClick: () => void;
 }
 
-export function CompactRecipeCard({ 
-  recipe, 
-  isFavorite, 
-  onToggleFavorite, 
-  onClick 
+const DIFFICULTY_LABELS: Record<string, string> = {
+  makkelijk: 'Makkelijk',
+  medium: 'Gemiddeld',
+  moeilijk: 'Uitdagend',
+};
+
+export function CompactRecipeCard({
+  recipe,
+  isFavorite,
+  onToggleFavorite,
+  onClick,
 }: CompactRecipeCardProps) {
   const RecipeIcon = getRecipeIcon(recipe.icon);
   const protein = (recipe as Recipe & { macros?: { protein?: number } }).macros?.protein;
+  const { iconBox, iconColor } = getCategoryAccent(recipe.category);
+  const difficultyLabel = recipe.difficulty
+    ? DIFFICULTY_LABELS[recipe.difficulty.toLowerCase()] ?? recipe.difficulty
+    : null;
 
   return (
-    <Card
+    <div
       onClick={onClick}
-      className="flex-row items-center gap-3 p-3 rounded-xl py-3 min-h-[72px] hover:border-sage-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
+      className="card-website group relative flex cursor-pointer flex-row items-center gap-4 px-3.5 py-3 shadow-[0_6px_18px_rgba(47,94,63,0.08)] hover:shadow-[0_10px_24px_rgba(47,94,63,0.14)]"
     >
-      {/* Icon */}
-      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-sage-100 to-sage-50 flex items-center justify-center flex-shrink-0">
-        <RecipeIcon className="w-6 h-6 text-stone-600" />
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={onToggleFavorite}
+        className={cn(
+          'absolute right-2.5 top-2.5 z-10 h-7 w-7 rounded-md border border-sage-200/70 bg-white/90',
+          isFavorite
+            ? 'text-red-500 hover:bg-red-50 hover:border-sage-300'
+            : 'text-stone-300/80 hover:text-stone-500 hover:bg-stone-100 hover:border-sage-300'
+        )}
+      >
+        <Heart
+          className={cn('h-4 w-4', isFavorite && 'fill-current')}
+          strokeWidth={isFavorite ? 2.5 : 2}
+        />
+      </Button>
+
+      {/* Icon – category-based accent */}
+      <div
+        className={cn(
+          'ml-8 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-[1.03]',
+          iconBox
+        )}
+      >
+        <RecipeIcon className={cn('h-5 w-5', iconColor)} />
       </div>
-      
+
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <h3 className="font-display font-semibold text-stone-800 text-sm leading-tight line-clamp-2 group-hover:text-sage-700 transition-colors">
+        <h3 className="line-clamp-2 text-sm font-display font-semibold leading-tight text-stone-800 transition-colors group-hover:text-sage-700">
           {recipe.name}
         </h3>
-        <div className="flex items-center gap-2 mt-1 text-xs text-stone-500">
+        {recipe.subtitle && (
+          <p className="mt-0.5 text-xs text-stone-500 line-clamp-1">
+            {recipe.subtitle}
+          </p>
+        )}
+        <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-stone-500">
           <span className="flex items-center gap-1">
-            <Clock className="w-3 h-3" />
+            <Clock className="h-3 w-3 text-sage-600" />
             {recipe.prepTime}
           </span>
-          <span className="text-stone-300">|</span>
+          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-stone-300" />
           <span className="flex items-center gap-1">
-            <Users className="w-3 h-3" />
+            <Users className="h-3 w-3 text-sage-600" />
             {recipe.servings}p
           </span>
+          {difficultyLabel && (
+            <>
+              <span aria-hidden="true" className="h-1 w-1 rounded-full bg-stone-300" />
+              <Badge
+                variant="secondary"
+                className="border-0 bg-stone-100 px-1.5 py-0.5 text-[11px] font-medium text-stone-600"
+              >
+                {difficultyLabel}
+              </Badge>
+            </>
+          )}
           {protein != null && (
             <>
-              <span className="text-stone-300">|</span>
+              <span aria-hidden="true" className="h-1 w-1 rounded-full bg-stone-300" />
               <Badge
                 variant="secondary"
                 className={cn(
-                  'text-sm px-1.5 py-0.5 border-0 font-medium',
+                  'border-0 px-1.5 py-0.5 text-[11px] font-medium',
                   protein >= 25 ? 'text-sage-600 bg-sage-50' : 'text-stone-400 bg-stone-100'
                 )}
               >
@@ -64,23 +112,9 @@ export function CompactRecipeCard({
         </div>
       </div>
       
-      {/* Favorite button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={onToggleFavorite}
-        className={cn(
-          'rounded-lg',
-          isFavorite
-            ? 'text-red-500 hover:bg-red-50'
-            : 'text-stone-300 hover:text-stone-500 hover:bg-stone-100'
-        )}
-      >
-        <Heart
-          className={cn('w-5 h-5', isFavorite && 'fill-current')}
-          strokeWidth={isFavorite ? 2.5 : 2}
-        />
-      </Button>
-    </Card>
+      <div className="mt-0.5 flex items-center">
+        <ChevronRight className="h-4 w-4 text-sage-500 transition-colors group-hover:text-sage-600" />
+      </div>
+    </div>
   );
 }

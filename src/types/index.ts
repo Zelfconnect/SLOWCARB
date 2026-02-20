@@ -5,11 +5,13 @@ export interface Ingredient {
 }
 
 export type RecipeIconKey = 'cooking-pot' | 'soup' | 'flame' | 'salad' | 'fish' | 'egg';
-export type MealTypeIconKey = 'sunrise' | 'sun' | 'moon' | 'package' | 'flame' | 'apple';
+export type MealTypeIconKey = 'sunrise' | 'sun' | 'moon' | 'package' | 'flame' | 'apple' | 'zap' | 'clock';
 
 export interface Recipe {
   id: string;
   name: string;
+  subtitle?: string;
+  difficulty?: string;
   category: 'ontbijt' | 'lunch' | 'avond' | 'airfryer' | 'mealprep' | 'snack' | 'meal-prep' | 'no-time';
   icon: RecipeIconKey;
   prepTime: string;
@@ -56,7 +58,6 @@ export interface ShoppingItem {
   name: string;
   category: 'eiwit' | 'groente' | 'pantry' | 'overig';
   checked: boolean;
-  recipeId?: string;
   recipeName?: string;
   amount: number;
   unit: string;

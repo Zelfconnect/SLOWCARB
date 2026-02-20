@@ -15,7 +15,7 @@ const navItems = [
 
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-20 bg-white/90 backdrop-blur-md border-t border-warm-200 z-30">
+    <nav className="fixed bottom-0 left-0 right-0 z-30 h-20 border-t border-stone-200 bg-white/90 backdrop-blur-md">
       <div className="flex items-center h-full max-w-md mx-auto px-2 gap-1">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -27,12 +27,12 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               onClick={() => onTabChange(item.id)}
               className={cn(
                 'flex flex-col items-center justify-center flex-1 h-full py-2 px-1 rounded-lg transition-all duration-200 min-w-0',
-                isActive ? 'text-primary-600' : 'text-warm-400 hover:text-warm-600'
+                isActive ? 'text-sage-600' : 'text-stone-400 hover:text-stone-600'
               )}
             >
               <div className={cn(
                 'p-2 rounded-lg transition-all duration-200',
-                isActive && 'bg-primary-50'
+                isActive && 'bg-sage-50'
               )}>
                 <Icon 
                   className={cn(
@@ -44,7 +44,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               </div>
               <span className={cn(
                 'text-xs font-medium mt-0.5 transition-colors text-center leading-tight',
-                isActive ? 'text-primary-700' : 'text-warm-400'
+                isActive ? 'text-sage-700' : 'text-stone-400'
               )}>
                 {item.label}
               </span>

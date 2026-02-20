@@ -23,7 +23,7 @@ export const RULE_TOKENS: EducationTokens = {
   icon: '#FFFFFF',
   accent: 'bg-white/10',  // Light overlay for rule statement
   borderRadius: 'rounded-3xl',
-  maxHeight: '70vh',
+  maxHeight: '85dvh',
 };
 
 // Concept Card: Hoe werkt iets, wetenschappelijke uitleg

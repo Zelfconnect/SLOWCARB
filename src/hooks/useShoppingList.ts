@@ -1,58 +1,9 @@
 import { useLocalStorage } from './useLocalStorage';
 import type { ShoppingItem, PantryItem } from '@/types';
 import { useCallback } from 'react';
-import { getPackageSizes } from '@/data/packageSizes';
-
-// Map old categories to new simplified categories
-function normalizeCategory(category: string): 'eiwit' | 'groente' | 'pantry' | 'overig' {
-  const lower = category.toLowerCase();
-  
-  if (/ei|kip|vlees|gehakt|bacon|ham|worst|zalm|vis|tonijn|garnaal|scampi|hüttenkäse|cottage|kaas|mozzarella|feta|parmezaan|pecorino/.test(lower)) {
-    return 'eiwit';
-  }
-  
-  if (/spinazie|broccoli|komkommer|tomaat|paprika|ui|knoflook|sla|wortel|courgette|aubergine|prei|selder|asperges|bloemkool|spruitjes|boerenkool|andijvie|paksoi|sperzieboon|doperwt|mais|avocado|groente/.test(lower)) {
-    return 'groente';
-  }
-  
-  if (/bonen|linzen|kikkererwten|kidney|olie|azijn|mayo|mosterd|ketchup|sesam|tahini|pindakaas|noten|walnoot|amandel|cashew|pinda|chia|lijnzaad|kokos|quinoa|kaneel|komijn|paprikapoeder|curry|kurkuma|peper|zout|tomatenblokjes|kokosmelk/.test(lower)) {
-    return 'pantry';
-  }
-  
-  return 'overig';
-}
-
-// Get category from ingredient name
-function getCategoryForIngredient(name: string): 'eiwit' | 'groente' | 'pantry' | 'overig' {
-  const packages = getPackageSizes(name);
-  if (packages) {
-    return packages.category;
-  }
-  return normalizeCategory(name);
-}
-
-// Get icon key for ingredient
-function getIconKeyForIngredient(name: string): string {
-  const lower = name.toLowerCase();
-  if (lower.includes('ei')) return 'egg';
-  if (lower.includes('kip')) return 'drumstick';
-  if (lower.includes('vlees') || lower.includes('gehakt')) return 'beef';
-  if (lower.includes('bonen') || lower.includes('linzen')) return 'bean';
-  if (
-    lower.includes('tomaat') ||
-    lower.includes('spinazie') ||
-    lower.includes('groente') ||
-    lower.includes('sla') ||
-    lower.includes('broccoli') ||
-    lower.includes('ui') ||
-    lower.includes('knoflook') ||
-    lower.includes('avocado')
-  ) {
-    return 'salad';
-  }
-  if (lower.includes('tonijn') || lower.includes('zalm') || lower.includes('vis')) return 'fish';
-  return 'package';
-}
+import { getPackageSizes, roundToPackage } from '@/data/packageSizes';
+import { getCategoryForIngredient } from '@/lib/ingredientCategory';
+import { getIconKeyForIngredient } from '@/lib/ingredientIcons';
 
 export function useShoppingList() {
   const [items, setItems] = useLocalStorage<ShoppingItem[]>('slowcarb-shopping-v2', []);
@@ -75,7 +26,10 @@ export function useShoppingList() {
         
         // Check if item already exists (consolidation)
         const existingIndex = newItems.findIndex(
-          item => item.name.toLowerCase() === ingredient.name.toLowerCase() && !item.checked
+          item =>
+            item.name.toLowerCase() === ingredient.name.toLowerCase() &&
+            !item.checked &&
+            item.unit === unit
         );
         
         if (existingIndex >= 0) {
@@ -89,11 +43,14 @@ export function useShoppingList() {
             existingRecipes.push(recipeName);
           }
           
+          const consolidatedAmount = existing.amount + selectedPackage.amount;
+          const matchedPackage = roundToPackage(ingredient.name, consolidatedAmount);
+
           newItems[existingIndex] = {
             ...existing,
-            amount: existing.amount + selectedPackage.amount,
+            amount: consolidatedAmount,
             recipeName: existingRecipes.join(' + '),
-            packageLabel: `${existing.amount + selectedPackage.amount} ${unit}`,
+            packageLabel: matchedPackage?.label ?? `${consolidatedAmount} ${unit}`,
           };
         } else {
           // Add new item
@@ -199,26 +156,23 @@ export function useShoppingList() {
 
   // Move item to pantry (returns the item to be added to pantry)
   const moveToPantry = useCallback((id: string): PantryItem | null => {
-    let movedItem: PantryItem | null = null;
-    
-    setItems(prev => {
-      const item = prev.find(i => i.id === id);
-      if (item) {
-        movedItem = {
-          id: item.id,
-          name: item.name,
-          category: item.category,
-          amount: item.amount,
-          unit: item.unit,
-          addedAt: new Date().toISOString(),
-          fromRecipes: item.recipeName ? item.recipeName.split(' + ') : [],
-        };
-      }
-      return prev.filter(i => i.id !== id);
-    });
-    
-    return movedItem;
-  }, [setItems]);
+    const itemToMove = items.find(item => item.id === id);
+    if (!itemToMove) {
+      return null;
+    }
+
+    setItems(prev => prev.filter(item => item.id !== id));
+
+    return {
+      id: itemToMove.id,
+      name: itemToMove.name,
+      category: itemToMove.category,
+      amount: itemToMove.amount,
+      unit: itemToMove.unit,
+      addedAt: new Date().toISOString(),
+      fromRecipes: itemToMove.recipeName ? itemToMove.recipeName.split(' + ') : [],
+    };
+  }, [items, setItems]);
 
   const getByCategory = useCallback(() => {
     const grouped: Record<string, ShoppingItem[]> = {

@@ -50,7 +50,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
           </div>
           <Button 
             onClick={() => setShowStartDialog(true)} 
-            className="w-full bg-white text-primary-700 hover:bg-primary-50 h-12 rounded-lg font-medium"
+            className="h-12 w-full rounded-xl border border-stone-200 bg-white font-medium text-sage-700 hover:bg-stone-50"
           >
             Start Nu
           </Button>
@@ -64,43 +64,43 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
             document.body.style.overflow = '';
           }
         }}>
-          <DialogContent className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm max-h-[85dvh] overflow-y-auto dark:border-gray-800 dark:bg-gray-900 leading-relaxed">
+          <DialogContent className="max-h-[85dvh] overflow-y-auto rounded-2xl border border-stone-100 bg-white p-6 leading-relaxed shadow-soft">
             <DialogHeader className="text-left gap-3">
-              <DialogTitle className="text-2xl font-['Geist'] font-bold tracking-tight text-gray-950 dark:text-gray-100">
+              <DialogTitle className="font-display text-2xl font-bold tracking-tight text-stone-800">
                 Start je Slow-Carb Journey
               </DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 pt-1 text-base text-gray-600 dark:text-gray-400">
-              <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 space-y-3">
+            <div className="space-y-4 pt-1 text-base text-stone-600">
+              <div className="space-y-3 rounded-xl border border-stone-200 p-4">
                 <div>
-                  <Label htmlFor="start-date" className="text-sm font-medium text-gray-500 uppercase tracking-wide">Start datum</Label>
+                  <Label htmlFor="start-date" className="text-sm font-medium uppercase tracking-wide text-stone-500">Start datum</Label>
                   <div className="relative mt-2">
                     <Input
                       id="start-date"
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="h-11 rounded-xl border border-gray-200 bg-white px-4 pr-10 text-base text-gray-600 placeholder:text-gray-400 appearance-none focus:ring-2 focus:ring-gray-400 focus:border-transparent dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+                      className="h-11 appearance-none rounded-xl border border-stone-200 bg-white px-4 pr-10 text-base text-stone-600 placeholder:text-stone-400 focus:border-transparent focus:ring-2 focus:ring-sage-300"
                     />
-                    <Calendar className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <Calendar className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="cheat-day" className="text-sm font-medium text-gray-500 uppercase tracking-wide">Cheat day</Label>
+                  <Label htmlFor="cheat-day" className="text-sm font-medium uppercase tracking-wide text-stone-500">Cheat day</Label>
                   <Select value={cheatDay} onValueChange={(v) => setCheatDay(v as 'zaterdag' | 'zondag')}>
-                    <SelectTrigger className="mt-2 h-11 rounded-xl border border-gray-200 bg-white px-4 text-base text-gray-600 focus:ring-2 focus:ring-gray-400 focus:border-transparent dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100">
+                    <SelectTrigger className="mt-2 h-11 rounded-xl border border-stone-200 bg-white px-4 text-base text-stone-600 focus:border-transparent focus:ring-2 focus:ring-sage-300">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
-                      <SelectItem value="zaterdag" className="rounded-lg text-gray-700 focus:bg-gray-100 dark:text-gray-100 dark:focus:bg-gray-800">Zaterdag</SelectItem>
-                      <SelectItem value="zondag" className="rounded-lg text-gray-700 focus:bg-gray-100 dark:text-gray-100 dark:focus:bg-gray-800">Zondag</SelectItem>
+                    <SelectContent className="rounded-xl border border-stone-200 bg-white shadow-soft">
+                      <SelectItem value="zaterdag" className="rounded-lg text-stone-700 focus:bg-stone-100">Zaterdag</SelectItem>
+                      <SelectItem value="zondag" className="rounded-lg text-stone-700 focus:bg-stone-100">Zondag</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="opacity-90">
-                <Label htmlFor="target-weight" className="text-sm font-medium text-gray-500 uppercase tracking-wide">
-                  Streefgewicht <span className="normal-case font-normal text-gray-400">(optioneel)</span>
+                <Label htmlFor="target-weight" className="text-sm font-medium uppercase tracking-wide text-stone-500">
+                  Streefgewicht <span className="normal-case font-normal text-stone-400">(optioneel)</span>
                 </Label>
                 <Input
                   id="target-weight"
@@ -108,12 +108,12 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                   placeholder="85"
                   value={targetWeight}
                   onChange={(e) => setTargetWeight(e.target.value)}
-                  className="mt-2 h-11 rounded-xl border border-gray-200 bg-white px-4 text-base text-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-gray-400 focus:border-transparent dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+                  className="mt-2 h-11 rounded-xl border border-stone-200 bg-white px-4 text-base text-stone-600 placeholder:text-stone-400 focus:border-transparent focus:ring-2 focus:ring-sage-300"
                 />
               </div>
               <Button
                 onClick={handleStart}
-                className="w-full h-11 rounded-xl bg-gray-900 text-white hover:bg-gray-800 active:scale-95 transition-all dark:bg-white dark:text-gray-950 dark:hover:bg-gray-100"
+                className="h-11 w-full rounded-xl bg-sage-600 text-white transition-all hover:bg-sage-700 active:scale-95"
               >
                 Start Journey
               </Button>
@@ -127,7 +127,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
   return (
     <>
       {/* Main Journey Card - NEW DESIGN SYSTEM */}
-      <Card 
+      <Card
         variant={isCheatDay ? 'concept' : 'rule'} 
         padding="6" 
         radius="2xl" 
@@ -139,7 +139,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
               {isCheatDay ? <PartyPopper className="w-7 h-7" /> : <Rocket className="w-7 h-7" />}
             </div>
             <div>
-              <h3 className="font-semibold text-xl text-white">
+              <h3 className="font-display text-xl font-semibold text-white">
                 {isCheatDay ? 'Cheat Day!' : `Dag ${progress.day} van 84`}
               </h3>
               <p className="text-sm text-white/80">
@@ -174,7 +174,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
         {currentTip?.tip && !isCheatDay && (
           <button 
             onClick={() => setShowTipDialog(true)} 
-            className="w-full bg-white/10 rounded-xl p-4 text-left hover:bg-white/20 transition-all group"
+            className="group w-full rounded-xl bg-white/10 p-4 text-left transition-all hover:bg-white/20"
           >
             <div className="flex items-start gap-3">
               <Info className="w-5 h-5 mt-0.5 flex-shrink-0" />
@@ -213,17 +213,17 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
       <Dialog open={showTipDialog} onOpenChange={(open) => !open && setShowTipDialog(false)}>
         <DialogContent
           showCloseButton={false}
-          className="mx-4 sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
+          className="mx-4 flex max-h-[85dvh] max-w-lg flex-col rounded-3xl border border-stone-100 p-0 shadow-elevated sm:mx-auto"
         >
           {/* Header */}
-          <div className="p-6 bg-gradient-to-br from-primary-600 to-primary-700 flex-shrink-0 rounded-t-3xl">
+          <div className="flex-shrink-0 rounded-t-3xl bg-gradient-to-br from-sage-600 to-sage-700 p-6">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center text-4xl">
                       <Lightbulb className="w-8 h-8 text-white" aria-hidden="true" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h2 className="text-xl font-semibold text-white leading-tight">
+                      <h2 className="font-display text-xl font-semibold leading-tight text-white">
                         {currentTip?.tip?.title}
                       </h2>
                       <p className="text-sm text-white/80 mt-1">
@@ -233,7 +233,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                   </div>
                   <button
                     onClick={() => setShowTipDialog(false)}
-                    className="w-11 h-11 rounded-lg bg-white/10 text-white/70 hover:bg-white/20 transition-all flex items-center justify-center flex-shrink-0"
+                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-white/10 text-white/70 transition-all hover:bg-white/20"
                     aria-label="Sluiten"
                   >
                     <X className="w-6 h-6" />
@@ -246,14 +246,14 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                 <div className="p-6 space-y-6">
                 {/* Tips voor vandaag */}
                 <div>
-                  <h3 className="font-semibold text-warm-800 text-lg mb-4 flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-primary-600" />
+                  <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-stone-800">
+                    <BookOpen className="w-5 h-5 text-sage-600" />
                     Tips voor vandaag
                   </h3>
                   <ul className="space-y-3">
                     {currentTip?.tip?.tips.map((tip, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-warm-700">
-                        <span className="w-6 h-6 rounded-full bg-primary-100 text-primary-600 text-xs font-medium flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <li key={idx} className="flex items-start gap-3 text-stone-700">
+                        <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-sage-100 text-xs font-medium text-sage-600">
                           {idx + 1}
                         </span>
                         <span className="leading-relaxed">{tip}</span>
@@ -264,24 +264,24 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                 
                 {/* Warning */}
                 {currentTip?.weekTip?.warning && (
-                  <div className="bg-accent-50 rounded-xl p-5 border border-accent-100">
-                    <h3 className="font-semibold text-accent-900 mb-2 flex items-center gap-2">
+                  <div className="rounded-xl border border-clay-100 bg-clay-50 p-5">
+                    <h3 className="mb-2 flex items-center gap-2 font-display font-semibold text-clay-900">
                       <Lightbulb className="w-5 h-5" />
                       Let op
                     </h3>
-                    <p className="text-accent-800 text-sm leading-relaxed">
+                    <p className="text-sm leading-relaxed text-clay-800">
                       {currentTip.weekTip.warning}
                     </p>
                   </div>
                 )}
                 
                 {/* Metabole staat */}
-                <div className="bg-primary-50 rounded-xl p-5 border border-primary-100">
-                  <h3 className="font-semibold text-primary-900 mb-3 flex items-center gap-2">
+                <div className="rounded-xl border border-sage-100 bg-sage-50 p-5">
+                  <h3 className="mb-3 flex items-center gap-2 font-display font-semibold text-sage-900">
                     <FlaskConical className="w-5 h-5" />
                     Metabole staat
                   </h3>
-                  <p className="text-primary-800 text-sm leading-relaxed">
+                  <p className="text-sm leading-relaxed text-sage-800">
                     {currentTip?.tip?.metabolicState}
                   </p>
                 </div>
@@ -289,14 +289,14 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                 {/* Week tips */}
                 {currentTip?.weekTip && (
                   <div>
-                    <h3 className="font-semibold text-warm-800 text-lg mb-4 flex items-center gap-2">
-                      <BookOpen className="w-5 h-5 text-primary-600" />
+                    <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-stone-800">
+                      <BookOpen className="w-5 h-5 text-sage-600" />
                       {currentTip.weekTip.title}
                     </h3>
                     <ul className="space-y-3">
                       {currentTip.weekTip.tips.map((tip, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-warm-700 text-sm">
-                          <span className="w-2 h-2 rounded-full bg-primary-400 mt-2 flex-shrink-0" />
+                        <li key={idx} className="flex items-start gap-3 text-sm text-stone-700">
+                          <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-sage-400" />
                           <span className="leading-relaxed">{tip}</span>
                         </li>
                       ))}

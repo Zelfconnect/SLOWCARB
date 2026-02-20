@@ -58,12 +58,12 @@ const variantClasses: Record<TextVariant, string> = {
 
 // Color classes
 const colorClasses: Record<TextColor, string> = {
-  default: 'text-warm-900',
-  muted: 'text-warm-500',
+  default: 'text-stone-800',
+  muted: 'text-stone-500',
   inverse: 'text-white',
-  primary: 'text-primary-700',
-  success: 'text-primary-600',
-  warning: 'text-accent-600',
+  primary: 'text-sage-700',
+  success: 'text-sage-600',
+  warning: 'text-clay-600',
   error: 'text-red-600',
 };
 

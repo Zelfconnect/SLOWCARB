@@ -394,15 +394,20 @@ export const STANDARD_PANTRY_ITEMS = [
 
 // Helper function to find package sizes for an ingredient
 export function getPackageSizes(ingredientName: string): IngredientPackages | null {
+  const normalizedIngredientName = ingredientName.toLowerCase().trim();
+
   // Try exact match first
-  if (PACKAGE_SIZES[ingredientName.toLowerCase()]) {
-    return PACKAGE_SIZES[ingredientName.toLowerCase()];
+  if (PACKAGE_SIZES[normalizedIngredientName]) {
+    return PACKAGE_SIZES[normalizedIngredientName];
   }
 
-  // Try partial match
-  const key = Object.keys(PACKAGE_SIZES).find(k =>
-    ingredientName.toLowerCase().includes(k) ||
-    k.includes(ingredientName.toLowerCase())
+  // Try deterministic prefix match (prefer more specific keys first)
+  const key = Object.keys(PACKAGE_SIZES)
+    .sort((firstKey, secondKey) => secondKey.length - firstKey.length)
+    .find(candidateKey =>
+      normalizedIngredientName.startsWith(candidateKey) &&
+      (normalizedIngredientName.length === candidateKey.length ||
+        normalizedIngredientName.charAt(candidateKey.length) === ' ')
   );
 
   return key ? PACKAGE_SIZES[key] : null;
@@ -426,16 +431,5 @@ export function roundToPackage(ingredientName: string, amountNeeded: number): Pa
 
 // Helper to get default package (smallest that meets requirement)
 export function getDefaultPackage(ingredientName: string, requiredAmount: number): PackageSize | null {
-  const packages = getPackageSizes(ingredientName);
-  if (!packages) return null;
-
-  // Find smallest package that meets or exceeds requirement
-  for (const pkg of packages.packages) {
-    if (pkg.amount >= requiredAmount) {
-      return pkg;
-    }
-  }
-
-  // If none meet requirement, return largest
-  return packages.packages[packages.packages.length - 1];
+  return roundToPackage(ingredientName, requiredAmount);
 }

@@ -12,13 +12,13 @@ export function WeeklyProgressGrid({ weekData }: WeeklyProgressGridProps) {
         <div
           key={day.date}
           className={cn(
-            'aspect-square rounded-lg flex flex-col items-center justify-center text-xs font-medium',
+            'flex aspect-square flex-col items-center justify-center rounded-xl border border-transparent text-xs font-medium shadow-soft',
             day.isCheatDay
-              ? 'bg-gradient-to-br from-clay-400 to-orange-500 text-white'
+              ? 'border-clay-300 bg-gradient-to-br from-clay-500 to-clay-600 text-white'
               : day.completed
-                ? 'bg-sage-500 text-white'
+                ? 'border-sage-300 bg-sage-600 text-white'
                 : day.isFuture
-                  ? 'bg-warm-200 border-2 border-dashed border-warm-300 text-warm-500'
+                  ? 'border-2 border-dashed border-stone-300 bg-stone-200 text-stone-500'
                   : 'bg-red-100 border-2 border-red-300 text-red-600'
           )}
         >

@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 
 interface RecipeDetailModalProps {
@@ -14,7 +13,7 @@ interface RecipeDetailModalProps {
   isOpen: boolean;
   isFavorite: boolean;
   onToggleFavorite: () => void;
-  onOpenPackageSelector: () => void;
+  onOpenPackageSelector?: (portionMultiplier: number) => void;
   onClose: () => void;
 }
 
@@ -50,16 +49,16 @@ export function RecipeDetailModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="max-w-lg max-h-[90dvh] rounded-3xl border-0 shadow-2xl p-0 flex flex-col"
+        className="flex h-[85dvh] max-h-[90dvh] max-w-lg flex-col rounded-3xl border border-stone-100 bg-white p-0 shadow-elevated"
       >
         {/* Header */}
-        <div className="p-4 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">
+        <div className="flex-shrink-0 rounded-t-3xl bg-gradient-to-br from-sage-600 to-sage-700 p-5">
           <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
               <Button
                 onClick={onClose}
-                variant="outline"
-                className="min-h-11 bg-white text-stone-900 border-stone-200 hover:bg-stone-100 shadow-sm px-3 gap-1.5 flex-shrink-0"
+                variant="ghost"
+                className="min-h-10 px-3 gap-1.5 flex-shrink-0 rounded-xl text-white/95 hover:text-white hover:bg-white/20 border border-white/25 hover:border-white/40 transition-colors"
                 aria-label="Terug"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -67,7 +66,7 @@ export function RecipeDetailModal({
               </Button>
               <div className="flex-1 min-w-0 space-y-1">
                 <h2 className="text-xl font-bold text-white leading-tight">{recipe.name}</h2>
-                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-3 text-sm text-white/90">
                   <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{recipe.prepTime} prep</span>
                   <span className="flex items-center gap-1"><ChefHat className="w-3 h-3" />{recipe.cookTime}</span>
                 </div>
@@ -83,25 +82,24 @@ export function RecipeDetailModal({
         </div>
 
         {/* Tabs + Content */}
-        <Tabs defaultValue="ingredients" className="flex flex-col flex-1 min-h-0 gap-0">
-          <TabsList className="bg-stone-100 rounded-none border-b border-stone-200 p-1 flex-shrink-0 h-auto w-full">
+        <Tabs defaultValue="ingredients" className="flex min-h-0 flex-1 flex-col gap-0">
+          <TabsList className="h-auto w-full flex-shrink-0 rounded-none border-b border-stone-200 bg-stone-50 p-1.5">
             <TabsTrigger
               value="ingredients"
-              className="rounded-md data-[state=active]:bg-sage-600 data-[state=active]:text-white data-[state=active]:font-semibold data-[state=active]:shadow-none text-muted-foreground"
+              className="rounded-xl border border-transparent px-4 data-[state=active]:border-sage-600 data-[state=active]:bg-sage-600 data-[state=active]:font-semibold data-[state=active]:text-white data-[state=active]:shadow-none text-muted-foreground"
             >
               Ingrediënten
             </TabsTrigger>
             <TabsTrigger
               value="instructions"
-              className="rounded-md data-[state=active]:bg-sage-600 data-[state=active]:text-white data-[state=active]:font-semibold data-[state=active]:shadow-none text-muted-foreground"
+              className="rounded-xl border border-transparent px-4 data-[state=active]:border-sage-600 data-[state=active]:bg-sage-600 data-[state=active]:font-semibold data-[state=active]:text-white data-[state=active]:shadow-none text-muted-foreground"
             >
               Bereiding
             </TabsTrigger>
           </TabsList>
 
-          <ScrollArea className="flex-1">
-            <TabsContent value="ingredients" className="mt-0">
-              <div className="p-5 space-y-5">
+          <TabsContent value="ingredients" className="mt-0 min-h-0 flex-1 overflow-y-auto">
+            <div className="space-y-5 p-6">
                 {/* Portion Selector */}
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-stone-600 flex items-center gap-2">
@@ -142,15 +140,20 @@ export function RecipeDetailModal({
                 </ul>
 
                 {/* Add to Shopping List */}
-                <Button onClick={onOpenPackageSelector} className="w-full">
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  + Toevoegen
-                </Button>
-              </div>
-            </TabsContent>
+                {onOpenPackageSelector ? (
+                  <Button
+                    onClick={() => onOpenPackageSelector(portionMultiplier)}
+                    className="w-full rounded-xl bg-sage-600 text-white hover:bg-sage-700"
+                  >
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    + Toevoegen
+                  </Button>
+                ) : null}
+            </div>
+          </TabsContent>
 
-            <TabsContent value="instructions" className="mt-0">
-              <div className="p-5 space-y-5">
+          <TabsContent value="instructions" className="mt-0 min-h-0 flex-1 overflow-y-auto">
+            <div className="space-y-5 p-6">
                 {/* Steps */}
                 <ol className="space-y-4">
                   {recipe.steps.map((step, idx) => (
@@ -166,7 +169,7 @@ export function RecipeDetailModal({
                 {/* Tips - Accordion */}
                 {recipe.tips && recipe.tips.length > 0 && (
                   <Accordion type="single" collapsible className="mt-6">
-                    <AccordionItem value="tips" className="border-0 bg-stone-50 rounded-xl border border-stone-200">
+                    <AccordionItem value="tips" className="rounded-2xl border border-stone-200 bg-stone-50">
                       <AccordionTrigger className="px-4 py-3 hover:no-underline">
                         <span className="flex items-center gap-2 text-sm font-medium text-stone-800">
                           <Info className="w-4 h-4" />
@@ -185,11 +188,9 @@ export function RecipeDetailModal({
                     </AccordionItem>
                   </Accordion>
                 )}
-              </div>
-            </TabsContent>
+            </div>
+          </TabsContent>
 
-            <div className="h-4" />
-          </ScrollArea>
         </Tabs>
       </DialogContent>
     </Dialog>

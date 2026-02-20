@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Coffee, Sun, Moon, Check, Flame, Trophy, Calendar, ChefHat, Salad, Utensils, PartyPopper, type LucideIcon } from 'lucide-react';
+import { Check, Flame, Trophy, Calendar, ChefHat, Salad, Utensils, PartyPopper } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -26,53 +26,48 @@ const mealFoodIcons = {
   utensils: Utensils,
 } as const;
 
+const dashboardBrandIconContainerClass =
+  'border border-sage-300/70 bg-gradient-to-br from-sage-700 via-sage-700 to-sage-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_4px_12px_rgba(47,94,63,0.28)]';
+const dashboardBrandIconColorClass = 'text-cream';
+
 const mealConfig: Record<MealCardProps['type'], {
-  icon: LucideIcon;
   label: string;
   subtitle: string;
   gradient: string;
   bgGradient: string;
   borderColor: string;
-  checkColor: string;
   foodIcon?: keyof typeof mealFoodIcons;
   foodIconLabel?: string;
 }> = {
   breakfast: {
-    icon: Coffee,
     label: 'Ontbijt',
     subtitle: '30g eiwit binnen 30 min',
     gradient: 'from-sage-400 to-sage-600',
     bgGradient: 'from-sage-50 to-sage-100',
     borderColor: 'border-sage-200',
-    checkColor: 'bg-sage-500',
     foodIcon: 'chefhat',
     foodIconLabel: 'Ontbijt',
   },
   lunch: {
-    icon: Sun,
     label: 'Lunch',
     subtitle: 'Eiwit + groente + bonen',
     gradient: 'from-sage-400 to-sage-600',
     bgGradient: 'from-sage-50 to-emerald-50',
     borderColor: 'border-sage-200',
-    checkColor: 'bg-sage-500',
     foodIcon: 'salad',
   },
   dinner: {
-    icon: Moon,
     label: 'Avondeten',
     subtitle: 'Eiwit + groente + bonen',
-    gradient: 'from-indigo-400 to-purple-500',
-    bgGradient: 'from-indigo-50 to-purple-50',
-    borderColor: 'border-indigo-200',
-    checkColor: 'bg-indigo-500',
+    gradient: 'from-clay-500 to-clay-600',
+    bgGradient: 'from-clay-50 to-clay-100/50',
+    borderColor: 'border-clay-200',
     foodIcon: 'utensils',
   },
 };
 
 function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
   const config = mealConfig[type];
-  const Icon = config.icon;
   const [isPressed, setIsPressed] = useState(false);
   const FoodIcon = config.foodIcon ? mealFoodIcons[config.foodIcon] : null;
 
@@ -85,75 +80,82 @@ function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
       onMouseUp={() => setIsPressed(false)}
       onMouseLeave={() => setIsPressed(false)}
       disabled={isCheatDay}
+      aria-label={config.label}
       className={cn(
-        'relative w-full rounded-2xl p-4 transition-all duration-300 overflow-hidden',
-        'border-2 text-left',
-        isCompleted 
-          ? cn('bg-gradient-to-br', config.bgGradient, config.borderColor, 'border-opacity-100')
-          : 'bg-white border-stone-200 hover:border-stone-300',
+        'relative w-full overflow-hidden rounded-2xl border p-5 text-left shadow-soft transition-all duration-300',
+        isCompleted
+          ? cn('border-opacity-100 bg-gradient-to-br', config.bgGradient, config.borderColor)
+          : 'border-stone-100 bg-white hover:border-stone-200',
         isPressed && 'scale-[0.98]',
         isCheatDay && 'opacity-50 cursor-not-allowed'
       )}
     >
-      {/* Background decoration */}
-      <div className={cn(
-        'absolute -right-4 -top-4 w-24 h-24 rounded-full opacity-10 transition-all duration-500',
-        isCompleted ? cn('bg-gradient-to-br', config.gradient) : 'bg-stone-200'
-      )} />
+      <div
+        className={cn(
+          'absolute -right-6 -top-6 h-20 w-20 rounded-full opacity-[0.06] transition-all duration-500',
+          isCompleted ? cn('bg-gradient-to-br', config.gradient) : 'bg-stone-300'
+        )}
+      />
 
       <div className="relative flex items-center gap-4">
-        {/* Checkbox */}
-        <div className={cn(
-          'w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 flex-shrink-0',
-          isCompleted 
+        <div
+          className={cn(
+            'flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-300',
+            isCompleted
             ? cn('bg-gradient-to-br', config.gradient, 'shadow-lg')
-            : 'bg-stone-100 border-2 border-stone-200'
-        )}>
+            : dashboardBrandIconContainerClass
+          )}
+        >
           {isCompleted ? (
-            <Check className="w-6 h-6 text-white" strokeWidth={3} />
+            <Check className="h-5 w-5 text-white" strokeWidth={3} />
           ) : FoodIcon ? (
-            <FoodIcon className="w-6 h-6 text-stone-600" aria-label={config.foodIconLabel ?? config.label} />
+            <FoodIcon
+              className={cn('h-5 w-5', dashboardBrandIconColorClass)}
+              aria-label={config.foodIconLabel ?? config.label}
+            />
           ) : null}
         </div>
 
-        {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h4 className={cn(
-              'font-display font-semibold transition-colors',
-              isCompleted ? 'text-stone-800' : 'text-stone-700'
-            )}>
+            <h4
+              className={cn(
+                'font-display font-semibold transition-colors',
+                isCompleted ? 'text-stone-800' : 'text-stone-700'
+              )}
+            >
               {config.label}
             </h4>
             {isCompleted && (
-              <Badge className="bg-gradient-to-r from-emerald-400 to-emerald-500 text-white border-0">
-                <Check className="w-3 h-3" />
-                Klaar
-              </Badge>
+              <span className="text-xs font-medium text-sage-700">Afgevinkt</span>
             )}
           </div>
-          <p className={cn(
-            'text-sm transition-colors',
-            isCompleted ? 'text-stone-500' : 'text-stone-400'
-          )}>
+          <p
+            className={cn(
+              'text-sm transition-colors',
+              isCompleted ? 'text-stone-500' : 'text-stone-400'
+            )}
+          >
             {config.subtitle}
           </p>
         </div>
-
-        {/* Icon */}
-        <Icon className={cn(
-          'w-5 h-5 transition-colors flex-shrink-0',
-          isCompleted ? 'text-stone-400' : 'text-stone-300'
-        )} />
       </div>
 
-      {/* Progress bar for visual feedback */}
-      <div className={cn(
-        'absolute bottom-0 left-0 h-1 rounded-full transition-all duration-500',
-        isCompleted ? cn('w-full bg-gradient-to-r', config.gradient) : 'w-0'
-      )} />
+      <div
+        className={cn(
+          'absolute bottom-0 left-0 h-0.5 rounded-full transition-all duration-500',
+          isCompleted ? cn('w-full bg-gradient-to-r', config.gradient) : 'w-0'
+        )}
+      />
     </button>
   );
+}
+
+function getStatusMessage(completedCount: number) {
+  if (completedCount === 0) return 'Start je dag met een goed ontbijt.';
+  if (completedCount === 1) return 'Goed bezig! Nog 2 maaltijden te gaan.';
+  if (completedCount === 2) return 'Bijna daar! Nog 1 maaltijd.';
+  return 'Geweldig! Alle maaltijden compleet.';
 }
 
 export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay }: DailyMealTrackerProps) {
@@ -163,36 +165,32 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
 
   return (
     <div className="space-y-4">
-      {/* Header with stats */}
       <div className="flex items-center justify-between">
-        <div>
-          <h3 className="font-display font-semibold text-stone-800 text-lg flex items-center gap-2">
+        <div className="space-y-1">
+          <h3 className="flex items-center gap-2 font-display text-xl font-semibold text-stone-800">
             <Calendar className="w-5 h-5 text-sage-600" />
             Vandaag
           </h3>
+          <p className="text-sm font-medium text-stone-700">{completedCount}/3 maaltijden afgerond</p>
           <p className="text-sm text-stone-500">
-            {completedCount === 0 && 'Start je dag met een goed ontbijt!'}
-            {completedCount === 1 && 'Goed bezig! Nog 2 maaltijden te gaan.'}
-            {completedCount === 2 && 'Bijna daar! Nog 1 maaltijd.'}
-            {completedCount === 3 && 'Geweldig! Alle maaltijden compleet.'}
+            {getStatusMessage(completedCount)}
           </p>
         </div>
-        
-        {/* Streak badge */}
+
         <Badge
           variant="secondary"
           className={cn(
-            'gap-2 px-4 py-2 rounded-xl transition-all duration-300 text-sm',
+            'gap-1.5 px-3 py-1.5 rounded-xl transition-all duration-300 text-sm',
             streak > 0
-              ? 'bg-gradient-to-r from-sage-100 to-sage-200 text-sage-700 border-0'
-              : 'border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 shadow-sm'
+              ? 'bg-sage-100 text-sage-700 border border-sage-200'
+              : 'border border-stone-200 bg-stone-50 text-stone-700'
           )}
         >
-          <Flame className={cn('w-5 h-5', streak > 0 && 'text-sage-600')} />
+          <Flame className={cn('w-4 h-4', streak > 0 && 'text-sage-600')} />
           {streak > 0 ? (
             <>
               <span className="font-display font-semibold">{streak}</span>
-              <span className="text-xs">dagen</span>
+              <span className="text-xs">dag{streak === 1 ? '' : 'en'}</span>
             </>
           ) : (
             <span className="text-xs font-medium">Start streak</span>
@@ -200,7 +198,6 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
         </Badge>
       </div>
 
-      {/* Progress bar */}
       <div className="relative">
         <Progress
           value={progress}
@@ -240,11 +237,11 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
 
       {/* Celebration when all completed */}
       {allCompleted && (
-        <Card className="bg-gradient-to-r from-emerald-50 to-sage-50 rounded-2xl p-4 border-emerald-200 shadow-sm animate-in fade-in slide-in-from-bottom-2">
+        <Card className="animate-in slide-in-from-bottom-2 fade-in rounded-2xl border-emerald-200 bg-gradient-to-r from-emerald-50/70 to-sage-50/70 p-4 shadow-soft">
           <CardContent className="p-0">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-sage-500 flex items-center justify-center shadow-lg">
-                <Trophy className="w-6 h-6 text-white" />
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-400 to-sage-500 flex items-center justify-center shadow-sm">
+                <Trophy className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h4 className="font-display font-semibold text-emerald-900">Perfecte dag!</h4>
@@ -255,13 +252,12 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
         </Card>
       )}
 
-      {/* Cheat day message */}
       {isCheatDay && (
-        <Card className="bg-gradient-to-r from-clay-50 to-orange-50 rounded-2xl p-4 border-clay-200 shadow-sm">
+        <Card className="rounded-2xl border-clay-200 bg-gradient-to-r from-clay-50/80 to-clay-100/80 p-4 shadow-soft">
           <CardContent className="p-0">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-clay-400 to-orange-500 flex items-center justify-center shadow-lg">
-                <PartyPopper className="w-6 h-6 text-white" />
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-clay-400 to-orange-500 flex items-center justify-center shadow-sm">
+                <PartyPopper className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h4 className="font-display font-semibold text-clay-900">Cheat Day!</h4>

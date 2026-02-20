@@ -11,13 +11,13 @@ export function StreakHeroCard({ streak, currentWeek, currentDay, isCheatDay }: 
   const isNewStart = currentDay <= 0;
 
   return (
-    <div className="bg-gradient-to-br from-sage-500 to-sage-600 rounded-xl p-6 text-white">
+    <div className="rounded-2xl border border-sage-500/20 bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-soft">
       <div className="flex items-start gap-3 mb-2">
         {!isCheatDay && <Flame className="w-8 h-8" />}
         {isCheatDay ? (
-          <span className="text-3xl leading-tight font-bold">🍕 Cheat Day!</span>
+          <span className="font-display text-3xl leading-tight font-bold">🍕 Cheat Day!</span>
         ) : (
-          <span className="text-2xl sm:text-3xl leading-tight font-bold">
+          <span className="font-display text-2xl font-bold leading-tight sm:text-3xl">
             {streak} dagen <span className="block sm:inline">on protocol</span>
           </span>
         )}

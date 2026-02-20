@@ -24,13 +24,13 @@ interface BadgeProps {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  default: 'bg-warm-100 text-warm-700',
-  primary: 'bg-primary-100 text-primary-700',
-  success: 'bg-primary-50 text-primary-700',
-  warning: 'bg-accent-50 text-accent-700',
+  default: 'bg-stone-100 text-stone-700',
+  primary: 'bg-sage-100 text-sage-700',
+  success: 'bg-sage-50 text-sage-700',
+  warning: 'bg-clay-50 text-clay-700',
   error: 'bg-red-50 text-red-700',
   info: 'bg-blue-50 text-blue-700',
-  outline: 'bg-white text-warm-700 border border-warm-200',
+  outline: 'bg-white text-stone-700 border border-stone-200',
 };
 
 const sizeClasses: Record<BadgeSize, string> = {
@@ -77,11 +77,11 @@ interface StatusBadgeProps {
 }
 
 const statusConfig = {
-  success: { variant: 'success' as const, dot: 'bg-primary-500' },
+  success: { variant: 'success' as const, dot: 'bg-sage-500' },
   error: { variant: 'error' as const, dot: 'bg-red-500' },
-  warning: { variant: 'warning' as const, dot: 'bg-accent-500' },
+  warning: { variant: 'warning' as const, dot: 'bg-clay-500' },
   info: { variant: 'info' as const, dot: 'bg-blue-500' },
-  pending: { variant: 'default' as const, dot: 'bg-warm-400' },
+  pending: { variant: 'default' as const, dot: 'bg-stone-400' },
 };
 
 export function StatusBadge({ status, text, size = 'md' }: StatusBadgeProps) {
@@ -107,11 +107,11 @@ export function DayBadge({ day, className }: DayBadgeProps) {
   return (
     <div
       className={cn(
-        'px-3 py-1.5 bg-warm-100 rounded-full',
+        'rounded-full bg-stone-100 px-3 py-1.5',
         className
       )}
     >
-      <span className="text-sm font-medium text-warm-700">
+      <span className="text-sm font-medium text-stone-700">
         Dag {day}
       </span>
     </div>

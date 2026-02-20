@@ -23,19 +23,19 @@ interface CardProps {
 
 const variantClasses: Record<CardVariant, string> = {
   // Default - white card
-  default: 'bg-white text-warm-900',
+  default: 'bg-white text-stone-800',
   
   // Rule cards - Primary green gradient
-  rule: 'bg-gradient-to-br from-primary-600 to-primary-700 text-white',
+  rule: 'bg-gradient-to-br from-sage-600 to-sage-700 text-white',
   
   // Concept cards - Neutral stone gradient
   concept: 'bg-gradient-to-br from-stone-600 to-stone-700 text-white',
   
   // Reference cards - Neutral
-  reference: 'bg-white text-warm-900 border border-warm-200',
+  reference: 'bg-white text-stone-800 border border-stone-200',
   
   // Status variants
-  success: 'bg-primary-50 text-primary-900 border border-primary-200',
+  success: 'bg-sage-50 text-sage-900 border border-sage-200',
   warning: 'bg-stone-50 text-stone-800 border border-stone-200',
   error: 'bg-red-50 text-red-900 border border-red-200',
 };
@@ -86,7 +86,7 @@ export function Card({
         hasShadow && variant === 'reference' && 'shadow-sm',
         
         // Border (alleen voor default/reference als expliciet gevraagd)
-        hasBorder && (variant === 'default' || variant === 'reference') && 'border border-warm-200',
+        hasBorder && (variant === 'default' || variant === 'reference') && 'border border-stone-200',
         
         // Clickable
         onClick && 'cursor-pointer hover:shadow-md',
@@ -120,7 +120,7 @@ export function CardHeader({ title, subtitle, icon, action, variant = 'default' 
         {icon && (
           <div className={cn(
             'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
-            isInverse ? 'bg-white/20' : 'bg-primary-100'
+            isInverse ? 'bg-white/20' : 'bg-sage-100'
           )}>
             {icon}
           </div>
@@ -128,14 +128,14 @@ export function CardHeader({ title, subtitle, icon, action, variant = 'default' 
         <div>
           <h3 className={cn(
             'font-semibold text-lg leading-tight',
-            isInverse ? 'text-white' : 'text-warm-900'
+            isInverse ? 'text-white' : 'text-stone-800'
           )}>
             {title}
           </h3>
           {subtitle && (
             <p className={cn(
               'text-sm mt-0.5',
-              isInverse ? 'text-white/80' : 'text-warm-500'
+              isInverse ? 'text-white/80' : 'text-stone-500'
             )}>
               {subtitle}
             </p>
@@ -160,7 +160,7 @@ export function CardSection({ children, className, hasBorder = false }: CardSect
   return (
     <div className={cn(
       'py-4',
-      hasBorder && 'border-t border-warm-100',
+      hasBorder && 'border-t border-stone-100',
       className
     )}>
       {children}

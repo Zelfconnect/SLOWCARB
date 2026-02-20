@@ -22,26 +22,27 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const variantClasses: Record<ButtonVariant, string> = {
   // Primary - Main CTA
   primary: `
-    bg-primary-600 text-white
-    hover:bg-primary-700
-    active:bg-primary-800
-    focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+    bg-sage-600 text-white
+    hover:bg-sage-700
+    active:bg-sage-800
+    focus:ring-2 focus:ring-sage-500 focus:ring-offset-2
   `,
   
   // Secondary - Subtle CTA
   secondary: `
-    bg-primary-50 text-primary-700
-    hover:bg-primary-100
-    active:bg-primary-200
-    focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+    bg-white text-sage-700
+    border border-stone-200
+    hover:bg-stone-50
+    active:bg-stone-100
+    focus:ring-2 focus:ring-sage-500 focus:ring-offset-2
   `,
   
   // Ghost - Low emphasis
   ghost: `
-    bg-transparent text-warm-700
-    hover:bg-warm-100
-    active:bg-warm-200
-    focus:ring-2 focus:ring-warm-400 focus:ring-offset-2
+    bg-transparent text-stone-700
+    hover:bg-stone-100
+    active:bg-stone-200
+    focus:ring-2 focus:ring-stone-400 focus:ring-offset-2
   `,
   
   // Danger - Destructive actions
@@ -54,19 +55,19 @@ const variantClasses: Record<ButtonVariant, string> = {
   
   // Success - Positive actions
   success: `
-    bg-primary-600 text-white
-    hover:bg-primary-700
-    active:bg-primary-800
-    focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+    bg-sage-600 text-white
+    hover:bg-sage-700
+    active:bg-sage-800
+    focus:ring-2 focus:ring-sage-500 focus:ring-offset-2
   `,
   
   // Outline - Bordered
   outline: `
-    bg-white text-warm-700
-    border border-warm-300
-    hover:bg-warm-50
-    active:bg-warm-100
-    focus:ring-2 focus:ring-warm-400 focus:ring-offset-2
+    bg-white text-stone-700
+    border border-stone-300
+    hover:bg-stone-50
+    active:bg-stone-100
+    focus:ring-2 focus:ring-stone-400 focus:ring-offset-2
   `,
 };
 
@@ -179,9 +180,9 @@ export function IconButton({
         iconSizeClasses[size],
         
         // Variant
-        variant === 'primary' && 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
-        variant === 'secondary' && 'bg-primary-50 text-primary-700 hover:bg-primary-100 focus:ring-primary-500',
-        variant === 'ghost' && 'bg-transparent text-warm-600 hover:bg-warm-100 focus:ring-warm-400',
+        variant === 'primary' && 'bg-sage-600 text-white hover:bg-sage-700 focus:ring-sage-500',
+        variant === 'secondary' && 'border border-stone-200 bg-white text-sage-700 hover:bg-stone-50 focus:ring-sage-500',
+        variant === 'ghost' && 'bg-transparent text-stone-600 hover:bg-stone-100 focus:ring-stone-400',
         variant === 'danger' && 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
         
         // Custom

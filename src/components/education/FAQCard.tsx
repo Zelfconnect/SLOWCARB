@@ -14,20 +14,20 @@ interface FAQCardProps {
 
 const answerConfig = {
   ja: {
-    bg: 'bg-emerald-100',
-    text: 'text-emerald-800',
-    border: 'border-emerald-200',
+    bg: 'bg-sage-100',
+    text: 'text-sage-800',
+    border: 'border-sage-200',
     icon: Check,
     label: 'JA',
-    iconBg: 'bg-emerald-500',
+    iconBg: 'bg-sage-500',
   },
   nee: {
-    bg: 'bg-red-100',
-    text: 'text-red-800',
-    border: 'border-red-200',
+    bg: 'bg-clay-100',
+    text: 'text-clay-800',
+    border: 'border-clay-200',
     icon: XCircle,
     label: 'NEE',
-    iconBg: 'bg-red-500',
+    iconBg: 'bg-clay-500',
   },
   misschien: {
     bg: 'bg-stone-100',
@@ -41,6 +41,7 @@ const answerConfig = {
 
 export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const HeaderIcon = getEducationIcon(card.icon) ?? HelpCircle;
 
   const answerStyle = answerConfig[card.content.answer];
   const AnswerIcon = answerStyle.icon;
@@ -49,17 +50,14 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border border-stone-200 shadow-xl p-0 flex flex-col"
+        className="sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border border-stone-100 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
       >
         {/* Header - Neutral gray */}
         <div className="p-5 bg-gradient-to-br from-stone-600 to-stone-700 flex-shrink-0 rounded-t-3xl">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
-                  {(() => {
-                    const Icon = getEducationIcon(card.icon) ?? HelpCircle;
-                    return <Icon className="w-6 h-6 text-white" aria-hidden="true" />;
-                  })()}
+                  <HeaderIcon className="w-6 h-6 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-lg font-display text-white leading-tight">{card.title}</h2>
@@ -76,7 +74,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
           </div>
 
           {/* Content */}
-          <ScrollArea className="flex-1">
+          <ScrollArea className="flex-1 min-h-0">
             <div
               ref={contentRef}
               className="p-5 space-y-4"
@@ -86,7 +84,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             >
             {/* Direct Answer */}
             <div className={cn(
-              'rounded-xl p-4 border-2 flex items-center gap-3',
+              'rounded-xl p-4 border-2 flex items-center gap-3 shadow-sm',
               answerStyle.bg,
               answerStyle.border
             )}>
@@ -104,7 +102,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             </div>
 
             {/* Explanation */}
-            <div className="space-y-2">
+            <div className="space-y-2 rounded-xl border border-stone-100 bg-gradient-to-br from-white to-stone-50 p-4 shadow-sm">
               <h3 className="text-base font-semibold text-stone-800">Uitleg</h3>
               <p className="text-stone-700 text-sm leading-relaxed">
                 {card.content.explanation}
@@ -114,8 +112,8 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             {/* Nuance - Optional */}
             {card.content.nuance && card.content.nuance.length > 0 && (
               <>
-                <div className="border-t border-stone-200" />
-                <div className="space-y-2">
+                <div className="border-t border-stone-100" />
+                <div className="space-y-2 rounded-xl border border-stone-100 bg-gradient-to-br from-white to-stone-50 p-4 shadow-sm">
                   <h3 className="text-base font-semibold text-stone-800">
                     Let op
                   </h3>
