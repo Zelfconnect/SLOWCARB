@@ -461,22 +461,7 @@ export default function LandingPageFinal() {
             </p>
           </div>
 
-          <div
-            className={`transition-all duration-700 ${revealClass(
-              visibleSections[1]
-            )}`}
-            style={{ transitionDelay: '500ms' }}
-          >
-            <div className='relative overflow-hidden rounded-3xl shadow-lg'>
-              <img
-                src="/images/landing/LIFESTYLE.webp"
-                alt={String(t('landing.lifestyleImageAlt'))}
-                loading="lazy"
-                className='h-64 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-80'
-              />
-              <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
-            </div>
-          </div>
+          {/* lifestyle image removed */}
         </div>
       </section>
 
