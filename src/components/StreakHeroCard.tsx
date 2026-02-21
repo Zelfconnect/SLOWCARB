@@ -11,7 +11,7 @@ export function StreakHeroCard({ streak, currentWeek, currentDay, isCheatDay }: 
   const isNewStart = currentDay <= 0;
 
   return (
-    <div className="rounded-2xl border border-sage-500/20 bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-soft">
+    <div className="rounded-2xl border border-stone-200 bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-card">
       <div className="flex items-start gap-3 mb-2">
         {!isCheatDay && <Flame className="w-8 h-8" />}
         {isCheatDay ? (

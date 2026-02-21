@@ -57,11 +57,11 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
     <DialogPrimitive.Root open>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Content
-          className="fixed inset-0 z-50 h-full w-full max-w-none border-none bg-warm-50 p-0 outline-none"
+          className="fixed inset-0 z-50 h-full w-full max-w-none border-none bg-cream p-0 outline-none"
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <div className="flex min-h-screen flex-col bg-gradient-to-b from-cream via-warm-50 to-warm-100/70">
+          <div className="flex min-h-screen flex-col bg-gradient-to-b from-cream via-cream to-warm-100/70">
             <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-6 pb-8 pt-8 sm:px-8">
               <div className="mb-8 flex items-center justify-between">
                 <Button
@@ -69,7 +69,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                   variant="ghost"
                   size="icon"
                   onClick={handleBack}
-                  className={`text-warm-700 hover:bg-transparent hover:text-warm-900 ${
+                  className={`text-stone-700 hover:bg-transparent hover:text-stone-900 ${
                     currentStep === 1 ? 'invisible' : ''
                   }`}
                   aria-label={String(t('app.prevStep'))}
@@ -96,14 +96,14 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                   <section className="flex flex-1 flex-col">
                     <div className="space-y-4 text-center">
                       <span className="block text-6xl leading-none">🌱</span>
-                      <h1 className="text-3xl font-bold text-warm-900">Hé, hoe heet je?</h1>
-                      <p className="text-base text-warm-600">
+                      <h1 className="font-display text-3xl font-bold text-stone-900">Hé, hoe heet je?</h1>
+                      <p className="text-base text-stone-600">
                         We personaliseren jouw slow carb journey
                       </p>
                     </div>
 
                     <div className="mt-10 space-y-5">
-                      <Label htmlFor="name" className="text-sm font-medium text-warm-700">
+                      <Label htmlFor="name" className="text-sm font-medium text-stone-700">
                         Je naam
                       </Label>
                       <Input
@@ -112,7 +112,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         value={data.name}
                         onChange={(e) => setData({ ...data, name: e.target.value })}
                         onKeyDown={(e) => e.key === 'Enter' && handleNext()}
-                        className="h-14 rounded-2xl border-warm-300 bg-white/90 px-5 text-lg text-warm-900 placeholder:text-warm-400"
+                        className="input-premium h-14 text-lg text-stone-900"
                       />
                     </div>
 
@@ -121,7 +121,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         type="button"
                         onClick={handleNext}
                         disabled={!data.name.trim()}
-                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                        className="h-14 w-full rounded-xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
                       >
                         Volgende
                       </Button>
@@ -133,14 +133,14 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                   <section className="flex flex-1 flex-col">
                     <div className="space-y-4 text-center">
                       <span className="block text-6xl leading-none">🎯</span>
-                      <h1 className="text-3xl font-bold text-warm-900">Hoeveel wil je afvallen?</h1>
-                      <p className="text-base text-warm-600">
+                      <h1 className="font-display text-3xl font-bold text-stone-900">Hoeveel wil je afvallen?</h1>
+                      <p className="text-base text-stone-600">
                         Kies je doel, dan berekenen wij direct een realistische timeline
                       </p>
                     </div>
 
-                    <div className="mt-10 rounded-3xl border border-warm-200 bg-white/80 p-6">
-                      <Label htmlFor="weight-goal" className="text-sm font-medium text-warm-700">
+                    <div className="mt-10 rounded-3xl border border-stone-200 bg-white/80 p-6">
+                      <Label htmlFor="weight-goal" className="text-sm font-medium text-stone-700">
                         Gewichtsdoel
                       </Label>
                       <Slider
@@ -152,7 +152,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         onValueChange={(value) => setData({ ...data, weightGoal: value[0] })}
                         className="mt-5"
                       />
-                      <p className="mt-6 text-center text-2xl font-bold text-warm-900">
+                      <p className="mt-6 text-center text-2xl font-bold text-stone-900">
                         {data.weightGoal} kg in ~{weekEstimate} weken
                       </p>
                     </div>
@@ -161,7 +161,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       <Button
                         type="button"
                         onClick={handleNext}
-                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                        className="h-14 w-full rounded-xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
                       >
                         Volgende
                       </Button>
@@ -173,8 +173,8 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                   <section className="flex flex-1 flex-col">
                     <div className="space-y-4 text-center">
                       <span className="block text-6xl leading-none">🍽️</span>
-                      <h1 className="text-3xl font-bold text-warm-900">Jouw voorkeuren</h1>
-                      <p className="text-base text-warm-600">
+                      <h1 className="font-display text-3xl font-bold text-stone-900">Jouw voorkeuren</h1>
+                      <p className="text-base text-stone-600">
                         Zo stemmen we recepten en tips beter af op jouw routine
                       </p>
                     </div>
@@ -185,13 +185,13 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-medium transition-colors ${
                           data.vegetarian
                             ? 'border-sage-200 bg-sage-50 text-sage-800'
-                            : 'border-warm-200 bg-white/85 text-warm-800'
+                            : 'border-stone-200 bg-white/85 text-warm-800'
                         }`}
                       >
                         <Checkbox
                           id="vegetarian"
                           checked={data.vegetarian}
-                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
+                          className="h-6 w-6 rounded-md border-stone-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
                           onCheckedChange={(checked) =>
                             setData({ ...data, vegetarian: checked as boolean })
                           }
@@ -204,13 +204,13 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-medium transition-colors ${
                           data.hasAirfryer
                             ? 'border-sage-200 bg-sage-50 text-sage-800'
-                            : 'border-warm-200 bg-white/85 text-warm-800'
+                            : 'border-stone-200 bg-white/85 text-warm-800'
                         }`}
                       >
                         <Checkbox
                           id="airfryer"
                           checked={data.hasAirfryer}
-                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
+                          className="h-6 w-6 rounded-md border-stone-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
                           onCheckedChange={(checked) =>
                             setData({ ...data, hasAirfryer: checked as boolean })
                           }
@@ -223,13 +223,13 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-medium transition-colors ${
                           data.sportsRegularly
                             ? 'border-sage-200 bg-sage-50 text-sage-800'
-                            : 'border-warm-200 bg-white/85 text-warm-800'
+                            : 'border-stone-200 bg-white/85 text-warm-800'
                         }`}
                       >
                         <Checkbox
                           id="sports"
                           checked={data.sportsRegularly}
-                          className="h-6 w-6 rounded-md border-warm-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
+                          className="h-6 w-6 rounded-md border-stone-300 data-[state=checked]:border-sage-600 data-[state=checked]:bg-sage-600 data-[state=checked]:text-sage-50"
                           onCheckedChange={(checked) =>
                             setData({ ...data, sportsRegularly: checked as boolean })
                           }
@@ -242,7 +242,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       <Button
                         type="button"
                         onClick={handleNext}
-                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                        className="h-14 w-full rounded-xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
                       >
                         Volgende
                       </Button>
@@ -254,8 +254,8 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                   <section className="flex flex-1 flex-col">
                     <div className="space-y-4 text-center">
                       <span className="block text-6xl leading-none">🎉</span>
-                      <h1 className="text-3xl font-bold text-warm-900">Kies je cheat day</h1>
-                      <p className="text-base text-warm-600">
+                      <h1 className="font-display text-3xl font-bold text-stone-900">Kies je cheat day</h1>
+                      <p className="text-base text-stone-600">
                         Plan je vrije dag slim in zodat je de rest van de week consistent blijft
                       </p>
                     </div>
@@ -272,13 +272,13 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-semibold transition-colors ${
                           data.cheatDay === 'zaterdag'
                             ? 'border-sage-600 bg-sage-50 text-sage-700'
-                            : 'border-warm-200 bg-white/85 text-warm-800'
+                            : 'border-stone-200 bg-white/85 text-warm-800'
                         }`}
                       >
                         <RadioGroupItem
                           value="zaterdag"
                           id="saturday"
-                          className="h-6 w-6 border-warm-300 text-sage-600"
+                          className="h-6 w-6 border-stone-300 text-sage-600"
                         />
                         <span>Zaterdag</span>
                       </Label>
@@ -288,13 +288,13 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-semibold transition-colors ${
                           data.cheatDay === 'zondag'
                             ? 'border-sage-600 bg-sage-50 text-sage-700'
-                            : 'border-warm-200 bg-white/85 text-warm-800'
+                            : 'border-stone-200 bg-white/85 text-warm-800'
                         }`}
                       >
                         <RadioGroupItem
                           value="zondag"
                           id="sunday"
-                          className="h-6 w-6 border-warm-300 text-sage-600"
+                          className="h-6 w-6 border-stone-300 text-sage-600"
                         />
                         <span>Zondag</span>
                       </Label>
@@ -304,7 +304,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       <Button
                         type="button"
                         onClick={handleNext}
-                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                        className="h-14 w-full rounded-xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
                       >
                         Volgende
                       </Button>
@@ -322,25 +322,25 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
                     <div className="space-y-4 text-center">
                       <span className="block text-6xl leading-none">🚀</span>
-                      <h1 className="text-3xl font-bold text-warm-900">Klaar, {data.name || 'jij'}!</h1>
-                      <p className="text-base text-warm-600">Dit wordt de beste beslissing van je jaar.</p>
+                      <h1 className="font-display text-3xl font-bold text-stone-900">Klaar, {data.name || 'jij'}!</h1>
+                      <p className="text-base text-stone-600">Dit wordt de beste beslissing van je jaar.</p>
                     </div>
 
                     <div className="relative z-10 mt-10 grid grid-cols-2 gap-3">
-                      <div className="rounded-2xl border border-warm-200 bg-warm-100/80 p-4">
+                      <div className="rounded-2xl border border-stone-200 bg-warm-100/80 p-4">
                         <span className="mb-1 block text-2xl leading-none">🎯</span>
-                        <p className="text-xs font-semibold uppercase tracking-wide text-warm-600">Doel</p>
-                        <p className="mt-1 text-lg font-bold text-warm-900">{data.weightGoal} kg</p>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-stone-600">Doel</p>
+                        <p className="mt-1 text-lg font-bold text-stone-900">{data.weightGoal} kg</p>
                       </div>
                       <div className="rounded-2xl border border-sage-200 bg-sage-50 p-4">
                         <span className="mb-1 block text-2xl leading-none">📅</span>
                         <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">Timeline</p>
                         <p className="mt-1 text-lg font-bold text-sage-900">~{weekEstimate} weken</p>
                       </div>
-                      <div className="rounded-2xl border border-warm-200 bg-warm-100/80 p-4">
+                      <div className="rounded-2xl border border-stone-200 bg-warm-100/80 p-4">
                         <span className="mb-1 block text-2xl leading-none">🎉</span>
-                        <p className="text-xs font-semibold uppercase tracking-wide text-warm-600">Cheat day</p>
-                        <p className="mt-1 text-lg font-bold text-warm-900">{cheatDayLabel}</p>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-stone-600">Cheat day</p>
+                        <p className="mt-1 text-lg font-bold text-stone-900">{cheatDayLabel}</p>
                       </div>
                       <div className="rounded-2xl border border-sage-200 bg-sage-50 p-4">
                         <span className="mb-1 block text-2xl leading-none">🥗</span>
@@ -361,7 +361,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       <Button
                         type="button"
                         onClick={handleNext}
-                        className="h-14 w-full rounded-2xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
+                        className="h-14 w-full rounded-xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
                       >
                         Start mijn journey →
                       </Button>

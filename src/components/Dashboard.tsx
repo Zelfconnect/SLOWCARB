@@ -106,7 +106,7 @@ export function Dashboard({
           <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
             <div className="p-6 space-y-4">
               <DialogHeader className="space-y-1 text-left">
-                <DialogTitle>Log je gewicht</DialogTitle>
+                <DialogTitle className="font-display">Log je gewicht</DialogTitle>
               </DialogHeader>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-stone-700" htmlFor="weight-input-start">
@@ -121,6 +121,7 @@ export function Dashboard({
                   value={weightInput}
                   onChange={(event) => setWeightInput(event.target.value)}
                   placeholder={String(t('app.weightPlaceholder'))}
+                  className="input-premium"
                 />
               </div>
               <p className="text-sm text-stone-600">Datum: {todayLabel}</p>
@@ -200,7 +201,7 @@ export function Dashboard({
         <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
           <div className="p-6 space-y-4">
             <DialogHeader className="space-y-1 text-left">
-              <DialogTitle>Log je gewicht</DialogTitle>
+              <DialogTitle className="font-display">Log je gewicht</DialogTitle>
             </DialogHeader>
             <div className="space-y-2">
               <label className="text-sm font-medium text-stone-700" htmlFor="weight-input">
@@ -215,6 +216,7 @@ export function Dashboard({
                 value={weightInput}
                 onChange={(event) => setWeightInput(event.target.value)}
                 placeholder={String(t('app.weightPlaceholder'))}
+                className="input-premium"
               />
             </div>
             <p className="text-sm text-stone-600">Datum: {todayLabel}</p>

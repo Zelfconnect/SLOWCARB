@@ -140,7 +140,7 @@ function App() {
       </Sheet>
 
       {/* Main Content */}
-      <main className="w-full max-w-md mx-auto px-4 pt-4 pb-28 overflow-y-auto overscroll-contain flex-1">
+      <main className="w-full max-w-md mx-auto px-5 pt-5 pb-28 overflow-y-auto overscroll-contain flex-1">
         {renderContent()}
       </main>
 

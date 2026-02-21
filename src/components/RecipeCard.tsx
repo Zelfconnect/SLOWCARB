@@ -17,7 +17,7 @@ export function RecipeCard({ recipe, isFavorite, onToggleFavorite, onClick }: Re
   const RecipeIcon = getRecipeIcon(recipe.icon);
 
   return (
-    <Card onClick={onClick} className="cursor-pointer group rounded-2xl py-0 gap-0 hover:shadow-md transition-all duration-200">
+    <Card onClick={onClick} className="cursor-pointer group rounded-2xl py-0 gap-0 shadow-card hover:shadow-md transition-all duration-200">
       <CardContent className="p-5">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
