@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import type { PantryItem } from '@/types';
 import { getStockIconInfo } from '@/lib/stockIcons';
+import { useTranslation } from '@/i18n';
 
 interface StockSectionProps {
   pantryItems: PantryItem[];
@@ -60,6 +61,7 @@ export function StockSection({
   onAddToShoppingList,
   getByCategory,
 }: StockSectionProps) {
+  const { t } = useTranslation();
   const groupedItems = getByCategory();
   const checkedStandardCount = standardItems.filter((i) => i.checked).length;
   
@@ -154,7 +156,7 @@ export function StockSection({
           </div>
           <p className="text-base font-semibold text-stone-600">Nog niets in huis</p>
           <p className="text-sm mt-1 text-stone-500">
-            Vink items af in je boodschappenlijst en klik "Naar voorraad"
+            {String(t('app.stockHint'))}
           </p>
         </div>
       )}

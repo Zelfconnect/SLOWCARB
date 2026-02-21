@@ -1,0 +1,190 @@
+{
+  "landing": {
+    "badge": "Based on the 4 Hour Body protocol",
+    "heroTitle": "Lose 8 to 10 kg\nin 6 weeks",
+    "heroSubtitle": "No calorie counting. No nonsense. Just eat what works.",
+    "ctaPrimary": "Start now €29 early bird",
+    "ctaSubtext": "One time payment • No subscription • Instant access",
+    "openApp": "Open your app →",
+    "painPointsLabel": "Sound familiar?",
+    "painPointsTitle": "Recognize this?",
+    "painPoints": [
+      "Starting over every Monday and quitting again by Friday",
+      "Counting calories until you lose your mind, and still not losing weight",
+      "No idea what to eat, the same struggle every single day"
+    ],
+    "solutionTitle": "Why this actually works.",
+    "solutionText": "Diets fail because they rely on willpower. SlowCarb works because it replaces willpower with simple rules. No calorie counting, no starving, no confusion. Just follow 5 rules and eat until you're full. The result: 8 to 10 kg in 6 weeks, without the gym.",
+    "rulesLabel": "The Method",
+    "rulesTitle": "The 5 Rules",
+    "rulesSubtitle": "No calculations. No supplements. Just follow these rules and eat until you're full.",
+    "rules": [
+      {
+        "title": "No white carbs",
+        "description": "No bread, pasta, rice, potatoes, or sugar. No exceptions during the week."
+      },
+      {
+        "title": "30g protein within 30 min",
+        "description": "Eat at least 30 grams of protein within 30 minutes of waking up to kickstart your metabolism."
+      },
+      {
+        "title": "No liquid calories",
+        "description": "Drink water, coffee, and tea. No soda, fruit juice, milk, or alcohol (except on cheat day)."
+      },
+      {
+        "title": "No fruit",
+        "description": "Fructose slows fat burning. Avocado and tomato are allowed in limited amounts."
+      },
+      {
+        "title": "Legumes with every meal",
+        "description": "Beans, lentils, and chickpeas provide lasting energy and keep you full."
+      }
+    ],
+    "cheatdayTitle": "+ The Cheat Day",
+    "cheatdayText": "One day per week you eat whatever you want. This is not optional. It resets your hormones and makes the diet sustainable.",
+    "featuresLabel": "What you get",
+    "featuresTitle": "Everything you need",
+    "featuresSubtitle": "Everything to start today and keep going. No loose ends.",
+    "features": [
+      {
+        "title": "50+ recipes",
+        "description": "Breakfast, lunch, and dinner. All tested, all delicious, all on the table in under 20 minutes."
+      },
+      {
+        "title": "Works like an app",
+        "description": "Add SlowCarb to your home screen. No app store download needed."
+      },
+      {
+        "title": "Smart shopping list",
+        "description": "Automatically generate your weekly shopping list. Grouped by store section."
+      },
+      {
+        "title": "Weekly insights",
+        "description": "Brief explanations of why the protocol works. No dry theory. Practical knowledge that keeps you motivated."
+      },
+      {
+        "title": "Cheat day guide",
+        "description": "One day per week you eat whatever you want. Pizza, ice cream, everything goes. This is not a reward. It is part of the protocol."
+      },
+      {
+        "title": "Track your progress",
+        "description": "Log your weight and see the trend. Nothing motivates like a line going down."
+      }
+    ],
+    "testimonialsLabel": "Results",
+    "testimonialsTitle": "What users say",
+    "testimonials": [
+      {
+        "quote": "Five years of trying every diet. This is the first one I do not have to think about. Follow the rules, eat, done.",
+        "name": "Mark",
+        "result": "Lost 9 kg in 5 weeks"
+      },
+      {
+        "quote": "I eat until I am full three times a day and still lose weight. The Saturday cheat day makes it easy to stick with all week.",
+        "name": "Lisa",
+        "result": "Lost 11 kg in 8 weeks"
+      },
+      {
+        "quote": "No apps, no food scales, no hassle. Within a week I had my rhythm. Did not expect that.",
+        "name": "Thomas",
+        "result": "Lost 7 kg in 6 weeks"
+      }
+    ],
+    "pricingLabel": "Early Bird Offer",
+    "pricingTitle": "SlowCarb Lifetime Access",
+    "pricingSubtitle": "One time payment, lifetime access",
+    "pricingNote": "Only for the first 100 people, then €47",
+    "pricingFeatures": [
+      "50+ slow carb recipes",
+      "Smart shopping list",
+      "Progress tracking",
+      "Weekly education",
+      "Cheat day protocol",
+      "Future updates",
+      "30 day money back guarantee"
+    ],
+    "pricingCta": "Get instant access →",
+    "pricingGuarantee": "30 day money back guarantee",
+    "spotsLeft": "100 spots left",
+    "faqLabel": "Frequently asked questions",
+    "faqTitle": "FAQ",
+    "faqs": [
+      {
+        "question": "Is this safe?",
+        "answer": "Absolutely. The slow carb diet is based on whole foods like eggs, vegetables, legumes, and lean meat. It is not a crash diet. You simply eat nutritious meals that keep you full longer."
+      },
+      {
+        "question": "What can I eat on a cheat day?",
+        "answer": "Anything. The cheat day is essential to the protocol. On Saturday (or your chosen day) you eat whatever you want. Pizza, ice cream, chips. This resets your metabolism and makes the diet mentally sustainable."
+      },
+      {
+        "question": "Do I have to count calories?",
+        "answer": "No. That is exactly the point of SlowCarb. You follow the 5 simple rules and eat until you are full. No apps, no scales, no stressing over numbers."
+      },
+      {
+        "question": "How long do I have access?",
+        "answer": "Forever. You pay once and get lifetime access to all recipes, the shopping list, and future updates. No hidden costs."
+      },
+      {
+        "question": "What if it does not work?",
+        "answer": "We offer a 30 day money back guarantee. If you are not satisfied, send us an email and you will get a full refund. No questions asked."
+      }
+    ],
+    "finalCtaTitle": "Ready to start?",
+    "finalCtaText": "In 6 weeks you could be 8 to 10 kg lighter. No hunger, no doubt, no hassle.",
+    "footerBadges": ["Instant access", "No subscription", "30 day money back"],
+    "footerCopy": "© 2026 SlowCarb. All rights reserved.",
+    "footerLinks": ["Privacy", "Terms", "Contact"],
+    "lifestyleImageAlt": "Healthy lifestyle and transformation",
+    "breakfastImageAlt": "Healthy breakfast with protein and vegetables",
+    "mealPrepImageAlt": "Meal prep containers with healthy meals"
+  },
+  "app": {
+    "searchRecipes": "Search recipes...",
+    "namePlaceholder": "What should we call you?",
+    "weightPlaceholder": "E.g. 82.5",
+    "prevStep": "Previous step",
+    "toStock": "Move to pantry",
+    "toStockAria": "Move to pantry",
+    "stockHint": "Check off items in your shopping list and click \"Move to pantry\"",
+    "addCustomItem": "Add a custom item...",
+    "addButton": "Add",
+    "addWithPlus": "+ Add"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your profile and preferences",
+    "noProfile": "No profile found",
+    "profileTitle": "Profile",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "weightGoalLabel": "Weight goal",
+    "weightGoalValueSuffix": "kg to lose",
+    "cheatDayLabel": "Cheat day",
+    "daySaturday": "Saturday",
+    "daySunday": "Sunday",
+    "languageLabel": "Language",
+    "preferencesTitle": "Preferences",
+    "vegetarianLabel": "Vegetarian",
+    "vegetarianHint": "Show only vegetarian recipes",
+    "airfryerLabel": "Has airfryer",
+    "airfryerHint": "Show airfryer instructions",
+    "sportsLabel": "Exercises regularly",
+    "sportsHint": "Adjust nutrition advice",
+    "dataPrivacyTitle": "Data and Privacy",
+    "resetJourneyTitle": "Reset journey",
+    "resetJourneyHint": "Start over from day 1",
+    "resetJourneyDialogTitle": "Reset journey?",
+    "resetJourneyDialogDescription": "This resets your progress but keeps your profile and preferences.",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "clearAllTitle": "Clear all data",
+    "clearAllHint": "Delete all stored data",
+    "clearAllDialogTitle": "Clear all data?",
+    "clearAllDialogDescription": "This deletes everything. Profile, progress, preferences. This cannot be undone.",
+    "clearAllAction": "Clear all",
+    "aboutTitle": "About SlowCarb",
+    "versionLabel": "Version",
+    "contactSupport": "Contact support"
+  }
+}

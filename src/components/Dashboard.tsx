@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { getDaysUntilCheatDay, getWeekData } from '@/hooks/useJourney';
 import type { Journey, MealEntry, WeightEntry } from '@/types';
+import { useTranslation } from '@/i18n';
 
 interface DashboardProps {
   journey: Journey;
@@ -42,13 +43,14 @@ export function Dashboard({
   weightLog,
   onLogWeight,
 }: DashboardProps) {
+  const { t, locale } = useTranslation();
   const [weightDialogOpen, setWeightDialogOpen] = useState(false);
   const [weightInput, setWeightInput] = useState('');
   const mealTrackerRef = useRef<HTMLDivElement | null>(null);
   const today = useMemo(() => new Date().toISOString().split('T')[0], []);
   const todayLabel = useMemo(
-    () => new Date(today).toLocaleDateString('nl-NL'),
-    [today]
+    () => new Date(today).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US'),
+    [today, locale]
   );
 
   const sortedWeights = [...weightLog].sort(
@@ -118,7 +120,7 @@ export function Dashboard({
                   step={0.1}
                   value={weightInput}
                   onChange={(event) => setWeightInput(event.target.value)}
-                  placeholder="Bijv. 82.5"
+                  placeholder={String(t('app.weightPlaceholder'))}
                 />
               </div>
               <p className="text-sm text-stone-600">Datum: {todayLabel}</p>
@@ -212,7 +214,7 @@ export function Dashboard({
                 step={0.1}
                 value={weightInput}
                 onChange={(event) => setWeightInput(event.target.value)}
-                placeholder="Bijv. 82.5"
+                placeholder={String(t('app.weightPlaceholder'))}
               />
             </div>
             <p className="text-sm text-stone-600">Datum: {todayLabel}</p>

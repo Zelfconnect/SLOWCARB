@@ -7,6 +7,7 @@ import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ChevronLeft } from 'lucide-react';
+import { useTranslation } from '@/i18n';
 
 interface OnboardingData {
   name: string;
@@ -22,6 +23,7 @@ interface OnboardingWizardProps {
 }
 
 export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const [data, setData] = useState<OnboardingData>({
     name: '',
@@ -70,7 +72,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                   className={`text-warm-700 hover:bg-transparent hover:text-warm-900 ${
                     currentStep === 1 ? 'invisible' : ''
                   }`}
-                  aria-label="Vorige stap"
+                  aria-label={String(t('app.prevStep'))}
                 >
                   <ChevronLeft className="h-6 w-6" />
                 </Button>
@@ -106,7 +108,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       </Label>
                       <Input
                         id="name"
-                        placeholder="Hoe mogen we je noemen?"
+                        placeholder={String(t('app.namePlaceholder'))}
                         value={data.name}
                         onChange={(e) => setData({ ...data, name: e.target.value })}
                         onKeyDown={(e) => e.key === 'Enter' && handleNext()}

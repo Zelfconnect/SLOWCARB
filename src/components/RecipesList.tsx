@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import type { Recipe } from '@/types';
 import { getMealTypeIcon } from '@/lib/recipeIcons';
+import { useTranslation } from '@/i18n';
 
 interface RecipesListProps {
   favorites: string[];
@@ -20,6 +21,7 @@ const CATEGORY_SECTIONS: Array<{ id: Recipe['category']; label: string }> = [
 ];
 
 export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -65,7 +67,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
         <Input
-          placeholder="Zoek recepten..."
+          placeholder={String(t('app.searchRecipes'))}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="input-premium pl-12 h-11 text-base"
