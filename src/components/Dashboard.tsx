@@ -71,10 +71,6 @@ export function Dashboard({
     setWeightDialogOpen(open);
   };
 
-  const handleMealAction = () => {
-    mealTrackerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   const handleSaveWeight = () => {
     const parsed = Number.parseFloat(weightInput);
     if (!Number.isFinite(parsed) || parsed < 40 || parsed > 200) {
@@ -195,7 +191,7 @@ export function Dashboard({
         targetWeight={journey.targetWeight}
         onOpenLog={openWeightDialog}
       />
-      <QuickActionFAB onLogWeight={openWeightDialog} onLogMeal={handleMealAction} />
+      <QuickActionFAB onLogWeight={openWeightDialog} />
 
       <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
         <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
