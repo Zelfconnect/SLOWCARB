@@ -14,9 +14,9 @@ function isLocale(value: string | null): value is Locale {
 }
 
 function getStoredLocale(): Locale {
-  if (typeof window === 'undefined') return 'en';
+  if (typeof window === 'undefined') return 'nl';
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  return isLocale(stored) ? stored : 'en';
+  return isLocale(stored) ? stored : 'nl';
 }
 
 function getNestedValue(source: unknown, key: string): unknown {
