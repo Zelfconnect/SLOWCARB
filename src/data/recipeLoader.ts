@@ -5,6 +5,7 @@ import type { Ingredient, Recipe as AppRecipe, RecipeIconKey, MealTypeIconKey } 
 type RawRecipe = {
   id: string;
   title: string;
+  image?: string | null;
   subtitle?: string;
   time: number;
   tags: string[];
@@ -172,6 +173,7 @@ const toImportedRecipe = (raw: RawRecipe, category: ImportedRecipe['category']):
   return {
     id: raw.id,
     title: raw.title,
+    image: raw.image ?? undefined,
     category,
     protein: raw.protein || 'onbekend',
     cookTime: formatCookTime(raw.time),
@@ -186,6 +188,7 @@ const toAppRecipe = (raw: RawRecipe): AppRecipe => {
   return {
     id: raw.id,
     name: raw.title,
+    image: raw.image ?? undefined,
     subtitle: raw.subtitle,
     difficulty: raw.difficulty,
     category: getPrimaryCategory(raw.tags),

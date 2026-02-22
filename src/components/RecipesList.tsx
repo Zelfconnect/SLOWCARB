@@ -1,7 +1,6 @@
 import { Fragment, useState, useMemo } from 'react';
 import { Search, Heart } from 'lucide-react';
 import { RECIPES, RECIPE_CATEGORIES } from '@/data/recipeLoader';
-import { CompactRecipeCard } from './CompactRecipeCard';
 import { RecipeDetailModal } from './RecipeDetailModal';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -14,11 +13,31 @@ interface RecipesListProps {
   onToggleFavorite: (id: string) => void;
 }
 
-const CATEGORY_SECTIONS: Array<{ id: Recipe['category']; label: string }> = [
-  { id: 'airfryer', label: 'Airfryer' },
-  { id: 'meal-prep', label: 'Meal Prep' },
-  { id: 'no-time', label: 'No-Time' },
-];
+const PLACEHOLDER_GRADIENTS: Record<string, string> = {
+  ontbijt: 'bg-gradient-to-br from-amber-100 to-orange-200',
+  breakfast: 'bg-gradient-to-br from-amber-100 to-orange-200',
+  lunch: 'bg-gradient-to-br from-green-100 to-emerald-200',
+  avondeten: 'bg-gradient-to-br from-blue-100 to-indigo-200',
+  dinner: 'bg-gradient-to-br from-blue-100 to-indigo-200',
+  snack: 'bg-gradient-to-br from-rose-100 to-pink-200',
+  airfryer: 'bg-gradient-to-br from-orange-100 to-amber-200',
+  default: 'bg-gradient-to-br from-sage-100 to-sage-200',
+};
+
+const getRecipeGradient = (recipe: Recipe) => {
+  if (recipe.tags.includes('ontbijt')) return PLACEHOLDER_GRADIENTS.ontbijt;
+  if (recipe.tags.includes('lunch')) return PLACEHOLDER_GRADIENTS.lunch;
+  if (recipe.tags.includes('avondeten')) return PLACEHOLDER_GRADIENTS.avondeten;
+  if (recipe.tags.includes('snack')) return PLACEHOLDER_GRADIENTS.snack;
+  if (recipe.tags.includes('airfryer') || recipe.category === 'airfryer') return PLACEHOLDER_GRADIENTS.airfryer;
+  return PLACEHOLDER_GRADIENTS.default;
+};
+
+const getActiveCategoryLabel = (activeCategory: string) => {
+  if (activeCategory === 'all') return null;
+  const fromCategories = RECIPE_CATEGORIES.find((category) => category.id === activeCategory);
+  return fromCategories?.name ?? activeCategory;
+};
 
 export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
   const { t } = useTranslation();
@@ -51,15 +70,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
   const selectedRecipe = selectedRecipeId 
     ? RECIPES.find(r => r.id === selectedRecipeId) 
     : null;
-  const groupedRecipes = useMemo(() => {
-    if (activeCategory !== 'all') return [];
-    return CATEGORY_SECTIONS
-      .map((section) => ({
-        ...section,
-        recipes: filteredRecipes.filter((recipe) => recipe.category === section.id),
-      }))
-      .filter((section) => section.recipes.length > 0);
-  }, [activeCategory, filteredRecipes]);
+  const activeCategoryLabel = getActiveCategoryLabel(activeCategory);
 
   return (
     <div className="space-y-5">
@@ -128,14 +139,26 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
           })}
       </div>
 
-      {/* Recipe Count */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-stone-500">
-          {`${filteredRecipes.length} ${filteredRecipes.length === 1 ? 'recept' : 'recepten'}`}
-        </p>
-      </div>
+      {activeCategory !== 'all' && (
+        <div className="flex items-baseline justify-between mb-3 mt-1">
+          <div className="flex items-baseline gap-2">
+            <p className="text-xs font-bold tracking-widest text-stone-500 uppercase">
+              {activeCategoryLabel}
+            </p>
+            <p className="text-xs text-stone-400">
+              {`${filteredRecipes.length} recepten`}
+            </p>
+          </div>
+          <button
+            onClick={() => setActiveCategory('all')}
+            className="text-xs text-sage-600 font-medium"
+          >
+            Wis alles →
+          </button>
+        </div>
+      )}
 
-      {/* Recipe List - Compact */}
+      {/* Recipe List */}
       <div className="space-y-2">
         {filteredRecipes.length === 0 ? (
           <div className="card-website py-12 text-center text-stone-500">
@@ -145,47 +168,55 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
             <p className="font-display font-medium text-stone-700">Geen recepten gevonden</p>
             <p className="text-sm mt-1">Probeer een andere zoekterm</p>
           </div>
-        ) : activeCategory === 'all' ? (
-          <div className="space-y-5">
-            {groupedRecipes.map((section) => (
-              <div key={section.id} className="space-y-2">
-                <div className="flex items-center justify-between px-0.5">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-600">
-                    {section.label}
-                  </p>
-                  <p className="text-xs text-stone-400">
-                    {`${section.recipes.length} ${section.recipes.length === 1 ? 'recept' : 'recepten'}`}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  {section.recipes.map((recipe) => (
-                    <CompactRecipeCard
-                      key={recipe.id}
-                      recipe={recipe}
-                      isFavorite={favorites.includes(recipe.id)}
-                      onToggleFavorite={(e) => {
-                        e.stopPropagation();
-                        onToggleFavorite(recipe.id);
-                      }}
-                      onClick={() => setSelectedRecipeId(recipe.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         ) : (
           filteredRecipes.map((recipe) => (
-            <CompactRecipeCard
+            <div
               key={recipe.id}
-              recipe={recipe}
-              isFavorite={favorites.includes(recipe.id)}
-              onToggleFavorite={(e) => {
-                e.stopPropagation();
-                onToggleFavorite(recipe.id);
-              }}
               onClick={() => setSelectedRecipeId(recipe.id)}
-            />
+              className="rounded-2xl overflow-hidden bg-white shadow-card border border-stone-100 mb-3 cursor-pointer"
+            >
+              <div className="relative h-44 w-full overflow-hidden">
+                {recipe.image ? (
+                  <img
+                    src={recipe.image}
+                    alt={recipe.name}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className={cn('h-full w-full', getRecipeGradient(recipe))} />
+                )}
+                <span className="absolute top-3 left-3 bg-sage-600 text-white text-xs font-semibold rounded-full px-2.5 py-1">
+                  {recipe.cookTime}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleFavorite(recipe.id);
+                  }}
+                  className="absolute top-3 right-3 bg-white rounded-full p-1.5 shadow-sm"
+                  aria-label={favorites.includes(recipe.id) ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
+                >
+                  <Heart
+                    className={cn(
+                      'h-4 w-4',
+                      favorites.includes(recipe.id) ? 'fill-current text-red-500' : 'text-stone-500'
+                    )}
+                    strokeWidth={favorites.includes(recipe.id) ? 2.5 : 2}
+                  />
+                </button>
+              </div>
+              <div className="p-3 pb-4">
+                <h3 className="font-semibold text-stone-900 text-base leading-snug">
+                  {recipe.name}
+                </h3>
+                {recipe.subtitle && (
+                  <p className="text-sm text-stone-500 mt-0.5 line-clamp-1">
+                    {recipe.subtitle}
+                  </p>
+                )}
+              </div>
+            </div>
           ))
         )}
       </div>
