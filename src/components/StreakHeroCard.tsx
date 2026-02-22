@@ -18,8 +18,11 @@ export function StreakHeroCard({ streak, currentWeek, currentDay, isCheatDay }: 
   };
 
   const getSubtitle = () => {
-    if (isCheatDay) return `Week ${currentWeek} • Geniet ervan — morgen weer protocol`;
+    if (isCheatDay) return `Week ${currentWeek} • Geniet ervan, morgen weer protocol`;
     if (isNewStart) return 'Net gestart! • Dag 1/84';
+    if (currentDay > 0 && currentDay % 7 === 1) {
+      return `Week ${currentWeek} gestart • Nieuwe week, nieuw begin`;
+    }
     if (streak === 0) return `Dag ${currentDay}/84 • Log je maaltijden voor je streak`;
     return `Week ${currentWeek} • Dag ${currentDay}/84`;
   };

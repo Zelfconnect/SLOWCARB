@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState } from 'react';
-import { Trophy } from 'lucide-react';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
 import { StreakHeroCard } from './StreakHeroCard';
@@ -168,21 +167,13 @@ export function Dashboard({
         </>
       )}
 
-      <WeeklyProgressGrid weekData={weekData} />
-
       {perfectWeek && (
-        <div className="rounded-2xl border border-sage-200 bg-gradient-to-br from-sage-100 to-sage-200/70 p-5 shadow-soft">
-          <div className="flex items-center gap-3 text-sage-900">
-            <div className="h-9 w-9 rounded-lg bg-sage-200 flex items-center justify-center">
-              <Trophy className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="font-semibold">Perfecte week</p>
-              <p className="text-sm text-sage-700">6 dagen protocol + cheat day</p>
-            </div>
-          </div>
+        <div className="rounded-xl bg-sage-100 border border-sage-300 px-4 py-3 text-sage-800 text-sm font-medium">
+          🎉 Perfecte week! 6/6 protocoldagen voltooid.
         </div>
       )}
+
+      <WeeklyProgressGrid weekData={weekData} />
 
       <WeightProgressCard
         weightLog={weightLog}
