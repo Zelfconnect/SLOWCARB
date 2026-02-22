@@ -1,0 +1,198 @@
+{
+  "landing": {
+    "badge": "Gebaseerd op het 4-Hour Body protocol",
+    "heroTitle": "8 tot 10 kg kwijt\nin 6 weken",
+    "heroSubtitle": "Geen calorieën tellen. Geen bullshit. Gewoon eten wat werkt.",
+    "ctaPrimary": "Start nu • €29 early bird",
+    "ctaSubtext": "Eenmalige betaling • Geen abonnement • Direct toegang",
+    "openApp": "Open je app →",
+    "painPointsLabel": "Herkenbaar?",
+    "painPointsTitle": "Ken je dit?",
+    "painPoints": [
+      "Elke maandag \"opnieuw beginnen\" en vrijdag weer stoppen",
+      "Calorieën tellen tot je gek wordt, en dan toch niet afvallen",
+      "Geen idee wat je moet eten, elke dag opnieuw dezelfde strijd"
+    ],
+    "solutionTitle": "Waarom dit wél werkt.",
+    "solutionText": "Diëten falen omdat ze op willskracht leunen. SlowCarb werkt omdat het willskracht vervangt door simpele regels. Geen calorieën tellen, geen honger lijden, geen verwarring. Gewoon 5 regels volgen en eten tot je vol zit. Het resultaat: 8 tot 10 kg in 6 weken, zonder de sportschool.",
+    "rulesLabel": "De Methode",
+    "rulesTitle": "De 5 Regels",
+    "rulesSubtitle": "Geen berekeningen. Geen supplementen. Gewoon deze regels volgen en eten tot je vol zit.",
+    "rules": [
+      {
+        "title": "Geen witte koolhydraten",
+        "description": "Geen brood, pasta, rijst, aardappelen of suiker. Geen uitzonderingen tijdens de week."
+      },
+      {
+        "title": "30g eiwit binnen 30 min",
+        "description": "Eet binnen 30 minuten na opstaan minimaal 30 gram eiwit voor een kickstart van je metabolisme."
+      },
+      {
+        "title": "Geen vloeibare calorieën",
+        "description": "Drink water, koffie en thee. Geen frisdrank, vruchtensap, melk of alcohol (behalve op cheatday)."
+      },
+      {
+        "title": "Geen fruit",
+        "description": "Fructose remt vetverbranding. Avocado en tomaat zijn wel toegestaan in beperkte hoeveelheden."
+      },
+      {
+        "title": "Peulvruchten bij elke maaltijd",
+        "description": "Bonen, linzen en kikkererwten geven langdurige energie en houden je verzadigd."
+      }
+    ],
+    "cheatdayTitle": "+ De Cheatday",
+    "cheatdayText": "Eén dag per week eet je wat je wilt. Dit is niet optioneel. Het reset je hormonen en houdt het volhoudbaar.",
+    "featuresLabel": "Wat je krijgt",
+    "featuresTitle": "Alles wat je nodig hebt",
+    "featuresSubtitle": "Alles om vandaag te starten en vol te houden. Geen losse eindjes.",
+    "features": [
+      {
+        "title": "50+ recepten",
+        "description": "Ontbijt, lunch en diner. Allemaal getest, allemaal lekker, allemaal binnen 20 minuten op tafel."
+      },
+      {
+        "title": "Werkt als een app",
+        "description": "Voeg SlowCarb toe aan je homescreen. Geen download uit de app store nodig."
+      },
+      {
+        "title": "Slimme boodschappenlijst",
+        "description": "Genereer automatisch je boodschappenlijst voor de week. Gegroepeerd per winkelafdeling."
+      },
+      {
+        "title": "Wekelijkse inzichten",
+        "description": "Korte uitleg waarom het protocol werkt. Geen droge theorie. Praktische kennis die je gemotiveerd houdt."
+      },
+      {
+        "title": "Cheatday handleiding",
+        "description": "Eén dag per week eet je wat je wilt. Pizza, ijs, alles mag. Dit is geen beloning. Het is onderdeel van het protocol."
+      },
+      {
+        "title": "Voortgang bijhouden",
+        "description": "Log je gewicht en zie de trend. Niks motiveert zo hard als een dalende lijn."
+      }
+    ],
+    "testimonialsLabel": "Resultaten",
+    "testimonialsTitle": "Wat gebruikers zeggen",
+    "testimonials": [
+      {
+        "quote": "Vijf jaar lang elk dieet geprobeerd. Dit is het eerste waar ik niet over na hoef te denken. Regels volgen, eten, klaar.",
+        "name": "Mark",
+        "result": "9 kg kwijt in 5 weken"
+      },
+      {
+        "quote": "Ik eet me drie keer per dag vol en val af. De cheatday op zaterdag zorgt dat ik het de rest van de week makkelijk volhoud.",
+        "name": "Lisa",
+        "result": "11 kg kwijt in 8 weken"
+      },
+      {
+        "quote": "Geen apps, geen weegschaaltjes voor eten, geen gedoe. Binnen een week had ik mijn ritme. Dat had ik niet verwacht.",
+        "name": "Thomas",
+        "result": "7 kg kwijt in 6 weken"
+      }
+    ],
+    "pricingLabel": "Early Bird Aanbieding",
+    "pricingTitle": "SlowCarb Lifetime Access",
+    "pricingSubtitle": "Eenmalige betaling, levenslange toegang",
+    "pricingNote": "Alleen voor de eerste 100 mensen, daarna €47",
+    "pricingFeatures": [
+      "50+ slow carb recepten",
+      "Slimme boodschappenlijst",
+      "Voortgang tracking",
+      "Wekelijkse educatie",
+      "Cheatday protocol",
+      "Toekomstige updates",
+      "30 dagen geld terug garantie"
+    ],
+    "pricingCta": "Direct toegang →",
+    "pricingGuarantee": "30 dagen geld terug garantie",
+    "spotsLeft": "Nog 100 plekken",
+    "faqLabel": "Veelgestelde vragen",
+    "faqTitle": "FAQ",
+    "faqs": [
+      {
+        "question": "Is dit veilig?",
+        "answer": "Ja, absoluut. Het slow carb dieet is gebaseerd op volwaardige voeding zoals eieren, groenten, peulvruchten en mager vlees. Het is geen crashdieet. Je eet gewoon voedzame maaltijden die je langer verzadigen."
+      },
+      {
+        "question": "Wat mag ik op een cheatday?",
+        "answer": "Alles! De cheatday is essentieel voor het protocol. Op zaterdag (of jouw gekozen dag) eet je wat je wilt. Pizza, ijs, chips. Dit reset je stofwisseling en maakt het dieet mentaal haalbaar."
+      },
+      {
+        "question": "Moet ik calorieën tellen?",
+        "answer": "Nee. Dat is precies het punt van SlowCarb. Je volgt de 5 simpele regels en eet tot je verzadigd bent. Geen apps, geen weegschalen, geen gestres over cijfers."
+      },
+      {
+        "question": "Hoe lang heb ik toegang?",
+        "answer": "Levenslang. Je betaalt één keer en krijgt voor altijd toegang tot alle recepten, de boodschappenlijst, en toekomstige updates. Geen verborgen kosten."
+      },
+      {
+        "question": "Wat als het niet werkt?",
+        "answer": "We bieden een 30 dagen geld terug garantie. Als je niet tevreden bent, stuur ons een mailtje en je krijgt het volledige bedrag terug. Geen vragen gesteld."
+      }
+    ],
+    "finalCtaTitle": "Klaar om te beginnen?",
+    "finalCtaText": "Over 6 weken kun je 8 tot 10 kg lichter zijn. Zonder honger, zonder twijfel, zonder gedoe.",
+    "footerBadges": [
+      "Direct toegang",
+      "Geen abonnement",
+      "30 dagen geld terug"
+    ],
+    "footerCopy": "© 2026 SlowCarb. Alle rechten voorbehouden.",
+    "footerLinks": [
+      "Privacy",
+      "Voorwaarden",
+      "Contact"
+    ],
+    "lifestyleImageAlt": "Gezonde levensstijl en transformatie",
+    "breakfastImageAlt": "Gezond ontbijt met eiwitten en groenten",
+    "mealPrepImageAlt": "Meal prep containers met gezonde maaltijden"
+  },
+  "app": {
+    "searchRecipes": "Zoek recepten...",
+    "namePlaceholder": "Hoe mogen we je noemen?",
+    "weightPlaceholder": "Bijv. 82.5",
+    "prevStep": "Vorige stap",
+    "toStock": "Naar voorraad",
+    "stockHint": "Vink items af in je boodschappenlijst en klik \"Naar voorraad\"",
+    "addCustomItem": "Typ een eigen item...",
+    "toStockAria": "Verplaats naar voorraad",
+    "addButton": "Toevoegen",
+    "addWithPlus": "+ Toevoegen"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "subtitle": "Beheer je profiel en voorkeuren",
+    "noProfile": "Geen profiel gevonden",
+    "profileTitle": "Profiel",
+    "nameLabel": "Naam",
+    "namePlaceholder": "Jouw naam",
+    "weightGoalLabel": "Gewichtsdoel",
+    "weightGoalValueSuffix": "kg afvallen",
+    "cheatDayLabel": "Cheat day",
+    "daySaturday": "Zaterdag",
+    "daySunday": "Zondag",
+    "languageLabel": "Taal",
+    "preferencesTitle": "Voorkeuren",
+    "vegetarianLabel": "Vegetarisch",
+    "vegetarianHint": "Toon alleen veggie recepten",
+    "airfryerLabel": "Heeft airfryer",
+    "airfryerHint": "Toon airfryer instructies",
+    "sportsLabel": "Sport regelmatig",
+    "sportsHint": "Pas voedingsadvies aan",
+    "dataPrivacyTitle": "Data en Privacy",
+    "resetJourneyTitle": "Reset Journey",
+    "resetJourneyHint": "Begin opnieuw met dag 1",
+    "resetJourneyDialogTitle": "Reset Journey?",
+    "resetJourneyDialogDescription": "Dit reset je voortgang maar behoudt je profiel en voorkeuren.",
+    "cancel": "Annuleer",
+    "reset": "Reset",
+    "clearAllTitle": "Wis alle data",
+    "clearAllHint": "Verwijder alle gegevens",
+    "clearAllDialogTitle": "Wis alle data?",
+    "clearAllDialogDescription": "Dit verwijdert ALLES. Profiel, voortgang, voorkeuren. Dit kan niet ongedaan worden gemaakt.",
+    "clearAllAction": "Wis alles",
+    "aboutTitle": "Over SlowCarb",
+    "versionLabel": "Versie",
+    "contactSupport": "Contact support"
+  }
+}

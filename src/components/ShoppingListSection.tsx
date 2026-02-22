@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { ShoppingItem } from '@/types';
 import { getStockIconInfo } from '@/lib/stockIcons';
+import { useTranslation } from '@/i18n';
 
 interface ShoppingListSectionProps {
   items: ShoppingItem[];
@@ -46,6 +47,7 @@ export function ShoppingListSection({
   getByCategory,
   getIconKeyForIngredient,
 }: ShoppingListSectionProps) {
+  const { t } = useTranslation();
   const [newItem, setNewItem] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
 
@@ -65,7 +67,7 @@ export function ShoppingListSection({
   };
 
   return (
-    <div className="space-y-5 pb-24">
+    <div className="space-y-5">
       {/* Header Card */}
       <div className="rounded-2xl p-5 bg-gradient-to-br from-sage-50 to-sage-100/50 border border-sage-200">
         <div className="flex items-center gap-4 mb-4">
@@ -89,7 +91,7 @@ export function ShoppingListSection({
             className="flex-1 h-11"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Toevoegen
+            {String(t('app.addButton'))}
           </Button>
         </div>
       </div>
@@ -98,7 +100,7 @@ export function ShoppingListSection({
       {showAddForm && (
         <div className="card-premium p-5 space-y-4">
           <Input
-            placeholder="Typ een eigen item..."
+            placeholder={String(t('app.addCustomItem'))}
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
@@ -107,7 +109,7 @@ export function ShoppingListSection({
           />
           <div className="flex gap-3">
             <Button onClick={handleAdd} className="flex-1 h-11">
-              Toevoegen
+              {String(t('app.addButton'))}
             </Button>
             <Button
               variant="outline"
@@ -144,7 +146,7 @@ export function ShoppingListSection({
                   onClick={() => onAddFromSuggestion(item)}
                   className="h-11 px-4 bg-sage-100 hover:bg-sage-200 text-sage-800 text-sm font-medium rounded-full transition-colors"
                 >
-                  + Toevoegen
+                  {String(t('app.addWithPlus'))}
                 </button>
               </div>
             ))}
@@ -210,8 +212,8 @@ export function ShoppingListSection({
                     <button
                       onClick={() => handleMoveToPantry(item.id)}
                       className="w-11 h-11 text-stone-400 hover:text-sage-600 hover:bg-sage-50 rounded-lg transition-colors flex-shrink-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex items-center justify-center"
-                      title="Naar voorraad"
-                      aria-label="Verplaats naar voorraad"
+                      title={String(t('app.toStock'))}
+                      aria-label={String(t('app.toStockAria'))}
                     >
                       <Home className="w-4 h-4" />
                     </button>
@@ -235,7 +237,7 @@ export function ShoppingListSection({
               className="flex-1 h-11"
             >
               <Home className="w-4 h-4 mr-2" />
-              Naar voorraad ({checkedCount})
+              {String(t('app.toStock'))} ({checkedCount})
             </Button>
             <Button
               variant="outline"

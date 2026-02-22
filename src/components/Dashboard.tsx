@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState } from 'react';
-import { Trophy } from 'lucide-react';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
 import { StreakHeroCard } from './StreakHeroCard';
@@ -12,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { getDaysUntilCheatDay, getWeekData } from '@/hooks/useJourney';
 import type { Journey, MealEntry, WeightEntry } from '@/types';
+import { useTranslation } from '@/i18n';
 
 interface DashboardProps {
   journey: Journey;
@@ -42,13 +42,14 @@ export function Dashboard({
   weightLog,
   onLogWeight,
 }: DashboardProps) {
+  const { t, locale } = useTranslation();
   const [weightDialogOpen, setWeightDialogOpen] = useState(false);
   const [weightInput, setWeightInput] = useState('');
   const mealTrackerRef = useRef<HTMLDivElement | null>(null);
   const today = useMemo(() => new Date().toISOString().split('T')[0], []);
   const todayLabel = useMemo(
-    () => new Date(today).toLocaleDateString('nl-NL'),
-    [today]
+    () => new Date(today).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US'),
+    [today, locale]
   );
 
   const sortedWeights = [...weightLog].sort(
@@ -69,10 +70,6 @@ export function Dashboard({
     setWeightDialogOpen(open);
   };
 
-  const handleMealAction = () => {
-    mealTrackerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   const handleSaveWeight = () => {
     const parsed = Number.parseFloat(weightInput);
     if (!Number.isFinite(parsed) || parsed < 40 || parsed > 200) {
@@ -86,7 +83,7 @@ export function Dashboard({
 
   if (!journey.startDate) {
     return (
-      <div className="space-y-6 overflow-hidden pb-24">
+      <div className="space-y-6 overflow-hidden">
         <JourneyCard
           journey={journey}
           progress={progress}
@@ -104,7 +101,7 @@ export function Dashboard({
           <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
             <div className="p-6 space-y-4">
               <DialogHeader className="space-y-1 text-left">
-                <DialogTitle>Log je gewicht</DialogTitle>
+                <DialogTitle className="font-display">Log je gewicht</DialogTitle>
               </DialogHeader>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-stone-700" htmlFor="weight-input-start">
@@ -118,7 +115,8 @@ export function Dashboard({
                   step={0.1}
                   value={weightInput}
                   onChange={(event) => setWeightInput(event.target.value)}
-                  placeholder="Bijv. 82.5"
+                  placeholder={String(t('app.weightPlaceholder'))}
+                  className="input-premium"
                 />
               </div>
               <p className="text-sm text-stone-600">Datum: {todayLabel}</p>
@@ -138,7 +136,7 @@ export function Dashboard({
   const perfectWeek = !hasFutureDays && weekData.every(day => day.isCheatDay || day.completed);
 
   return (
-    <div className="space-y-5 overflow-hidden pb-24">
+    <div className="space-y-5 overflow-hidden">
       <StreakHeroCard
         streak={streak}
         currentWeek={progress.week}
@@ -169,21 +167,13 @@ export function Dashboard({
         </>
       )}
 
-      <WeeklyProgressGrid weekData={weekData} />
-
       {perfectWeek && (
-        <div className="rounded-2xl border border-sage-200 bg-gradient-to-br from-sage-100 to-sage-200/70 p-5 shadow-soft">
-          <div className="flex items-center gap-3 text-sage-900">
-            <div className="h-9 w-9 rounded-lg bg-sage-200 flex items-center justify-center">
-              <Trophy className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="font-semibold">Perfecte week</p>
-              <p className="text-sm text-sage-700">6 dagen protocol + cheat day</p>
-            </div>
-          </div>
+        <div className="rounded-xl bg-sage-100 border border-sage-300 px-4 py-3 text-sage-800 text-sm font-medium">
+          🎉 Perfecte week! 6/6 protocoldagen voltooid.
         </div>
       )}
+
+      <WeeklyProgressGrid weekData={weekData} />
 
       <WeightProgressCard
         weightLog={weightLog}
@@ -192,13 +182,13 @@ export function Dashboard({
         targetWeight={journey.targetWeight}
         onOpenLog={openWeightDialog}
       />
-      <QuickActionFAB onLogWeight={openWeightDialog} onLogMeal={handleMealAction} />
+      <QuickActionFAB onLogWeight={openWeightDialog} />
 
       <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
         <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
           <div className="p-6 space-y-4">
             <DialogHeader className="space-y-1 text-left">
-              <DialogTitle>Log je gewicht</DialogTitle>
+              <DialogTitle className="font-display">Log je gewicht</DialogTitle>
             </DialogHeader>
             <div className="space-y-2">
               <label className="text-sm font-medium text-stone-700" htmlFor="weight-input">
@@ -212,7 +202,8 @@ export function Dashboard({
                 step={0.1}
                 value={weightInput}
                 onChange={(event) => setWeightInput(event.target.value)}
-                placeholder="Bijv. 82.5"
+                placeholder={String(t('app.weightPlaceholder'))}
+                className="input-premium"
               />
             </div>
             <p className="text-sm text-stone-600">Datum: {todayLabel}</p>

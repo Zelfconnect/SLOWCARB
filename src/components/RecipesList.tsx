@@ -5,17 +5,13 @@ import { CompactRecipeCard } from './CompactRecipeCard';
 import { RecipeDetailModal } from './RecipeDetailModal';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import type { Ingredient, Recipe } from '@/types';
+import type { Recipe } from '@/types';
 import { getMealTypeIcon } from '@/lib/recipeIcons';
+import { useTranslation } from '@/i18n';
 
 interface RecipesListProps {
   favorites: string[];
   onToggleFavorite: (id: string) => void;
-  onOpenPackageSelector?: (
-    recipeName: string,
-    ingredients: Ingredient[],
-    portionMultiplier: number
-  ) => void;
 }
 
 const CATEGORY_SECTIONS: Array<{ id: Recipe['category']; label: string }> = [
@@ -24,7 +20,8 @@ const CATEGORY_SECTIONS: Array<{ id: Recipe['category']; label: string }> = [
   { id: 'no-time', label: 'No-Time' },
 ];
 
-export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector }: RecipesListProps) {
+export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -70,7 +67,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
         <Input
-          placeholder="Zoek recepten..."
+          placeholder={String(t('app.searchRecipes'))}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="input-premium pl-12 h-11 text-base"
@@ -139,7 +136,7 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
       </div>
 
       {/* Recipe List - Compact */}
-      <div className="space-y-2 pb-24">
+      <div className="space-y-2">
         {filteredRecipes.length === 0 ? (
           <div className="card-website py-12 text-center text-stone-500">
             <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl border border-stone-200 bg-stone-100 shadow-soft">
@@ -200,10 +197,6 @@ export function RecipesList({ favorites, onToggleFavorite, onOpenPackageSelector
           isOpen={true}
           isFavorite={favorites.includes(selectedRecipe.id)}
           onToggleFavorite={() => onToggleFavorite(selectedRecipe.id)}
-          onOpenPackageSelector={onOpenPackageSelector ? (portionMultiplier) => {
-            onOpenPackageSelector(selectedRecipe.name, selectedRecipe.ingredients, portionMultiplier);
-            setSelectedRecipeId(null);
-          } : undefined}
           onClose={() => setSelectedRecipeId(null)}
         />
       )}

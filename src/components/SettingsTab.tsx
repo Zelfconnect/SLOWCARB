@@ -30,23 +30,25 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/i18n';
 
 export function SettingsTab() {
+  const { t, locale, setLocale } = useTranslation();
   const { profile, updateProfile, logout } = useUserStore();
   const { journey, resetJourney, startJourney } = useJourney();
 
   if (!profile) {
     return (
-      <div className="space-y-4 pb-24">
+      <div className="space-y-4">
         <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
           <div className="flex items-center gap-3">
             <Settings className="w-6 h-6" />
-            <h2 className="font-display font-semibold text-lg">Instellingen</h2>
+            <h2 className="font-display font-semibold text-lg">{String(t('settings.title'))}</h2>
           </div>
         </div>
         <Card className="rounded-2xl shadow-sm">
           <CardContent className="pt-6">
-            <p className="text-center text-stone-500">Geen profiel gevonden</p>
+            <p className="text-center text-stone-500">{String(t('settings.noProfile'))}</p>
           </CardContent>
         </Card>
       </div>
@@ -92,7 +94,7 @@ export function SettingsTab() {
   const currentCheatDay = profile.cheatDay || journey.cheatDay || 'zaterdag';
 
   return (
-    <div className="space-y-4 pb-24">
+    <div className="space-y-4">
       {/* Header Banner */}
       <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
         <div className="flex items-center gap-3">
@@ -100,9 +102,9 @@ export function SettingsTab() {
             <Settings className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="font-display font-semibold text-lg">Instellingen</h2>
+            <h2 className="font-display font-semibold text-lg">{String(t('settings.title'))}</h2>
             <p className="text-sage-100 text-sm">
-              Beheer je profiel en voorkeuren
+              {String(t('settings.subtitle'))}
             </p>
           </div>
         </div>
@@ -113,21 +115,21 @@ export function SettingsTab() {
         <CardHeader className="pb-3">
           <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
             <User className="w-5 h-5 text-sage-600" />
-            Profiel
+            {String(t('settings.profileTitle'))}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">
           {/* Name Input */}
           <div className="space-y-2">
             <Label htmlFor="name" className="text-sm font-medium text-stone-700">
-              Naam
+              {String(t('settings.nameLabel'))}
             </Label>
             <Input
               id="name"
               value={profile.name || ''}
               onChange={(e) => handleNameChange(e.target.value)}
               className="rounded-xl border-stone-200 focus:border-sage-400 focus:ring-sage-400"
-              placeholder="Jouw naam"
+              placeholder={String(t('settings.namePlaceholder'))}
             />
           </div>
 
@@ -136,7 +138,7 @@ export function SettingsTab() {
           {/* Weight Goal Slider */}
           <div className="space-y-3">
             <Label htmlFor="weight-goal" className="text-sm font-medium text-stone-700">
-              Gewichtsdoel
+              {String(t('settings.weightGoalLabel'))}
             </Label>
             <Slider
               id="weight-goal"
@@ -150,7 +152,7 @@ export function SettingsTab() {
             <div className="flex items-center justify-between">
               <span className="text-sm text-stone-500">3 kg</span>
               <span className="text-sm font-semibold text-sage-700 bg-sage-50 px-3 py-1 rounded-full">
-                {profile.weightGoal || 10} kg afvallen
+                {profile.weightGoal || 10} {String(t('settings.weightGoalValueSuffix'))}
               </span>
               <span className="text-sm text-stone-500">20 kg</span>
             </div>
@@ -160,7 +162,7 @@ export function SettingsTab() {
 
           {/* Cheat Day Selection */}
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-stone-700">Cheat day</Label>
+            <Label className="text-sm font-medium text-stone-700">{String(t('settings.cheatDayLabel'))}</Label>
             <div className="flex gap-2">
               {(['zaterdag', 'zondag'] as const).map((day) => (
                 <button
@@ -173,10 +175,27 @@ export function SettingsTab() {
                       : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                   )}
                 >
-                  {day.charAt(0).toUpperCase() + day.slice(1)}
+                  {String(t(day === 'zaterdag' ? 'settings.daySaturday' : 'settings.daySunday'))}
                 </button>
               ))}
             </div>
+          </div>
+
+          <Separator className="bg-stone-100" />
+
+          <div className="space-y-2">
+            <Label htmlFor="language" className="text-sm font-medium text-stone-700">
+              {String(t('settings.languageLabel'))}
+            </Label>
+            <select
+              id="language"
+              value={locale}
+              onChange={(event) => setLocale(event.target.value)}
+              className="h-10 w-full rounded-xl border border-stone-200 bg-white px-3 text-sm text-stone-700 outline-none focus:border-sage-400 focus:ring-2 focus:ring-sage-200"
+            >
+              <option value="en">English</option>
+              <option value="nl">Nederlands</option>
+            </select>
           </div>
         </CardContent>
       </Card>
@@ -186,7 +205,7 @@ export function SettingsTab() {
         <CardHeader className="pb-3">
           <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
             <Settings2 className="w-5 h-5 text-sage-600" />
-            Voorkeuren
+            {String(t('settings.preferencesTitle'))}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-1">
@@ -197,8 +216,8 @@ export function SettingsTab() {
                 <span className="text-lg">🥗</span>
               </div>
               <div>
-                <p className="text-sm font-medium text-stone-700">Vegetarisch</p>
-                <p className="text-xs text-stone-500">Toon alleen veggie recepten</p>
+                <p className="text-sm font-medium text-stone-700">{String(t('settings.vegetarianLabel'))}</p>
+                <p className="text-xs text-stone-500">{String(t('settings.vegetarianHint'))}</p>
               </div>
             </div>
             <Switch
@@ -217,8 +236,8 @@ export function SettingsTab() {
                 <span className="text-lg">🍳</span>
               </div>
               <div>
-                <p className="text-sm font-medium text-stone-700">Heeft airfryer</p>
-                <p className="text-xs text-stone-500">Toon airfryer instructies</p>
+                <p className="text-sm font-medium text-stone-700">{String(t('settings.airfryerLabel'))}</p>
+                <p className="text-xs text-stone-500">{String(t('settings.airfryerHint'))}</p>
               </div>
             </div>
             <Switch
@@ -237,8 +256,8 @@ export function SettingsTab() {
                 <span className="text-lg">💪</span>
               </div>
               <div>
-                <p className="text-sm font-medium text-stone-700">Sport regelmatig</p>
-                <p className="text-xs text-stone-500">Pas voedingsadvies aan</p>
+                <p className="text-sm font-medium text-stone-700">{String(t('settings.sportsLabel'))}</p>
+                <p className="text-xs text-stone-500">{String(t('settings.sportsHint'))}</p>
               </div>
             </div>
             <Switch
@@ -255,7 +274,7 @@ export function SettingsTab() {
         <CardHeader className="pb-3">
           <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
             <Shield className="w-5 h-5 text-sage-600" />
-            Data & Privacy
+            {String(t('settings.dataPrivacyTitle'))}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -268,8 +287,8 @@ export function SettingsTab() {
                     <RotateCcw className="w-4 h-4 text-stone-600" />
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-medium text-stone-700">Reset Journey</p>
-                    <p className="text-xs text-stone-500">Begin opnieuw met dag 1</p>
+                    <p className="text-sm font-medium text-stone-700">{String(t('settings.resetJourneyTitle'))}</p>
+                    <p className="text-xs text-stone-500">{String(t('settings.resetJourneyHint'))}</p>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-stone-400 group-hover:text-stone-600 transition-colors" />
@@ -277,18 +296,18 @@ export function SettingsTab() {
             </AlertDialogTrigger>
             <AlertDialogContent className="rounded-2xl">
               <AlertDialogHeader>
-                <AlertDialogTitle>Reset Journey?</AlertDialogTitle>
+                <AlertDialogTitle>{String(t('settings.resetJourneyDialogTitle'))}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Dit reset je voortgang maar behoudt je profiel en voorkeuren.
+                  {String(t('settings.resetJourneyDialogDescription'))}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="rounded-xl">Annuleer</AlertDialogCancel>
+                <AlertDialogCancel className="rounded-xl">{String(t('settings.cancel'))}</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleResetJourney}
                   className="rounded-xl bg-sage-600 hover:bg-sage-700"
                 >
-                  Reset
+                  {String(t('settings.reset'))}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -303,8 +322,8 @@ export function SettingsTab() {
                     <Trash2 className="w-4 h-4 text-red-600" />
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-medium text-red-700">Wis alle data</p>
-                    <p className="text-xs text-red-500/80">Verwijder alle gegevens</p>
+                    <p className="text-sm font-medium text-red-700">{String(t('settings.clearAllTitle'))}</p>
+                    <p className="text-xs text-red-500/80">{String(t('settings.clearAllHint'))}</p>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-red-400 group-hover:text-red-600 transition-colors" />
@@ -312,18 +331,18 @@ export function SettingsTab() {
             </AlertDialogTrigger>
             <AlertDialogContent className="rounded-2xl border-red-200">
               <AlertDialogHeader>
-                <AlertDialogTitle className="text-red-700">Wis alle data?</AlertDialogTitle>
+                <AlertDialogTitle className="text-red-700">{String(t('settings.clearAllDialogTitle'))}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Dit verwijdert ALLES - profiel, voortgang, voorkeuren. Dit kan niet ongedaan worden gemaakt.
+                  {String(t('settings.clearAllDialogDescription'))}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="rounded-xl">Annuleer</AlertDialogCancel>
+                <AlertDialogCancel className="rounded-xl">{String(t('settings.cancel'))}</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleClearAllData}
                   className="rounded-xl bg-red-600 hover:bg-red-700"
                 >
-                  Wis alles
+                  {String(t('settings.clearAllAction'))}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -336,12 +355,12 @@ export function SettingsTab() {
         <CardHeader className="pb-3">
           <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
             <Info className="w-5 h-5 text-sage-600" />
-            Over SlowCarb
+            {String(t('settings.aboutTitle'))}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between py-1">
-            <span className="text-sm text-stone-500">Versie</span>
+            <span className="text-sm text-stone-500">{String(t('settings.versionLabel'))}</span>
             <span className="text-sm font-medium text-stone-700">3.0.0</span>
           </div>
           <Separator className="bg-stone-100" />
@@ -351,7 +370,7 @@ export function SettingsTab() {
           >
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-sage-600" />
-              <span className="text-sm font-medium text-stone-700">Contact support</span>
+              <span className="text-sm font-medium text-stone-700">{String(t('settings.contactSupport'))}</span>
             </div>
             <ChevronRight className="w-5 h-5 text-stone-400 group-hover:text-sage-600 transition-colors" />
           </a>

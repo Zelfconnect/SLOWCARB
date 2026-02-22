@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
+import { useTranslation } from '@/i18n';
 
 // ============================================
 // TYPES
@@ -57,117 +58,15 @@ type FAQ = {
 // DATA
 // ============================================
 const painPoints = [
-  { icon: RotateCcw, text: 'Elke maandag "opnieuw beginnen" en vrijdag weer stoppen' },
-  { icon: Calculator, text: 'Calorieën tellen tot je gek wordt — en dan toch niet afvallen' },
-  { icon: Clock, text: 'Geen idee wat je moet eten, elke dag opnieuw dezelfde strijd' },
+  { icon: RotateCcw },
+  { icon: Calculator },
+  { icon: Clock },
 ] as const;
 
-const rules: Rule[] = [
-  {
-    icon: WheatOff,
-    title: 'Geen witte koolhydraten',
-    description: 'Geen brood, pasta, rijst, aardappelen of suiker. Geen uitzonderingen tijdens de week.',
-  },
-  {
-    icon: Egg,
-    title: '30g eiwit binnen 30 min',
-    description: 'Eet binnen 30 minuten na opstaan minimaal 30 gram eiwit voor een kickstart van je metabolisme.',
-  },
-  {
-    icon: GlassWater,
-    title: 'Geen vloeibare calorieën',
-    description: 'Drink water, koffie en thee. Geen frisdrank, vruchtensap, melk of alcohol (behalve op cheatday).',
-  },
-  {
-    icon: Apple,
-    title: 'Geen fruit',
-    description: 'Fructose remt vetverbranding. Avocado en tomaat zijn wel toegestaan in beperkte hoeveelheden.',
-  },
-  {
-    icon: Bean,
-    title: 'Peulvruchten bij elke maaltijd',
-    description: 'Bonen, linzen en kikkererwten geven langdurige energie en houden je verzadigd.',
-  },
-];
+const ruleIcons = [WheatOff, Egg, GlassWater, Apple, Bean] as const;
 
-const features: Feature[] = [
-  {
-    icon: ChefHat,
-    title: '35+ recepten',
-    description: 'Ontbijt, lunch en diner. Allemaal getest, allemaal lekker, allemaal binnen 20 minuten op tafel.',
-  },
-  {
-    icon: Smartphone,
-    title: 'Werkt als een app',
-    description: 'Voeg SlowCarb toe aan je homescreen. Geen download uit de app store nodig.',
-  },
-  {
-    icon: ShoppingCart,
-    title: 'Slimme boodschappenlijst',
-    description: 'Genereer automatisch je boodschappenlijst voor de week. Gegroepeerd per winkelafdeling.',
-  },
-  {
-    icon: BookOpen,
-    title: 'Wekelijkse inzichten',
-    description: 'Korte uitleg waarom het protocol werkt. Geen droge theorie — praktische kennis die je gemotiveerd houdt.',
-  },
-  {
-    icon: PartyPopper,
-    title: 'Cheatday handleiding',
-    description: 'Eén dag per week eet je wat je wilt. Pizza, ijs, alles mag. Dit is geen beloning — het is onderdeel van het protocol.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Voortgang bijhouden',
-    description: 'Log je gewicht en zie de trend. Niks motiveert zo hard als een dalende lijn.',
-  },
-];
+const featureIcons = [ChefHat, Smartphone, ShoppingCart, BookOpen, PartyPopper, TrendingUp] as const;
 
-const testimonials: Testimonial[] = [
-  {
-    quote: 'Vijf jaar lang elk dieet geprobeerd. Dit is het eerste waar ik niet over na hoef te denken. Regels volgen, eten, klaar.',
-    name: 'Mark',
-    result: '-9 kg in 5 weken',
-  },
-  {
-    quote: 'Ik eet me drie keer per dag vol en val af. De cheatday op zaterdag zorgt dat ik het de rest van de week makkelijk volhoud.',
-    name: 'Lisa',
-    result: '-11 kg in 8 weken',
-  },
-  {
-    quote: 'Geen apps, geen weegschaaltjes voor eten, geen gedoe. Binnen een week had ik mijn ritme. Dat had ik niet verwacht.',
-    name: 'Thomas',
-    result: '-7 kg in 6 weken',
-  },
-];
-
-const faqs: FAQ[] = [
-  {
-    question: 'Is dit veilig?',
-    answer:
-      'Ja, absoluut. Het slow-carb dieet is gebaseerd op volwaardige voeding zoals eieren, groenten, peulvruchten en mager vlees. Het is geen crashdieet — je eet gewoon voedzame maaltijden die je langer verzadigen.',
-  },
-  {
-    question: 'Wat mag ik op een cheatday?',
-    answer:
-      'Alles! De cheatday is essentieel voor het protocol. Op zaterdag (of jouw gekozen dag) eet je wat je wilt — pizza, ijs, chips. Dit reset je stofwisseling en maakt het dieet mentaal haalbaar.',
-  },
-  {
-    question: 'Moet ik calorieën tellen?',
-    answer:
-      'Nee. Dat is precies het punt van SlowCarb. Je volgt de 5 simpele regels en eet tot je verzadigd bent. Geen apps, geen weegschalen, geen gestres over cijfers.',
-  },
-  {
-    question: 'Hoe lang heb ik toegang?',
-    answer:
-      'Levenslang. Je betaalt één keer en krijgt voor altijd toegang tot alle recepten, de boodschappenlijst, en toekomstige updates. Geen verborgen kosten.',
-  },
-  {
-    question: 'Wat als het niet werkt?',
-    answer:
-      'We bieden een 30-dagen-geld-terug-garantie. Als je niet tevreden bent, stuur ons een mailtje en je krijgt het volledige bedrag terug. Geen vragen gesteld.',
-  },
-];
 
 // ============================================
 // HOOKS
@@ -356,19 +255,27 @@ function TestimonialCard({
   );
 }
 
-function FloatingMobileCTA({ onClick }: { onClick: () => void }) {
+function FloatingMobileCTA({
+  onClick,
+  spotsLeftText,
+  buttonText,
+}: {
+  onClick: () => void;
+  spotsLeftText: string;
+  buttonText: string;
+}) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
       <div className="mx-3 mb-3 flex items-center justify-between rounded-2xl bg-sage-700/95 backdrop-blur-md px-4 py-3 shadow-lg">
         <div className="flex flex-col">
           <span className="text-sm font-bold text-white">€29 <span className="text-xs font-normal text-sage-300 line-through">€47</span></span>
-          <span className="text-[11px] text-sage-300">Nog 100 plekken</span>
+          <span className="text-[11px] text-sage-300">{spotsLeftText}</span>
         </div>
         <button
           onClick={onClick}
           className="rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-sage-700 shadow-sm active:scale-95 transition-transform"
         >
-          Start nu →
+          {buttonText}
         </button>
       </div>
     </div>
@@ -379,8 +286,31 @@ function FloatingMobileCTA({ onClick }: { onClick: () => void }) {
 // MAIN COMPONENT
 // ============================================
 export default function LandingPageFinal() {
+  const { t } = useTranslation();
   const { visibleSections, setRef } = useSectionReveal(9);
   const [showAppButton, setShowAppButton] = useState(false);
+  const rules: Rule[] = ruleIcons.map((icon, index) => ({
+    icon,
+    title: String(t(`landing.rules.${index}.title`)),
+    description: String(t(`landing.rules.${index}.description`)),
+  }));
+  const features: Feature[] = featureIcons.map((icon, index) => ({
+    icon,
+    title: String(t(`landing.features.${index}.title`)),
+    description: String(t(`landing.features.${index}.description`)),
+  }));
+  const testimonials: Testimonial[] = [0, 1, 2].map((index) => ({
+    quote: String(t(`landing.testimonials.${index}.quote`)),
+    name: String(t(`landing.testimonials.${index}.name`)),
+    result: String(t(`landing.testimonials.${index}.result`)),
+  }));
+  const faqs: FAQ[] = [0, 1, 2, 3, 4].map((index) => ({
+    question: String(t(`landing.faqs.${index}.question`)),
+    answer: String(t(`landing.faqs.${index}.answer`)),
+  }));
+  const pricingFeatures = t('landing.pricingFeatures') as string[];
+  const footerBadges = t('landing.footerBadges') as string[];
+  const footerLinks = t('landing.footerLinks') as string[];
 
   const stripeUrl = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
 
@@ -409,7 +339,7 @@ export default function LandingPageFinal() {
           href="/?app=1"
           className="fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-full bg-sage-600 px-4 py-2 text-sm text-white shadow-md transition-colors hover:bg-sage-700 sm:left-auto sm:right-4 sm:translate-x-0"
         >
-          Open je app →
+          {String(t('landing.openApp'))}
         </a>
       )}
 
@@ -433,15 +363,18 @@ export default function LandingPageFinal() {
             )}`}
           >
             <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm">
-              Gebaseerd op het 4-Hour Body protocol
+              {String(t('landing.badge'))}
             </span>
             <h1 className="font-display text-4xl font-bold leading-tight text-white text-shadow md:text-5xl lg:text-6xl">
-              8-10 kg kwijt
-              <br />
-              in 6 weken
+              {String(t('landing.heroTitle')).split('\n').map((line, index, arr) => (
+                <span key={line}>
+                  {line}
+                  {index < arr.length - 1 && <br />}
+                </span>
+              ))}
             </h1>
             <p className="mx-auto mb-10 mt-6 max-w-xl text-xl leading-relaxed text-sage-100 md:text-2xl">
-              Geen calorie-tellen. Geen bullshit. Gewoon eten wat werkt.
+              {String(t('landing.heroSubtitle'))}
             </p>
 
             <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -450,13 +383,13 @@ export default function LandingPageFinal() {
                 size="lg"
                 className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
               >
-                Start nu — €29 early bird
+                {String(t('landing.ctaPrimary'))}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
 
             <p className="text-sm font-medium text-sage-200">
-              Eenmalige betaling • Geen abonnement • Direct toegang
+              {String(t('landing.ctaSubtext'))}
             </p>
           </div>
         </div>
@@ -489,19 +422,19 @@ export default function LandingPageFinal() {
           )}`}
         >
           <span className="text-sm font-medium uppercase tracking-wider text-clay-600">
-            Herkenbaar?
+            {String(t('landing.painPointsLabel'))}
           </span>
           <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-            Ken je dit?
+            {String(t('landing.painPointsTitle'))}
           </h2>
         </div>
 
         <div className="mb-16 grid gap-4 md:grid-cols-3">
           {painPoints.map((point, idx) => (
             <PainPointCard
-              key={point.text}
+              key={idx}
               icon={point.icon}
-              text={point.text}
+              text={String(t(`landing.painPoints.${idx}`))}
               delay={idx * 100}
               isVisible={visibleSections[1]}
             />
@@ -520,30 +453,15 @@ export default function LandingPageFinal() {
                 <Check className="h-5 w-5 text-white" strokeWidth={3} />
               </div>
               <h3 className="font-display text-2xl font-bold text-stone-800">
-                Waarom dit wél werkt.
+                {String(t('landing.solutionTitle'))}
               </h3>
             </div>
             <p className="max-w-3xl text-lg leading-relaxed text-stone-600">
-              Diëten falen omdat ze op willskracht leunen. SlowCarb werkt omdat het willskracht vervangt door simpele regels. Geen calorieën tellen, geen honger lijden, geen verwarring. Gewoon 5 regels volgen en eten tot je vol zit. Het resultaat: 8-10 kg in 6 weken — zonder de sportschool.
+              {String(t('landing.solutionText'))}
             </p>
           </div>
 
-          <div
-            className={`transition-all duration-700 ${revealClass(
-              visibleSections[1]
-            )}`}
-            style={{ transitionDelay: '500ms' }}
-          >
-            <div className='relative overflow-hidden rounded-3xl shadow-lg'>
-              <img
-                src="/images/landing/LIFESTYLE.webp"
-                alt="Gezonde levensstijl en transformatie"
-                loading="lazy"
-                className='h-64 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-80'
-              />
-              <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
-            </div>
-          </div>
+          {/* lifestyle image removed */}
         </div>
       </section>
 
@@ -556,13 +474,13 @@ export default function LandingPageFinal() {
             )}`}
           >
             <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
-              De Methode
+              {String(t('landing.rulesLabel'))}
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-              De 5 Regels
+              {String(t('landing.rulesTitle'))}
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-stone-600">
-              Geen berekeningen. Geen supplementen. Gewoon deze regels volgen en eten tot je vol zit.
+              {String(t('landing.rulesSubtitle'))}
             </p>
           </div>
 
@@ -576,7 +494,7 @@ export default function LandingPageFinal() {
             <div className='relative overflow-hidden rounded-3xl shadow-lg'>
               <img
                 src="/images/landing/HEROBREAKFAST.webp"
-                alt="Gezond ontbijt met eiwitten en groenten"
+                alt={String(t('landing.breakfastImageAlt'))}
                 loading="lazy"
                 className='h-48 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-64'
               />
@@ -603,10 +521,9 @@ export default function LandingPageFinal() {
               style={{ transitionDelay: '500ms' }}
             >
               <PartyPopper className="mb-4 h-8 w-8 opacity-80" />
-              <h3 className="mb-2 font-display text-xl font-bold">+ De Cheatday</h3>
+              <h3 className="mb-2 font-display text-xl font-bold">{String(t('landing.cheatdayTitle'))}</h3>
               <p className="text-sm leading-relaxed text-clay-100">
-                Één dag per week eet je wat je wilt. Dit is niet optioneel — het reset je
-                hormonen en houdt het volhoudbaar.
+                {String(t('landing.cheatdayText'))}
               </p>
             </div>
           </div>
@@ -625,13 +542,13 @@ export default function LandingPageFinal() {
           )}`}
         >
           <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
-            Wat je krijgt
+            {String(t('landing.featuresLabel'))}
           </span>
           <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-            Alles wat je nodig hebt
+            {String(t('landing.featuresTitle'))}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-stone-600">
-            Alles om vandaag te starten en vol te houden. Geen losse eindjes.
+            {String(t('landing.featuresSubtitle'))}
           </p>
         </div>
 
@@ -645,7 +562,7 @@ export default function LandingPageFinal() {
           <div className='relative overflow-hidden rounded-3xl shadow-lg'>
             <img
               src="/images/landing/MEALPREP.webp"
-              alt="Meal prep containers met gezonde maaltijden"
+              alt={String(t('landing.mealPrepImageAlt'))}
               loading="lazy"
               className='h-56 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-72'
             />
@@ -676,10 +593,10 @@ export default function LandingPageFinal() {
             )}`}
           >
             <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
-              Resultaten
+              {String(t('landing.testimonialsLabel'))}
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-              Wat gebruikers zeggen
+              {String(t('landing.testimonialsTitle'))}
             </h2>
           </div>
 
@@ -713,12 +630,12 @@ export default function LandingPageFinal() {
           >
             <div className="mb-8 text-center">
               <span className="mb-4 inline-block rounded-full bg-sage-100 px-3 py-1 text-sm font-medium text-sage-700">
-                Early Bird Aanbieding
+                {String(t('landing.pricingLabel'))}
               </span>
               <h3 className="mb-2 font-display text-2xl font-bold text-stone-800">
-                SlowCarb Lifetime Access
+                {String(t('landing.pricingTitle'))}
               </h3>
-              <p className="text-sm text-stone-600">Eenmalige betaling, levenslange toegang</p>
+              <p className="text-sm text-stone-600">{String(t('landing.pricingSubtitle'))}</p>
             </div>
 
             <div className="mb-8 flex items-baseline justify-center gap-3">
@@ -729,19 +646,11 @@ export default function LandingPageFinal() {
             </div>
 
             <p className="mb-6 text-center text-sm text-clay-600">
-              Alleen voor de eerste 100 mensen — daarna €47
+              {String(t('landing.pricingNote'))}
             </p>
 
             <ul className="mb-8 space-y-4">
-              {[
-                '35+ slow-carb recepten',
-                'Slimme boodschappenlijst',
-                'Voortgang tracking',
-                'Wekelijkse educatie',
-                'Cheatday protocol',
-                'Toekomstige updates',
-                '30 dagen geld-terug garantie',
-              ].map((feature, i) => (
+              {pricingFeatures.map((feature, i) => (
                 <li key={i} className="flex items-center gap-3">
                   <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sage-100">
                     <Check className="h-3 w-3 text-sage-600" strokeWidth={3} />
@@ -756,11 +665,11 @@ export default function LandingPageFinal() {
               size="lg"
               className="h-14 w-full rounded-xl bg-sage-600 text-lg font-semibold text-white shadow-soft hover:bg-sage-700"
             >
-              Direct toegang →
+              {String(t('landing.pricingCta'))}
             </Button>
 
             <p className="mt-4 text-center text-sm text-stone-500">
-              30 dagen geld-terug garantie
+              {String(t('landing.pricingGuarantee'))}
             </p>
           </div>
         </div>
@@ -775,10 +684,10 @@ export default function LandingPageFinal() {
             )}`}
           >
             <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
-              Veelgestelde vragen
+              {String(t('landing.faqLabel'))}
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-              FAQ
+              {String(t('landing.faqTitle'))}
             </h2>
           </div>
 
@@ -824,10 +733,10 @@ export default function LandingPageFinal() {
             )}`}
           >
             <h2 className="mb-6 font-display text-3xl font-bold text-white text-shadow md:text-5xl">
-              Klaar om te beginnen?
+              {String(t('landing.finalCtaTitle'))}
             </h2>
             <p className="mx-auto mb-10 max-w-xl text-xl text-sage-200">
-              Over 6 weken kun je 8-10 kg lichter zijn. Zonder honger, zonder twijfel, zonder gedoe.
+              {String(t('landing.finalCtaText'))}
             </p>
 
             <Button
@@ -835,23 +744,17 @@ export default function LandingPageFinal() {
               size="lg"
               className="h-14 rounded-xl bg-white px-10 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
             >
-              Start nu — €29 early bird
+              {String(t('landing.ctaPrimary'))}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-300">
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4" />
-                <span>Direct toegang</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4" />
-                <span>Geen abonnement</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4" />
-                <span>30 dagen geld-terug</span>
-              </div>
+              {footerBadges.map((badge) => (
+                <div key={badge} className="flex items-center gap-2">
+                  <Check className="h-4 w-4" />
+                  <span>{badge}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -865,24 +768,24 @@ export default function LandingPageFinal() {
               visibleSections[8]
             )}`}
           >
-            <p className="text-sm">© 2026 SlowCarb. Alle rechten voorbehouden.</p>
+            <p className="text-sm">{String(t('landing.footerCopy'))}</p>
             <div className="flex items-center gap-6 text-sm">
-              <a href="#" className="transition-colors hover:text-white">
-                Privacy
-              </a>
-              <a href="#" className="transition-colors hover:text-white">
-                Voorwaarden
-              </a>
-              <a href="#" className="transition-colors hover:text-white">
-                Contact
-              </a>
+              {footerLinks.map((label) => (
+                <a key={label} href="#" className="transition-colors hover:text-white">
+                  {label}
+                </a>
+              ))}
             </div>
           </div>
         </div>
       </footer>
 
       {/* Floating Mobile CTA */}
-      <FloatingMobileCTA onClick={openCheckout} />
+      <FloatingMobileCTA
+        onClick={openCheckout}
+        spotsLeftText={String(t('landing.spotsLeft'))}
+        buttonText={String(t('landing.pricingCta'))}
+      />
     </div>
   );
 }

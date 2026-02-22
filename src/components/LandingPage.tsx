@@ -185,7 +185,7 @@ export default function LandingPage() {
             </p>
             <a
               href="#pricing"
-              className="mt-8 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-base font-semibold text-sage-700 shadow-md transition hover:bg-sage-50"
+              className="mt-8 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-base font-semibold text-sage-600 shadow-md transition hover:bg-sage-50"
             >
               Start nu — €49 lifetime
             </a>
@@ -354,7 +354,7 @@ export default function LandingPage() {
 
             <a
               href="#pricing"
-              className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-sage-700 px-6 py-3 text-base font-semibold text-white transition hover:bg-sage-800"
+              className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-sage-600 px-6 py-3 text-base font-semibold text-white transition hover:bg-sage-700"
             >
               Direct toegang →
             </a>
@@ -398,7 +398,7 @@ export default function LandingPage() {
           <h2 className="font-display text-3xl font-bold text-white">Klaar om te beginnen?</h2>
           <a
             href="#pricing"
-            className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-base font-semibold text-sage-700 transition hover:bg-sage-50"
+            className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-base font-semibold text-sage-600 transition hover:bg-sage-50"
           >
             Start nu — €49 lifetime
           </a>

@@ -82,7 +82,7 @@ function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
       disabled={isCheatDay}
       aria-label={config.label}
       className={cn(
-        'relative w-full overflow-hidden rounded-2xl border p-5 text-left shadow-soft transition-all duration-300',
+        'relative w-full overflow-hidden rounded-2xl border p-5 text-left shadow-card transition-all duration-300',
         isCompleted
           ? cn('border-opacity-100 bg-gradient-to-br', config.bgGradient, config.borderColor)
           : 'border-stone-100 bg-white hover:border-stone-200',
@@ -237,7 +237,7 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
 
       {/* Celebration when all completed */}
       {allCompleted && (
-        <Card className="animate-in slide-in-from-bottom-2 fade-in rounded-2xl border-emerald-200 bg-gradient-to-r from-emerald-50/70 to-sage-50/70 p-4 shadow-soft">
+        <Card className="animate-in slide-in-from-bottom-2 fade-in rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50/70 to-sage-50/70 p-4 shadow-card">
           <CardContent className="p-0">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-400 to-sage-500 flex items-center justify-center shadow-sm">
@@ -253,7 +253,7 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
       )}
 
       {isCheatDay && (
-        <Card className="rounded-2xl border-clay-200 bg-gradient-to-r from-clay-50/80 to-clay-100/80 p-4 shadow-soft">
+        <Card className="rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/80 to-clay-100/80 p-4 shadow-card">
           <CardContent className="p-0">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-clay-400 to-orange-500 flex items-center justify-center shadow-sm">
