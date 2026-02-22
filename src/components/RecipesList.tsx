@@ -136,7 +136,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
       </div>
 
       {/* Recipe List - Compact */}
-      <div className="space-y-2 pb-24">
+      <div className="space-y-2">
         {filteredRecipes.length === 0 ? (
           <div className="card-website py-12 text-center text-stone-500">
             <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl border border-stone-200 bg-stone-100 shadow-soft">

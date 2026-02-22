@@ -275,7 +275,7 @@ export function AmmoCheck() {
   const overallStatus = getAllZonesStatus(zones);
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6">
       <div className="rounded-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-soft">
         <div className="flex items-center gap-4">
           <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">

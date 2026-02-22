@@ -39,7 +39,7 @@ export function SettingsTab() {
 
   if (!profile) {
     return (
-      <div className="space-y-4 pb-24">
+      <div className="space-y-4">
         <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
           <div className="flex items-center gap-3">
             <Settings className="w-6 h-6" />
@@ -94,7 +94,7 @@ export function SettingsTab() {
   const currentCheatDay = profile.cheatDay || journey.cheatDay || 'zaterdag';
 
   return (
-    <div className="space-y-4 pb-24">
+    <div className="space-y-4">
       {/* Header Banner */}
       <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
         <div className="flex items-center gap-3">

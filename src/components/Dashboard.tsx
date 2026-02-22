@@ -88,7 +88,7 @@ export function Dashboard({
 
   if (!journey.startDate) {
     return (
-      <div className="space-y-6 overflow-hidden pb-24">
+      <div className="space-y-6 overflow-hidden">
         <JourneyCard
           journey={journey}
           progress={progress}
@@ -141,7 +141,7 @@ export function Dashboard({
   const perfectWeek = !hasFutureDays && weekData.every(day => day.isCheatDay || day.completed);
 
   return (
-    <div className="space-y-5 overflow-hidden pb-24">
+    <div className="space-y-5 overflow-hidden">
       <StreakHeroCard
         streak={streak}
         currentWeek={progress.week}

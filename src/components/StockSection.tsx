@@ -71,7 +71,7 @@ export function StockSection({
   };
 
   return (
-    <div className="space-y-5 pb-24">
+    <div className="space-y-5">
       {/* Section 1: In Huis */}
       <div className="rounded-2xl p-5 bg-gradient-to-br from-sky-50 to-sky-100/50 border border-sky-200">
         <div className="flex items-center gap-4 mb-4">
