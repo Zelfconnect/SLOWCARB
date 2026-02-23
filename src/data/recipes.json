@@ -8,55 +8,1348 @@
     "noTime": 8
   },
   "recipes": [
-    {"id":"de-ferriss-klassieker","title":"De Ferriss Klassieker","subtitle":"30 in 30 ontbijt","time":12,"tags":["airfryer","ontbijt"],"ingredients":["2 eieren","100ml vloeibaar eiwit","100g zwarte bonen","1 handvol spinazie","1 tl salsa"],"steps":["Bak de eieren en het extra eiwit in de pan.","Verwarm de bonen en spinazie in de laatste minuut mee.","Top af met salsa en serveer direct."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"ei"},
-    {"id":"ik-haat-eieren-optie","title":"Ik Haat Eieren Optie","subtitle":"Ontbijt zonder ei","time":10,"tags":["airfryer","ontbijt"],"ingredients":["4 plakken kalkoenbacon","100g linzen","50g asperges"],"steps":["Bak de kalkoenbacon krokant.","Stoom de asperges beetgaar.","Verwarm de linzen en serveer alles samen."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"kalkoen"},
-    {"id":"huttenkase-met-kaneel","title":"Hüttenkäse met Kaneel","subtitle":"Koud en snel","time":2,"tags":["airfryer","ontbijt"],"ingredients":["200g hüttenkäse","1 snuf kaneel","1 druppel suikervrij vanille-extract"],"steps":["Meng alle ingrediënten in een kom.","Eet direct koud."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"zuivel"},
-    {"id":"tofu-scramble-vegan","title":"Tofu Scramble","subtitle":"Vegan ontbijt","time":12,"tags":["airfryer","ontbijt"],"ingredients":["150g stevige tofu","100g zwarte bonen","1 handvol spinazie","1 snuf kurkuma","zout naar smaak"],"steps":["Verkruimel tofu en bak aan met kurkuma.","Voeg bonen en spinazie toe.","Bak door tot alles warm is."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"tofu"},
-    {"id":"roerei-met-zalm","title":"Roerei met Zalm","subtitle":"Zacht roerei","time":8,"tags":["airfryer","ontbijt"],"ingredients":["3 eieren","100g gerookte zalmsnippers","1 handje rucola"],"steps":["Kluts en bak een zacht roerei.","Roer de zalm er op het laatst door.","Serveer op een bedje rucola."],"macros":{"protein":32},"servings":1,"difficulty":"makkelijk","protein":"zalm"},
-    {"id":"biefstuk-en-eieren","title":"Biefstuk en Eieren","subtitle":"Restjesontbijt","time":10,"tags":["airfryer","ontbijt"],"ingredients":["100g biefstuk","2 eieren","100g pinto bonen"],"steps":["Verwarm biefstukreepjes en bonen kort.","Bak de eieren als spiegelei.","Serveer samen."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"ei"},
-    {"id":"tempeh-ontbijt-hash","title":"Tempeh Ontbijt Hash","subtitle":"Hartig vegan","time":14,"tags":["airfryer","ontbijt"],"ingredients":["150g tempeh","1/2 paprika","100g zwarte bonen","1 el tamari","1 el olijfolie"],"steps":["Snijd tempeh en paprika in blokjes.","Bak goudbruin in olijfolie.","Blus af met tamari en warm bonen mee."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"tempeh"},
-    {"id":"kipworst-met-witte-bonen","title":"Kipworst met Witte Bonen","subtitle":"Snel ontbijt","time":12,"tags":["airfryer","ontbijt"],"ingredients":["2 kipworsten","100g cannellini bonen","1 hand snijbiet"],"steps":["Bak de kipworsten gaar.","Voeg snijbiet en bonen toe aan de pan.","Laat kort slinken en verwarm door."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"mexicaanse-burrito-bowl","title":"De Mexicaanse Burrito Bowl","subtitle":"Lunch mealbox","time":15,"tags":["airfryer","lunch"],"ingredients":["150g mager rundergehakt","100g zwarte bonen","2 handen ijsbergsla","1/2 paprika","1 el guacamole"],"steps":["Bak gehakt rul met paprika.","Leg op sla en bonen.","Top met guacamole."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"rund"},
-    {"id":"toscaanse-tonijn-witte-bonen-salade","title":"Toscaanse Tonijn-Witte Bonen Salade","subtitle":"Koude lunch","time":8,"tags":["airfryer","lunch"],"ingredients":["1 blik tonijn","100g cannellini bonen","2 handen rucola","1/4 rode ui","1 el olijfolie","1 el citroensap"],"steps":["Giet tonijn af en meng met bonen en ui.","Serveer over rucola.","Besprenkel met olie en citroen."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"tonijn"},
-    {"id":"soep-en-salade-restjes","title":"Soep en Salade Restjes","subtitle":"Dubbele lunch","time":8,"tags":["airfryer","lunch"],"ingredients":["1 kom linzensoep","100g gegrilde kipreepjes","1 hand gemengde sla"],"steps":["Warm de linzensoep op.","Meng kipreepjes met sla.","Serveer samen."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"biefstuk-salade","title":"Biefstuk Salade","subtitle":"Klassieke lunch","time":12,"tags":["airfryer","lunch"],"ingredients":["150g biefstuk","2 handen rucola","1 el pijnboompitten","1 el olijfolie","zout naar smaak"],"steps":["Bak biefstuk naar wens.","Snijd in repen en leg op rucola.","Werk af met pitten en olie."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"rund"},
-    {"id":"tonijn-mix-in-sla-wraps","title":"Tonijn Mix in Sla-wraps","subtitle":"Draagbare lunch","time":6,"tags":["airfryer","lunch"],"ingredients":["1 blik tonijn","1 stengel bleekselderij","1 el hummus","4 bladeren ijsbergsla"],"steps":["Meng tonijn, selderij en hummus.","Schep in slabladeren.","Vouw dicht en eet."],"macros":{"protein":28},"servings":1,"difficulty":"makkelijk","protein":"tonijn"},
-    {"id":"vegetarische-linzensalade","title":"Vegetarische Linzensalade","subtitle":"Vullende lunch","time":8,"tags":["airfryer","lunch"],"ingredients":["150g bruine linzen","2 hardgekookte eieren","1 hand spinazie","1 scheut olijfolie","peper naar smaak"],"steps":["Spoel de linzen af.","Meng met spinazie en olijfolie.","Top met partjes ei."],"macros":{"protein":25},"servings":1,"difficulty":"makkelijk","protein":"ei"},
-    {"id":"koude-garnalen-bowl","title":"Koude Garnalen Bowl","subtitle":"Frisse lunch","time":7,"tags":["airfryer","lunch"],"ingredients":["150g gekookte garnalen","100g edamame","1/2 paprika","1 el sojasaus"],"steps":["Meng garnalen, edamame en paprika.","Voeg sojasaus toe net voor eten.","Serveer koud."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"vis"},
-    {"id":"kip-avocado-salade","title":"Kip-Avocado Salade","subtitle":"Lunch met vetten","time":8,"tags":["airfryer","lunch"],"ingredients":["150g gegrilde kippendijen","1/2 avocado","2 handen gemengde sla","1 el limoensap"],"steps":["Snijd kip en avocado in blokjes.","Meng over sla.","Besprenkel met limoensap."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"biefstuk-met-faux-aardappelpuree","title":"Biefstuk met Faux Aardappelpuree","subtitle":"Vullend diner","time":25,"tags":["airfryer","avondeten"],"ingredients":["150g biefstuk","150g witte bonen","100g sperziebonen","20g spekjes","1 snuf knoflookpoeder"],"steps":["Kook sperziebonen beetgaar.","Verwarm en prak witte bonen met knoflookpoeder.","Bak biefstuk en bak spekjes kort mee met sperziebonen."],"macros":{"protein":45},"servings":1,"difficulty":"medium","protein":"rund"},
-    {"id":"aziatische-stir-fry","title":"Aziatische Stir-Fry","subtitle":"Wokdiner","time":18,"tags":["airfryer","avondeten"],"ingredients":["150g kipfilet","100g courgetti","50g edamame","1 teen knoflook","1 tl gember","1 el tamari"],"steps":["Wok kip met knoflook en gember gaar.","Voeg edamame en courgetti toe.","Blus af met tamari na 2 minuten."],"macros":{"protein":40},"servings":1,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"pesto-kip-uit-de-oven","title":"Pesto Kip uit de Oven","subtitle":"Traybake","time":30,"tags":["airfryer","avondeten"],"ingredients":["150g kippendijen","1 el suikervrije groene pesto","100g sperziebonen","100g cherrytomaten"],"steps":["Smeer kip in met pesto.","Leg kip en groenten op bakplaat.","Rooster 25 minuten op 200 graden."],"macros":{"protein":38},"servings":1,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"seitan-biefstuk-vegan","title":"Seitan Biefstuk","subtitle":"Vegan diner","time":22,"tags":["airfryer","avondeten"],"ingredients":["150g seitan","150g bloemkool","100g spruitjes","1 el olijfolie"],"steps":["Kook en pureer bloemkool.","Bak seitan stevig aan beide kanten.","Rooster spruitjes krokant en serveer samen."],"macros":{"protein":45},"servings":1,"difficulty":"makkelijk","protein":"seitan"},
-    {"id":"worst-en-kool-pan","title":"Worst en Kool Pan","subtitle":"Snelle klassieker","time":15,"tags":["airfryer","avondeten"],"ingredients":["1 magere rookworst","150g zuurkool","1 tl karwijzaad","1 el mosterd"],"steps":["Snijd worst en bak licht aan.","Voeg zuurkool en karwijzaad toe.","Warm goed door en serveer met mosterd."],"macros":{"protein":25},"servings":1,"difficulty":"makkelijk","protein":"varken"},
-    {"id":"zalm-pakketje","title":"Zalm Pakketje","subtitle":"Ovenfolie","time":20,"tags":["airfryer","avondeten"],"ingredients":["150g zalmfilet","100g groene asperges","2 schijfjes citroen","1 snuf dille"],"steps":["Leg asperges en zalm op folie.","Kruid met dille en citroen.","Vouw dicht en bak 15 minuten op 180 graden."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"zalm"},
-    {"id":"kip-en-salsa-sudderpan","title":"Kip en Salsa Sudderpan","subtitle":"One-pan diner","time":20,"tags":["airfryer","avondeten"],"ingredients":["150g kipborst","150ml suikervrije tomatensalsa","100g zwarte bonen"],"steps":["Bak kip kort aan.","Voeg salsa en bonen toe.","Laat 15 minuten afgedekt sudderen."],"macros":{"protein":40},"servings":1,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"varkenshaas-met-chimichurri","title":"Varkenshaas met Chimichurri","subtitle":"Smaakvol diner","time":20,"tags":["airfryer","avondeten"],"ingredients":["150g varkenshaas","100g pinto bonen","2 el peterselie","1 teen knoflook","1 el olijfolie","1 el witte wijnazijn"],"steps":["Bak varkenshaas rosé.","Meng peterselie, knoflook, olie en azijn.","Serveer over warme bonen met chimichurri."],"macros":{"protein":40},"servings":1,"difficulty":"medium","protein":"varken"},
-    {"id":"makreel-met-sperziebonen","title":"Makreel met Sperziebonen","subtitle":"Snelle vismaaltijd","time":15,"tags":["airfryer","avondeten"],"ingredients":["150g gerookte makreel","150g sperziebonen","1 teen knoflook","100g witte bonen"],"steps":["Kook sperziebonen beetgaar.","Bak knoflook kort en warm bonen mee.","Serveer makreel ernaast."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"vis"},
-    {"id":"slow-carb-chili","title":"Slow Carb Chili","subtitle":"Bulk basis","time":75,"tags":["meal-prep","avondeten"],"ingredients":["1kg rundergehakt","2 blikken tomatenblokjes","1 blik kidneybonen","1 blik zwarte bonen","2 el chilipoeder","1 ui","2 tenen knoflook"],"steps":["Rul gehakt met ui en knoflook.","Voeg specerijen, bonen en tomaat toe.","Laat minimaal 60 minuten sudderen."],"macros":{"protein":40},"mealPrepTip":"Portioneer in 4 bakjes voor de week.","servings":4,"difficulty":"makkelijk","protein":"rund"},
-    {"id":"batch-gegrilde-kippendijen","title":"Batch Gegrilde Kippendijen","subtitle":"Basisproteïne","time":35,"tags":["meal-prep","avondeten"],"ingredients":["1kg kippendijen","2 el olijfolie","2 el kipkruiden","2 grote blikken linzen"],"steps":["Wrijf kip in met olie en kruiden.","Rooster 25 minuten op 200 graden.","Verdeel met linzen over mealprep bakjes."],"macros":{"protein":40},"mealPrepTip":"Koelkast 4 dagen, rest invriezen.","servings":4,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"rundergehakt-taco-meat","title":"Rundergehakt Taco Meat","subtitle":"Weekbasis","time":30,"tags":["meal-prep","avondeten"],"ingredients":["1kg mager gehakt","3 el komijnpoeder","1 el paprikapoeder","2 uien"],"steps":["Rul gehakt met uien.","Voeg specerijen toe en bak droog.","Verdeel in porties voor snelle bowls."],"macros":{"protein":35},"mealPrepTip":"Gebruik binnen 4 dagen of vries in.","servings":4,"difficulty":"makkelijk","protein":"rund"},
-    {"id":"grote-pan-linzensoep","title":"Grote Pan Linzensoep","subtitle":"Vegan prep","time":35,"tags":["meal-prep","avondeten"],"ingredients":["500g rode linzen","2l groentebouillon","300g spinazie","2 uien"],"steps":["Fruit uien aan.","Voeg linzen en bouillon toe en kook 25 minuten.","Roer spinazie erdoor van het vuur."],"macros":{"protein":25},"mealPrepTip":"Vries porties van 400ml in.","servings":4,"difficulty":"makkelijk","protein":"vega"},
-    {"id":"pulled-pork-slowcooker","title":"Pulled Pork Slowcooker","subtitle":"Low effort bulk","time":480,"tags":["meal-prep","avondeten"],"ingredients":["1kg varkensschouder","100ml appelciderazijn","1 el gerookt paprikapoeder","400g gesneden witte kool"],"steps":["Leg vlees met kruiden en azijn in slowcooker.","Gaar 8 uur op low.","Trek uit elkaar en serveer met witte kool."],"macros":{"protein":35},"mealPrepTip":"Vries per portie in na afkoelen.","servings":4,"difficulty":"makkelijk","protein":"varken"},
-    {"id":"kalkoengehakt-stoof","title":"Kalkoengehakt Stoof","subtitle":"Hartige batch","time":35,"tags":["meal-prep","avondeten"],"ingredients":["800g kalkoengehakt","400g champignons","2 uien","2 blikken bruine linzen"],"steps":["Rul gehakt met uien.","Bak champignons mee tot vocht weg is.","Voeg linzen toe en warm goed door."],"macros":{"protein":35},"mealPrepTip":"Top met verse kruiden bij serveren.","servings":4,"difficulty":"makkelijk","protein":"kalkoen"},
-    {"id":"vegan-tempeh-prep","title":"Vegan Tempeh Prep","subtitle":"Salade booster","time":20,"tags":["meal-prep","avondeten"],"ingredients":["800g tempeh","4 el tamari","2 el olijfolie","1 el knoflookpoeder"],"steps":["Snijd tempeh in blokjes.","Meng met tamari en knoflookpoeder.","Bak goudbruin in olijfolie."],"macros":{"protein":30},"mealPrepTip":"Gebruik als topping in lunches.","servings":4,"difficulty":"makkelijk","protein":"tempeh"},
-    {"id":"zalm-uit-de-oven-bulk","title":"Zalm uit de Oven Bulk","subtitle":"Vis mealprep","time":25,"tags":["meal-prep","avondeten"],"ingredients":["6 zalmfilets","400g broccoliroosjes","400g asperges","2 el olijfolie","zout naar smaak"],"steps":["Leg alles op een bakplaat.","Besprenkel met olie en zout.","Rooster 20 minuten op 200 graden en verdeel."],"macros":{"protein":35},"mealPrepTip":"Eet visporties binnen 3 dagen.","servings":4,"difficulty":"makkelijk","protein":"zalm"},
-    {"id":"gekookte-eieren-voorraad","title":"Gekookte Eieren Voorraad","subtitle":"Eiwit add-on","time":10,"tags":["meal-prep","ontbijt"],"ingredients":["12 eieren","water","ijswater"],"steps":["Breng water aan de kook.","Kook eieren 8 tot 9 minuten.","Laat schrikken, pel en bewaar koud."],"macros":{"protein":6},"mealPrepTip":"Handig als add-on bij elke maaltijd.","servings":12,"difficulty":"makkelijk","protein":"ei"},
-    {"id":"krokante-kippendijen-airfryer","title":"Krokante Kippendijen","subtitle":"Airfryer favoriet","time":18,"tags":["airfryer","avondeten"],"ingredients":["150g kippendijen","1 tl gerookt paprikapoeder","zout naar smaak"],"steps":["Wrijf kip in met kruiden.","Bak 15 tot 18 minuten op 180 graden.","Laat kort rusten voor serveren."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"lamskoteletten-snel","title":"Lamskoteletten Snel","subtitle":"Airfryer in 10 min","time":10,"tags":["airfryer","avondeten"],"ingredients":["150g lamskoteletten","1 tl knoflookpoeder","100g cannellini bonen"],"steps":["Kruid het lamsvlees ruim.","Bak 8 tot 10 minuten op 200 graden.","Serveer met de bonen."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"lamsvlees"},
-    {"id":"airfryer-zalmmoot","title":"Airfryer Zalmmoot","subtitle":"Snelle vis","time":10,"tags":["airfryer","avondeten"],"ingredients":["150g zalmfilet","1 tl olijfolie","1 snuf zeezout"],"steps":["Smeer zalm in met olie en zout.","Bak 8 tot 10 minuten op 180 graden.","Serveer direct."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"zalm"},
-    {"id":"krokante-tofu-blokjes","title":"Krokante Tofu Blokjes","subtitle":"Vega airfryer","time":18,"tags":["airfryer","avondeten"],"ingredients":["150g stevige tofu","1 el sojasaus","1/2 tl knoflookpoeder"],"steps":["Pers vocht uit tofu en snijd blokjes.","Meng met sojasaus en kruiden.","Bak 15 minuten op 190 graden en schud tussendoor."],"macros":{"protein":20},"servings":1,"difficulty":"makkelijk","protein":"tofu"},
-    {"id":"biefstukreepjes-vier-minuten","title":"Biefstukreepjes 4 Minuten","subtitle":"Ultra snel","time":6,"tags":["airfryer","avondeten"],"ingredients":["150g biefstuk","zout naar smaak","peper naar smaak","1/2 tl balsamicoazijn"],"steps":["Kruid de biefstukreepjes.","Bak 4 minuten op 200 graden.","Besprenkel met balsamico."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"rund"},
-    {"id":"varkenshaas-medaillons","title":"Varkenshaas Medaillons","subtitle":"Mals uit airfryer","time":10,"tags":["airfryer","avondeten"],"ingredients":["150g varkenshaas","1 tl suikervrije varkenskruiden"],"steps":["Snijd varkenshaas in medaillons en kruid.","Bak 8 tot 10 minuten op 190 graden.","Keer halverwege en serveer licht rosé."],"macros":{"protein":40},"servings":1,"difficulty":"makkelijk","protein":"varken"},
-    {"id":"kalkoenballetjes-zonder-paneer","title":"Kalkoenballetjes zonder Paneer","subtitle":"Clean airfryer","time":12,"tags":["airfryer","avondeten"],"ingredients":["150g kalkoengehakt","1/2 tl uienpoeder","zout naar smaak","peper naar smaak"],"steps":["Meng gehakt met kruiden.","Draai strakke balletjes.","Bak 10 minuten op 180 graden."],"macros":{"protein":35},"servings":1,"difficulty":"makkelijk","protein":"kalkoen"},
-    {"id":"krokante-geroosterde-kikkererwten","title":"Krokante Geroosterde Kikkererwten","subtitle":"Portiecontrole","time":14,"tags":["airfryer","lunch"],"ingredients":["100g kikkererwten","1 tl olijfolie","1 tl komijnpoeder"],"steps":["Dep kikkererwten goed droog.","Meng met olie en komijn.","Bak 12 minuten op 200 graden."],"macros":{"protein":15},"servings":1,"difficulty":"makkelijk","protein":"vega"},
-    {"id":"de-noodoplossing-proteine-shake","title":"De Noodoplossing Proteïne Shake","subtitle":"0 minuten prep","time":1,"tags":["no-time","ontbijt"],"ingredients":["30g wei-isolaat","300ml water","1 el mct-olie","1 snuf kaneel"],"steps":["Doe alles in een shaker.","Schud krachtig.","Drink direct."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"wei"},
-    {"id":"blik-tonijn-en-hete-saus","title":"Blik Tonijn en Hete Saus","subtitle":"Open en eet","time":1,"tags":["no-time","lunch"],"ingredients":["1 blik tonijn","1 el tabasco"],"steps":["Open en giet tonijn af.","Voeg hete saus toe.","Roer met vork en eet direct."],"macros":{"protein":25},"servings":1,"difficulty":"makkelijk","protein":"tonijn"},
-    {"id":"magnetron-eieren","title":"Magnetron Eieren","subtitle":"Snelle mokmaaltijd","time":2,"tags":["no-time","ontbijt"],"ingredients":["2 eieren","2 el zwarte bonen","1 snuf zout"],"steps":["Kluts eieren in een mok.","Verwarm 1 tot 1.5 minuut in de magnetron.","Roer bonen erdoor."],"macros":{"protein":18},"servings":1,"difficulty":"makkelijk","protein":"ei"},
-    {"id":"huttenkase-met-amandelen","title":"Hüttenkäse met Amandelen","subtitle":"Noodsnack","time":1,"tags":["no-time","ontbijt"],"ingredients":["200g hüttenkäse","10 amandelen"],"steps":["Voeg amandelen toe aan hüttenkäse.","Eet direct met een lepel."],"macros":{"protein":28},"servings":1,"difficulty":"makkelijk","protein":"zuivel"},
-    {"id":"koude-kipfilet-vleeswaren","title":"Koude Kipfilet Vleeswaren","subtitle":"Geen opwarmstress","time":1,"tags":["no-time","lunch"],"ingredients":["150g gesneden kipfilet","1 el dijon mosterd"],"steps":["Haal kip uit verpakking.","Dip in mosterd.","Eet direct."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"kip"},
-    {"id":"edamame-snackzak","title":"Edamame Snackzak","subtitle":"Snel plantaardig","time":1,"tags":["no-time","lunch"],"ingredients":["200g gestoomde edamame","1 snuf grof zeezout"],"steps":["Strooi zout over de peulen.","Pop de boontjes eruit en eet."],"macros":{"protein":20},"servings":1,"difficulty":"makkelijk","protein":"vega"},
-    {"id":"half-rookworst-snel","title":"Half Rookworst Snel","subtitle":"Noodmaaltijd","time":2,"tags":["no-time","avondeten"],"ingredients":["1/2 magere rookworst","1 handje rauwe zuurkool"],"steps":["Verwarm worst 1 minuut in de magnetron.","Eet afgewisseld met koude zuurkool."],"macros":{"protein":20},"servings":1,"difficulty":"makkelijk","protein":"varken"},
-    {"id":"restjes-koud-eten","title":"Restjes Koud Eten","subtitle":"Pragmatisch","time":1,"tags":["no-time","avondeten"],"ingredients":["150g koud rundergehakt","150g koude kip"],"steps":["Pak restjes uit de koelkast.","Eet koud uit het bakje met een vork."],"macros":{"protein":30},"servings":1,"difficulty":"makkelijk","protein":"mixed"}
+    {
+      "id": "de-ferriss-klassieker",
+      "title": "De Ferriss Klassieker",
+      "subtitle": "30 in 30 ontbijt",
+      "time": 12,
+      "tags": [
+        "airfryer",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "2 eieren",
+        "100ml vloeibaar eiwit",
+        "100g zwarte bonen",
+        "1 handvol spinazie",
+        "1 tl salsa"
+      ],
+      "steps": [
+        "Bak de eieren en het extra eiwit in de pan.",
+        "Verwarm de bonen en spinazie in de laatste minuut mee.",
+        "Top af met salsa en serveer direct."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "ei"
+    },
+    {
+      "id": "ik-haat-eieren-optie",
+      "title": "Ik Haat Eieren Optie",
+      "subtitle": "Ontbijt zonder ei",
+      "time": 10,
+      "tags": [
+        "airfryer",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "4 plakken kalkoenbacon",
+        "100g linzen",
+        "50g asperges"
+      ],
+      "steps": [
+        "Bak de kalkoenbacon krokant.",
+        "Stoom de asperges beetgaar.",
+        "Verwarm de linzen en serveer alles samen."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kalkoen"
+    },
+    {
+      "id": "huttenkase-met-kaneel",
+      "title": "Hüttenkäse met Kaneel",
+      "subtitle": "Koud en snel",
+      "time": 2,
+      "tags": [
+        "airfryer",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "200g hüttenkäse",
+        "1 snuf kaneel",
+        "1 druppel suikervrij vanille-extract"
+      ],
+      "steps": [
+        "Meng alle ingrediënten in een kom.",
+        "Eet direct koud."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "zuivel"
+    },
+    {
+      "id": "tofu-scramble-vegan",
+      "title": "Tofu Scramble",
+      "subtitle": "Vegan ontbijt",
+      "time": 12,
+      "tags": [
+        "airfryer",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "150g stevige tofu",
+        "100g zwarte bonen",
+        "1 handvol spinazie",
+        "1 snuf kurkuma",
+        "zout naar smaak"
+      ],
+      "steps": [
+        "Verkruimel tofu en bak aan met kurkuma.",
+        "Voeg bonen en spinazie toe.",
+        "Bak door tot alles warm is."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "tofu"
+    },
+    {
+      "id": "roerei-met-zalm",
+      "title": "Roerei met Zalm",
+      "subtitle": "Zacht roerei",
+      "time": 8,
+      "tags": [
+        "airfryer",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "3 eieren",
+        "100g gerookte zalmsnippers",
+        "1 handje rucola"
+      ],
+      "steps": [
+        "Kluts en bak een zacht roerei.",
+        "Roer de zalm er op het laatst door.",
+        "Serveer op een bedje rucola."
+      ],
+      "macros": {
+        "protein": 32
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "zalm"
+    },
+    {
+      "id": "biefstuk-en-eieren",
+      "title": "Biefstuk en Eieren",
+      "subtitle": "Restjesontbijt",
+      "time": 10,
+      "tags": [
+        "airfryer",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "100g biefstuk",
+        "2 eieren",
+        "100g pinto bonen"
+      ],
+      "steps": [
+        "Verwarm biefstukreepjes en bonen kort.",
+        "Bak de eieren als spiegelei.",
+        "Serveer samen."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "ei"
+    },
+    {
+      "id": "tempeh-ontbijt-hash",
+      "title": "Tempeh Ontbijt Hash",
+      "subtitle": "Hartig vegan",
+      "time": 14,
+      "tags": [
+        "airfryer",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "150g tempeh",
+        "1/2 paprika",
+        "100g zwarte bonen",
+        "1 el tamari",
+        "1 el olijfolie"
+      ],
+      "steps": [
+        "Snijd tempeh en paprika in blokjes.",
+        "Bak goudbruin in olijfolie.",
+        "Blus af met tamari en warm bonen mee."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "tempeh"
+    },
+    {
+      "id": "kipworst-met-witte-bonen",
+      "title": "Kipworst met Witte Bonen",
+      "subtitle": "Snel ontbijt",
+      "time": 12,
+      "tags": [
+        "airfryer",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "2 kipworsten",
+        "100g cannellini bonen",
+        "1 hand snijbiet"
+      ],
+      "steps": [
+        "Bak de kipworsten gaar.",
+        "Voeg snijbiet en bonen toe aan de pan.",
+        "Laat kort slinken en verwarm door."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "mexicaanse-burrito-bowl",
+      "title": "De Mexicaanse Burrito Bowl",
+      "subtitle": "Lunch mealbox",
+      "time": 15,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "150g mager rundergehakt",
+        "100g zwarte bonen",
+        "2 handen ijsbergsla",
+        "1/2 paprika",
+        "1 el guacamole"
+      ],
+      "steps": [
+        "Bak gehakt rul met paprika.",
+        "Leg op sla en bonen.",
+        "Top met guacamole."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "rund"
+    },
+    {
+      "id": "toscaanse-tonijn-witte-bonen-salade",
+      "title": "Toscaanse Tonijn-Witte Bonen Salade",
+      "subtitle": "Koude lunch",
+      "time": 8,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "1 blik tonijn",
+        "100g cannellini bonen",
+        "2 handen rucola",
+        "1/4 rode ui",
+        "1 el olijfolie",
+        "1 el citroensap"
+      ],
+      "steps": [
+        "Giet tonijn af en meng met bonen en ui.",
+        "Serveer over rucola.",
+        "Besprenkel met olie en citroen."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "tonijn"
+    },
+    {
+      "id": "soep-en-salade-restjes",
+      "title": "Soep en Salade Restjes",
+      "subtitle": "Dubbele lunch",
+      "time": 8,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "1 kom linzensoep",
+        "100g gegrilde kipreepjes",
+        "1 hand gemengde sla"
+      ],
+      "steps": [
+        "Warm de linzensoep op.",
+        "Meng kipreepjes met sla.",
+        "Serveer samen."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "biefstuk-salade",
+      "title": "Biefstuk Salade",
+      "subtitle": "Klassieke lunch",
+      "time": 12,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "150g biefstuk",
+        "2 handen rucola",
+        "1 el pijnboompitten",
+        "1 el olijfolie",
+        "zout naar smaak"
+      ],
+      "steps": [
+        "Bak biefstuk naar wens.",
+        "Snijd in repen en leg op rucola.",
+        "Werk af met pitten en olie."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "rund"
+    },
+    {
+      "id": "tonijn-mix-in-sla-wraps",
+      "title": "Tonijn Mix in Sla-wraps",
+      "subtitle": "Draagbare lunch",
+      "time": 6,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "1 blik tonijn",
+        "1 stengel bleekselderij",
+        "1 el hummus",
+        "4 bladeren ijsbergsla"
+      ],
+      "steps": [
+        "Meng tonijn, selderij en hummus.",
+        "Schep in slabladeren.",
+        "Vouw dicht en eet."
+      ],
+      "macros": {
+        "protein": 28
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "tonijn"
+    },
+    {
+      "id": "vegetarische-linzensalade",
+      "title": "Vegetarische Linzensalade",
+      "subtitle": "Vullende lunch",
+      "time": 8,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "150g bruine linzen",
+        "2 hardgekookte eieren",
+        "1 hand spinazie",
+        "1 scheut olijfolie",
+        "peper naar smaak"
+      ],
+      "steps": [
+        "Spoel de linzen af.",
+        "Meng met spinazie en olijfolie.",
+        "Top met partjes ei."
+      ],
+      "macros": {
+        "protein": 25
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "ei"
+    },
+    {
+      "id": "koude-garnalen-bowl",
+      "title": "Koude Garnalen Bowl",
+      "subtitle": "Frisse lunch",
+      "time": 7,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "150g gekookte garnalen",
+        "100g edamame",
+        "1/2 paprika",
+        "1 el sojasaus"
+      ],
+      "steps": [
+        "Meng garnalen, edamame en paprika.",
+        "Voeg sojasaus toe net voor eten.",
+        "Serveer koud."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "vis"
+    },
+    {
+      "id": "kip-avocado-salade",
+      "title": "Kip-Avocado Salade",
+      "subtitle": "Lunch met vetten",
+      "time": 8,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "150g gegrilde kippendijen",
+        "1/2 avocado",
+        "2 handen gemengde sla",
+        "1 el limoensap"
+      ],
+      "steps": [
+        "Snijd kip en avocado in blokjes.",
+        "Meng over sla.",
+        "Besprenkel met limoensap."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "biefstuk-met-faux-aardappelpuree",
+      "title": "Biefstuk met Witte Bonen",
+      "subtitle": "Vullend diner",
+      "time": 25,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g biefstuk",
+        "150g witte bonen",
+        "100g sperziebonen",
+        "20g spekjes",
+        "1 snuf knoflookpoeder"
+      ],
+      "steps": [
+        "Kook sperziebonen beetgaar.",
+        "Verwarm en prak witte bonen met knoflookpoeder.",
+        "Bak biefstuk en bak spekjes kort mee met sperziebonen."
+      ],
+      "macros": {
+        "protein": 45
+      },
+      "servings": 1,
+      "difficulty": "medium",
+      "protein": "rund"
+    },
+    {
+      "id": "aziatische-stir-fry",
+      "title": "Aziatische Stir-Fry",
+      "subtitle": "Wokdiner",
+      "time": 18,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g kipfilet",
+        "100g courgetti",
+        "50g edamame",
+        "1 teen knoflook",
+        "1 tl gember",
+        "1 el tamari"
+      ],
+      "steps": [
+        "Wok kip met knoflook en gember gaar.",
+        "Voeg edamame en courgetti toe.",
+        "Blus af met tamari na 2 minuten."
+      ],
+      "macros": {
+        "protein": 40
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "pesto-kip-uit-de-oven",
+      "title": "Pesto Kip uit de Oven",
+      "subtitle": "Traybake",
+      "time": 30,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g kippendijen",
+        "1 el suikervrije groene pesto",
+        "100g sperziebonen",
+        "100g cherrytomaten"
+      ],
+      "steps": [
+        "Smeer kip in met pesto.",
+        "Leg kip en groenten op bakplaat.",
+        "Rooster 25 minuten op 200 graden."
+      ],
+      "macros": {
+        "protein": 38
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "seitan-biefstuk-vegan",
+      "title": "Seitan Biefstuk",
+      "subtitle": "Vegan diner",
+      "time": 22,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g seitan",
+        "150g bloemkool",
+        "100g spruitjes",
+        "1 el olijfolie"
+      ],
+      "steps": [
+        "Kook en pureer bloemkool.",
+        "Bak seitan stevig aan beide kanten.",
+        "Rooster spruitjes krokant en serveer samen."
+      ],
+      "macros": {
+        "protein": 45
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "seitan"
+    },
+    {
+      "id": "worst-en-kool-pan",
+      "title": "Worst en Kool Pan",
+      "subtitle": "Snelle klassieker",
+      "time": 15,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "1 magere rookworst",
+        "150g zuurkool",
+        "1 tl karwijzaad",
+        "1 el mosterd"
+      ],
+      "steps": [
+        "Snijd worst en bak licht aan.",
+        "Voeg zuurkool en karwijzaad toe.",
+        "Warm goed door en serveer met mosterd."
+      ],
+      "macros": {
+        "protein": 25
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "varken"
+    },
+    {
+      "id": "zalm-pakketje",
+      "title": "Zalm Pakketje",
+      "subtitle": "Ovenfolie",
+      "time": 20,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g zalmfilet",
+        "100g groene asperges",
+        "2 schijfjes citroen",
+        "1 snuf dille"
+      ],
+      "steps": [
+        "Leg asperges en zalm op folie.",
+        "Kruid met dille en citroen.",
+        "Vouw dicht en bak 15 minuten op 180 graden."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "zalm"
+    },
+    {
+      "id": "kip-en-salsa-sudderpan",
+      "title": "Kip en Salsa Sudderpan",
+      "subtitle": "One-pan diner",
+      "time": 20,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g kipborst",
+        "150ml suikervrije tomatensalsa",
+        "100g zwarte bonen"
+      ],
+      "steps": [
+        "Bak kip kort aan.",
+        "Voeg salsa en bonen toe.",
+        "Laat 15 minuten afgedekt sudderen."
+      ],
+      "macros": {
+        "protein": 40
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "varkenshaas-met-chimichurri",
+      "title": "Varkenshaas met Chimichurri",
+      "subtitle": "Smaakvol diner",
+      "time": 20,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g varkenshaas",
+        "100g pinto bonen",
+        "2 el peterselie",
+        "1 teen knoflook",
+        "1 el olijfolie",
+        "1 el witte wijnazijn"
+      ],
+      "steps": [
+        "Bak varkenshaas rosé.",
+        "Meng peterselie, knoflook, olie en azijn.",
+        "Serveer over warme bonen met chimichurri."
+      ],
+      "macros": {
+        "protein": 40
+      },
+      "servings": 1,
+      "difficulty": "medium",
+      "protein": "varken"
+    },
+    {
+      "id": "makreel-met-sperziebonen",
+      "title": "Makreel met Sperziebonen",
+      "subtitle": "Snelle vismaaltijd",
+      "time": 15,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g gerookte makreel",
+        "150g sperziebonen",
+        "1 teen knoflook",
+        "100g witte bonen"
+      ],
+      "steps": [
+        "Kook sperziebonen beetgaar.",
+        "Bak knoflook kort en warm bonen mee.",
+        "Serveer makreel ernaast."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "vis"
+    },
+    {
+      "id": "slow-carb-chili",
+      "title": "Slow Carb Chili",
+      "subtitle": "Bulk basis",
+      "time": 75,
+      "tags": [
+        "meal-prep",
+        "avondeten"
+      ],
+      "ingredients": [
+        "1kg rundergehakt",
+        "2 blikken tomatenblokjes",
+        "1 blik kidneybonen",
+        "1 blik zwarte bonen",
+        "2 el chilipoeder",
+        "1 ui",
+        "2 tenen knoflook"
+      ],
+      "steps": [
+        "Rul gehakt met ui en knoflook.",
+        "Voeg specerijen, bonen en tomaat toe.",
+        "Laat minimaal 60 minuten sudderen."
+      ],
+      "macros": {
+        "protein": 40
+      },
+      "mealPrepTip": "Portioneer in 4 bakjes voor de week.",
+      "servings": 4,
+      "difficulty": "makkelijk",
+      "protein": "rund"
+    },
+    {
+      "id": "batch-gegrilde-kippendijen",
+      "title": "Batch Gegrilde Kippendijen",
+      "subtitle": "Basisproteïne",
+      "time": 35,
+      "tags": [
+        "meal-prep",
+        "avondeten"
+      ],
+      "ingredients": [
+        "1kg kippendijen",
+        "2 el olijfolie",
+        "2 el kipkruiden",
+        "2 grote blikken linzen"
+      ],
+      "steps": [
+        "Wrijf kip in met olie en kruiden.",
+        "Rooster 25 minuten op 200 graden.",
+        "Verdeel met linzen over mealprep bakjes."
+      ],
+      "macros": {
+        "protein": 40
+      },
+      "mealPrepTip": "Koelkast 4 dagen, rest invriezen.",
+      "servings": 4,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "rundergehakt-taco-meat",
+      "title": "Rundergehakt Taco Meat",
+      "subtitle": "Weekbasis",
+      "time": 30,
+      "tags": [
+        "meal-prep",
+        "avondeten"
+      ],
+      "ingredients": [
+        "1kg mager gehakt",
+        "3 el komijnpoeder",
+        "1 el paprikapoeder",
+        "2 uien"
+      ],
+      "steps": [
+        "Rul gehakt met uien.",
+        "Voeg specerijen toe en bak droog.",
+        "Verdeel in porties voor snelle bowls."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "mealPrepTip": "Gebruik binnen 4 dagen of vries in.",
+      "servings": 4,
+      "difficulty": "makkelijk",
+      "protein": "rund"
+    },
+    {
+      "id": "grote-pan-linzensoep",
+      "title": "Grote Pan Linzensoep",
+      "subtitle": "Vegan prep",
+      "time": 35,
+      "tags": [
+        "meal-prep",
+        "avondeten"
+      ],
+      "ingredients": [
+        "500g rode linzen",
+        "2l groentebouillon",
+        "300g spinazie",
+        "2 uien"
+      ],
+      "steps": [
+        "Fruit uien aan.",
+        "Voeg linzen en bouillon toe en kook 25 minuten.",
+        "Roer spinazie erdoor van het vuur."
+      ],
+      "macros": {
+        "protein": 25
+      },
+      "mealPrepTip": "Vries porties van 400ml in.",
+      "servings": 4,
+      "difficulty": "makkelijk",
+      "protein": "vega"
+    },
+    {
+      "id": "pulled-pork-slowcooker",
+      "title": "Pulled Pork Slowcooker",
+      "subtitle": "Low effort bulk",
+      "time": 480,
+      "tags": [
+        "meal-prep",
+        "avondeten"
+      ],
+      "ingredients": [
+        "1kg varkensschouder",
+        "100ml appelciderazijn",
+        "1 el gerookt paprikapoeder",
+        "400g gesneden witte kool"
+      ],
+      "steps": [
+        "Leg vlees met kruiden en azijn in slowcooker.",
+        "Gaar 8 uur op low.",
+        "Trek uit elkaar en serveer met witte kool."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "mealPrepTip": "Vries per portie in na afkoelen.",
+      "servings": 4,
+      "difficulty": "makkelijk",
+      "protein": "varken"
+    },
+    {
+      "id": "kalkoengehakt-stoof",
+      "title": "Kalkoengehakt Stoof",
+      "subtitle": "Hartige batch",
+      "time": 35,
+      "tags": [
+        "meal-prep",
+        "avondeten"
+      ],
+      "ingredients": [
+        "800g kalkoengehakt",
+        "400g champignons",
+        "2 uien",
+        "2 blikken bruine linzen"
+      ],
+      "steps": [
+        "Rul gehakt met uien.",
+        "Bak champignons mee tot vocht weg is.",
+        "Voeg linzen toe en warm goed door."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "mealPrepTip": "Top met verse kruiden bij serveren.",
+      "servings": 4,
+      "difficulty": "makkelijk",
+      "protein": "kalkoen"
+    },
+    {
+      "id": "vegan-tempeh-prep",
+      "title": "Vegan Tempeh Prep",
+      "subtitle": "Salade booster",
+      "time": 20,
+      "tags": [
+        "meal-prep",
+        "avondeten"
+      ],
+      "ingredients": [
+        "800g tempeh",
+        "4 el tamari",
+        "2 el olijfolie",
+        "1 el knoflookpoeder"
+      ],
+      "steps": [
+        "Snijd tempeh in blokjes.",
+        "Meng met tamari en knoflookpoeder.",
+        "Bak goudbruin in olijfolie."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "mealPrepTip": "Gebruik als topping in lunches.",
+      "servings": 4,
+      "difficulty": "makkelijk",
+      "protein": "tempeh"
+    },
+    {
+      "id": "zalm-uit-de-oven-bulk",
+      "title": "Zalm uit de Oven Bulk",
+      "subtitle": "Vis mealprep",
+      "time": 25,
+      "tags": [
+        "meal-prep",
+        "avondeten"
+      ],
+      "ingredients": [
+        "6 zalmfilets",
+        "400g broccoliroosjes",
+        "400g asperges",
+        "2 el olijfolie",
+        "zout naar smaak"
+      ],
+      "steps": [
+        "Leg alles op een bakplaat.",
+        "Besprenkel met olie en zout.",
+        "Rooster 20 minuten op 200 graden en verdeel."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "mealPrepTip": "Eet visporties binnen 3 dagen.",
+      "servings": 4,
+      "difficulty": "makkelijk",
+      "protein": "zalm"
+    },
+    {
+      "id": "gekookte-eieren-voorraad",
+      "title": "Gekookte Eieren Voorraad",
+      "subtitle": "Eiwit add-on",
+      "time": 10,
+      "tags": [
+        "meal-prep",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "12 eieren",
+        "water",
+        "ijswater"
+      ],
+      "steps": [
+        "Breng water aan de kook.",
+        "Kook eieren 8 tot 9 minuten.",
+        "Laat schrikken, pel en bewaar koud."
+      ],
+      "macros": {
+        "protein": 6
+      },
+      "mealPrepTip": "Handig als add-on bij elke maaltijd.",
+      "servings": 12,
+      "difficulty": "makkelijk",
+      "protein": "ei"
+    },
+    {
+      "id": "krokante-kippendijen-airfryer",
+      "title": "Krokante Kippendijen",
+      "subtitle": "Airfryer favoriet",
+      "time": 18,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g kippendijen",
+        "1 tl gerookt paprikapoeder",
+        "zout naar smaak"
+      ],
+      "steps": [
+        "Wrijf kip in met kruiden.",
+        "Bak 15 tot 18 minuten op 180 graden.",
+        "Laat kort rusten voor serveren."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "lamskoteletten-snel",
+      "title": "Lamskoteletten Snel",
+      "subtitle": "Airfryer in 10 min",
+      "time": 10,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g lamskoteletten",
+        "1 tl knoflookpoeder",
+        "100g cannellini bonen"
+      ],
+      "steps": [
+        "Kruid het lamsvlees ruim.",
+        "Bak 8 tot 10 minuten op 200 graden.",
+        "Serveer met de bonen."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "lamsvlees"
+    },
+    {
+      "id": "airfryer-zalmmoot",
+      "title": "Airfryer Zalmmoot",
+      "subtitle": "Snelle vis",
+      "time": 10,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g zalmfilet",
+        "1 tl olijfolie",
+        "1 snuf zeezout"
+      ],
+      "steps": [
+        "Smeer zalm in met olie en zout.",
+        "Bak 8 tot 10 minuten op 180 graden.",
+        "Serveer direct."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "zalm"
+    },
+    {
+      "id": "krokante-tofu-blokjes",
+      "title": "Krokante Tofu Blokjes",
+      "subtitle": "Vega airfryer",
+      "time": 18,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g stevige tofu",
+        "1 el sojasaus",
+        "1/2 tl knoflookpoeder"
+      ],
+      "steps": [
+        "Pers vocht uit tofu en snijd blokjes.",
+        "Meng met sojasaus en kruiden.",
+        "Bak 15 minuten op 190 graden en schud tussendoor."
+      ],
+      "macros": {
+        "protein": 20
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "tofu"
+    },
+    {
+      "id": "biefstukreepjes-vier-minuten",
+      "title": "Biefstukreepjes 4 Minuten",
+      "subtitle": "Ultra snel",
+      "time": 6,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g biefstuk",
+        "zout naar smaak",
+        "peper naar smaak",
+        "1/2 tl balsamicoazijn"
+      ],
+      "steps": [
+        "Kruid de biefstukreepjes.",
+        "Bak 4 minuten op 200 graden.",
+        "Besprenkel met balsamico."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "rund"
+    },
+    {
+      "id": "varkenshaas-medaillons",
+      "title": "Varkenshaas Medaillons",
+      "subtitle": "Mals uit airfryer",
+      "time": 10,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g varkenshaas",
+        "1 tl suikervrije varkenskruiden"
+      ],
+      "steps": [
+        "Snijd varkenshaas in medaillons en kruid.",
+        "Bak 8 tot 10 minuten op 190 graden.",
+        "Keer halverwege en serveer licht rosé."
+      ],
+      "macros": {
+        "protein": 40
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "varken"
+    },
+    {
+      "id": "kalkoenballetjes-zonder-paneer",
+      "title": "Kalkoenballetjes zonder Paneer",
+      "subtitle": "Clean airfryer",
+      "time": 12,
+      "tags": [
+        "airfryer",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g kalkoengehakt",
+        "1/2 tl uienpoeder",
+        "zout naar smaak",
+        "peper naar smaak"
+      ],
+      "steps": [
+        "Meng gehakt met kruiden.",
+        "Draai strakke balletjes.",
+        "Bak 10 minuten op 180 graden."
+      ],
+      "macros": {
+        "protein": 35
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kalkoen"
+    },
+    {
+      "id": "krokante-geroosterde-kikkererwten",
+      "title": "Krokante Geroosterde Kikkererwten",
+      "subtitle": "Portiecontrole",
+      "time": 14,
+      "tags": [
+        "airfryer",
+        "lunch"
+      ],
+      "ingredients": [
+        "100g kikkererwten",
+        "1 tl olijfolie",
+        "1 tl komijnpoeder"
+      ],
+      "steps": [
+        "Dep kikkererwten goed droog.",
+        "Meng met olie en komijn.",
+        "Bak 12 minuten op 200 graden."
+      ],
+      "macros": {
+        "protein": 15
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "vega"
+    },
+    {
+      "id": "de-noodoplossing-proteine-shake",
+      "title": "De Noodoplossing Proteïne Shake",
+      "subtitle": "0 minuten prep",
+      "time": 1,
+      "tags": [
+        "no-time",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "30g wei-isolaat",
+        "300ml water",
+        "1 el mct-olie",
+        "1 snuf kaneel"
+      ],
+      "steps": [
+        "Doe alles in een shaker.",
+        "Schud krachtig.",
+        "Drink direct."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "wei"
+    },
+    {
+      "id": "blik-tonijn-en-hete-saus",
+      "title": "Blik Tonijn en Hete Saus",
+      "subtitle": "Open en eet",
+      "time": 1,
+      "tags": [
+        "no-time",
+        "lunch"
+      ],
+      "ingredients": [
+        "1 blik tonijn",
+        "1 el tabasco"
+      ],
+      "steps": [
+        "Open en giet tonijn af.",
+        "Voeg hete saus toe.",
+        "Roer met vork en eet direct."
+      ],
+      "macros": {
+        "protein": 25
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "tonijn"
+    },
+    {
+      "id": "magnetron-eieren",
+      "title": "Magnetron Eieren",
+      "subtitle": "Snelle mokmaaltijd",
+      "time": 2,
+      "tags": [
+        "no-time",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "2 eieren",
+        "2 el zwarte bonen",
+        "1 snuf zout"
+      ],
+      "steps": [
+        "Kluts eieren in een mok.",
+        "Verwarm 1 tot 1.5 minuut in de magnetron.",
+        "Roer bonen erdoor."
+      ],
+      "macros": {
+        "protein": 18
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "ei"
+    },
+    {
+      "id": "huttenkase-met-amandelen",
+      "title": "Hüttenkäse met Amandelen",
+      "subtitle": "Noodsnack",
+      "time": 1,
+      "tags": [
+        "no-time",
+        "ontbijt"
+      ],
+      "ingredients": [
+        "200g hüttenkäse",
+        "10 amandelen"
+      ],
+      "steps": [
+        "Voeg amandelen toe aan hüttenkäse.",
+        "Eet direct met een lepel."
+      ],
+      "macros": {
+        "protein": 28
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "zuivel"
+    },
+    {
+      "id": "koude-kipfilet-vleeswaren",
+      "title": "Koude Kipfilet Vleeswaren",
+      "subtitle": "Geen opwarmstress",
+      "time": 1,
+      "tags": [
+        "no-time",
+        "lunch"
+      ],
+      "ingredients": [
+        "150g gesneden kipfilet",
+        "1 el dijon mosterd"
+      ],
+      "steps": [
+        "Haal kip uit verpakking.",
+        "Dip in mosterd.",
+        "Eet direct."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "kip"
+    },
+    {
+      "id": "edamame-snackzak",
+      "title": "Edamame Snackzak",
+      "subtitle": "Snel plantaardig",
+      "time": 1,
+      "tags": [
+        "no-time",
+        "lunch"
+      ],
+      "ingredients": [
+        "200g gestoomde edamame",
+        "1 snuf grof zeezout"
+      ],
+      "steps": [
+        "Strooi zout over de peulen.",
+        "Pop de boontjes eruit en eet."
+      ],
+      "macros": {
+        "protein": 20
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "vega"
+    },
+    {
+      "id": "half-rookworst-snel",
+      "title": "Half Rookworst Snel",
+      "subtitle": "Noodmaaltijd",
+      "time": 2,
+      "tags": [
+        "no-time",
+        "avondeten"
+      ],
+      "ingredients": [
+        "1/2 magere rookworst",
+        "1 handje rauwe zuurkool"
+      ],
+      "steps": [
+        "Verwarm worst 1 minuut in de magnetron.",
+        "Eet afgewisseld met koude zuurkool."
+      ],
+      "macros": {
+        "protein": 20
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "varken"
+    },
+    {
+      "id": "restjes-koud-eten",
+      "title": "Restjes Koud Eten",
+      "subtitle": "Pragmatisch",
+      "time": 1,
+      "tags": [
+        "no-time",
+        "avondeten"
+      ],
+      "ingredients": [
+        "150g koud rundergehakt",
+        "150g koude kip"
+      ],
+      "steps": [
+        "Pak restjes uit de koelkast.",
+        "Eet koud uit het bakje met een vork."
+      ],
+      "macros": {
+        "protein": 30
+      },
+      "servings": 1,
+      "difficulty": "makkelijk",
+      "protein": "mixed"
+    }
   ]
 }
