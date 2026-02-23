@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Heart, Clock, ChefHat, Users, ShoppingCart, Info, ChevronLeft } from 'lucide-react';
+import { Heart, Users, ChevronLeft } from 'lucide-react';
 import type { Recipe } from '@/types';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 
 interface RecipeDetailModalProps {
   recipe: Recipe;
@@ -49,149 +48,158 @@ export function RecipeDetailModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="flex h-[85dvh] max-h-[90dvh] max-w-lg flex-col rounded-3xl border border-stone-100 bg-white p-0 shadow-elevated"
+        className="flex h-[calc(100dvh-1rem)] max-h-[calc(100dvh-1rem)] max-w-md flex-col rounded-2xl border-0 bg-white p-0 shadow-surface"
       >
-        {/* Header */}
-        <div className="flex-shrink-0 rounded-t-3xl bg-gradient-to-br from-sage-600 to-sage-700 p-5">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3 flex-1 min-w-0">
+        <DialogTitle className="sr-only">{recipe.name}</DialogTitle>
+        <DialogDescription className="sr-only">Recept detail met ingredienten en bereiding.</DialogDescription>
+        <div className="flex min-h-0 flex-1 flex-col bg-white" data-testid="recipe-detail-modal">
+          <div className="flex-shrink-0 bg-gradient-to-br from-[#1a3626] to-[#145a45] px-4 pb-3 pt-3 text-white">
+            <div className="mb-2 flex items-center justify-between">
               <Button
                 onClick={onClose}
                 variant="ghost"
-                className="min-h-10 px-3 gap-1.5 flex-shrink-0 rounded-xl text-white/95 hover:text-white hover:bg-white/20 border border-white/25 hover:border-white/40 transition-colors"
+                className="min-h-10 gap-1 rounded-2xl border-0 bg-white/10 px-3 text-white/95 shadow-surface hover:bg-white/20 hover:text-white"
                 aria-label="Terug"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="h-4 w-4" />
                 Terug
               </Button>
-              <div className="flex-1 min-w-0 space-y-1">
-                <h2 className="text-xl font-bold text-white leading-tight">{recipe.name}</h2>
-                <div className="flex items-center gap-3 text-sm text-white/90">
-                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{recipe.prepTime} prep</span>
-                  <span className="flex items-center gap-1"><ChefHat className="w-3 h-3" />{recipe.cookTime}</span>
-                </div>
-              </div>
+              <button
+                onClick={onToggleFavorite}
+                className={cn(
+                  'flex h-10 w-10 items-center justify-center rounded-2xl border-0 shadow-surface transition-colors',
+                  isFavorite ? 'bg-white/30 text-white' : 'bg-white/10 text-white/80 hover:bg-white/20'
+                )}
+                aria-label={isFavorite ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
+              >
+                <Heart className={cn('h-4.5 w-4.5', isFavorite && 'fill-current')} strokeWidth={2.25} />
+              </button>
             </div>
-            <button
-              onClick={onToggleFavorite}
-              className={cn('w-11 h-11 rounded-xl transition-all duration-200 backdrop-blur-sm flex items-center justify-center flex-shrink-0', isFavorite ? 'bg-white/30 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20')}
-            >
-              <Heart className={cn('w-5 h-5', isFavorite && 'fill-current')} strokeWidth={2.5} />
-            </button>
+            <h2 className="line-clamp-2 font-display text-[28px] font-bold leading-tight text-white">{recipe.name}</h2>
           </div>
-        </div>
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-200">
+            {recipe.image ? (
+              <img
+                src={recipe.image}
+                alt={recipe.name}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                onError={(event) => {
+                  (event.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            ) : (
+              <div className="h-full w-full bg-gradient-to-br from-stone-300 via-stone-200 to-stone-100" />
+            )}
+          </div>
 
-        {/* Tabs + Content */}
-        <Tabs defaultValue="ingredients" className="flex min-h-0 flex-1 flex-col gap-0">
-          <TabsList className="h-auto w-full flex-shrink-0 rounded-none border-b border-stone-200 bg-stone-50 p-1.5">
-            <TabsTrigger
-              value="ingredients"
-              className="rounded-xl border border-transparent px-4 data-[state=active]:border-sage-600 data-[state=active]:bg-sage-600 data-[state=active]:font-semibold data-[state=active]:text-white data-[state=active]:shadow-none text-muted-foreground"
-            >
-              Ingrediënten
-            </TabsTrigger>
-            <TabsTrigger
-              value="instructions"
-              className="rounded-xl border border-transparent px-4 data-[state=active]:border-sage-600 data-[state=active]:bg-sage-600 data-[state=active]:font-semibold data-[state=active]:text-white data-[state=active]:shadow-none text-muted-foreground"
-            >
-              Bereiding
-            </TabsTrigger>
-          </TabsList>
+          <Tabs defaultValue="ingredients" className="flex min-h-0 flex-1 flex-col gap-0">
+            <TabsList className="mx-4 mt-3 h-auto w-auto flex-shrink-0 rounded-2xl bg-stone-100 p-1">
+              <TabsTrigger
+                value="ingredients"
+                className="flex-1"
+              >
+                Ingrediënten
+              </TabsTrigger>
+              <TabsTrigger
+                value="instructions"
+                className="flex-1"
+              >
+                Bereiding
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="ingredients" className="mt-0 min-h-0 flex-1 overflow-y-auto">
-            <div className="space-y-5 p-6">
-                {/* Portion Selector */}
+            <TabsContent value="ingredients" className="mt-0 min-h-0 flex-1 overflow-y-auto">
+              <div className="space-y-2 px-4 py-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-stone-600 flex items-center gap-2">
-                    <Users className="w-4 h-4" />
+                  <span className="flex items-center gap-2 text-sm text-stone-600">
+                    <Users className="h-4 w-4" />
                     Personen:
                   </span>
                   <Select
-                    value={portionOptions.find(o => o.multiplier === portionMultiplier)?.value ?? '1'}
-                    onValueChange={(val) => {
-                      const opt = portionOptions.find(o => o.value === val);
-                      if (opt) setPortionMultiplier(opt.multiplier);
+                    value={portionOptions.find((option) => option.multiplier === portionMultiplier)?.value ?? '1'}
+                    onValueChange={(value) => {
+                      const selectedOption = portionOptions.find((option) => option.value === value);
+                      if (selectedOption) setPortionMultiplier(selectedOption.multiplier);
                     }}
                   >
-                    <SelectTrigger className="w-[80px] h-9 bg-stone-100 border-0 rounded-lg text-sm font-medium text-stone-700">
+                    <SelectTrigger className="h-11 w-[92px] rounded-2xl bg-white text-sm font-medium text-stone-700">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
-                      {portionOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                          {opt.label}
+                    <SelectContent className="border border-stone-100 bg-white text-stone-800 shadow-surface">
+                      {portionOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
 
-                {/* Ingredients List */}
-                <ul className="space-y-2">
-                  {recipe.ingredients.map((ing, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-stone-700 py-2 border-b border-stone-100 last:border-0">
-                      <span className="w-1.5 h-1.5 rounded-full bg-sage-400 mt-1.5 flex-shrink-0" />
-                      <span>
-                        <span className="font-medium text-stone-900">{ing.scalable ? scaleAmount(ing.amount, portionMultiplier) : ing.amount}</span>
-                        {' '}{ing.name}
+                <ul className="space-y-1">
+                  {recipe.ingredients.map((ingredient, index) => (
+                    <li
+                      key={`${recipe.id}-ingredient-${index}`}
+                      className="flex items-start gap-2 py-1.5 text-stone-800"
+                    >
+                      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#10b981]" />
+                      <span className="text-base leading-relaxed">
+                        <span className="font-medium">
+                          {ingredient.scalable ? scaleAmount(ingredient.amount, portionMultiplier) : ingredient.amount}
+                        </span>{' '}
+                        {ingredient.name}
                       </span>
                     </li>
                   ))}
                 </ul>
+              </div>
+            </TabsContent>
 
-                {/* Add to Shopping List */}
-                {onOpenPackageSelector ? (
-                  <Button
-                    onClick={() => onOpenPackageSelector(portionMultiplier)}
-                    className="w-full rounded-xl bg-sage-600 text-white hover:bg-sage-700"
-                  >
-                    <ShoppingCart className="w-4 h-4 mr-2" />
-                    + Toevoegen
-                  </Button>
-                ) : null}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="instructions" className="mt-0 min-h-0 flex-1 overflow-y-auto">
-            <div className="space-y-5 p-6">
-                {/* Steps */}
-                <ol className="space-y-4">
-                  {recipe.steps.map((step, idx) => (
-                    <li key={idx} className="flex gap-3">
-                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-sage-100 text-sage-700 text-xs font-display font-semibold flex items-center justify-center mt-0.5">
-                        {idx + 1}
+            <TabsContent value="instructions" className="mt-0 min-h-0 flex-1 overflow-y-auto">
+              <div className="space-y-3 px-4 py-3">
+                <ol className="space-y-2">
+                  {recipe.steps.map((step, index) => (
+                    <li key={`${recipe.id}-step-${index}`} className="flex gap-3">
+                      <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-emerald-50 text-xs font-semibold text-emerald-700">
+                        {index + 1}
                       </span>
-                      <span className="text-sm text-stone-700 leading-relaxed">{step}</span>
+                      <span className="text-sm leading-relaxed text-stone-700">{step}</span>
                     </li>
                   ))}
                 </ol>
-
-                {/* Tips - Accordion */}
                 {recipe.tips && recipe.tips.length > 0 && (
-                  <Accordion type="single" collapsible className="mt-6">
-                    <AccordionItem value="tips" className="rounded-2xl border border-stone-200 bg-stone-50">
-                      <AccordionTrigger className="px-4 py-3 hover:no-underline">
-                        <span className="flex items-center gap-2 text-sm font-medium text-stone-800">
-                          <Info className="w-4 h-4" />
-                          Tips ({recipe.tips.length})
-                        </span>
-                      </AccordionTrigger>
-                      <AccordionContent className="px-4 pb-4">
-                        <ul className="space-y-2">
-                          {recipe.tips.map((tip, idx) => (
-                            <li key={idx} className="text-stone-700 text-sm flex items-start gap-2 leading-relaxed">
-                              <span className="text-stone-400 mt-0.5">&bull;</span>{tip}
-                            </li>
-                          ))}
-                        </ul>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
+                  <div className="rounded-2xl bg-stone-50 p-3 shadow-surface">
+                    <p className="mb-2 text-sm font-semibold text-stone-800">Tips</p>
+                    <ul className="space-y-1.5 text-sm text-stone-700">
+                      {recipe.tips.map((tip, index) => (
+                        <li key={`${recipe.id}-tip-${index}`} className="flex items-start gap-2">
+                          <span className="mt-1 text-stone-400">&bull;</span>
+                          <span>{tip}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
-            </div>
-          </TabsContent>
+              </div>
+            </TabsContent>
+          </Tabs>
 
-        </Tabs>
+          <div className="flex-shrink-0 bg-white p-3">
+            <Button
+              onClick={() => {
+                if (onOpenPackageSelector) {
+                  onOpenPackageSelector(portionMultiplier);
+                  return;
+                }
+                onClose();
+              }}
+              className="h-14 w-full rounded-2xl bg-[#10b981] text-base font-semibold text-white hover:bg-[#059669] active:shadow-surface-pressed"
+              data-testid="recipe-start-cooking-button"
+            >
+              Start koken
+            </Button>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
