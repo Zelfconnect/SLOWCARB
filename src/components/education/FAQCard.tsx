@@ -50,13 +50,13 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border border-stone-100 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
+        className="sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
       >
         {/* Header - Neutral gray */}
         <div className="p-5 bg-gradient-to-br from-stone-600 to-stone-700 flex-shrink-0 rounded-t-3xl">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
                   <HeaderIcon className="w-6 h-6 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -65,7 +65,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
               </div>
               <button
                 onClick={onClose}
-                className="w-10 h-10 rounded-xl bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200 flex items-center justify-center flex-shrink-0"
+                className="w-10 h-10 rounded-2xl bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200 flex items-center justify-center flex-shrink-0"
                 aria-label="Sluiten"
               >
                 <X className="w-5 h-5" />
@@ -84,7 +84,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             >
             {/* Direct Answer */}
             <div className={cn(
-              'rounded-xl p-4 border-2 flex items-center gap-3 shadow-sm',
+              'rounded-2xl p-4 border-0 flex items-center gap-3 shadow-surface',
               answerStyle.bg,
               answerStyle.border
             )}>
@@ -102,7 +102,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             </div>
 
             {/* Explanation */}
-            <div className="space-y-2 rounded-xl border border-stone-100 bg-gradient-to-br from-white to-stone-50 p-4 shadow-sm">
+            <div className="space-y-2 rounded-2xl bg-gradient-to-br from-white to-stone-50 p-4 shadow-surface">
               <h3 className="text-base font-semibold text-stone-800">Uitleg</h3>
               <p className="text-stone-700 text-sm leading-relaxed">
                 {card.content.explanation}
@@ -112,8 +112,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
             {/* Nuance - Optional */}
             {card.content.nuance && card.content.nuance.length > 0 && (
               <>
-                <div className="border-t border-stone-100" />
-                <div className="space-y-2 rounded-xl border border-stone-100 bg-gradient-to-br from-white to-stone-50 p-4 shadow-sm">
+                <div className="space-y-2 rounded-2xl bg-gradient-to-br from-white to-stone-50 p-4 shadow-surface">
                   <h3 className="text-base font-semibold text-stone-800">
                     Let op
                   </h3>

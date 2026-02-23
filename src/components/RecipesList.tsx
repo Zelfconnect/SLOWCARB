@@ -158,11 +158,11 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
         </div>
       )}
 
-      {/* Recipe List */}
-      <div className="space-y-2">
+      {/* Recipe Grid */}
+      <div className="grid grid-cols-2 gap-3" data-testid="recipes-grid">
         {filteredRecipes.length === 0 ? (
-          <div className="card-website py-12 text-center text-stone-500">
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl border border-stone-200 bg-stone-100 shadow-soft">
+          <div className="card-website col-span-2 py-12 text-center text-stone-500">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-stone-100 shadow-surface">
               <Search className="w-8 h-8 text-stone-400" />
             </div>
             <p className="font-display font-medium text-stone-700">Geen recepten gevonden</p>
@@ -171,20 +171,18 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
         ) : (
           filteredRecipes.map((recipe) => {
             const protein = (recipe as Recipe & { macros?: { protein?: number } }).macros?.protein;
-            const metaItems = [
-              recipe.cookTime || recipe.prepTime ? `⏱ ${recipe.cookTime || recipe.prepTime}` : null,
-              Number.isFinite(recipe.servings) ? `👤 ${recipe.servings}p` : null,
-              recipe.difficulty || null,
-              protein != null ? `${protein}g eiwit` : null,
-            ].filter((item): item is string => Boolean(item));
+            const timeLabel = recipe.cookTime || recipe.prepTime || 'Tijd n.b.';
+            const servingsLabel = Number.isFinite(recipe.servings) ? `${recipe.servings}p` : 'Porties n.b.';
+            const proteinLabel = protein != null ? `${protein}g eiwit` : 'Eiwit n.b.';
 
             return (
               <div
                 key={recipe.id}
                 onClick={() => setSelectedRecipeId(recipe.id)}
-                className="rounded-2xl overflow-hidden bg-white shadow-card border border-stone-200 mb-4 cursor-pointer"
+                className="overflow-hidden rounded-2xl bg-white shadow-card cursor-pointer"
+                data-testid={`recipe-card-${recipe.id}`}
               >
-                <div className="relative aspect-video w-full overflow-hidden">
+                <div className="relative aspect-square w-full overflow-hidden" data-testid={`recipe-image-${recipe.id}`}>
                   {/* Gradient is always rendered as fallback background */}
                   <div className={cn('absolute inset-0', getRecipeGradient(recipe))} />
                   {recipe.image && (
@@ -197,8 +195,8 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
                     />
                   )}
                   {(recipe.cookTime || recipe.prepTime) && (
-                    <div className="absolute bottom-3 left-3 bg-stone-900 text-white text-xs font-semibold rounded-full px-2.5 py-1">
-                      {recipe.cookTime || recipe.prepTime}
+                    <div className="absolute bottom-2 left-2 rounded-full bg-stone-900 px-2 py-0.5 text-[10px] font-semibold text-white">
+                      {timeLabel}
                     </div>
                   )}
                   <button
@@ -206,37 +204,30 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
                       e.stopPropagation();
                       onToggleFavorite(recipe.id);
                     }}
-                    className="absolute top-3 right-3 h-10 w-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-stone-100"
+                    className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-surface"
                     aria-label={favorites.includes(recipe.id) ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
                   >
                     <Heart
                       className={cn(
-                        'h-4 w-4',
+                        'h-3.5 w-3.5',
                         favorites.includes(recipe.id) ? 'fill-current text-red-500' : 'text-stone-500'
                       )}
                       strokeWidth={2}
                     />
                   </button>
                 </div>
-                <div className="p-4 pb-5">
-                  <h3 className="font-semibold text-[17px] leading-snug text-stone-900 line-clamp-2">
+                <div className="p-2.5">
+                  <h3 className="line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-stone-900">
                     {recipe.name}
                   </h3>
-                  {recipe.subtitle && (
-                    <p className="mt-0.5 line-clamp-1 text-sm text-stone-400">
-                      {recipe.subtitle}
-                    </p>
-                  )}
-                  {metaItems.length > 0 && (
-                    <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-stone-500">
-                      {metaItems.map((item, index) => (
-                        <Fragment key={`${recipe.id}-meta-${index}`}>
-                          {index > 0 && <span aria-hidden="true">·</span>}
-                          <span>{item}</span>
-                        </Fragment>
-                      ))}
-                    </div>
-                  )}
+                  <div
+                    className="mt-2 flex flex-nowrap items-center gap-1 overflow-hidden text-[11px] text-stone-600"
+                    data-testid={`recipe-meta-${recipe.id}`}
+                  >
+                    <span className="rounded-full bg-stone-100 px-1.5 py-0.5 truncate">{timeLabel}</span>
+                    <span className="rounded-full bg-stone-100 px-1.5 py-0.5 truncate">{servingsLabel}</span>
+                    <span className="rounded-full bg-sage-50 px-1.5 py-0.5 text-sage-700 truncate">{proteinLabel}</span>
+                  </div>
                 </div>
               </div>
             );

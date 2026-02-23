@@ -1,11 +1,9 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
 import { StreakHeroCard } from './StreakHeroCard';
 import { WeeklyProgressGrid } from './WeeklyProgressGrid';
-import { CheatDayCountdown } from './CheatDayCountdown';
 import { WeightProgressCard } from './WeightProgressCard';
-import { QuickActionFAB } from './QuickActionFAB';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -45,7 +43,6 @@ export function Dashboard({
   const { t, locale } = useTranslation();
   const [weightDialogOpen, setWeightDialogOpen] = useState(false);
   const [weightInput, setWeightInput] = useState('');
-  const mealTrackerRef = useRef<HTMLDivElement | null>(null);
   const today = useMemo(() => new Date().toISOString().split('T')[0], []);
   const todayLabel = useMemo(
     () => new Date(today).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US'),
@@ -95,7 +92,6 @@ export function Dashboard({
           streak={streak}
           onToggleMeal={onToggleMeal}
         />
-        <QuickActionFAB onLogWeight={openWeightDialog} />
 
         <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
           <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
@@ -135,8 +131,40 @@ export function Dashboard({
   const hasFutureDays = weekData.some(day => day.isFuture);
   const perfectWeek = !hasFutureDays && weekData.every(day => day.isCheatDay || day.completed);
 
+  const contentWrapperRef = useRef<HTMLDivElement | null>(null);
+  // #region agent log
+  useEffect(() => {
+    const el = contentWrapperRef.current;
+    if (!el) return;
+    const raf = requestAnimationFrame(() => {
+      const rect = el.getBoundingClientRect();
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      const nav = document.querySelector('nav.fixed.bottom-0');
+      const navTop = nav?.getBoundingClientRect().top ?? viewportHeight;
+      const payload = {
+        sessionId: '3bc562',
+        hypothesisId: 'H2',
+        location: 'Dashboard.tsx:contentWrapper',
+        message: 'Dashboard content wrapper overflow and card position',
+        data: {
+          wrapperClientHeight: el.clientHeight,
+          wrapperScrollHeight: el.scrollHeight,
+          wrapperRectBottom: rect.bottom,
+          viewportHeight,
+          navTop,
+          contentOverflows: el.scrollHeight > el.clientHeight,
+          bottomHidden: rect.bottom > navTop,
+        },
+        timestamp: Date.now(),
+      };
+      fetch('http://127.0.0.1:7463/ingest/a0558390-360f-4072-93db-bed8e45837de', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '3bc562' }, body: JSON.stringify(payload) }).catch(() => {});
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [weekData, isCheatDay, perfectWeek, daysUntilCheatDay]);
+  // #endregion
+
   return (
-    <div className="space-y-5 overflow-hidden">
+    <div ref={contentWrapperRef} className="h-full space-y-1.5 overflow-hidden pb-0">
       <StreakHeroCard
         streak={streak}
         currentWeek={progress.week}
@@ -145,35 +173,34 @@ export function Dashboard({
       />
 
       {isCheatDay ? (
-        <div className="rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/90 to-clay-100/80 p-6 shadow-soft">
-          <h3 className="mb-2 font-display text-xl font-semibold text-clay-900">🍕 Cheat Day!</h3>
-          <p className="text-clay-700">
+        <div className="rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/90 to-clay-100/80 px-3 py-2.5 shadow-soft">
+          <h3 className="mb-1 font-display text-base font-semibold text-clay-900">🍕 Cheat Day!</h3>
+          <p className="text-sm text-clay-700">
             Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp.
             Geniet ervan en ga morgen weer terug naar het protocol.
           </p>
         </div>
       ) : (
-        <>
-          <div ref={mealTrackerRef}>
-            <DailyMealTracker
-              todayMeals={todayMeals}
-              streak={streak}
-              onToggleMeal={onToggleMeal}
-              isCheatDay={isCheatDay}
-            />
-          </div>
-
-          <CheatDayCountdown daysUntilCheatDay={daysUntilCheatDay} />
-        </>
+        <DailyMealTracker
+          todayMeals={todayMeals}
+          streak={streak}
+          onToggleMeal={onToggleMeal}
+          isCheatDay={isCheatDay}
+        />
       )}
 
       {perfectWeek && (
-        <div className="rounded-xl bg-sage-100 border border-sage-300 px-4 py-3 text-sage-800 text-sm font-medium">
+        <div className="rounded-xl bg-sage-100 border border-sage-300 px-2.5 py-1.5 text-sage-800 text-[11px] font-medium">
           🎉 Perfecte week! 6/6 protocoldagen voltooid.
         </div>
       )}
 
       <WeeklyProgressGrid weekData={weekData} />
+      {!isCheatDay && daysUntilCheatDay > 0 && daysUntilCheatDay <= 2 ? (
+        <p className="px-0.5 text-[10px] text-clay-700">
+          Nog {daysUntilCheatDay} {daysUntilCheatDay === 1 ? 'dag' : 'dagen'} tot je cheat day.
+        </p>
+      ) : null}
 
       <WeightProgressCard
         weightLog={weightLog}
@@ -182,7 +209,6 @@ export function Dashboard({
         targetWeight={journey.targetWeight}
         onOpenLog={openWeightDialog}
       />
-      <QuickActionFAB onLogWeight={openWeightDialog} />
 
       <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
         <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">

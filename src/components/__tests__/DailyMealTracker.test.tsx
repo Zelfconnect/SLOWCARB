@@ -4,6 +4,12 @@ import { describe, expect, it, vi } from 'vitest';
 import { DailyMealTracker } from '@/components/DailyMealTracker';
 import type { MealEntry } from '@/types';
 
+vi.mock('@/components/ui/carousel', () => ({
+  Carousel: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  CarouselContent: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  CarouselItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+}));
+
 function createMeals(overrides: Partial<MealEntry> = {}): MealEntry {
   return {
     date: '2026-02-19',
@@ -25,12 +31,16 @@ describe('DailyMealTracker', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: 'Ontbijt' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Lunch' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Avondeten' })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Ontbijt' })).toHaveLength(1);
+    expect(screen.getAllByRole('button', { name: 'Lunch' })).toHaveLength(1);
+    expect(screen.getAllByRole('button', { name: 'Avondeten' })).toHaveLength(1);
+    expect(screen.getByText('Avondeten')).toBeInTheDocument();
+    expect(screen.getByTestId('meal-photo-card-breakfast')).toBeInTheDocument();
+    expect(screen.getByTestId('meal-photo-card-lunch')).toBeInTheDocument();
+    expect(screen.getByTestId('meal-photo-card-dinner')).toBeInTheDocument();
   });
 
-  it('shows a single completion cue and no legacy klaar badge text', () => {
+  it('shows a single completion cue and no legacy afgevinkt badge text', () => {
     render(
       <DailyMealTracker
         todayMeals={createMeals({ breakfast: true })}
@@ -40,8 +50,8 @@ describe('DailyMealTracker', () => {
       />
     );
 
-    expect(screen.getAllByText('Afgevinkt')).toHaveLength(1);
-    expect(screen.queryByText('Klaar')).not.toBeInTheDocument();
+    expect(screen.getAllByText('Klaar')).toHaveLength(1);
+    expect(screen.queryByText('Afgevinkt')).not.toBeInTheDocument();
   });
 
   it('updates day status copy for 0, 1, 2 and 3 completed meals', () => {
@@ -55,7 +65,7 @@ describe('DailyMealTracker', () => {
       />
     );
 
-    expect(screen.getByText('0/3 maaltijden afgerond')).toBeInTheDocument();
+    expect(screen.getByText('0/3')).toBeInTheDocument();
     expect(screen.getByText('Start je dag met een goed ontbijt.')).toBeInTheDocument();
 
     rerender(
@@ -66,7 +76,7 @@ describe('DailyMealTracker', () => {
         isCheatDay={false}
       />
     );
-    expect(screen.getByText('1/3 maaltijden afgerond')).toBeInTheDocument();
+    expect(screen.getByText('1/3')).toBeInTheDocument();
     expect(screen.getByText('Goed bezig! Nog 2 maaltijden te gaan.')).toBeInTheDocument();
 
     rerender(
@@ -77,7 +87,7 @@ describe('DailyMealTracker', () => {
         isCheatDay={false}
       />
     );
-    expect(screen.getByText('2/3 maaltijden afgerond')).toBeInTheDocument();
+    expect(screen.getByText('2/3')).toBeInTheDocument();
     expect(screen.getByText('Bijna daar! Nog 1 maaltijd.')).toBeInTheDocument();
 
     rerender(
@@ -88,7 +98,7 @@ describe('DailyMealTracker', () => {
         isCheatDay={false}
       />
     );
-    expect(screen.getByText('3/3 maaltijden afgerond')).toBeInTheDocument();
+    expect(screen.getByText('3/3')).toBeInTheDocument();
     expect(screen.getByText('Geweldig! Alle maaltijden compleet.')).toBeInTheDocument();
   });
 
@@ -103,10 +113,11 @@ describe('DailyMealTracker', () => {
       />
     );
 
-    const breakfastButton = screen.getByRole('button', { name: 'Ontbijt' });
-    expect(breakfastButton).toBeDisabled();
+    const breakfastButtons = screen.getAllByRole('button', { name: 'Ontbijt' });
+    expect(breakfastButtons.length).toBeGreaterThan(0);
+    breakfastButtons.forEach((button) => expect(button).toBeDisabled());
 
-    fireEvent.click(breakfastButton);
+    fireEvent.click(breakfastButtons[0]);
     expect(onToggleMeal).not.toHaveBeenCalled();
   });
 });

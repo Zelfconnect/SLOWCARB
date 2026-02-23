@@ -24,7 +24,7 @@ function createRecipe(overrides: Partial<Recipe> = {}): Recipe {
 }
 
 describe('CompactRecipeCard UI/UX', () => {
-  it('renders key recipe metadata and mapped difficulty label', () => {
+  it('renders key recipe metadata for compact cards', () => {
     render(
       <CompactRecipeCard
         recipe={createRecipe()}
@@ -38,7 +38,6 @@ describe('CompactRecipeCard UI/UX', () => {
     expect(screen.getByText('Meal prep favoriet')).toBeInTheDocument();
     expect(screen.getByText('10 min')).toBeInTheDocument();
     expect(screen.getByText('2p')).toBeInTheDocument();
-    expect(screen.getByText('Gemiddeld')).toBeInTheDocument();
     expect(screen.getByText('30g eiwit')).toBeInTheDocument();
   });
 

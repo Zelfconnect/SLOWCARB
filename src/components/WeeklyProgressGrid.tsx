@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils';
-import { CheckIcon } from 'lucide-react';
 import type { DayStatus } from '@/types';
 
 interface WeeklyProgressGridProps {
@@ -8,58 +7,39 @@ interface WeeklyProgressGridProps {
 
 export function WeeklyProgressGrid({ weekData }: WeeklyProgressGridProps) {
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-stone-700">Huidige week</p>
-        <p className="text-xs text-stone-400">6 protocoldagen + 1 cheat day</p>
+    <section className="rounded-2xl bg-white p-3 shadow-surface">
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-sm font-semibold text-stone-800">Huidige week</p>
+        <p className="text-[12px] text-stone-500">7 dagen</p>
       </div>
-
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-1.5">
         {weekData.map(day => (
           <div
             key={day.date}
+            data-testid={`week-pill-${day.label}`}
             className={cn(
-              'flex aspect-square flex-col items-center justify-center rounded-xl border border-transparent text-xs font-medium shadow-soft',
+              'relative flex h-9 items-center justify-center rounded-full text-xs font-semibold',
               day.isCheatDay
-                ? 'border-clay-300 bg-gradient-to-br from-clay-500 to-clay-600 text-white'
+                ? 'bg-clay-500 text-white'
                 : day.completed
-                  ? 'border-sage-300 bg-sage-600 text-white'
+                  ? 'bg-emerald-500 text-white'
                   : day.isFuture
-                    ? 'border-2 border-dashed border-stone-300 bg-stone-200 text-stone-500'
-                    : 'bg-red-100 border-2 border-red-300 text-red-600'
+                    ? 'bg-stone-100 text-stone-600'
+                    : 'bg-red-50 text-red-600'
             )}
           >
-            {day.completed ? (
-              <>
-                <CheckIcon className="h-3.5 w-3.5" />
-                <span className="text-[10px] leading-tight">{day.label}</span>
-              </>
-            ) : (
-              <span>{day.label}</span>
-            )}
-            {day.isToday && <div className="w-1 h-1 bg-white rounded-full mt-1" />}
+            <span>{day.label}</span>
+            {day.isToday ? (
+              <span
+                className={cn(
+                  'absolute -bottom-1 h-1.5 w-1.5 rounded-full',
+                  day.completed || day.isCheatDay ? 'bg-white' : 'bg-emerald-500'
+                )}
+              />
+            ) : null}
           </div>
         ))}
       </div>
-
-      <div className="flex items-center gap-3 text-[11px] text-stone-600">
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-sage-600" />
-          <span>Protocol</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-clay-500" />
-          <span>Cheat day</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-stone-300" />
-          <span>Gepland</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-red-400" />
-          <span>Gemist</span>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }

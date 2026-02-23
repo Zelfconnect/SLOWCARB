@@ -21,14 +21,14 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border border-stone-100 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
+        className="sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
         style={{ maxHeight: CONCEPT_TOKENS.maxHeight }}
       >
         {/* Header - ALWAYS Amber/Orange */}
         <div className={`p-5 bg-gradient-to-br ${CONCEPT_TOKENS.background} flex-shrink-0 rounded-t-3xl`}>
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
                   <HeaderIcon className="w-6 h-6 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -40,7 +40,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
               </div>
               <button
                 onClick={onClose}
-                className="w-10 h-10 rounded-xl bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200 flex items-center justify-center flex-shrink-0"
+                className="w-10 h-10 rounded-2xl bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200 flex items-center justify-center flex-shrink-0"
                 aria-label="Sluiten"
               >
                 <X className="w-5 h-5" />
@@ -58,7 +58,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
               }}
             >
             {/* Summary Box - Always at top, calm-neutral background */}
-            <div className="rounded-xl p-4 border border-sage-100 bg-gradient-to-br from-sage-50 to-sage-100/70 shadow-sm">
+            <div className="rounded-2xl p-4 bg-gradient-to-br from-sage-50 to-sage-100/70 shadow-surface">
               <p className="text-sage-900 font-medium text-sm leading-relaxed">
                 {card.content.summary}
               </p>
@@ -74,7 +74,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
                 {card.content.keyPoints.map((point, idx) => (
                   <div
                     key={idx}
-                    className="flex gap-3 p-4 rounded-xl border border-stone-100 bg-gradient-to-br from-white to-stone-50 shadow-sm"
+                    className="flex gap-3 p-4 rounded-2xl bg-gradient-to-br from-white to-stone-50 shadow-surface"
                   >
                     <div className="w-6 h-6 rounded-full bg-sage-200 text-sage-800 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                       {idx + 1}
@@ -90,7 +90,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
 
             {/* Fun Fact - Optional */}
             {card.content.funFact && (
-              <div className="rounded-xl p-4 border border-stone-200 bg-gradient-to-br from-stone-50 to-white shadow-sm">
+              <div className="rounded-2xl p-4 bg-gradient-to-br from-stone-50 to-white shadow-surface">
                 <div className="space-y-2">
                   <h3 className="flex items-center gap-2 text-base font-semibold text-stone-800">
                     <Lightbulb className="w-4 h-4" />
@@ -112,7 +112,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
                   <button
                     key={relatedId}
                     onClick={() => onOpenRelated(relatedId)}
-                    className="w-full flex items-center justify-between p-4 rounded-xl border border-stone-100 bg-gradient-to-br from-white to-stone-50 hover:from-stone-50 hover:to-stone-100/80 shadow-sm transition-colors text-left"
+                    className="w-full flex items-center justify-between p-4 rounded-2xl bg-gradient-to-br from-white to-stone-50 hover:from-stone-50 hover:to-stone-100/80 shadow-surface transition-colors text-left"
                   >
                     <span className="text-stone-700 text-sm leading-relaxed">{relatedId}</span>
                     <ArrowRight className="w-4 h-4 text-stone-400" />

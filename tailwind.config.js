@@ -10,8 +10,8 @@ export default {
       // TYPOGRAFIE
       // ============================================
       fontFamily: {
-        display: ['Fraunces', 'Georgia', 'serif'],
-        sans: ['Satoshi', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"SF Pro Display"', '"SF Pro Text"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['"SF Pro Text"', '"SF Pro Display"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif'],
       },
 
       // ============================================
@@ -111,7 +111,7 @@ export default {
       // BORDER RADIUS
       // ============================================
       borderRadius: {
-        'lg': '0.75rem',   // 12px - cards
+        'lg': '1rem',      // 16px - default interactive surfaces
         'xl': '1rem',      // 16px - large cards
         '2xl': '1.25rem',  // 20px - modals
         '3xl': '1.5rem',   // 24px - hero
@@ -121,10 +121,12 @@ export default {
       // SHADOWS
       // ============================================
       boxShadow: {
-        'card': '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
-        'card-hover': '0 4px 12px rgba(0,0,0,0.08)',
+        'card': '0 4px 20px rgba(0,0,0,0.06)',
+        'card-hover': '0 8px 28px rgba(0,0,0,0.09)',
         'elevated': '0 10px 30px rgba(0,0,0,0.12)',
         'soft': '0 2px 8px rgba(0,0,0,0.04)',
+        'surface': '0 4px 20px rgba(0,0,0,0.06)',
+        'surface-pressed': 'inset 0 1px 2px rgba(0,0,0,0.16), 0 2px 10px rgba(0,0,0,0.04)',
         'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
         'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06)',
         'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05)',

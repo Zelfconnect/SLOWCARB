@@ -20,14 +20,14 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border border-stone-100 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
+        className="sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
         style={{ maxHeight: RULE_TOKENS.maxHeight }}
       >
         {/* Header - ALWAYS Primary Green */}
         <div className={`p-5 bg-gradient-to-br ${RULE_TOKENS.background} flex-shrink-0 rounded-t-3xl`}>
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
                   <HeaderIcon className="w-6 h-6 text-white" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -41,7 +41,7 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
               </div>
               <button
                 onClick={onClose}
-                className="w-10 h-10 rounded-xl bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200 flex items-center justify-center flex-shrink-0"
+                className="w-10 h-10 rounded-2xl bg-white/10 text-white/70 hover:bg-white/20 transition-all duration-200 flex items-center justify-center flex-shrink-0"
                 aria-label="Sluiten"
               >
                 <X className="w-5 h-5" />
@@ -59,14 +59,11 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
               }}
             >
             {/* The Rule Statement - Prominent */}
-            <div className="bg-stone-900 text-white rounded-xl p-4 border border-stone-700/50 shadow-sm">
+            <div className="bg-stone-900 text-white rounded-2xl p-4 shadow-surface">
               <p className="font-medium text-base leading-relaxed">
                 {card.content.rule}
               </p>
             </div>
-
-            {/* Divider */}
-            <div className="border-t border-stone-100" />
 
             {/* Science Section */}
             <div>
@@ -81,9 +78,6 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="border-t border-stone-100" />
-
             {/* Tips Section - Always 3 tips */}
             <div>
               <h3 className="flex items-center gap-2 text-base font-semibold text-stone-700 mb-3">
@@ -94,7 +88,7 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
                 {card.content.tips.map((tip, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-3 p-4 rounded-xl border border-sage-100 bg-gradient-to-br from-sage-50 to-sage-100/70 shadow-sm"
+                    className="flex items-start gap-3 p-4 rounded-2xl bg-gradient-to-br from-sage-50 to-sage-100/70 shadow-surface"
                   >
                     <span className="w-5 h-5 rounded-full bg-sage-500 text-white flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                       {idx + 1}
@@ -108,8 +102,7 @@ export function RuleCard({ card, isOpen, onClose }: RuleCardProps) {
             {/* Exceptions - Optional */}
             {card.content.exceptions && (
               <>
-                <div className="border-t border-stone-100" />
-                <div className="rounded-xl p-4 border border-stone-200 bg-gradient-to-br from-stone-50 to-white shadow-sm">
+                <div className="rounded-2xl p-4 bg-gradient-to-br from-stone-50 to-white shadow-surface">
                   <div className="space-y-2">
                     <h3 className="flex items-center gap-2 text-base font-semibold text-stone-800">
                       <AlertCircle className="w-4 h-4" />

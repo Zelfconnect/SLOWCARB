@@ -10,10 +10,15 @@ interface WeightProgressCardProps {
   onOpenLog?: () => void;
 }
 
-const CIRCLE_SIZE = 160;
-const CIRCLE_STROKE_WIDTH = 12;
-const CIRCLE_RADIUS = (CIRCLE_SIZE - CIRCLE_STROKE_WIDTH) / 2;
-const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
+const ARC_WIDTH = 132;
+const ARC_HEIGHT = 74;
+const ARC_STROKE_WIDTH = 10;
+const ARC_RADIUS = (ARC_WIDTH - ARC_STROKE_WIDTH) / 2;
+const ARC_CENTER_X = ARC_WIDTH / 2;
+const ARC_CENTER_Y = ARC_HEIGHT;
+const ARC_START_X = ARC_CENTER_X - ARC_RADIUS;
+const ARC_END_X = ARC_CENTER_X + ARC_RADIUS;
+const GOAL_ARC_PATH = `M ${ARC_START_X} ${ARC_CENTER_Y} A ${ARC_RADIUS} ${ARC_RADIUS} 0 0 0 ${ARC_END_X} ${ARC_CENTER_Y}`;
 
 function clampPercentage(value: number): number {
   return Math.min(100, Math.max(0, value));
@@ -40,11 +45,11 @@ export function WeightProgressCard({
     return (
       <button
         onClick={onOpenLog}
-        className="w-full rounded-2xl border border-stone-100 bg-white p-5 text-left shadow-soft transition-all hover:border-stone-200 hover:shadow-card-hover"
+        className="w-full rounded-2xl bg-white p-4 text-left shadow-surface transition-all hover:shadow-card-hover"
         type="button"
       >
         <p className="text-sm text-stone-700 mb-3">Log je startgewicht om voortgang te zien</p>
-        <div className="inline-flex items-center justify-center px-3 py-2 rounded-lg bg-stone-100 text-stone-800 text-sm font-medium">
+        <div className="inline-flex items-center justify-center rounded-2xl bg-stone-100 px-3 py-2 text-sm font-medium text-stone-800 shadow-surface">
           + Log gewicht
         </div>
       </button>
@@ -59,10 +64,10 @@ export function WeightProgressCard({
     changeDirection === 'down' ? TrendingDown : changeDirection === 'up' ? TrendingUp : Minus;
   const changeColorClass =
     changeDirection === 'down'
-      ? 'text-sage-700 bg-sage-100 border-sage-200'
+      ? 'text-sage-700 bg-sage-100'
       : changeDirection === 'up'
-        ? 'text-clay-700 bg-clay-100 border-clay-200'
-        : 'text-stone-700 bg-stone-100 border-stone-200';
+        ? 'text-clay-700 bg-clay-100'
+        : 'text-stone-700 bg-stone-100';
   const ChangeIcon = changeIcon;
   const hasGoal = typeof targetWeight === 'number' && targetWeight > 0;
   const goalLossKilograms = hasGoal ? targetWeight : null;
@@ -73,20 +78,20 @@ export function WeightProgressCard({
   const progressPercentage = goalLossKilograms == null
     ? 0
     : clampPercentage((lostSoFarKilograms / goalLossKilograms) * 100);
-  const progressOffset = CIRCLE_CIRCUMFERENCE - (progressPercentage / 100) * CIRCLE_CIRCUMFERENCE;
+  const progressStrokeOffset = 100 - progressPercentage;
   const goalCompleted = remainingKilograms != null && remainingKilograms <= 0.05;
 
   if (goalLossKilograms != null) {
     return (
       <button
         onClick={onOpenLog}
-        className="w-full rounded-2xl border border-stone-100 bg-white p-5 text-left shadow-soft transition-all hover:border-stone-200 hover:shadow-card-hover"
+        className="w-full rounded-2xl bg-white p-3 text-left shadow-surface transition-all hover:shadow-card-hover"
         type="button"
       >
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-stone-700">Doelprogressie</span>
-            <span className="inline-flex items-center rounded-full border border-sage-200 bg-sage-50 px-2 py-0.5 text-[11px] font-medium text-sage-700">
+            <span className="inline-flex items-center rounded-full bg-sage-50 px-2 py-0.5 text-[11px] font-medium text-sage-700">
               -{goalLossKilograms.toFixed(0)} kg
             </span>
           </div>
@@ -95,87 +100,87 @@ export function WeightProgressCard({
           </span>
         </div>
 
-        <div className="mt-4 flex justify-center">
-          <div className="relative h-40 w-40 flex-shrink-0 rounded-full shadow-[0_16px_34px_rgba(47,94,63,0.16)]">
-            <svg
-              className="-rotate-90"
-              height={CIRCLE_SIZE}
-              width={CIRCLE_SIZE}
-              viewBox={`0 0 ${CIRCLE_SIZE} ${CIRCLE_SIZE}`}
-              aria-hidden="true"
+        <div className="mt-2 flex items-center gap-2.5">
+          <div className="flex min-w-0 flex-1 items-center gap-2.5 rounded-2xl bg-stone-50/70 p-2 shadow-surface">
+            <div
+              className="relative h-[76px] w-[118px] flex-shrink-0"
+              data-testid="goal-progress-arc"
             >
-              <defs>
-                <linearGradient id="weightProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#729c72" />
-                  <stop offset="100%" stopColor="#314f31" />
-                </linearGradient>
-              </defs>
-              <circle
-                cx={CIRCLE_SIZE / 2}
-                cy={CIRCLE_SIZE / 2}
-                r={CIRCLE_RADIUS}
-                stroke="currentColor"
-                strokeWidth={CIRCLE_STROKE_WIDTH}
-                className="text-stone-200"
-                fill="none"
-              />
-              <circle
-                cx={CIRCLE_SIZE / 2}
-                cy={CIRCLE_SIZE / 2}
-                r={CIRCLE_RADIUS}
-                stroke={goalCompleted ? '#22C55E' : 'url(#weightProgressGradient)'}
-                strokeWidth={CIRCLE_STROKE_WIDTH}
-                strokeLinecap="round"
-                strokeDasharray={CIRCLE_CIRCUMFERENCE}
-                strokeDashoffset={progressOffset}
-                fill="none"
-              />
-            </svg>
-
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-              {goalCompleted ? (
-                <Check className="mb-1 h-6 w-6 text-emerald-600" />
-              ) : null}
-              <div className="flex items-end gap-1">
-                <span className="font-display text-2xl font-bold leading-none text-stone-900">
+              <svg
+                height={ARC_HEIGHT}
+                width={ARC_WIDTH}
+                viewBox={`0 0 ${ARC_WIDTH} ${ARC_HEIGHT}`}
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient id="weightProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#34d399" />
+                    <stop offset="100%" stopColor="#059669" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d={GOAL_ARC_PATH}
+                  stroke="currentColor"
+                  strokeWidth={ARC_STROKE_WIDTH}
+                  className="text-stone-200"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                <path
+                  d={GOAL_ARC_PATH}
+                  stroke={goalCompleted ? '#22C55E' : 'url(#weightProgressGradient)'}
+                  strokeWidth={ARC_STROKE_WIDTH}
+                  strokeLinecap="round"
+                  pathLength={100}
+                  strokeDasharray={100}
+                  strokeDashoffset={progressStrokeOffset}
+                  fill="none"
+                />
+              </svg>
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-1 text-center">
+                {goalCompleted ? (
+                  <Check className="mb-0.5 h-3.5 w-3.5 text-emerald-600" />
+                ) : null}
+                <span className="font-display text-[30px] font-semibold leading-none text-stone-900">
                   {resolvedCurrent.toFixed(1)}
                 </span>
-                <span className="mb-0.5 text-sm font-medium text-stone-500">kg</span>
+                <span className="mb-0.5 text-xs font-medium text-stone-500">kg</span>
               </div>
-              <p className="mt-1 text-xs text-stone-500">
-                Doel: {(resolvedStart - goalLossKilograms).toFixed(1)} kg
+            </div>
+
+            <div className="min-w-0">
+              <p className="text-[11px] text-stone-500">Start</p>
+              <p className="text-sm font-semibold text-stone-800">{resolvedStart.toFixed(1)} kg</p>
+              <p className="mt-1 text-[11px] text-emerald-600">Resterend</p>
+              <p className="text-sm font-semibold text-emerald-700">
+                {goalCompleted ? '0.0 kg' : `${(remainingKilograms ?? 0).toFixed(1)} kg`}
               </p>
             </div>
           </div>
-        </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-xl border border-stone-100 bg-stone-50/70 px-3 py-2">
-            <p className="text-[11px] text-stone-500">Start</p>
-            <p className="text-sm font-semibold text-stone-800">{resolvedStart.toFixed(1)} kg</p>
-          </div>
-          <div className="rounded-xl border border-sage-100 bg-sage-50/60 px-3 py-2">
-            <p className="text-[11px] text-stone-500">Resterend</p>
-            <p className="text-sm font-semibold text-sage-800">
-              {goalCompleted ? '0.0 kg' : `${(remainingKilograms ?? 0).toFixed(1)} kg`}
-            </p>
-          </div>
-          <div className="rounded-xl border border-stone-100 bg-stone-50/70 px-3 py-2">
-            <p className="text-[11px] text-stone-500">Veranderd</p>
-            <p className="text-sm font-semibold text-stone-800">
-              {percentChange > 0 ? '+' : ''}
-              {percentChange.toFixed(1)}%
-            </p>
+          <div className="flex flex-shrink-0">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white shadow-[0_8px_18px_rgba(16,185,129,0.28)]">
+              <span className="text-3xl leading-none">+</span>
+            </span>
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between gap-2">
-          <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${changeColorClass}`}>
+        <div className="mt-2 grid grid-cols-3 gap-1 text-[11px] text-stone-500">
+          <p>
+            Start <span className="font-medium text-stone-700">{resolvedStart.toFixed(1)} kg</span>
+          </p>
+          <p className="text-center">
+            Veranderd <span className="font-medium text-stone-700">{percentChange.toFixed(1)} %</span>
+          </p>
+          <p className="text-right">
+            {goalCompleted ? 'Doel bereikt' : `Nog ${(remainingKilograms ?? 0).toFixed(1)} kg`}
+          </p>
+        </div>
+
+        <div className="mt-1">
+          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${changeColorClass}`}>
             <ChangeIcon className="h-3 w-3" />
             {changeDirection === 'flat' ? 'Stabiel' : `${deltaKilograms < 0 ? '-' : '+'}${absoluteDeltaKilograms.toFixed(1)} kg`}
-          </span>
-          <span className="text-xs text-stone-500">
-            {goalCompleted ? 'Doel bereikt' : `Nog ${(remainingKilograms ?? 0).toFixed(1)} kg te gaan`}
           </span>
         </div>
       </button>
@@ -185,7 +190,7 @@ export function WeightProgressCard({
   return (
     <button
       onClick={onOpenLog}
-      className="w-full rounded-2xl border border-stone-100 bg-white p-5 text-left shadow-soft transition-all hover:border-stone-200 hover:shadow-card-hover"
+      className="w-full rounded-2xl bg-white p-4 text-left shadow-surface transition-all hover:shadow-card-hover"
       type="button"
     >
       <div className="flex justify-between items-center gap-3">
@@ -198,7 +203,7 @@ export function WeightProgressCard({
       <WeightSparkline data={last30Days} className="h-8 mt-2" />
 
       <div className="mt-2 flex items-center justify-between gap-2">
-        <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${changeColorClass}`}>
+        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${changeColorClass}`}>
           <ChangeIcon className="h-3 w-3" />
           {changeDirection === 'flat' ? 'Stabiel' : `${deltaKilograms < 0 ? '-' : '+'}${absoluteDeltaKilograms.toFixed(1)} kg`}
         </span>

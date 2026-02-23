@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Check, Flame, Trophy, Calendar, ChefHat, Salad, Utensils, PartyPopper } from 'lucide-react';
+import { useMemo } from 'react';
+import { Calendar, Check, Flame } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { RECIPES } from '@/data/recipeLoader';
 import type { MealEntry } from '@/types';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 interface DailyMealTrackerProps {
   todayMeals: MealEntry;
@@ -13,140 +13,90 @@ interface DailyMealTrackerProps {
   isCheatDay: boolean;
 }
 
-interface MealCardProps {
+interface MealCarouselCardProps {
   type: 'breakfast' | 'lunch' | 'dinner';
+  image?: string;
+  title: string;
+  subtitle: string;
+  fallbackGradient: string;
   isCompleted: boolean;
   onToggle: () => void;
   isCheatDay: boolean;
 }
 
-const mealFoodIcons = {
-  chefhat: ChefHat,
-  salad: Salad,
-  utensils: Utensils,
-} as const;
-
-const dashboardBrandIconContainerClass =
-  'border border-sage-300/70 bg-gradient-to-br from-sage-700 via-sage-700 to-sage-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_4px_12px_rgba(47,94,63,0.28)]';
-const dashboardBrandIconColorClass = 'text-cream';
-
-const mealConfig: Record<MealCardProps['type'], {
-  label: string;
-  subtitle: string;
-  gradient: string;
-  bgGradient: string;
-  borderColor: string;
-  foodIcon?: keyof typeof mealFoodIcons;
-  foodIconLabel?: string;
-}> = {
+const mealMetadata = {
   breakfast: {
     label: 'Ontbijt',
     subtitle: '30g eiwit binnen 30 min',
-    gradient: 'from-sage-400 to-sage-600',
-    bgGradient: 'from-sage-50 to-sage-100',
-    borderColor: 'border-sage-200',
-    foodIcon: 'chefhat',
-    foodIconLabel: 'Ontbijt',
+    tag: 'ontbijt',
+    fallbackGradient: 'from-amber-200 via-orange-200 to-orange-300',
   },
   lunch: {
     label: 'Lunch',
     subtitle: 'Eiwit + groente + bonen',
-    gradient: 'from-sage-400 to-sage-600',
-    bgGradient: 'from-sage-50 to-emerald-50',
-    borderColor: 'border-sage-200',
-    foodIcon: 'salad',
+    tag: 'lunch',
+    fallbackGradient: 'from-emerald-200 via-green-200 to-emerald-300',
   },
   dinner: {
     label: 'Avondeten',
-    subtitle: 'Eiwit + groente + bonen',
-    gradient: 'from-clay-500 to-clay-600',
-    bgGradient: 'from-clay-50 to-clay-100/50',
-    borderColor: 'border-clay-200',
-    foodIcon: 'utensils',
+    subtitle: 'Protocol diner',
+    tag: 'avondeten',
+    fallbackGradient: 'from-teal-200 via-cyan-200 to-teal-300',
   },
-};
+} as const;
 
-function MealCard({ type, isCompleted, onToggle, isCheatDay }: MealCardProps) {
-  const config = mealConfig[type];
-  const [isPressed, setIsPressed] = useState(false);
-  const FoodIcon = config.foodIcon ? mealFoodIcons[config.foodIcon] : null;
-
+function MealCarouselCard({
+  type,
+  image,
+  title,
+  subtitle,
+  fallbackGradient,
+  isCompleted,
+  onToggle,
+  isCheatDay,
+}: MealCarouselCardProps) {
   return (
     <button
       onClick={onToggle}
-      onTouchStart={() => setIsPressed(true)}
-      onTouchEnd={() => setIsPressed(false)}
-      onMouseDown={() => setIsPressed(true)}
-      onMouseUp={() => setIsPressed(false)}
-      onMouseLeave={() => setIsPressed(false)}
       disabled={isCheatDay}
-      aria-label={config.label}
+      aria-label={title}
+      data-testid={`meal-photo-card-${type}`}
       className={cn(
-        'relative w-full overflow-hidden rounded-2xl border p-5 text-left shadow-card transition-all duration-300',
-        isCompleted
-          ? cn('border-opacity-100 bg-gradient-to-br', config.bgGradient, config.borderColor)
-          : 'border-stone-100 bg-white hover:border-stone-200',
-        isPressed && 'scale-[0.98]',
-        isCheatDay && 'opacity-50 cursor-not-allowed'
+        'group w-full overflow-hidden rounded-2xl bg-white text-left shadow-surface transition-all duration-200',
+        isCompleted ? 'ring-2 ring-emerald-500/40' : 'active:scale-[0.99]',
+        isCheatDay && 'cursor-not-allowed opacity-55'
       )}
     >
-      <div
-        className={cn(
-          'absolute -right-6 -top-6 h-20 w-20 rounded-full opacity-[0.06] transition-all duration-500',
-          isCompleted ? cn('bg-gradient-to-br', config.gradient) : 'bg-stone-300'
-        )}
-      />
-
-      <div className="relative flex items-center gap-4">
-        <div
-          className={cn(
-            'flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-300',
-            isCompleted
-            ? cn('bg-gradient-to-br', config.gradient, 'shadow-lg')
-            : dashboardBrandIconContainerClass
-          )}
-        >
+      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl">
+        <div className={cn('absolute inset-0 bg-gradient-to-br', fallbackGradient)} />
+        {image ? (
+          <img
+            src={image}
+            alt={title}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover"
+            onError={(event) => {
+              event.currentTarget.style.display = 'none';
+            }}
+          />
+        ) : null}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+        <div className="absolute left-2 top-2 inline-flex rounded-full bg-black/45 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white/90">
+          {type}
+        </div>
+        <div className="absolute right-2 top-2">
           {isCompleted ? (
-            <Check className="h-5 w-5 text-white" strokeWidth={3} />
-          ) : FoodIcon ? (
-            <FoodIcon
-              className={cn('h-5 w-5', dashboardBrandIconColorClass)}
-              aria-label={config.foodIconLabel ?? config.label}
-            />
+            <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-500 px-1.5 py-0.5 text-[9px] font-semibold text-white">
+              <Check className="h-2.5 w-2.5" />
+              Klaar
+            </span>
           ) : null}
         </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h4
-              className={cn(
-                'font-display font-semibold transition-colors',
-                isCompleted ? 'text-stone-800' : 'text-stone-700'
-              )}
-            >
-              {config.label}
-            </h4>
-            {isCompleted && (
-              <span className="text-xs font-medium text-sage-700">Afgevinkt</span>
-            )}
-          </div>
-          <p
-            className={cn(
-              'text-sm transition-colors',
-              isCompleted ? 'text-stone-500' : 'text-stone-400'
-            )}
-          >
-            {config.subtitle}
-          </p>
-        </div>
       </div>
-
-      <div
-        className={cn(
-          'absolute bottom-0 left-0 h-0.5 rounded-full transition-all duration-500',
-          isCompleted ? cn('w-full bg-gradient-to-r', config.gradient) : 'w-0'
-        )}
-      />
+      <div className="px-2 py-1.5">
+        <p className="truncate font-display text-[15px] font-semibold text-stone-900">{title}</p>
+        <p className="line-clamp-2 text-[11px] leading-tight text-stone-600">{subtitle}</p>
+      </div>
     </button>
   );
 }
@@ -160,113 +110,124 @@ function getStatusMessage(completedCount: number) {
 
 export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay }: DailyMealTrackerProps) {
   const completedCount = [todayMeals.breakfast, todayMeals.lunch, todayMeals.dinner].filter(Boolean).length;
-  const progress = (completedCount / 3) * 100;
-  const allCompleted = completedCount === 3;
+  const progressPercent = Math.round((completedCount / 3) * 100);
+  const ringSize = 128;
+  const ringStroke = 10;
+  const ringRadius = (ringSize - ringStroke) / 2;
+  const ringCircumference = 2 * Math.PI * ringRadius;
+  const ringOffset = ringCircumference - (progressPercent / 100) * ringCircumference;
+
+  const mealCards = useMemo(
+    () =>
+      (Object.keys(mealMetadata) as Array<keyof typeof mealMetadata>).map((mealType) => {
+        const meta = mealMetadata[mealType];
+        const image = RECIPES.find((recipe) => recipe.tags.includes(meta.tag) && recipe.image)?.image;
+        return {
+          type: mealType,
+          title: meta.label,
+          subtitle: meta.subtitle,
+          image,
+          fallbackGradient: meta.fallbackGradient,
+        };
+      }),
+    []
+  );
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <h3 className="flex items-center gap-2 font-display text-xl font-semibold text-stone-800">
-            <Calendar className="w-5 h-5 text-sage-600" />
+    <section className="rounded-2xl bg-white p-2.5 shadow-surface">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <h3 className="flex items-center gap-1.5 font-display text-base font-semibold text-stone-900">
+            <Calendar className="h-4 w-4 text-emerald-600" />
             Vandaag
           </h3>
-          <p className="text-sm font-medium text-stone-700">{completedCount}/3 maaltijden afgerond</p>
-          <p className="text-sm text-stone-500">
-            {getStatusMessage(completedCount)}
-          </p>
+          <p className="text-[11px] text-stone-500">{getStatusMessage(completedCount)}</p>
         </div>
-
         <Badge
           variant="secondary"
           className={cn(
-            'gap-1.5 px-3 py-1.5 rounded-xl transition-all duration-300 text-sm',
+            'gap-1 px-2 py-1 rounded-lg text-[11px]',
             streak > 0
-              ? 'bg-sage-100 text-sage-700 border border-sage-200'
-              : 'border border-stone-200 bg-stone-50 text-stone-700'
+              ? 'bg-emerald-50 text-emerald-700'
+              : 'bg-stone-50 text-stone-600'
           )}
         >
-          <Flame className={cn('w-4 h-4', streak > 0 && 'text-sage-600')} />
-          {streak > 0 ? (
-            <>
-              <span className="font-display font-semibold">{streak}</span>
-              <span className="text-xs">dag{streak === 1 ? '' : 'en'}</span>
-            </>
-          ) : (
-            <span className="text-xs font-medium">Start streak</span>
-          )}
+          <Flame className={cn('h-3.5 w-3.5', streak > 0 && 'text-emerald-600')} />
+          <span>{streak > 0 ? `${streak} dag${streak === 1 ? '' : 'en'}` : 'Start streak'}</span>
         </Badge>
       </div>
 
-      <div className="relative">
-        <Progress
-          value={progress}
-          className={cn(
-            'h-1.5 rounded-full bg-stone-200',
-            allCompleted
-              ? '[&>[data-slot=progress-indicator]]:bg-gradient-to-r [&>[data-slot=progress-indicator]]:from-emerald-400 [&>[data-slot=progress-indicator]]:via-sage-400 [&>[data-slot=progress-indicator]]:to-emerald-500'
-              : '[&>[data-slot=progress-indicator]]:bg-gradient-to-r [&>[data-slot=progress-indicator]]:from-sage-400 [&>[data-slot=progress-indicator]]:to-sage-500'
-          )}
-        />
-        {allCompleted && (
-          <div className="absolute inset-0 bg-white/30 animate-pulse rounded-full" />
-        )}
+      <div className="mt-1.5 flex flex-col items-center justify-center">
+        <div
+          className="relative"
+          style={{
+            width: `${ringSize}px`,
+            height: `${ringSize}px`,
+          }}
+        >
+          <svg
+            className="-rotate-90"
+            width={ringSize}
+            height={ringSize}
+            viewBox={`0 0 ${ringSize} ${ringSize}`}
+            aria-hidden="true"
+          >
+            <circle
+              cx={ringSize / 2}
+              cy={ringSize / 2}
+              r={ringRadius}
+              strokeWidth={ringStroke}
+              className="text-stone-200"
+              stroke="currentColor"
+              fill="none"
+            />
+            <circle
+              cx={ringSize / 2}
+              cy={ringSize / 2}
+              r={ringRadius}
+              strokeWidth={ringStroke}
+              strokeLinecap="round"
+              stroke="#10b981"
+              strokeDasharray={ringCircumference}
+              strokeDashoffset={ringOffset}
+              fill="none"
+            />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <p className="font-display text-[40px] font-semibold leading-none text-stone-900">
+              {completedCount}/3
+            </p>
+            <p className="mt-0.5 text-xs font-semibold text-emerald-600">Vandaag</p>
+          </div>
+        </div>
       </div>
 
-      {/* Meal cards */}
-      <div className="space-y-3">
-        <MealCard 
-          type="breakfast" 
-          isCompleted={todayMeals.breakfast} 
-          onToggle={() => onToggleMeal('breakfast')}
-          isCheatDay={isCheatDay}
-        />
-        <MealCard 
-          type="lunch" 
-          isCompleted={todayMeals.lunch} 
-          onToggle={() => onToggleMeal('lunch')}
-          isCheatDay={isCheatDay}
-        />
-        <MealCard 
-          type="dinner" 
-          isCompleted={todayMeals.dinner} 
-          onToggle={() => onToggleMeal('dinner')}
-          isCheatDay={isCheatDay}
-        />
+      <div className="mt-2">
+        <Carousel
+          opts={{
+            align: 'start',
+            dragFree: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-1.5">
+            {mealCards.map((meal) => (
+              <CarouselItem key={meal.type} className="basis-[33.333%] pl-1.5">
+                <MealCarouselCard
+                  type={meal.type}
+                  title={meal.title}
+                  subtitle={meal.subtitle}
+                  image={meal.image}
+                  fallbackGradient={meal.fallbackGradient}
+                  isCompleted={todayMeals[meal.type]}
+                  onToggle={() => onToggleMeal(meal.type)}
+                  isCheatDay={isCheatDay}
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </div>
-
-      {/* Celebration when all completed */}
-      {allCompleted && (
-        <Card className="animate-in slide-in-from-bottom-2 fade-in rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50/70 to-sage-50/70 p-4 shadow-card">
-          <CardContent className="p-0">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-400 to-sage-500 flex items-center justify-center shadow-sm">
-                <Trophy className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h4 className="font-display font-semibold text-emerald-900">Perfecte dag!</h4>
-                <p className="text-sm text-emerald-700">Je hebt alle maaltijden volgens het protocol gegeten.</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {isCheatDay && (
-        <Card className="rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/80 to-clay-100/80 p-4 shadow-card">
-          <CardContent className="p-0">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-clay-400 to-orange-500 flex items-center justify-center shadow-sm">
-                <PartyPopper className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h4 className="font-display font-semibold text-clay-900">Cheat Day!</h4>
-                <p className="text-sm text-clay-700">Geniet vandaag van alles wat je lekker vindt!</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+    </section>
   );
 }

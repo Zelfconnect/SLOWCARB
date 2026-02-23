@@ -107,9 +107,9 @@ export const spacing = {
 export const typography = {
   // Font families
   fontFamily: {
-    sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-    serif: ['Merriweather', 'Georgia', 'serif'],
-    display: ['Inter', 'system-ui', 'sans-serif'],
+    sans: ['SF Pro Text', 'SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Inter', 'system-ui', 'sans-serif'],
+    serif: ['Georgia', 'serif'],
+    display: ['SF Pro Display', 'SF Pro Text', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Inter', 'system-ui', 'sans-serif'],
   },
 
   // Sizes (8pt scale)
@@ -154,8 +154,8 @@ export const typography = {
 export const radius = {
   none: '0',
   sm: '4px',      // 0.25rem - small elements
-  md: '8px',      // 0.5rem - buttons, inputs
-  lg: '12px',     // 0.75rem - cards (default)
+  md: '12px',     // 0.75rem - compact controls
+  lg: '16px',     // 1rem - default interactive surfaces
   xl: '16px',     // 1rem - large cards
   '2xl': '20px',  // 1.25rem - modals
   '3xl': '24px',  // 1.5rem - hero cards
@@ -169,6 +169,7 @@ export const shadow = {
   md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06)',
   lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05)',
   xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',
+  surface: '0 4px 20px rgba(0, 0, 0, 0.06)',
 } as const;
 
 // LAYOUT - Fixed dimensions

@@ -43,4 +43,44 @@ describe('WeightProgressCard', () => {
 
     expect(screen.getByLabelText('Gewichtsontwikkeling')).toBeInTheDocument();
   });
+
+  it('renders compact goal progress stats in one row', () => {
+    const weightLog = createWeightLog([
+      { date: '2026-02-01', weight: 100.0 },
+      { date: '2026-02-20', weight: 96.5 },
+    ]);
+
+    render(
+      <WeightProgressCard
+        weightLog={weightLog}
+        startWeight={100.0}
+        currentWeight={96.5}
+        targetWeight={10}
+      />
+    );
+
+    expect(screen.getByText('Doelprogressie')).toBeInTheDocument();
+    expect(screen.getAllByText('Start').length).toBeGreaterThan(0);
+    expect(screen.getByText('Resterend')).toBeInTheDocument();
+    expect(screen.getByText('Veranderd')).toBeInTheDocument();
+    expect(screen.getByText('Nog 6.5 kg')).toBeInTheDocument();
+  });
+
+  it('renders a half-arc progress indicator for goal mode', () => {
+    const weightLog = createWeightLog([
+      { date: '2026-02-01', weight: 100.0 },
+      { date: '2026-02-20', weight: 98.0 },
+    ]);
+
+    render(
+      <WeightProgressCard
+        weightLog={weightLog}
+        startWeight={100.0}
+        currentWeight={98.0}
+        targetWeight={10}
+      />
+    );
+
+    expect(screen.getByTestId('goal-progress-arc')).toBeInTheDocument();
+  });
 });

@@ -34,14 +34,14 @@ export function StreakHeroCard({ streak, currentWeek, currentDay, isCheatDay }: 
   };
 
   return (
-    <div className="rounded-2xl border border-stone-200 bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-card">
-      <div className="flex items-start gap-3 mb-2">
+    <section className="rounded-2xl bg-gradient-to-r from-emerald-900 to-emerald-700 px-4 py-3 text-white shadow-surface">
+      <div className="mb-1.5 flex items-center gap-2">
         {getIcon()}
-        <span className="font-display text-2xl font-bold leading-tight sm:text-3xl">
+        <span className="font-display text-lg font-semibold leading-tight">
           {getTitle()}
         </span>
       </div>
-      <p className="text-sage-100">{getSubtitle()}</p>
-    </div>
+      <p className="text-sm text-emerald-50/95">{getSubtitle()}</p>
+    </section>
   );
 }

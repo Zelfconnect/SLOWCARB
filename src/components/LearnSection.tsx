@@ -46,14 +46,14 @@ function CardPreview({
     switch (type) {
       case 'rule':
         // Match CompactRecipeCard style: white bg, specific shadow, no border
-        return 'bg-white border-transparent shadow-[0_6px_18px_rgba(47,94,63,0.08)] hover:shadow-[0_10px_24px_rgba(47,94,63,0.14)]';
+        return 'bg-white shadow-card hover:shadow-card-hover';
       case 'concept':
-        return 'from-stone-100 to-stone-50 border-stone-200 shadow-[0_8px_20px_-16px_rgba(30,41,59,0.35)] hover:border-stone-300';
+        return 'bg-gradient-to-br from-stone-100 to-stone-50 shadow-card hover:shadow-card-hover';
       case 'faq':
       case 'reference':
-        return 'from-stone-100 to-stone-50 border-stone-200 shadow-[0_8px_20px_-16px_rgba(30,41,59,0.35)] hover:border-stone-300';
+        return 'bg-gradient-to-br from-stone-100 to-stone-50 shadow-card hover:shadow-card-hover';
       default:
-        return 'from-stone-100 to-stone-50 border-stone-200';
+        return 'bg-gradient-to-br from-stone-100 to-stone-50 shadow-card';
     }
   };
 
@@ -90,8 +90,6 @@ function CardPreview({
       onClick={onClick}
       className={cn(
         'w-full rounded-2xl text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-400/60',
-        // Rules don't use border-2, others do
-        isRule ? '' : 'border-2 bg-gradient-to-br',
         getTypeStyle(card.type)
       )}
     >
@@ -100,7 +98,7 @@ function CardPreview({
           "flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-[1.03]",
           isRule 
             ? "w-10 h-10 rounded-full bg-sage-100" 
-            : "w-12 h-12 rounded-xl bg-white/80 shadow-sm text-2xl"
+            : "w-12 h-12 rounded-2xl bg-white/80 shadow-surface text-2xl"
         )}>
           {renderEducationIcon(
             card.icon, 
@@ -143,14 +141,14 @@ export function LearnSection() {
   <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'quickstart' | 'science' | 'faq')}>
       {/* Tabs */}
-      <TabsList className="mb-4 h-auto w-full rounded-2xl bg-stone-100 p-1.5">
-        <TabsTrigger value="quickstart" className="flex-1 gap-2 rounded-xl px-4 py-2.5 text-stone-500 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft">
+      <TabsList className="mb-4 h-auto w-full rounded-2xl bg-stone-100 p-1">
+        <TabsTrigger value="quickstart" className="flex-1 gap-2">
           <Zap className="w-4 h-4" />Quick Start
         </TabsTrigger>
-        <TabsTrigger value="science" className="flex-1 gap-2 rounded-xl px-4 py-2.5 text-stone-500 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft">
+        <TabsTrigger value="science" className="flex-1 gap-2">
           <FlaskConical className="w-4 h-4" />Wetenschap
         </TabsTrigger>
-        <TabsTrigger value="faq" className="flex-1 gap-2 rounded-xl px-4 py-2.5 text-stone-500 data-[state=active]:bg-white data-[state=active]:text-sage-700 data-[state=active]:shadow-soft">
+        <TabsTrigger value="faq" className="flex-1 gap-2">
           <HelpCircle className="w-4 h-4" />FAQ
         </TabsTrigger>
       </TabsList>
@@ -169,7 +167,7 @@ export function LearnSection() {
           </div>
 
           {/* The 5 Rules */}
-          <div className="space-y-4 rounded-3xl border border-sage-100 bg-gradient-to-b from-white to-sage-50/40 p-5 shadow-soft">
+          <div className="space-y-4 rounded-3xl bg-gradient-to-b from-white to-sage-50/40 p-5 shadow-surface">
             <h2 className="text-lg font-semibold text-stone-800 flex items-center gap-2">
               <ClipboardList className="w-5 h-5 text-sage-600" />
               De 5 Regels
@@ -187,9 +185,9 @@ export function LearnSection() {
           </div>
 
           {/* 30/30 Rule */}
-          <div className="rounded-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-soft">
+          <div className="rounded-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-surface">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
+              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
                 <Zap className="w-6 h-6 text-white" aria-hidden="true" />
               </div>
               <div>
@@ -200,7 +198,7 @@ export function LearnSection() {
             <p className="text-white/90 mb-4">
               Eet 30 gram eiwit binnen 30 minuten na het opstaan.
             </p>
-            <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+            <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm">
               <p className="text-sm font-medium text-white mb-2">Waarom dit werkt:</p>
               <ul className="space-y-1">
                 <li className="text-sm text-white/80 flex items-start gap-2">
@@ -211,7 +209,7 @@ export function LearnSection() {
                 </li>
               </ul>
             </div>
-            <div className="mt-4 pt-4 border-t border-white/20">
+            <div className="mt-4 pt-4">
               <p className="text-sm font-medium text-white mb-2">Voorbeelden:</p>
               <div className="flex flex-wrap gap-2">
                 <span className="text-xs bg-white/20 text-white px-3 py-1.5 rounded-full font-medium">
@@ -232,14 +230,14 @@ export function LearnSection() {
             </h2>
             
             {/* YES List */}
-            <div className="rounded-2xl border border-sage-200 bg-gradient-to-br from-sage-50 to-sage-100/30 p-5 shadow-soft">
+            <div className="rounded-2xl bg-gradient-to-br from-sage-50 to-sage-100/30 p-5 shadow-surface">
               <h3 className="mb-4 flex items-center gap-2 font-display font-semibold text-sage-900">
                 <CheckCircle2 className="w-5 h-5" />
                 JA - Eet onbeperkt
               </h3>
               <div className="grid grid-cols-1 min-[460px]:grid-cols-2 gap-2.5">
                 {yesNoList.yes.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2 rounded-xl bg-white/70 px-3 py-2.5 text-sm text-sage-800">
+                  <div key={idx} className="flex items-center gap-2 rounded-2xl bg-white/70 px-3 py-2.5 text-sm text-sage-800 shadow-surface">
                     {renderEducationIcon(item.icon, 'w-5 h-5 text-sage-700')}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
@@ -248,14 +246,14 @@ export function LearnSection() {
             </div>
 
             {/* NO List */}
-            <div className="rounded-2xl border border-clay-200 bg-gradient-to-br from-clay-50 to-clay-100/30 p-5 shadow-soft">
+            <div className="rounded-2xl bg-gradient-to-br from-clay-50 to-clay-100/30 p-5 shadow-surface">
               <h3 className="mb-4 flex items-center gap-2 font-display font-semibold text-clay-900">
                 <XCircle className="w-5 h-5" />
                 NEE - Vermijden
               </h3>
               <div className="grid grid-cols-1 min-[460px]:grid-cols-2 gap-2.5">
                 {yesNoList.no.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2 rounded-xl bg-white/70 px-3 py-2.5 text-sm text-clay-800">
+                  <div key={idx} className="flex items-center gap-2 rounded-2xl bg-white/70 px-3 py-2.5 text-sm text-clay-800 shadow-surface">
                     {renderEducationIcon(item.icon, 'w-5 h-5 text-clay-700')}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
@@ -264,14 +262,14 @@ export function LearnSection() {
             </div>
 
             {/* CHEAT DAY */}
-            <div className="rounded-2xl border border-stone-200 bg-gradient-to-br from-stone-50 to-stone-100/40 p-5 shadow-soft">
+            <div className="rounded-2xl bg-gradient-to-br from-stone-50 to-stone-100/40 p-5 shadow-surface">
               <h3 className="mb-4 flex items-center gap-2 font-display font-semibold text-stone-900">
                 <PartyPopper className="w-5 h-5" />
                 CHEAT DAY
               </h3>
               <div className="grid grid-cols-1 min-[460px]:grid-cols-2 gap-2.5">
                 {yesNoList.cheat.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2 rounded-xl bg-white/70 px-3 py-2.5 text-sm text-stone-800">
+                  <div key={idx} className="flex items-center gap-2 rounded-2xl bg-white/70 px-3 py-2.5 text-sm text-stone-800 shadow-surface">
                     {renderEducationIcon(item.icon, 'w-5 h-5 text-stone-700')}
                     <span className="leading-tight font-medium">{item.item}</span>
                   </div>
@@ -281,13 +279,13 @@ export function LearnSection() {
           </div>
 
           {/* Common Mistakes */}
-          <div className="rounded-2xl border border-stone-200 bg-gradient-to-br from-stone-50 to-stone-100/40 p-5 shadow-soft">
+          <div className="rounded-2xl bg-gradient-to-br from-stone-50 to-stone-100/40 p-5 shadow-surface">
             <h3 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
               <AlertTriangle className="w-5 h-5" />Veelgemaakte Fouten
             </h3>
             <div className="space-y-3">
               {commonMistakes.slice(0, 4).map((mistake, idx) => (
-                <div key={idx} className="rounded-xl bg-white/75 p-3">
+                <div key={idx} className="rounded-2xl bg-white/75 p-3 shadow-surface">
                   <div className="flex items-center gap-2 mb-1">
                     {renderEducationIcon(mistake.icon, 'w-5 h-5 text-stone-500')}
                     <p className="font-medium text-stone-800 text-sm">{mistake.mistake}</p>
