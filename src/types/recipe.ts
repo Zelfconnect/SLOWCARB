@@ -1,6 +1,7 @@
 export interface Recipe {
   id: string;
   title: string;
+  image?: string;
   category: 'Quick' | 'Meal Prep' | 'No-Time';
   protein: string;
   cookTime: string;

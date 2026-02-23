@@ -1,7 +1,6 @@
 import { Fragment, useState, useMemo } from 'react';
 import { Search, Heart } from 'lucide-react';
 import { RECIPES, RECIPE_CATEGORIES } from '@/data/recipeLoader';
-import { CompactRecipeCard } from './CompactRecipeCard';
 import { RecipeDetailModal } from './RecipeDetailModal';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -14,11 +13,31 @@ interface RecipesListProps {
   onToggleFavorite: (id: string) => void;
 }
 
-const CATEGORY_SECTIONS: Array<{ id: Recipe['category']; label: string }> = [
-  { id: 'airfryer', label: 'Airfryer' },
-  { id: 'meal-prep', label: 'Meal Prep' },
-  { id: 'no-time', label: 'No-Time' },
-];
+const PLACEHOLDER_GRADIENTS: Record<string, string> = {
+  ontbijt: 'bg-gradient-to-br from-amber-100 to-orange-200',
+  breakfast: 'bg-gradient-to-br from-amber-100 to-orange-200',
+  lunch: 'bg-gradient-to-br from-green-100 to-emerald-200',
+  avondeten: 'bg-gradient-to-br from-blue-100 to-indigo-200',
+  dinner: 'bg-gradient-to-br from-blue-100 to-indigo-200',
+  snack: 'bg-gradient-to-br from-rose-100 to-pink-200',
+  airfryer: 'bg-gradient-to-br from-orange-100 to-amber-200',
+  default: 'bg-gradient-to-br from-sage-100 to-sage-200',
+};
+
+const getRecipeGradient = (recipe: Recipe) => {
+  if (recipe.tags.includes('ontbijt')) return PLACEHOLDER_GRADIENTS.ontbijt;
+  if (recipe.tags.includes('lunch')) return PLACEHOLDER_GRADIENTS.lunch;
+  if (recipe.tags.includes('avondeten')) return PLACEHOLDER_GRADIENTS.avondeten;
+  if (recipe.tags.includes('snack')) return PLACEHOLDER_GRADIENTS.snack;
+  if (recipe.tags.includes('airfryer') || recipe.category === 'airfryer') return PLACEHOLDER_GRADIENTS.airfryer;
+  return PLACEHOLDER_GRADIENTS.default;
+};
+
+const getActiveCategoryLabel = (activeCategory: string) => {
+  if (activeCategory === 'all') return null;
+  const fromCategories = RECIPE_CATEGORIES.find((category) => category.id === activeCategory);
+  return fromCategories?.name ?? activeCategory;
+};
 
 export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
   const { t } = useTranslation();
@@ -51,15 +70,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
   const selectedRecipe = selectedRecipeId 
     ? RECIPES.find(r => r.id === selectedRecipeId) 
     : null;
-  const groupedRecipes = useMemo(() => {
-    if (activeCategory !== 'all') return [];
-    return CATEGORY_SECTIONS
-      .map((section) => ({
-        ...section,
-        recipes: filteredRecipes.filter((recipe) => recipe.category === section.id),
-      }))
-      .filter((section) => section.recipes.length > 0);
-  }, [activeCategory, filteredRecipes]);
+  const activeCategoryLabel = getActiveCategoryLabel(activeCategory);
 
   return (
     <div className="space-y-5">
@@ -74,15 +85,15 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
         />
       </div>
 
-      {/* Filter Chips – premium: h-10, active shadow + stronger sage */}
+      {/* Filter Chips */}
       <div className="flex flex-wrap gap-2.5">
           <button
             onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
             className={cn(
               'flex h-10 flex-none items-center gap-1.5 whitespace-nowrap rounded-full border px-4 text-xs font-medium transition-all duration-200',
               showFavoritesOnly 
-                ? 'border-red-200 bg-red-50 text-red-700 shadow-soft'
-                : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                ? 'border-black bg-black text-white'
+                : 'border-transparent bg-stone-100 text-stone-500 hover:bg-stone-200'
             )}
           >
             <Heart className={cn('w-3.5 h-3.5', showFavoritesOnly && 'fill-current')} />
@@ -94,8 +105,8 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
             className={cn(
               'flex h-10 flex-none items-center gap-1.5 whitespace-nowrap rounded-full border px-4 text-xs font-medium transition-all duration-200',
               activeCategory === 'all' 
-                ? 'border-sage-300 bg-sage-100 text-sage-800 shadow-soft'
-                : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                ? 'border-black bg-black text-white'
+                : 'border-transparent bg-stone-100 text-stone-500 hover:bg-stone-200'
             )}
           >
             Alles
@@ -111,14 +122,14 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
                   className={cn(
                     'flex h-10 flex-none items-center gap-1.5 whitespace-nowrap rounded-full border px-4 text-xs font-medium transition-all duration-200',
                     activeCategory === cat.id 
-                      ? 'border-sage-300 bg-sage-100 text-sage-800 shadow-soft'
-                      : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                      ? 'border-black bg-black text-white'
+                      : 'border-transparent bg-stone-100 text-stone-500 hover:bg-stone-200'
                   )}
                 >
                   <MealTypeIcon
                     className={cn(
                       'w-4 h-4',
-                      activeCategory === cat.id ? 'text-sage-700' : 'text-stone-500'
+                      activeCategory === cat.id ? 'text-white' : 'text-stone-500'
                     )}
                   />
                   {cat.name}
@@ -128,14 +139,26 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
           })}
       </div>
 
-      {/* Recipe Count */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-stone-500">
-          {`${filteredRecipes.length} ${filteredRecipes.length === 1 ? 'recept' : 'recepten'}`}
-        </p>
-      </div>
+      {activeCategory !== 'all' && (
+        <div className="flex items-baseline justify-between mb-3 mt-1">
+          <div className="flex items-baseline gap-2">
+            <p className="text-xs font-bold tracking-widest text-stone-400 uppercase">
+              {activeCategoryLabel}
+            </p>
+            <p className="text-xs text-stone-400">
+              {`${filteredRecipes.length} recepten`}
+            </p>
+          </div>
+          <button
+            onClick={() => setActiveCategory('all')}
+            className="text-xs text-stone-900 font-semibold"
+          >
+            Wis alles →
+          </button>
+        </div>
+      )}
 
-      {/* Recipe List - Compact */}
+      {/* Recipe List */}
       <div className="space-y-2">
         {filteredRecipes.length === 0 ? (
           <div className="card-website py-12 text-center text-stone-500">
@@ -145,48 +168,79 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
             <p className="font-display font-medium text-stone-700">Geen recepten gevonden</p>
             <p className="text-sm mt-1">Probeer een andere zoekterm</p>
           </div>
-        ) : activeCategory === 'all' ? (
-          <div className="space-y-5">
-            {groupedRecipes.map((section) => (
-              <div key={section.id} className="space-y-2">
-                <div className="flex items-center justify-between px-0.5">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-600">
-                    {section.label}
-                  </p>
-                  <p className="text-xs text-stone-400">
-                    {`${section.recipes.length} ${section.recipes.length === 1 ? 'recept' : 'recepten'}`}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  {section.recipes.map((recipe) => (
-                    <CompactRecipeCard
-                      key={recipe.id}
-                      recipe={recipe}
-                      isFavorite={favorites.includes(recipe.id)}
-                      onToggleFavorite={(e) => {
-                        e.stopPropagation();
-                        onToggleFavorite(recipe.id);
-                      }}
-                      onClick={() => setSelectedRecipeId(recipe.id)}
+        ) : (
+          filteredRecipes.map((recipe) => {
+            const protein = (recipe as Recipe & { macros?: { protein?: number } }).macros?.protein;
+            const metaItems = [
+              recipe.cookTime || recipe.prepTime ? `⏱ ${recipe.cookTime || recipe.prepTime}` : null,
+              Number.isFinite(recipe.servings) ? `👤 ${recipe.servings}p` : null,
+              recipe.difficulty || null,
+              protein != null ? `${protein}g eiwit` : null,
+            ].filter((item): item is string => Boolean(item));
+
+            return (
+              <div
+                key={recipe.id}
+                onClick={() => setSelectedRecipeId(recipe.id)}
+                className="rounded-2xl overflow-hidden bg-white shadow-card border border-stone-200 mb-4 cursor-pointer"
+              >
+                <div className="relative aspect-video w-full overflow-hidden">
+                  {/* Gradient is always rendered as fallback background */}
+                  <div className={cn('absolute inset-0', getRecipeGradient(recipe))} />
+                  {recipe.image && (
+                    <img
+                      src={recipe.image}
+                      alt={recipe.name}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      loading="lazy"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                     />
-                  ))}
+                  )}
+                  {(recipe.cookTime || recipe.prepTime) && (
+                    <div className="absolute bottom-3 left-3 bg-stone-900 text-white text-xs font-semibold rounded-full px-2.5 py-1">
+                      {recipe.cookTime || recipe.prepTime}
+                    </div>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleFavorite(recipe.id);
+                    }}
+                    className="absolute top-3 right-3 h-10 w-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-stone-100"
+                    aria-label={favorites.includes(recipe.id) ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
+                  >
+                    <Heart
+                      className={cn(
+                        'h-4 w-4',
+                        favorites.includes(recipe.id) ? 'fill-current text-red-500' : 'text-stone-500'
+                      )}
+                      strokeWidth={2}
+                    />
+                  </button>
+                </div>
+                <div className="p-4 pb-5">
+                  <h3 className="font-semibold text-[17px] leading-snug text-stone-900 line-clamp-2">
+                    {recipe.name}
+                  </h3>
+                  {recipe.subtitle && (
+                    <p className="mt-0.5 line-clamp-1 text-sm text-stone-400">
+                      {recipe.subtitle}
+                    </p>
+                  )}
+                  {metaItems.length > 0 && (
+                    <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-stone-500">
+                      {metaItems.map((item, index) => (
+                        <Fragment key={`${recipe.id}-meta-${index}`}>
+                          {index > 0 && <span aria-hidden="true">·</span>}
+                          <span>{item}</span>
+                        </Fragment>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          filteredRecipes.map((recipe) => (
-            <CompactRecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              isFavorite={favorites.includes(recipe.id)}
-              onToggleFavorite={(e) => {
-                e.stopPropagation();
-                onToggleFavorite(recipe.id);
-              }}
-              onClick={() => setSelectedRecipeId(recipe.id)}
-            />
-          ))
+            );
+          })
         )}
       </div>
 
