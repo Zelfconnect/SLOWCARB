@@ -85,15 +85,15 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
         />
       </div>
 
-      {/* Filter Chips – premium: h-10, active shadow + stronger sage */}
+      {/* Filter Chips */}
       <div className="flex flex-wrap gap-2.5">
           <button
             onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
             className={cn(
               'flex h-10 flex-none items-center gap-1.5 whitespace-nowrap rounded-full border px-4 text-xs font-medium transition-all duration-200',
               showFavoritesOnly 
-                ? 'border-red-200 bg-red-50 text-red-700 shadow-soft'
-                : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                ? 'border-black bg-black text-white'
+                : 'border-transparent bg-stone-100 text-stone-500 hover:bg-stone-200'
             )}
           >
             <Heart className={cn('w-3.5 h-3.5', showFavoritesOnly && 'fill-current')} />
@@ -105,8 +105,8 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
             className={cn(
               'flex h-10 flex-none items-center gap-1.5 whitespace-nowrap rounded-full border px-4 text-xs font-medium transition-all duration-200',
               activeCategory === 'all' 
-                ? 'border-sage-300 bg-sage-100 text-sage-800 shadow-soft'
-                : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                ? 'border-black bg-black text-white'
+                : 'border-transparent bg-stone-100 text-stone-500 hover:bg-stone-200'
             )}
           >
             Alles
@@ -122,14 +122,14 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
                   className={cn(
                     'flex h-10 flex-none items-center gap-1.5 whitespace-nowrap rounded-full border px-4 text-xs font-medium transition-all duration-200',
                     activeCategory === cat.id 
-                      ? 'border-sage-300 bg-sage-100 text-sage-800 shadow-soft'
-                      : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                      ? 'border-black bg-black text-white'
+                      : 'border-transparent bg-stone-100 text-stone-500 hover:bg-stone-200'
                   )}
                 >
                   <MealTypeIcon
                     className={cn(
                       'w-4 h-4',
-                      activeCategory === cat.id ? 'text-sage-700' : 'text-stone-500'
+                      activeCategory === cat.id ? 'text-white' : 'text-stone-500'
                     )}
                   />
                   {cat.name}
@@ -142,7 +142,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
       {activeCategory !== 'all' && (
         <div className="flex items-baseline justify-between mb-3 mt-1">
           <div className="flex items-baseline gap-2">
-            <p className="text-xs font-bold tracking-widest text-stone-500 uppercase">
+            <p className="text-xs font-bold tracking-widest text-stone-400 uppercase">
               {activeCategoryLabel}
             </p>
             <p className="text-xs text-stone-400">
@@ -151,7 +151,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
           </div>
           <button
             onClick={() => setActiveCategory('all')}
-            className="text-xs text-sage-600 font-medium"
+            className="text-xs text-stone-900 font-semibold"
           >
             Wis alles →
           </button>
@@ -182,7 +182,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
               <div
                 key={recipe.id}
                 onClick={() => setSelectedRecipeId(recipe.id)}
-                className="rounded-2xl overflow-hidden bg-white shadow-card border border-stone-100 mb-3 cursor-pointer"
+                className="rounded-2xl overflow-hidden bg-white shadow-card border border-stone-200 mb-4 cursor-pointer"
               >
                 <div className="relative aspect-video w-full overflow-hidden">
                   {/* Gradient is always rendered as fallback background */}
@@ -196,12 +196,17 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
                       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                     />
                   )}
+                  {(recipe.cookTime || recipe.prepTime) && (
+                    <div className="absolute bottom-3 left-3 bg-stone-900 text-white text-xs font-semibold rounded-full px-2.5 py-1">
+                      {recipe.cookTime || recipe.prepTime}
+                    </div>
+                  )}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       onToggleFavorite(recipe.id);
                     }}
-                    className="absolute top-3 right-3 h-11 w-11 rounded-full bg-white/80 backdrop-blur-sm shadow-sm flex items-center justify-center"
+                    className="absolute top-3 right-3 h-10 w-10 rounded-full bg-white shadow-sm flex items-center justify-center border border-stone-100"
                     aria-label={favorites.includes(recipe.id) ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
                   >
                     <Heart
@@ -209,11 +214,11 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
                         'h-4 w-4',
                         favorites.includes(recipe.id) ? 'fill-current text-red-500' : 'text-stone-500'
                       )}
-                      strokeWidth={favorites.includes(recipe.id) ? 2.5 : 2}
+                      strokeWidth={2}
                     />
                   </button>
                 </div>
-                <div className="p-3 pb-4">
+                <div className="p-4 pb-5">
                   <h3 className="font-semibold text-[17px] leading-snug text-stone-900 line-clamp-2">
                     {recipe.name}
                   </h3>
