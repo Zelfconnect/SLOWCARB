@@ -188,7 +188,7 @@ const toAppRecipe = (raw: RawRecipe): AppRecipe => {
   return {
     id: raw.id,
     name: raw.title,
-    image: raw.image ?? undefined,
+    image: raw.image ?? `/recipes/${raw.id}.png`,
     subtitle: raw.subtitle,
     difficulty: raw.difficulty,
     category: getPrimaryCategory(raw.tags),

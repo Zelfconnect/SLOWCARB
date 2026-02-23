@@ -176,15 +176,16 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
               className="rounded-2xl overflow-hidden bg-white shadow-card border border-stone-100 mb-3 cursor-pointer"
             >
               <div className="relative h-44 w-full overflow-hidden">
-                {recipe.image ? (
+                {/* Gradient is always rendered as fallback background */}
+                <div className={cn('absolute inset-0', getRecipeGradient(recipe))} />
+                {recipe.image && (
                   <img
                     src={recipe.image}
                     alt={recipe.name}
-                    className="h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-cover"
                     loading="lazy"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
-                ) : (
-                  <div className={cn('h-full w-full', getRecipeGradient(recipe))} />
                 )}
                 <span className="absolute top-3 left-3 bg-sage-600 text-white text-xs font-semibold rounded-full px-2.5 py-1">
                   {recipe.cookTime}
