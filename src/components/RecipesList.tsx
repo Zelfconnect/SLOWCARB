@@ -169,56 +169,73 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
             <p className="text-sm mt-1">Probeer een andere zoekterm</p>
           </div>
         ) : (
-          filteredRecipes.map((recipe) => (
-            <div
-              key={recipe.id}
-              onClick={() => setSelectedRecipeId(recipe.id)}
-              className="rounded-2xl overflow-hidden bg-white shadow-card border border-stone-100 mb-3 cursor-pointer"
-            >
-              <div className="relative h-44 w-full overflow-hidden">
-                {/* Gradient is always rendered as fallback background */}
-                <div className={cn('absolute inset-0', getRecipeGradient(recipe))} />
-                {recipe.image && (
-                  <img
-                    src={recipe.image}
-                    alt={recipe.name}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    loading="lazy"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                  />
-                )}
-                <span className="absolute top-3 left-3 bg-sage-600 text-white text-xs font-semibold rounded-full px-2.5 py-1">
-                  {recipe.cookTime}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onToggleFavorite(recipe.id);
-                  }}
-                  className="absolute top-3 right-3 bg-white rounded-full p-1.5 shadow-sm"
-                  aria-label={favorites.includes(recipe.id) ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
-                >
-                  <Heart
-                    className={cn(
-                      'h-4 w-4',
-                      favorites.includes(recipe.id) ? 'fill-current text-red-500' : 'text-stone-500'
-                    )}
-                    strokeWidth={favorites.includes(recipe.id) ? 2.5 : 2}
-                  />
-                </button>
+          filteredRecipes.map((recipe) => {
+            const protein = (recipe as Recipe & { macros?: { protein?: number } }).macros?.protein;
+            const metaItems = [
+              recipe.cookTime || recipe.prepTime ? `⏱ ${recipe.cookTime || recipe.prepTime}` : null,
+              Number.isFinite(recipe.servings) ? `👤 ${recipe.servings}p` : null,
+              recipe.difficulty || null,
+              protein != null ? `${protein}g eiwit` : null,
+            ].filter((item): item is string => Boolean(item));
+
+            return (
+              <div
+                key={recipe.id}
+                onClick={() => setSelectedRecipeId(recipe.id)}
+                className="rounded-2xl overflow-hidden bg-white shadow-card border border-stone-100 mb-3 cursor-pointer"
+              >
+                <div className="relative aspect-video w-full overflow-hidden">
+                  {/* Gradient is always rendered as fallback background */}
+                  <div className={cn('absolute inset-0', getRecipeGradient(recipe))} />
+                  {recipe.image && (
+                    <img
+                      src={recipe.image}
+                      alt={recipe.name}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      loading="lazy"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleFavorite(recipe.id);
+                    }}
+                    className="absolute top-3 right-3 h-11 w-11 rounded-full bg-white/80 backdrop-blur-sm shadow-sm flex items-center justify-center"
+                    aria-label={favorites.includes(recipe.id) ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten'}
+                  >
+                    <Heart
+                      className={cn(
+                        'h-4 w-4',
+                        favorites.includes(recipe.id) ? 'fill-current text-red-500' : 'text-stone-500'
+                      )}
+                      strokeWidth={favorites.includes(recipe.id) ? 2.5 : 2}
+                    />
+                  </button>
+                </div>
+                <div className="p-3 pb-4">
+                  <h3 className="font-semibold text-[17px] leading-snug text-stone-900 line-clamp-2">
+                    {recipe.name}
+                  </h3>
+                  {recipe.subtitle && (
+                    <p className="mt-0.5 line-clamp-1 text-sm text-stone-400">
+                      {recipe.subtitle}
+                    </p>
+                  )}
+                  {metaItems.length > 0 && (
+                    <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-stone-500">
+                      {metaItems.map((item, index) => (
+                        <Fragment key={`${recipe.id}-meta-${index}`}>
+                          {index > 0 && <span aria-hidden="true">·</span>}
+                          <span>{item}</span>
+                        </Fragment>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="p-3 pb-4">
-                <h3 className="font-semibold text-stone-900 text-base leading-snug">
-                  {recipe.name}
-                </h3>
-                {recipe.subtitle && (
-                  <p className="text-sm text-stone-500 mt-0.5 line-clamp-1">
-                    {recipe.subtitle}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 
