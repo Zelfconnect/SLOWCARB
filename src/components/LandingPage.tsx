@@ -74,19 +74,19 @@ const features: Feature[] = [
 const testimonials = [
   {
     quote:
-      'Placeholder testimonial: dit gaf me eindelijk structuur zonder dat ik mijn hele leven hoefde om te gooien.',
+      'dit gaf me eindelijk structuur zonder dat ik mijn hele leven hoefde om te gooien.',
     name: 'Mark',
     result: '-9 kg in 5 weken',
   },
   {
     quote:
-      'Placeholder testimonial: de recepten en lijstjes besparen me elke week tijd en mentale ruimte.',
+      'de recepten en lijstjes besparen me elke week tijd en mentale ruimte.',
     name: 'Sanne',
     result: '-6 kg in 6 weken',
   },
   {
     quote:
-      'Placeholder testimonial: simpel protocol, duidelijke regels, en ik kon het direct volhouden.',
+      'simpel protocol, duidelijke regels, en ik kon het direct volhouden.',
     name: 'Rachid',
     result: '-10 kg in 6 weken',
   },
