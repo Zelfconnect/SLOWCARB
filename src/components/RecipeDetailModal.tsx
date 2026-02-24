@@ -83,9 +83,10 @@ export function RecipeDetailModal({
                 src={recipe.image}
                 alt={recipe.name}
                 className="h-full w-full object-cover"
-                loading="lazy"
+                loading="eager"
                 onError={(event) => {
-                  (event.target as HTMLImageElement).style.display = 'none';
+                  const img = event.target as HTMLImageElement;
+                  img.style.display = 'none';
                 }}
               />
             ) : (
