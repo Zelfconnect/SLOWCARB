@@ -71,11 +71,11 @@ describe('getDaysUntilCheatDay', () => {
 describe('getWeekData', () => {
   // FIXED_TODAY = 2024-01-15 (Monday).
   // With weekStartsOn: 1 (Monday), the current week spans 2024-01-15 → 2024-01-21.
-  //   Saturday in this week: 2024-01-20
-  //   A "past" day in this week (day before today is not in this week since today is Monday):
-  //     use Tuesday 2024-01-16 for meal-log tests that need a within-week past date.
+  // Saturday in this week: 2024-01-20.
   const WEEK_SAT_STR = '2024-01-20';
-  const WEEK_TUE_STR = '2024-01-16'; // a within-week day we can seed meal entries for
+  const WEEK_TUE_STR = '2024-01-16';
+  const WEEK_MON_STR = '2024-01-15';
+  const WEEK_THU_STR = '2024-01-18';
 
   beforeEach(() => vi.setSystemTime(FIXED_TODAY));
   afterEach(() => vi.useRealTimers());
@@ -130,19 +130,42 @@ describe('getWeekData', () => {
     expect(pastDays).toHaveLength(0);
   });
 
-  it('marks a within-week day as completed when all three meals are logged', () => {
-    // Use Tuesday (2024-01-16), which is in the current week
+  it('does not mark a future day as completed when all meals are logged', () => {
+    const mealEntries = [completeDay(WEEK_TUE_STR)];
+    const data = getWeekData(baseJourney, mealEntries);
+    const tuesday = data.find((d) => d.date === WEEK_TUE_STR);
+    expect(tuesday?.completed).toBe(false);
+  });
+
+  it('does not mark today as completed when all meals are logged', () => {
+    const mealEntries = [completeDay(WEEK_MON_STR)];
+    const data = getWeekData(baseJourney, mealEntries);
+    const monday = data.find((d) => d.date === WEEK_MON_STR);
+    expect(monday?.completed).toBe(false);
+  });
+
+  it('marks a past day as completed when all meals are logged', () => {
+    vi.setSystemTime(new Date('2024-01-17T12:00:00.000Z'));
     const mealEntries = [completeDay(WEEK_TUE_STR)];
     const data = getWeekData(baseJourney, mealEntries);
     const tuesday = data.find((d) => d.date === WEEK_TUE_STR);
     expect(tuesday?.completed).toBe(true);
   });
 
-  it('does not mark a within-week day as completed when meals are partial', () => {
+  it('does not mark a past day as completed when meals are partial', () => {
+    vi.setSystemTime(new Date('2024-01-17T12:00:00.000Z'));
     const mealEntries = [partialDay(WEEK_TUE_STR)];
     const data = getWeekData(baseJourney, mealEntries);
     const tuesday = data.find((d) => d.date === WEEK_TUE_STR);
     expect(tuesday?.completed).toBe(false);
+  });
+
+  it('keeps future days as not completed even if meals exist', () => {
+    vi.setSystemTime(new Date('2024-01-17T12:00:00.000Z'));
+    const mealEntries = [completeDay(WEEK_THU_STR)];
+    const data = getWeekData(baseJourney, mealEntries);
+    const thursday = data.find((d) => d.date === WEEK_THU_STR);
+    expect(thursday?.completed).toBe(false);
   });
 
   it('all entries have a label string', () => {
