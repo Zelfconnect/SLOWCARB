@@ -69,6 +69,7 @@ vi.mock('@/store/useUserStore', () => ({
 }));
 
 beforeAll(() => {
+  window.history.replaceState({}, '', '/?app=1');
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation((query: string) => ({
@@ -101,7 +102,7 @@ describe('App UI/UX', () => {
 
     const main = screen.getByRole('main');
     expect(main.className).toContain('max-w-md');
-    expect(main.className).toContain('pb-28');
+    expect(main.className).toContain('pb-[calc(6rem+env(safe-area-inset-bottom,0px))]');
   });
 
   it('switches tabs and renders matching section content', () => {
@@ -114,8 +115,8 @@ describe('App UI/UX', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Leren' }));
     expect(screen.getByText('LearnContent')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Boodschappen' }));
-    expect(screen.getByText('ShoppingContent')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'AmmoCheck' }));
+    expect(screen.getByText('AmmoCheck')).toBeInTheDocument();
   });
 
   it('opens settings sheet from header action button', () => {

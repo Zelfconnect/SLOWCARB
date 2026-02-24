@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { X, Zap, Lightbulb, ArrowRight, HelpCircle } from 'lucide-react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ConceptCard as ConceptCardType } from '@/types';
 import { CONCEPT_TOKENS } from '@/data/educationTokens';
@@ -24,6 +24,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
         className="sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
         style={{ maxHeight: CONCEPT_TOKENS.maxHeight }}
       >
+        <DialogTitle className="sr-only">{card.title}</DialogTitle>
         {/* Header - ALWAYS Amber/Orange */}
         <div className={`p-5 bg-gradient-to-br ${CONCEPT_TOKENS.background} flex-shrink-0 rounded-t-3xl`}>
             <div className="flex items-start justify-between">

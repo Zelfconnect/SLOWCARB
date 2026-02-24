@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getRecipeIcon } from '@/lib/recipeIcons';
+import { scaleAmount } from '@/lib/scaleAmount';
 
 interface RecipeDetailProps {
   recipe: Recipe | null;
@@ -31,15 +32,6 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
 
   if (!recipe) return null;
   const RecipeIcon = getRecipeIcon(recipe.icon);
-
-  const scaleAmount = (amount: string, multiplier: number): string => {
-    const match = amount.match(/^(\d+(?:\.\d+)?)\s*(.*)$/);
-    if (!match) return amount;
-    const [, num, unit] = match;
-    const scaled = parseFloat(num) * multiplier;
-    const formatted = scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(1).replace(/\.0$/, '');
-    return `${formatted} ${unit}`;
-  };
 
   const handleAddToShoppingList = () => {
     const items = recipe.ingredients.map(ing => {

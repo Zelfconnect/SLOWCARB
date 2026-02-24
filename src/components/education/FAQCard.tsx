@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { X, Check, XCircle, HelpCircle } from 'lucide-react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import type { FAQCard as FAQCardType } from '@/types';
@@ -52,6 +52,7 @@ export function FAQCard({ card, isOpen, onClose }: FAQCardProps) {
         showCloseButton={false}
         className="sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col bg-gradient-to-b from-white to-stone-50"
       >
+        <DialogTitle className="sr-only">{card.title}</DialogTitle>
         {/* Header - Neutral gray */}
         <div className="p-5 bg-gradient-to-br from-stone-600 to-stone-700 flex-shrink-0 rounded-t-3xl">
             <div className="flex items-start justify-between">

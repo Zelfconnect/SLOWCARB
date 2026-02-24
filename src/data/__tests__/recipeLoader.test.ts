@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { loadRecipes, RECIPES } from '../recipeLoader';
+import { loadRecipes, parseIngredient, RECIPES } from '../recipeLoader';
 import recipesJson from '../recipes.json';
 
 type RecipesMetadata = {
@@ -152,5 +152,39 @@ describe('parseIngredient (via RECIPES)', () => {
     for (const ing of allIngredients) {
       expect(ing.name).toBe(ing.name.trim());
     }
+  });
+});
+
+describe('parseIngredient (unit)', () => {
+  it('extracts amount and marks scalable for "naar smaak <hoeveelheid> <naam>"', () => {
+    expect(parseIngredient('naar smaak 2 tl chilivlokken')).toEqual({
+      name: 'chilivlokken',
+      amount: '2 tl',
+      scalable: true,
+    });
+  });
+
+  it('extracts compact amount+unit and marks scalable for "naar smaak 150g <naam>"', () => {
+    expect(parseIngredient('naar smaak 150g kip')).toEqual({
+      name: 'kip',
+      amount: '150g',
+      scalable: true,
+    });
+  });
+
+  it('keeps classic "<naam> naar smaak" as non-scalable', () => {
+    expect(parseIngredient('zout naar smaak')).toEqual({
+      name: 'zout',
+      amount: 'naar smaak',
+      scalable: false,
+    });
+  });
+
+  it('keeps pure "naar smaak" as non-scalable', () => {
+    expect(parseIngredient('naar smaak')).toEqual({
+      name: 'Onbekend',
+      amount: 'naar smaak',
+      scalable: false,
+    });
   });
 });

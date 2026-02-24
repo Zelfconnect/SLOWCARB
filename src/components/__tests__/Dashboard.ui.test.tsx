@@ -136,6 +136,17 @@ describe('Dashboard UI/UX', () => {
     expect(weekGrid.compareDocumentPosition(weightTrigger)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
+  it('relies on main layout scroll and keeps dashboard wrapper unclipped', () => {
+    const { props } = createProps({ isCheatDay: false });
+    render(<Dashboard {...props} />);
+
+    const contentWrapper = screen.getByTestId('dashboard-content');
+    expect(contentWrapper).toBeInTheDocument();
+    expect(contentWrapper.className).not.toContain('h-full');
+    expect(contentWrapper.className).not.toContain('overflow-hidden');
+    expect(contentWrapper.className).not.toContain('overflow-y-auto');
+  });
+
   it('keeps weight dialog design contract classes', () => {
     const { props } = createProps();
     render(<Dashboard {...props} />);

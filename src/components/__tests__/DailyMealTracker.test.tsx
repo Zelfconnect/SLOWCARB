@@ -4,12 +4,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { DailyMealTracker } from '@/components/DailyMealTracker';
 import type { MealEntry } from '@/types';
 
-vi.mock('@/components/ui/carousel', () => ({
-  Carousel: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  CarouselContent: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  CarouselItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-}));
-
 function createMeals(overrides: Partial<MealEntry> = {}): MealEntry {
   return {
     date: '2026-02-19',
@@ -38,6 +32,28 @@ describe('DailyMealTracker', () => {
     expect(screen.getByTestId('meal-photo-card-breakfast')).toBeInTheDocument();
     expect(screen.getByTestId('meal-photo-card-lunch')).toBeInTheDocument();
     expect(screen.getByTestId('meal-photo-card-dinner')).toBeInTheDocument();
+  });
+
+  it('renders the meal cards in a simple 3-column equal-width flex container', () => {
+    render(
+      <DailyMealTracker
+        todayMeals={createMeals()}
+        streak={0}
+        onToggleMeal={vi.fn()}
+        isCheatDay={false}
+      />
+    );
+
+    const grid = screen.getByTestId('meal-cards-grid');
+    expect(grid).toHaveClass('flex');
+    expect(grid).toHaveClass('gap-1.5');
+
+    const columns = screen.getAllByTestId('meal-card-column');
+    expect(columns).toHaveLength(3);
+    columns.forEach((column) => {
+      expect(column).toHaveClass('flex-1');
+      expect(column).toHaveClass('min-w-0');
+    });
   });
 
   it('shows "ontbijt" on the breakfast meal chip instead of "breakfast"', () => {

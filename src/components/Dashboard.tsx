@@ -164,7 +164,7 @@ export function Dashboard({
   // #endregion
 
   return (
-    <div ref={contentWrapperRef} className="h-full space-y-1.5 overflow-hidden pb-0">
+    <div ref={contentWrapperRef} data-testid="dashboard-content" className="space-y-1.5">
       <StreakHeroCard
         streak={streak}
         currentWeek={progress.week}

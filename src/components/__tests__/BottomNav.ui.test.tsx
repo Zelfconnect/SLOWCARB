@@ -8,7 +8,7 @@ describe('BottomNav UI/UX', () => {
     const onTabChange = vi.fn();
     render(<BottomNav activeTab="dashboard" onTabChange={onTabChange} />);
 
-    const labels = ['Dashboard', 'Recepten', 'Leren', 'Boodschappen'];
+    const labels = ['Dashboard', 'Recepten', 'Leren', 'AmmoCheck'];
     for (const label of labels) {
       expect(screen.getByRole('button', { name: label })).toBeInTheDocument();
     }
@@ -20,8 +20,8 @@ describe('BottomNav UI/UX', () => {
   });
 
   it('applies active-state style contract to selected tab', () => {
-    render(<BottomNav activeTab="shopping" onTabChange={vi.fn()} />);
-    const shoppingTab = screen.getByRole('button', { name: 'Boodschappen' });
+    render(<BottomNav activeTab="ammo" onTabChange={vi.fn()} />);
+    const shoppingTab = screen.getByRole('button', { name: 'AmmoCheck' });
     expect(shoppingTab.className).toContain('text-sage-600');
 
     const activeIconContainer = shoppingTab.querySelector('div');

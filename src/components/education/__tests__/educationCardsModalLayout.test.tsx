@@ -74,7 +74,7 @@ describe('Education card modal layout', () => {
   it('keeps premium dialog visual treatment', () => {
     render(<RuleCard card={sampleRuleCard} isOpen onClose={noop} />);
     const dialogContent = document.body.querySelector('[data-slot="dialog-content"]');
-    expect(dialogContent).toHaveClass('border-stone-100');
+    expect(dialogContent).toHaveClass('border-0');
     expect(dialogContent).toHaveClass('bg-gradient-to-b');
   });
 

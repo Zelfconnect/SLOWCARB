@@ -84,4 +84,36 @@ describe('RecipeDetailModal layout', () => {
     expect(startCookingButton).toHaveTextContent('Start koken');
     expect(screen.queryByText('Log maaltijd')).not.toBeInTheDocument();
   });
+
+  it('formats fractional ingredient amounts as readable fractions', () => {
+    render(
+      <RecipeDetailModal
+        recipe={createRecipe({
+          ingredients: [{ name: 'citroen', amount: '1/2 stuk', scalable: true }],
+        })}
+        isOpen
+        isFavorite={false}
+        onToggleFavorite={vi.fn()}
+        onClose={vi.fn()}
+      />
+    );
+
+    expect(screen.getByText('1/2 stuk', { exact: false })).toBeInTheDocument();
+  });
+
+  it('formats mixed-number ingredient amounts as whole plus fraction', () => {
+    render(
+      <RecipeDetailModal
+        recipe={createRecipe({
+          ingredients: [{ name: 'komkommer', amount: '1 1/2 stuk', scalable: true }],
+        })}
+        isOpen
+        isFavorite={false}
+        onToggleFavorite={vi.fn()}
+        onClose={vi.fn()}
+      />
+    );
+
+    expect(screen.getByText('1 1/2 stuk', { exact: false })).toBeInTheDocument();
+  });
 });

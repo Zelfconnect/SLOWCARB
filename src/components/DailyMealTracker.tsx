@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { RECIPES } from '@/data/recipeLoader';
 import type { MealEntry } from '@/types';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 interface DailyMealTrackerProps {
   todayMeals: MealEntry;
@@ -208,31 +207,25 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
         </div>
       </div>
 
-      <div className="mt-2">
-        <Carousel
-          opts={{
-            align: 'start',
-            dragFree: true,
-          }}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-1.5">
-            {mealCards.map((meal) => (
-              <CarouselItem key={meal.type} className="basis-[33.333%] pl-1.5">
-                <MealCarouselCard
-                  type={meal.type}
-                  title={meal.title}
-                  subtitle={meal.subtitle}
-                  image={meal.image}
-                  fallbackGradient={meal.fallbackGradient}
-                  isCompleted={todayMeals[meal.type]}
-                  onToggle={() => onToggleMeal(meal.type)}
-                  isCheatDay={isCheatDay}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+      <div className="mt-2 flex gap-1.5" data-testid="meal-cards-grid">
+        {mealCards.map((meal) => (
+          <div
+            key={meal.type}
+            className="min-w-0 flex-1"
+            data-testid="meal-card-column"
+          >
+            <MealCarouselCard
+              type={meal.type}
+              title={meal.title}
+              subtitle={meal.subtitle}
+              image={meal.image}
+              fallbackGradient={meal.fallbackGradient}
+              isCompleted={todayMeals[meal.type]}
+              onToggle={() => onToggleMeal(meal.type)}
+              isCheatDay={isCheatDay}
+            />
+          </div>
+        ))}
       </div>
     </section>
   );

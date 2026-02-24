@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { scaleAmount } from '@/lib/scaleAmount';
 
 interface RecipeDetailModalProps {
   recipe: Recipe;
@@ -34,15 +35,6 @@ export function RecipeDetailModal({
   onClose
 }: RecipeDetailModalProps) {
   const [portionMultiplier, setPortionMultiplier] = useState(1);
-
-  const scaleAmount = (amount: string, multiplier: number): string => {
-    const match = amount.match(/^(\d+(?:\.\d+)?)\s*(.*)$/);
-    if (!match) return amount;
-    const [, num, unit] = match;
-    const scaled = parseFloat(num) * multiplier;
-    const formatted = scaled % 1 === 0 ? scaled.toString() : scaled.toFixed(1).replace(/\.0$/, '');
-    return `${formatted} ${unit}`;
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>

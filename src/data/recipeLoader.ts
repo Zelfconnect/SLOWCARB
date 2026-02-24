@@ -83,19 +83,48 @@ const UNIT_TOKENS = new Set([
 ]);
 
 const isQuantityToken = (token: string) => /^(\d+([.,]\d+)?|\d+\/\d+)(-\d+([.,]\d+)?)?$/.test(token);
+const isQuantityWithUnitToken = (token: string) => {
+  const match = token.match(/^(\d+([.,]\d+)?|\d+\/\d+)([a-z]+)$/i);
+  return Boolean(match && UNIT_TOKENS.has(match[3].toLowerCase()));
+};
 
 const parseIngredient = (text: string): Ingredient => {
   const trimmed = text.trim();
   if (!trimmed) {
     return { name: 'Onbekend', amount: 'naar smaak', scalable: false };
   }
+  if (/^naar\s+smaak$/i.test(trimmed)) {
+    return { name: 'Onbekend', amount: 'naar smaak', scalable: false };
+  }
+
+  const withLeadingNaarSmaak = trimmed.match(/^naar\s+smaak\s+(.+)$/i);
+  if (withLeadingNaarSmaak) {
+    const rest = withLeadingNaarSmaak[1].trim();
+    const restTokens = rest.split(/\s+/);
+    if (restTokens.length > 0 && (isQuantityToken(restTokens[0]) || isQuantityWithUnitToken(restTokens[0]))) {
+      let amount = restTokens[0];
+      let nameStart = 1;
+
+      if (isQuantityToken(restTokens[0]) && restTokens[1] && UNIT_TOKENS.has(restTokens[1].toLowerCase())) {
+        amount = `${amount} ${restTokens[1]}`;
+        nameStart = 2;
+      }
+
+      const name = restTokens.slice(nameStart).join(' ').trim() || rest;
+      return {
+        name,
+        amount,
+        scalable: true,
+      };
+    }
+  }
 
   const tokens = trimmed.split(/\s+/);
-  if (tokens.length > 0 && isQuantityToken(tokens[0])) {
+  if (tokens.length > 0 && (isQuantityToken(tokens[0]) || isQuantityWithUnitToken(tokens[0]))) {
     let amount = tokens[0];
     let nameStart = 1;
 
-    if (tokens[1] && UNIT_TOKENS.has(tokens[1].toLowerCase())) {
+    if (isQuantityToken(tokens[0]) && tokens[1] && UNIT_TOKENS.has(tokens[1].toLowerCase())) {
       amount = `${amount} ${tokens[1]}`;
       nameStart = 2;
     }
@@ -250,4 +279,4 @@ export const RECIPES = ((): AppRecipe[] => {
   });
 })();
 
-export { recipeDatabase as RECIPE_DATABASE, RECIPE_CATEGORIES };
+export { recipeDatabase as RECIPE_DATABASE, RECIPE_CATEGORIES, parseIngredient };

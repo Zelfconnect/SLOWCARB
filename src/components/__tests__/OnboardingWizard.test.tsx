@@ -21,6 +21,7 @@ describe('formatWeekEstimate', () => {
 describe('OnboardingWizard week estimate copy', () => {
   it('shows pluralized week label on the weight-goal step', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
+    expect(screen.getByRole('dialog', { name: 'Onboarding wizard' })).toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText('Je naam'), { target: { value: 'Jesper' } });
     fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));

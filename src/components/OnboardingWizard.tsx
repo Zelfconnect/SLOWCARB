@@ -60,9 +60,11 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
       <DialogPrimitive.Portal>
         <DialogPrimitive.Content
           className="fixed inset-0 z-50 h-full w-full max-w-none border-none bg-cream p-0 outline-none"
+          aria-describedby={undefined}
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
+          <DialogPrimitive.Title className="sr-only">Onboarding wizard</DialogPrimitive.Title>
           <div className="flex min-h-screen flex-col bg-gradient-to-b from-cream via-cream to-warm-100/70">
             <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-6 pb-8 pt-8 sm:px-8">
               <div className="mb-8 flex items-center justify-between">
