@@ -44,7 +44,7 @@ describe('WeightProgressCard', () => {
     expect(screen.getByLabelText('Gewichtsontwikkeling')).toBeInTheDocument();
   });
 
-  it('renders compact goal progress stats in one row', () => {
+  it('renders current weight as hero in goal mode', () => {
     const weightLog = createWeightLog([
       { date: '2026-02-01', weight: 100.0 },
       { date: '2026-02-20', weight: 96.5 },
@@ -59,14 +59,15 @@ describe('WeightProgressCard', () => {
       />
     );
 
-    expect(screen.getByText('Doelprogressie')).toBeInTheDocument();
-    expect(screen.getAllByText('Start').length).toBeGreaterThan(0);
-    expect(screen.getByText('Resterend')).toBeInTheDocument();
-    expect(screen.getByText('Veranderd')).toBeInTheDocument();
-    expect(screen.getByText('Nog 6.5 kg')).toBeInTheDocument();
+    expect(screen.getByText('Huidig gewicht')).toBeInTheDocument();
+    expect(screen.getByText('Doel -10 kg')).toBeInTheDocument();
+    expect(screen.getByText('100.0 kg')).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Resterend 6.5 kg'))).toBeInTheDocument();
+    expect(screen.queryByText('Nu')).not.toBeInTheDocument();
+    expect(screen.queryByText('Veranderd')).not.toBeInTheDocument();
   });
 
-  it('renders a half-arc progress indicator for goal mode', () => {
+  it('renders exactly one progress indicator for goal mode', () => {
     const weightLog = createWeightLog([
       { date: '2026-02-01', weight: 100.0 },
       { date: '2026-02-20', weight: 98.0 },
@@ -81,6 +82,6 @@ describe('WeightProgressCard', () => {
       />
     );
 
-    expect(screen.getByTestId('goal-progress-arc')).toBeInTheDocument();
+    expect(screen.getAllByTestId('goal-progress-arc')).toHaveLength(1);
   });
 });

@@ -129,13 +129,15 @@ export function getWeekData(journey: Journey, mealEntries: MealEntry[]): DayStat
     const dateStr = format(date, 'yyyy-MM-dd');
     const dayLabel = format(date, 'EEEEEE', { locale: nl });
 
-    const mealEntry = mealEntries.find(entry => entry.date === dateStr);
-    const completed = mealEntry ? mealEntry.breakfast && mealEntry.lunch && mealEntry.dinner : false;
-
     const dayName = format(date, 'EEEE', { locale: nl }).toLowerCase();
     const isCheatDay = !startDate || !isBefore(date, startDate) ? dayName === journey.cheatDay : false;
     const isToday = isSameDay(date, today);
     const isFuture = isAfter(date, today) || (startDate ? isBefore(date, startDate) : false);
+    const isPast = !isToday && isBefore(date, today) && !(startDate ? isBefore(date, startDate) : false);
+
+    const mealEntry = mealEntries.find(entry => entry.date === dateStr);
+    const loggedComplete = mealEntry ? mealEntry.breakfast && mealEntry.lunch && mealEntry.dinner : false;
+    const completed = isPast && loggedComplete;
 
     return {
       label: dayLabel,

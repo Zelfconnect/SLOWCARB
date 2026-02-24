@@ -19,23 +19,18 @@ export function WeeklyProgressGrid({ weekData }: WeeklyProgressGridProps) {
             data-testid={`week-pill-${day.label}`}
             className={cn(
               'relative flex h-9 items-center justify-center rounded-full text-xs font-semibold',
-              day.isCheatDay
-                ? 'bg-clay-500 text-white'
-                : day.completed
-                  ? 'bg-emerald-500 text-white'
-                  : day.isFuture
-                    ? 'bg-stone-100 text-stone-600'
-                    : 'bg-red-50 text-red-600'
+              day.isToday
+                ? 'bg-white text-stone-700 ring-1 ring-emerald-500'
+                : day.isFuture
+                  ? 'bg-stone-100 text-stone-600'
+                  : day.completed
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-stone-200 text-stone-600'
             )}
           >
             <span>{day.label}</span>
             {day.isToday ? (
-              <span
-                className={cn(
-                  'absolute -bottom-1 h-1.5 w-1.5 rounded-full',
-                  day.completed || day.isCheatDay ? 'bg-white' : 'bg-emerald-500'
-                )}
-              />
+              <span className="absolute -bottom-1 h-1.5 w-1.5 rounded-full bg-emerald-500" />
             ) : null}
           </div>
         ))}
