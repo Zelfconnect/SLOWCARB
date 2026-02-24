@@ -12,7 +12,7 @@ export function StreakHeroCard({ streak, currentWeek, currentDay, isCheatDay }: 
 
   const getTitle = () => {
     if (isCheatDay) return '🍕 Cheat Day!';
-    if (streak > 0) return `${streak} dagen on protocol`;
+    if (streak > 0) return `${streak} ${streak === 1 ? 'dag' : 'dagen'} on protocol`;
     if (isNewStart) return 'Klaar voor dag 1?';
     return `Week ${currentWeek} gestart`;
   };

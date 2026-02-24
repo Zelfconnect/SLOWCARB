@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ChevronLeft } from 'lucide-react';
 import { useTranslation } from '@/i18n';
+import { formatWeekEstimate } from '@/lib/formatWeekEstimate';
 
 interface OnboardingData {
   name: string;
@@ -51,6 +52,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
   };
 
   const weekEstimate = Math.ceil(data.weightGoal * 0.6);
+  const weekEstimateLabel = formatWeekEstimate(weekEstimate);
   const cheatDayLabel = data.cheatDay.charAt(0).toUpperCase() + data.cheatDay.slice(1);
 
   return (
@@ -153,7 +155,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                         className="mt-5"
                       />
                       <p className="mt-6 text-center text-2xl font-bold text-stone-900">
-                        {data.weightGoal} kg in ~{weekEstimate} weken
+                        {data.weightGoal} kg in ~{weekEstimateLabel}
                       </p>
                     </div>
 
@@ -335,7 +337,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       <div className="rounded-2xl border border-sage-200 bg-sage-50 p-4">
                         <span className="mb-1 block text-2xl leading-none">📅</span>
                         <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">Timeline</p>
-                        <p className="mt-1 text-lg font-bold text-sage-900">~{weekEstimate} weken</p>
+                        <p className="mt-1 text-lg font-bold text-sage-900">~{weekEstimateLabel}</p>
                       </div>
                       <div className="rounded-2xl border border-stone-200 bg-warm-100/80 p-4">
                         <span className="mb-1 block text-2xl leading-none">🎉</span>

@@ -40,6 +40,48 @@ describe('DailyMealTracker', () => {
     expect(screen.getByTestId('meal-photo-card-dinner')).toBeInTheDocument();
   });
 
+  it('shows "ontbijt" on the breakfast meal chip instead of "breakfast"', () => {
+    render(
+      <DailyMealTracker
+        todayMeals={createMeals()}
+        streak={0}
+        onToggleMeal={vi.fn()}
+        isCheatDay={false}
+      />
+    );
+
+    expect(screen.getByText('ontbijt')).toBeInTheDocument();
+    expect(screen.queryByText('breakfast')).not.toBeInTheDocument();
+  });
+
+  it('shows "diner" on the dinner meal chip instead of "dinner"', () => {
+    render(
+      <DailyMealTracker
+        todayMeals={createMeals()}
+        streak={0}
+        onToggleMeal={vi.fn()}
+        isCheatDay={false}
+      />
+    );
+
+    expect(screen.getByText('diner')).toBeInTheDocument();
+    expect(screen.queryByText('dinner')).not.toBeInTheDocument();
+  });
+
+  it('keeps "LUNCH" unchanged on the lunch meal chip', () => {
+    render(
+      <DailyMealTracker
+        todayMeals={createMeals()}
+        streak={0}
+        onToggleMeal={vi.fn()}
+        isCheatDay={false}
+      />
+    );
+
+    expect(screen.getByText('LUNCH')).toBeInTheDocument();
+    expect(screen.queryByText('middageten')).not.toBeInTheDocument();
+  });
+
   it('shows a single completion cue and no legacy afgevinkt badge text', () => {
     render(
       <DailyMealTracker

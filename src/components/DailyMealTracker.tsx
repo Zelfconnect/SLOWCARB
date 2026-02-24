@@ -45,6 +45,12 @@ const mealMetadata = {
   },
 } as const;
 
+const MEAL_CHIP_LABELS = {
+  breakfast: 'ontbijt',
+  lunch: 'LUNCH',
+  dinner: 'diner',
+} as const;
+
 function MealCarouselCard({
   type,
   image,
@@ -82,7 +88,7 @@ function MealCarouselCard({
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
         <div className="absolute left-2 top-2 inline-flex rounded-full bg-black/45 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white/90">
-          {type}
+          {MEAL_CHIP_LABELS[type]}
         </div>
         <div className="absolute right-2 top-2">
           {isCompleted ? (
