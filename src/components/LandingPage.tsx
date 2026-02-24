@@ -187,10 +187,10 @@ export default function LandingPage() {
               href="#pricing"
               className="mt-8 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-base font-semibold text-sage-600 shadow-md transition hover:bg-sage-50"
             >
-              Start nu — €49 lifetime
+              Start nu — €29 early bird
             </a>
             <p className="mt-3 text-sm text-sage-100">
-              Eenmalige betaling • Geen abonnement • Direct toegang
+              Daarna €49 · Eenmalig · Direct toegang
             </p>
           </div>
         </div>
@@ -328,9 +328,12 @@ export default function LandingPage() {
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-xl rounded-3xl border border-sage-200 bg-white p-6 shadow-elevated md:p-8">
             <h2 className="font-display text-3xl font-bold text-stone-900">SlowCarb Lifetime Access</h2>
+            <p className="mt-4 inline-flex rounded-full bg-sage-100 px-3 py-1 text-xs font-semibold text-sage-800">
+              Early bird — nog 47 plekken
+            </p>
             <div className="mt-4 flex items-end gap-3">
-              <p className="text-4xl font-bold text-stone-900">€49</p>
-              <p className="pb-1 text-lg text-stone-400 line-through">€79</p>
+              <p className="text-4xl font-bold text-stone-900">€29</p>
+              <p className="pb-1 text-lg text-stone-400 line-through">€49</p>
             </div>
 
             <ul className="mt-6 space-y-3">
@@ -400,7 +403,7 @@ export default function LandingPage() {
             href="#pricing"
             className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-base font-semibold text-sage-600 transition hover:bg-sage-50"
           >
-            Start nu — €49 lifetime
+            Start nu — €29 early bird
           </a>
 
           <div className="mt-6 grid gap-3 text-sm text-sage-100 sm:grid-cols-3">
