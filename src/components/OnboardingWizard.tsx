@@ -3,7 +3,6 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ChevronLeft } from 'lucide-react';
@@ -12,9 +11,10 @@ import { CHEAT_DAY_LABELS, CHEAT_DAY_OPTIONS } from '@/lib/cheatDay';
 import { formatWeekEstimate } from '@/lib/formatWeekEstimate';
 import type { CheatDay } from '@/types';
 
-interface OnboardingData {
+export interface OnboardingData {
   name: string;
-  weightGoal: number;
+  currentWeight: number;
+  targetWeight: number;
   vegetarian: boolean;
   hasAirfryer: boolean;
   sportsRegularly: boolean;
@@ -28,17 +28,51 @@ interface OnboardingWizardProps {
 export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
+  const [currentWeightInput, setCurrentWeightInput] = useState('');
+  const [targetWeightInput, setTargetWeightInput] = useState('');
   const [data, setData] = useState<OnboardingData>({
     name: '',
-    weightGoal: 10,
+    currentWeight: 0,
+    targetWeight: 0,
     vegetarian: false,
     hasAirfryer: false,
     sportsRegularly: false,
     cheatDay: 'zaterdag',
   });
 
+  const isWeightStepValid =
+    data.currentWeight >= 40 && data.currentWeight <= 300 &&
+    data.targetWeight >= 40 && data.targetWeight <= 300 &&
+    data.currentWeight > data.targetWeight;
+
+  const weightGoal = isWeightStepValid
+    ? Math.round((data.currentWeight - data.targetWeight) * 10) / 10
+    : 0;
+  const weekEstimate = Math.ceil(weightGoal * 0.6);
+  const weekEstimateLabel = formatWeekEstimate(weekEstimate);
+  const cheatDayLabel = data.cheatDay.charAt(0).toUpperCase() + data.cheatDay.slice(1);
+
+  const handleCurrentWeightChange = (value: string) => {
+    setCurrentWeightInput(value);
+    const parsed = Number.parseFloat(value);
+    setData(prev => ({
+      ...prev,
+      currentWeight: value === '' || !Number.isFinite(parsed) ? 0 : parsed,
+    }));
+  };
+
+  const handleTargetWeightChange = (value: string) => {
+    setTargetWeightInput(value);
+    const parsed = Number.parseFloat(value);
+    setData(prev => ({
+      ...prev,
+      targetWeight: value === '' || !Number.isFinite(parsed) ? 0 : parsed,
+    }));
+  };
+
   const handleNext = () => {
     if (currentStep === 1 && !data.name.trim()) return;
+    if (currentStep === 2 && !isWeightStepValid) return;
 
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
@@ -52,10 +86,6 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
       setCurrentStep(currentStep - 1);
     }
   };
-
-  const weekEstimate = Math.ceil(data.weightGoal * 0.6);
-  const weekEstimateLabel = formatWeekEstimate(weekEstimate);
-  const cheatDayLabel = data.cheatDay.charAt(0).toUpperCase() + data.cheatDay.slice(1);
 
   return (
     <DialogPrimitive.Root open>
@@ -138,35 +168,62 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                 {currentStep === 2 && (
                   <section className="flex flex-1 flex-col">
                     <div className="space-y-4 text-center">
-                      <span className="block text-6xl leading-none">🎯</span>
-                      <h1 className="font-display text-3xl font-bold text-stone-900">Hoeveel wil je afvallen?</h1>
+                      <span className="block text-6xl leading-none">⚖️</span>
+                      <h1 className="font-display text-3xl font-bold text-stone-900">Jouw gewicht</h1>
                       <p className="text-base text-stone-600">
-                        Kies je doel, dan berekenen wij direct een realistische timeline
+                        Vul je huidige en gewenste gewicht in
                       </p>
                     </div>
 
-                    <div className="mt-10 rounded-3xl border border-stone-200 bg-white/80 p-6">
-                      <Label htmlFor="weight-goal" className="text-sm font-medium text-stone-700">
-                        Gewichtsdoel
-                      </Label>
-                      <Slider
-                        id="weight-goal"
-                        min={3}
-                        max={20}
-                        step={1}
-                        value={[data.weightGoal]}
-                        onValueChange={(value) => setData({ ...data, weightGoal: value[0] })}
-                        className="mt-5"
-                      />
-                      <p className="mt-6 text-center text-2xl font-bold text-stone-900">
-                        {data.weightGoal} kg in ~{weekEstimateLabel}
-                      </p>
+                    <div className="mt-10 space-y-4">
+                      <div className="rounded-2xl border border-stone-200 bg-white/80 p-4 space-y-2">
+                        <Label htmlFor="current-weight" className="text-sm font-medium text-stone-700">
+                          Huidig gewicht (kg)
+                        </Label>
+                        <Input
+                          id="current-weight"
+                          type="number"
+                          min={40}
+                          max={300}
+                          step={0.1}
+                          value={currentWeightInput}
+                          onChange={(e) => handleCurrentWeightChange(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleNext()}
+                          placeholder="bv. 110"
+                          className="input-premium h-14 text-lg text-stone-900"
+                        />
+                      </div>
+
+                      <div className="rounded-2xl border border-stone-200 bg-white/80 p-4 space-y-2">
+                        <Label htmlFor="target-weight" className="text-sm font-medium text-stone-700">
+                          Streefgewicht (kg)
+                        </Label>
+                        <Input
+                          id="target-weight"
+                          type="number"
+                          min={40}
+                          max={300}
+                          step={0.1}
+                          value={targetWeightInput}
+                          onChange={(e) => handleTargetWeightChange(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleNext()}
+                          placeholder="bv. 100"
+                          className="input-premium h-14 text-lg text-stone-900"
+                        />
+                      </div>
+
+                      {isWeightStepValid && weightGoal > 0 && (
+                        <p className="mt-2 text-center text-lg font-semibold text-sage-700">
+                          {weightGoal} kg afvallen in ~{weekEstimateLabel}
+                        </p>
+                      )}
                     </div>
 
                     <div className="mt-auto pt-8">
                       <Button
                         type="button"
                         onClick={handleNext}
+                        disabled={!isWeightStepValid}
                         className="h-14 w-full rounded-xl bg-sage-600 text-lg font-semibold text-white hover:bg-sage-700"
                       >
                         Volgende
@@ -321,14 +378,15 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
                     <div className="relative z-10 mt-10 grid grid-cols-2 gap-3">
                       <div className="rounded-2xl border border-stone-200 bg-warm-100/80 p-4">
-                        <span className="mb-1 block text-2xl leading-none">🎯</span>
-                        <p className="text-xs font-semibold uppercase tracking-wide text-stone-600">Doel</p>
-                        <p className="mt-1 text-lg font-bold text-stone-900">{data.weightGoal} kg</p>
+                        <span className="mb-1 block text-2xl leading-none">⚖️</span>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-stone-600">Start</p>
+                        <p className="mt-1 text-lg font-bold text-stone-900">{data.currentWeight} kg</p>
                       </div>
                       <div className="rounded-2xl border border-sage-200 bg-sage-50 p-4">
-                        <span className="mb-1 block text-2xl leading-none">📅</span>
-                        <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">Timeline</p>
-                        <p className="mt-1 text-lg font-bold text-sage-900">~{weekEstimateLabel}</p>
+                        <span className="mb-1 block text-2xl leading-none">🎯</span>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">Doel</p>
+                        <p className="mt-1 text-lg font-bold text-sage-900">{data.targetWeight} kg</p>
+                        <p className="mt-0.5 text-[10px] text-sage-600">−{weightGoal} kg · ~{weekEstimateLabel}</p>
                       </div>
                       <div className="rounded-2xl border border-stone-200 bg-warm-100/80 p-4">
                         <span className="mb-1 block text-2xl leading-none">🎉</span>

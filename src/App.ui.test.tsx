@@ -23,10 +23,6 @@ vi.mock('@/components/LearnSection', () => ({
   LearnSection: () => <div>LearnContent</div>,
 }));
 
-vi.mock('@/pages/Shopping', () => ({
-  Shopping: () => <div>ShoppingContent</div>,
-}));
-
 vi.mock('@/components/SettingsTab', () => ({
   SettingsTab: () => <div>SettingsContent</div>,
 }));

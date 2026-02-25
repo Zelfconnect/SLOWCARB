@@ -131,7 +131,7 @@ export const getCurrentDayTip = (startDate: string | null) => {
   
   return {
     day,
-    tip: getDayTip(day) || dayTips[dayTips.length - 1],
+    tip: getDayTip(day),
     weekTip: getWeekTip(week),
   };
 };

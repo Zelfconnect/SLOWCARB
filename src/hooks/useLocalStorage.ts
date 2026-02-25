@@ -1,5 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 
+const LOCAL_STORAGE_SYNC_EVENT = 'local-storage-sync';
+
+interface LocalStorageSyncDetail {
+  key: string;
+  newValue: string;
+}
+
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
   const readValue = useCallback((): T => {
     if (typeof window === 'undefined') {
@@ -23,7 +30,13 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
         const valueToStore = value instanceof Function ? value(prev) : value;
         
         if (typeof window !== 'undefined') {
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          const serialized = JSON.stringify(valueToStore);
+          window.localStorage.setItem(key, serialized);
+          window.dispatchEvent(
+            new CustomEvent<LocalStorageSyncDetail>(LOCAL_STORAGE_SYNC_EVENT, {
+              detail: { key, newValue: serialized },
+            })
+          );
         }
         
         return valueToStore;
@@ -40,8 +53,19 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
       }
     };
 
+    const handleSameTabSync = (event: Event) => {
+      const detail = (event as CustomEvent<LocalStorageSyncDetail>).detail;
+      if (detail.key === key) {
+        setStoredValue(JSON.parse(detail.newValue));
+      }
+    };
+
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener(LOCAL_STORAGE_SYNC_EVENT, handleSameTabSync);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener(LOCAL_STORAGE_SYNC_EVENT, handleSameTabSync);
+    };
   }, [key]);
 
   return [storedValue, setValue];

@@ -2,6 +2,7 @@ import { addDays, format, isAfter, isBefore, isSameDay, startOfWeek } from 'date
 import { nl } from 'date-fns/locale';
 import { useLocalStorage } from './useLocalStorage';
 import { CHEAT_DAY_OPTIONS, CHEAT_DAY_TO_JS_DAY_INDEX } from '@/lib/cheatDay';
+import { getLocalDateString, getYesterdayDateString } from '@/lib/localDate';
 import type { DayStatus, Journey, WeightEntry, MealEntry, CheatDay } from '@/types';
 import { getCurrentDayTip } from '@/data/journey';
 
@@ -27,12 +28,12 @@ export function useJourney() {
   };
 
   const getTodayMeals = (): MealEntry => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getLocalDateString();
     return mealLog.find(entry => entry.date === today) || { date: today, breakfast: false, lunch: false, dinner: false };
   };
 
   const toggleMeal = (meal: 'breakfast' | 'lunch' | 'dinner') => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getLocalDateString();
     setMealLog(prev => {
       const existing = prev.find(entry => entry.date === today);
       if (existing) {
@@ -45,7 +46,7 @@ export function useJourney() {
   };
 
   const logWeight = (weight: number, date?: string) => {
-    const entryDate = date ?? new Date().toISOString().split('T')[0];
+    const entryDate = date ?? getLocalDateString();
 
     setWeightLog(prev => {
       const withoutSameDay = prev.filter(entry => entry.date !== entryDate);
@@ -59,8 +60,8 @@ export function useJourney() {
     if (mealLog.length === 0) return 0;
     const sorted = [...mealLog].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     let streak = 0;
-    const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    const today = getLocalDateString();
+    const yesterday = getYesterdayDateString();
     const cheatDayNum = CHEAT_DAY_TO_JS_DAY_INDEX[journey.cheatDay];
 
     for (let i = 0; i < sorted.length; i++) {
@@ -147,7 +148,7 @@ export function getWeekData(journey: Journey, mealEntries: MealEntry[]): DayStat
 
     const mealEntry = mealEntries.find(entry => entry.date === dateStr);
     const loggedComplete = mealEntry ? mealEntry.breakfast && mealEntry.lunch && mealEntry.dinner : false;
-    const completed = isPast && loggedComplete;
+    const completed = (isPast || isToday) && loggedComplete;
 
     return {
       label: dayLabel,
@@ -162,7 +163,7 @@ export function getWeekData(journey: Journey, mealEntries: MealEntry[]): DayStat
 
 export function getDaysUntilCheatDay(journey: Journey): number {
   const today = new Date();
-  const currentDay = format(today, 'EEEE', { locale: nl }).toLowerCase();
+  const currentDay = format(today, 'EEEE', { locale: nl }).toLowerCase() as CheatDay;
 
   const daysOfWeek = CHEAT_DAY_OPTIONS;
   const currentIndex = daysOfWeek.indexOf(currentDay);

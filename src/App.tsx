@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Cog } from 'lucide-react';
 import LandingPage from '@/components/LandingPageFinal';
 import WelcomePage from '@/components/WelcomePage';
@@ -13,6 +13,7 @@ import { OnboardingWizard } from '@/components/OnboardingWizard';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useJourney } from '@/hooks/useJourney';
 import { useUserStore } from '@/store/useUserStore';
+import { getLocalDateString } from '@/lib/localDate';
 import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import './App.css';
@@ -35,7 +36,6 @@ function AppShell() {
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const mainRef = useRef<HTMLElement | null>(null);
   
   const { profile, isLoaded, loadProfile, updateProfile } = useUserStore();
   const { favorites, toggleFavorite } = useFavorites();
@@ -57,42 +57,6 @@ function AppShell() {
     loadProfile();
   }, [loadProfile]);
 
-  // #region agent log
-  useEffect(() => {
-    if (activeTab !== 'dashboard' || !mainRef.current) return;
-    const main = mainRef.current;
-    const rect = main.getBoundingClientRect();
-    const style = window.getComputedStyle(main);
-    const nav = document.querySelector('nav.fixed.bottom-0');
-    const navRect = nav?.getBoundingClientRect();
-    const probe = document.createElement('div');
-    probe.style.cssText = 'position:fixed;bottom:0;left:0;padding-bottom:env(safe-area-inset-bottom,0px);pointer-events:none;';
-    document.body.appendChild(probe);
-    const safeBottom = window.getComputedStyle(probe).paddingBottom;
-    document.body.removeChild(probe);
-    const payload = {
-      sessionId: '3bc562',
-      hypothesisId: 'H1',
-      location: 'App.tsx:layout',
-      message: 'Dashboard main and nav layout',
-      data: {
-        mainPaddingBottom: style.paddingBottom,
-        mainClientHeight: main.clientHeight,
-        mainScrollHeight: main.scrollHeight,
-        mainRectBottom: rect.bottom,
-        viewportHeight: window.visualViewport?.height ?? window.innerHeight,
-        innerHeight: window.innerHeight,
-        navHeight: navRect?.height,
-        navTop: navRect?.top,
-        canScroll: main.scrollHeight > main.clientHeight,
-        safeAreaInsetBottom: safeBottom,
-      },
-      timestamp: Date.now(),
-    };
-    fetch('http://127.0.0.1:7463/ingest/a0558390-360f-4072-93db-bed8e45837de', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '3bc562' }, body: JSON.stringify(payload) }).catch(() => {});
-  }, [activeTab]);
-  // #endregion
-
   if (!isLoaded) {
     return null;
   }
@@ -101,10 +65,13 @@ function AppShell() {
     return (
       <OnboardingWizard
         onComplete={(data) => {
+          const computedWeightGoal = Math.round((data.currentWeight - data.targetWeight) * 10) / 10;
           updateProfile({
             hasCompletedOnboarding: true,
             name: data.name,
-            weightGoal: data.weightGoal,
+            weightGoal: computedWeightGoal,
+            currentWeight: data.currentWeight,
+            desiredWeight: data.targetWeight,
             isVegetarian: data.vegetarian,
             vegetarian: data.vegetarian,
             allergies: '',
@@ -114,7 +81,8 @@ function AppShell() {
             cheatDay: data.cheatDay,
             createdAt: new Date().toISOString(),
           });
-          startJourney(new Date().toISOString().split('T')[0], data.cheatDay, data.weightGoal);
+          logWeight(data.currentWeight);
+          startJourney(getLocalDateString(), data.cheatDay, computedWeightGoal);
         }}
       />
     );
@@ -184,7 +152,6 @@ function AppShell() {
 
       {/* Main Content */}
       <main
-        ref={mainRef}
         className={cn(
           'w-full max-w-md mx-auto px-5 pt-4 flex-1 min-h-0',
           activeTab === 'dashboard'

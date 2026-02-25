@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DailyMealTracker } from './DailyMealTracker';
 import { Card } from '@/components/primitives/Card';
 import { CHEAT_DAY_LABELS, CHEAT_DAY_OPTIONS } from '@/lib/cheatDay';
+import { getLocalDateString } from '@/lib/localDate';
 import type { CheatDay, MealEntry } from '@/types';
 
 interface JourneyCardProps {
@@ -30,7 +31,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
   const [showStartDialog, setShowStartDialog] = useState(false);
   const [showStartDateCalendar, setShowStartDateCalendar] = useState(false);
   const [showTipDialog, setShowTipDialog] = useState(false);
-  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+  const [startDate, setStartDate] = useState(getLocalDateString);
   const [cheatDay, setCheatDay] = useState<CheatDay>('zaterdag');
   const [targetWeight, setTargetWeight] = useState('');
   const startDateLabel = new Date(`${startDate}T12:00:00`).toLocaleDateString('nl-NL', {

@@ -74,7 +74,11 @@ export function SettingsTab() {
   };
 
   const handleWeightGoalChange = (value: number[]) => {
-    updateProfile({ ...profile, weightGoal: value[0] });
+    const newGoal = value[0];
+    updateProfile({ ...profile, weightGoal: newGoal });
+    if (journey.startDate) {
+      startJourney(journey.startDate, currentCheatDay, newGoal);
+    }
   };
 
   const handleCheatDayChange = (cheatDay: CheatDay) => {

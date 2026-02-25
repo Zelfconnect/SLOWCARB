@@ -27,7 +27,7 @@ export function CompactRecipeCard({
 }: CompactRecipeCardProps) {
   const RecipeIcon = getRecipeIcon(recipe.icon);
   const protein = (recipe as Recipe & { macros?: { protein?: number } }).macros?.protein;
-  const { iconBox, iconColor } = getCategoryAccent(recipe.category);
+  const { iconBox, iconColor } = getCategoryAccent();
   const difficultyLabel = recipe.difficulty
     ? DIFFICULTY_LABELS[recipe.difficulty.toLowerCase()] ?? recipe.difficulty
     : null;
