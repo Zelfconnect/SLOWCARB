@@ -174,6 +174,21 @@ function getZoneIcon(value: string) {
   return zoneIconMap[value] || zoneIconMap[normalized] || zoneIconMap.package;
 }
 
+function getZoneDisplayParts(zoneName: string) {
+  const [zoneLabel, ...titleParts] = zoneName.split(':');
+  const zoneTitle = titleParts.join(':').trim();
+  return {
+    zoneLabel: zoneLabel.trim(),
+    zoneTitle: zoneTitle.length > 0 ? zoneTitle : zoneName,
+  };
+}
+
+function getZoneProgress(zone: AmmoZone) {
+  const allItems = zone.sections.flatMap((section) => section.items);
+  const checkedItemsCount = allItems.filter((item) => item.checked).length;
+  return { checkedItemsCount, totalItemsCount: allItems.length };
+}
+
 function isOptional(item: AmmoItem) {
   return item.name.toLowerCase().includes('(optioneel)');
 }
@@ -276,7 +291,7 @@ export function AmmoCheck() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-soft">
+      <div className="rounded-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-6 text-white shadow-surface">
         <div className="flex items-center gap-4">
           <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
             <Target className="h-6 w-6 text-white" aria-hidden="true" />
@@ -292,19 +307,34 @@ export function AmmoCheck() {
         {zones.map((zone) => {
           const status = getZoneStatus(zone);
           const zoneIcon = getZoneIcon(zone.icon);
+          const { zoneLabel, zoneTitle } = getZoneDisplayParts(zone.name);
+          const { checkedItemsCount, totalItemsCount } = getZoneProgress(zone);
 
           return (
-            <AccordionItem key={zone.id} value={zone.id} className="rounded-2xl border border-warm-200 bg-white shadow-soft overflow-hidden">
-              <AccordionTrigger className="min-h-[74px] px-5 py-4 hover:no-underline [&>svg]:h-5 [&>svg]:w-5 [&>svg]:box-content [&>svg]:p-2 [&>svg]:text-stone-500 [&>svg]:transition-transform [&>svg]:duration-200">
-                <div className="grid min-w-0 flex-1 grid-cols-[auto_auto_1fr] items-center gap-4 pr-3">
-                  <span
-                    className={cn('h-3 w-3 rounded-full', status === 'green' ? 'bg-sage-500' : 'bg-clay-400')}
-                    aria-hidden="true"
-                  />
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sage-200 bg-sage-50">
-                    <zoneIcon.Icon className="h-5 w-5 text-sage-600" aria-label={zone.name} />
+            <AccordionItem key={zone.id} value={zone.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-surface">
+              <AccordionTrigger
+                aria-label={zone.name}
+                className="min-h-[74px] px-5 py-4 hover:no-underline [&>svg]:h-5 [&>svg]:w-5 [&>svg]:box-content [&>svg]:p-2 [&>svg]:text-stone-500 [&>svg]:transition-transform [&>svg]:duration-200"
+              >
+                <div className="grid min-w-0 flex-1 grid-cols-[auto_1fr_auto] items-center gap-3 pr-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-sage-500 to-sage-600 shadow-soft">
+                    <zoneIcon.Icon className="h-5 w-5 text-white" aria-hidden="true" />
                   </div>
-                  <span className="truncate font-display text-lg font-semibold leading-tight text-stone-800">{zone.name}</span>
+                  <div className="min-w-0">
+                    <p className="truncate text-xs font-semibold uppercase tracking-wider text-stone-500">{zoneLabel}</p>
+                    <p className="truncate font-display text-lg font-semibold leading-tight text-stone-800">{zoneTitle}</p>
+                    <p className="mt-0.5 text-sm font-medium tabular-nums text-stone-600">{checkedItemsCount}/{totalItemsCount}</p>
+                  </div>
+                  {status === 'green' ? (
+                    <span
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-sage-500 text-white"
+                      aria-label={`${zoneTitle} compleet`}
+                    >
+                      <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  ) : (
+                    <span className="h-8 w-8" aria-hidden="true" />
+                  )}
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pb-0">
@@ -364,7 +394,7 @@ export function AmmoCheck() {
       </Accordion>
 
       {overallStatus === 'locked' ? (
-        <div className="rounded-2xl border border-sage-200 bg-gradient-to-br from-sage-50 to-sage-100/40 p-5 shadow-soft">
+        <div className="rounded-2xl border border-sage-200 bg-gradient-to-br from-sage-50 to-sage-100/40 p-5 shadow-surface">
           <p className="flex items-center gap-2 font-display font-semibold text-sage-800">
             <CheckCircle2 className="h-5 w-5" />
             Locked and loaded
@@ -372,12 +402,12 @@ export function AmmoCheck() {
           <p className="mt-1 text-sm text-sage-700">Je basis staat op groen. Tijd om te preppen en doorknallen.</p>
         </div>
       ) : (
-        <div className="rounded-2xl border border-clay-200 bg-gradient-to-br from-clay-50 to-clay-100/40 p-5 shadow-soft">
-          <p className="flex items-center gap-2 font-display font-semibold text-clay-800">
+        <div className="rounded-2xl border border-red-200 bg-gradient-to-br from-red-50 to-red-100/40 p-5 shadow-surface">
+          <p className="flex items-center gap-2 font-display font-semibold text-red-800">
             <AlertTriangle className="h-5 w-5" />
             Voorraad niet compleet
           </p>
-          <p className="mt-1 text-sm text-clay-700">Alles op rood is je directe inkooplijst voor de supermarkt.</p>
+          <p className="mt-1 text-sm text-red-700">Alles op rood is je directe inkooplijst voor de supermarkt.</p>
         </div>
       )}
     </div>
