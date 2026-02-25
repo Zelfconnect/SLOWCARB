@@ -1,8 +1,3 @@
-// ============================================
-// CARD PRIMITIVE - Consistent card component
-// Gebruik ALLEEN deze component voor alle cards
-// ============================================
-
 import { cn } from '@/lib/utils';
 import { type ReactNode } from 'react';
 
@@ -95,74 +90,6 @@ export function Card({
         className
       )}
     >
-      {children}
-    </div>
-  );
-}
-
-// ============================================
-// CARD HEADER - Voor consistente card headers
-// ============================================
-interface CardHeaderProps {
-  title: string;
-  subtitle?: string;
-  icon?: ReactNode;
-  action?: ReactNode;
-  variant?: 'default' | 'inverse';
-}
-
-export function CardHeader({ title, subtitle, icon, action, variant = 'default' }: CardHeaderProps) {
-  const isInverse = variant === 'inverse';
-  
-  return (
-    <div className="flex items-start justify-between gap-4 mb-4">
-      <div className="flex items-center gap-3">
-        {icon && (
-          <div className={cn(
-            'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
-            isInverse ? 'bg-white/20' : 'bg-sage-100'
-          )}>
-            {icon}
-          </div>
-        )}
-        <div>
-          <h3 className={cn(
-            'font-semibold text-lg leading-tight',
-            isInverse ? 'text-white' : 'text-stone-800'
-          )}>
-            {title}
-          </h3>
-          {subtitle && (
-            <p className={cn(
-              'text-sm mt-0.5',
-              isInverse ? 'text-white/80' : 'text-stone-500'
-            )}>
-              {subtitle}
-            </p>
-          )}
-        </div>
-      </div>
-      {action && <div className="flex-shrink-0">{action}</div>}
-    </div>
-  );
-}
-
-// ============================================
-// CARD SECTION - Voor interne card secties
-// ============================================
-interface CardSectionProps {
-  children: ReactNode;
-  className?: string;
-  hasBorder?: boolean;
-}
-
-export function CardSection({ children, className, hasBorder = false }: CardSectionProps) {
-  return (
-    <div className={cn(
-      'py-4',
-      hasBorder && 'border-t border-stone-100',
-      className
-    )}>
       {children}
     </div>
   );

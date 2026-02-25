@@ -1,20 +1,9 @@
 import type { EducationCard, ConceptCard, RuleCard, FAQCard } from '@/types';
 import { VALIDATION_RULES, ALLOWED_ICONS } from './educationTokens';
 
-// ============================================
-// EDUCATION CARDS - Structured Content
-// Semantisch kleur systeem: type bepaalt styling
-// ============================================
-
-// Helper to count words
 function countWords(text: string): number {
   return text.split(/\s+/).filter(w => w.length > 0).length;
 }
-
-// ============================================
-// TYPE 1: RULE CARDS (The 5 Rules + 30/30)
-// Kleur: Primary Green (consistent voor alle regels)
-// ============================================
 
 export const ruleCards: RuleCard[] = [
   {
@@ -115,11 +104,6 @@ export const ruleCards: RuleCard[] = [
     },
   },
 ];
-
-// ============================================
-// TYPE 2: CONCEPT CARDS
-// Kleur: Amber/Orange (warm, informatief)
-// ============================================
 
 export const conceptCards: ConceptCard[] = [
   {
@@ -225,10 +209,6 @@ export const conceptCards: ConceptCard[] = [
   },
 ];
 
-// ============================================
-// TYPE 3: FAQ CARDS (Short Q&A)
-// ============================================
-
 export const faqCards: FAQCard[] = [
   {
     id: 'faq-cheat-alles',
@@ -316,19 +296,12 @@ export const faqCards: FAQCard[] = [
   },
 ];
 
-// ============================================
-// ALL CARDS COMBINED
-// ============================================
-
 export const allEducationCards: EducationCard[] = [
   ...ruleCards,
   ...conceptCards,
   ...faqCards,
 ];
 
-// ============================================
-// VALIDATION FUNCTION
-// ============================================
 
 export function validateEducationCard(card: EducationCard): string[] {
   const errors: string[] = [];
@@ -433,10 +406,6 @@ allEducationCards.forEach(card => {
 if (allErrors.length > 0) {
   console.error('Education card validation errors:', allErrors);
 }
-
-// ============================================
-// QUICK REFERENCE DATA (for Learn tab)
-// ============================================
 
 export const yesNoList = {
   yes: [

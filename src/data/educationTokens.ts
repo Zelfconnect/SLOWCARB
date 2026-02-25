@@ -1,9 +1,3 @@
-// ============================================
-// EDUCATION DESIGN TOKENS
-// Semantisch kleur systeem gebaseerd op content type
-// Niet op onderwerp, maar op type content
-// ============================================
-
 export type EducationCardType = 'rule' | 'concept' | 'reference';
 
 export interface EducationTokens {
@@ -15,8 +9,6 @@ export interface EducationTokens {
   maxHeight: string;
 }
 
-// Rule Card: De 5 regels, must-do's, commando's
-// Kleur: Primary Green (consistent voor alle regels)
 export const RULE_TOKENS: EducationTokens = {
   background: 'from-sage-600 to-sage-700',  // Primary green gradient
   text: '#FFFFFF',
@@ -26,8 +18,6 @@ export const RULE_TOKENS: EducationTokens = {
   maxHeight: '85dvh',
 };
 
-// Concept Card: Hoe werkt iets, wetenschappelijke uitleg
-// Kleur: Neutraal steen met subtiele sage-tint
 export const CONCEPT_TOKENS: EducationTokens = {
   background: 'from-stone-600 to-stone-700',  // Neutral gradient
   text: '#FFFFFF',
@@ -37,8 +27,6 @@ export const CONCEPT_TOKENS: EducationTokens = {
   maxHeight: '80vh',
 };
 
-// Reference Card: JA/NEE lijsten, wat mag wel/niet
-// Kleur: Neutraal wit/lichtgrijs
 export const REFERENCE_TOKENS = {
   background: 'bg-white',
   text: '#1F2937',
@@ -66,7 +54,6 @@ export const REFERENCE_TOKENS = {
   },
 };
 
-// Helper functie om tokens op te halen
 export function getTokensForType(type: EducationCardType): EducationTokens {
   switch (type) {
     case 'rule':
@@ -80,7 +67,6 @@ export function getTokensForType(type: EducationCardType): EducationTokens {
   }
 }
 
-// Validatie constanten
 export const VALIDATION_RULES = {
   rule: {
     maxWords: 120,
@@ -103,7 +89,6 @@ export const VALIDATION_RULES = {
   },
 };
 
-// Toegestane icons per type
 export const ALLOWED_ICONS = {
   rule: ['ban', 'refresh-ccw', 'cup-soda', 'apple', 'party-popper', 'zap', 'beef', 'egg'],
   concept: ['flame', 'droplets', 'bean', 'sliders-horizontal'],

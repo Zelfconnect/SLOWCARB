@@ -176,39 +176,6 @@ export interface FAQCard extends EducationCardBase {
 
 export type EducationCard = ConceptCard | RuleCard | FAQCard;
 
-// Legacy types (kept for backwards compatibility)
-export interface Rule {
-  id: number;
-  title: string;
-  shortDescription: string;
-  fullDescription: string;
-  science: string;
-  icon: EducationIconKey;
-}
-
-export interface ScienceTopic {
-  id: string;
-  title: string;
-  icon: EducationIconKey;
-  summary: string;
-  content: string[];
-}
-
-export interface FAQ {
-  id: string;
-  question: string;
-  answer: string;
-  category: string;
-}
-
-export interface AppState {
-  journey: Journey;
-  favorites: string[];
-  shoppingList: ShoppingItem[];
-  stockChecklist: Record<string, boolean>;
-  weightLog: WeightEntry[];
-}
-
 export interface WeightEntry {
   date: string;
   weight: number;
