@@ -138,6 +138,11 @@ function PainPointCard({
   );
 }
 
+/**
+ * Rule card: number = sequence anchor (primary), icon = topic reinforcement (secondary).
+ * Good practice: one clear left anchor for order; icon grouped with title so it supports
+ * meaning, not competing with the number.
+ */
 function RuleCard({
   number,
   icon: Icon,
@@ -160,14 +165,71 @@ function RuleCard({
         delay
       )}`}
       style={{ transitionDelay: `${delay}ms` }}
+      aria-label={`Regel ${number}: ${title}`}
     >
       <div className="flex items-start gap-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sage-600 font-display text-sm font-bold text-white">
+        {/* Single ordinal anchor — number only, no competing icon */}
+        <div
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sage-600 font-display text-sm font-bold text-white"
+          aria-hidden
+        >
           {number}
         </div>
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
+          {/* Icon + title as one semantic unit (topic, not order) */}
           <div className="mb-2 flex items-center gap-2">
-            <Icon className="h-5 w-5 text-sage-600" strokeWidth={2} />
+            <Icon
+              className="h-4 w-4 shrink-0 text-sage-600"
+              strokeWidth={2}
+              aria-hidden
+            />
+            <h3 className="font-display font-semibold text-stone-800">{title}</h3>
+          </div>
+          <p className="text-sm leading-relaxed text-stone-600">{description}</p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/**
+ * Cheatday card: same structure as RuleCard so it fits the design system;
+ * stands out via clay accent (left border + clay badge) instead of a different layout.
+ */
+function CheatdayCard({
+  title,
+  description,
+  delay = 0,
+  isVisible,
+}: {
+  title: string;
+  description: string;
+  delay?: number;
+  isVisible: boolean;
+}) {
+  return (
+    <article
+      className={`rounded-2xl border border-stone-200 border-l-4 border-l-clay-500 bg-white p-5 shadow-card transition-all duration-700 hover:shadow-card-hover ${revealClass(
+        isVisible,
+        delay
+      )}`}
+      style={{ transitionDelay: `${delay}ms` }}
+      aria-label={title}
+    >
+      <div className="flex items-start gap-4">
+        <div
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-clay-500 font-display text-lg font-bold text-white"
+          aria-hidden
+        >
+          +
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="mb-2 flex items-center gap-2">
+            <PartyPopper
+              className="h-4 w-4 shrink-0 text-clay-600"
+              strokeWidth={2}
+              aria-hidden
+            />
             <h3 className="font-display font-semibold text-stone-800">{title}</h3>
           </div>
           <p className="text-sm leading-relaxed text-stone-600">{description}</p>
@@ -241,27 +303,36 @@ function TestimonialCard({
 }
 
 function FloatingMobileCTA({
+  visible,
   onClick,
   spotsLeftText,
   buttonText,
 }: {
+  visible: boolean;
   onClick: () => void;
   spotsLeftText: string;
   buttonText: string;
 }) {
+  if (!visible) return null;
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-      <div className="mx-3 mb-3 flex items-center justify-between rounded-2xl bg-sage-700/95 backdrop-blur-md px-4 py-3 shadow-lg">
-        <div className="flex flex-col">
-          <span className="text-sm font-bold text-white">€29 <span className="text-xs font-normal text-sage-300 line-through">€47</span></span>
-          <span className="text-[11px] text-sage-300">{spotsLeftText}</span>
+    <div
+      className="fixed bottom-0 left-0 right-0 z-50 animate-in fade-in slide-in-from-bottom-4 duration-300 md:hidden"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+    >
+      <div className="mx-3 mb-3 flex flex-col items-center gap-2 rounded-xl border border-sage-600 bg-sage-800 px-4 py-2.5 shadow-lg">
+        <div className="flex flex-col items-center gap-0.5 text-center">
+          <p className="text-sm font-bold tracking-tight text-white antialiased">
+            €29 <span className="ml-1 text-xs font-normal text-sage-100 line-through opacity-90">€47</span>
+          </p>
+          <p className="text-xs leading-snug text-sage-100">{spotsLeftText}</p>
         </div>
-        <button
+        <Button
           onClick={onClick}
-          className="rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-sage-700 shadow-sm active:scale-95 transition-transform"
+          size="sm"
+          className="h-9 w-full max-w-[200px] rounded-lg border-0 bg-white px-4 text-sm font-semibold text-sage-800 shadow-sm hover:bg-stone-100 active:scale-[0.98]"
         >
           {buttonText}
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -271,6 +342,24 @@ export default function LandingPageFinal() {
   const { t } = useTranslation();
   const { visibleSections, setRef } = useSectionReveal(9);
   const [showAppButton, setShowAppButton] = useState(false);
+  const [showFloatingCTA, setShowFloatingCTA] = useState(false);
+  const painSectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = painSectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        const scrolledPast = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        setShowFloatingCTA(scrolledPast);
+      },
+      { threshold: 0, rootMargin: '0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
   const rules: Rule[] = ruleIcons.map((icon, index) => ({
     icon,
     title: String(t(`landing.rules.${index}.title`)),
@@ -392,9 +481,12 @@ export default function LandingPageFinal() {
         </div>
       </section>
 
-      {/* Problem/Solution Section */}
+      {/* Problem/Solution Section (pain) – CTA shows only after scrolling past this */}
       <section
-        ref={setRef(1)}
+        ref={(el) => {
+          setRef(1)(el);
+          painSectionRef.current = el;
+        }}
         data-index={1}
         className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8"
       >
@@ -447,7 +539,7 @@ export default function LandingPageFinal() {
         </div>
       </section>
 
-      {/* The 5 Rules Section */}
+      {/* The 5 Rules Section — py-20 = 80px (8pt grid), sufficient spacing after cheatday card */}
       <section ref={setRef(2)} data-index={2} className="bg-white py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div
@@ -496,18 +588,12 @@ export default function LandingPageFinal() {
                 isVisible={visibleSections[2]}
               />
             ))}
-            <div
-              className={`flex h-full flex-col justify-center rounded-2xl bg-gradient-to-br from-clay-500 to-clay-600 p-6 text-white transition-all duration-700 ${revealClass(
-                visibleSections[2]
-              )}`}
-              style={{ transitionDelay: '500ms' }}
-            >
-              <PartyPopper className="mb-4 h-8 w-8 opacity-80" />
-              <h3 className="mb-2 font-display text-xl font-bold">{String(t('landing.cheatdayTitle'))}</h3>
-              <p className="text-sm leading-relaxed text-clay-100">
-                {String(t('landing.cheatdayText'))}
-              </p>
-            </div>
+            <CheatdayCard
+              title={String(t('landing.cheatdayTitle'))}
+              description={String(t('landing.cheatdayText'))}
+              delay={500}
+              isVisible={visibleSections[2]}
+            />
           </div>
         </div>
       </section>
@@ -685,7 +771,7 @@ export default function LandingPageFinal() {
                   value={faq.question}
                   className="border-stone-200"
                 >
-                  <AccordionTrigger className="text-left text-base font-semibold text-stone-800 hover:no-underline">
+                  <AccordionTrigger className="text-left text-sm font-medium text-stone-700 hover:no-underline py-3">
                     {faq.question}
                   </AccordionTrigger>
                   <AccordionContent className="text-base leading-relaxed text-stone-600">
@@ -762,8 +848,9 @@ export default function LandingPageFinal() {
         </div>
       </footer>
 
-      {/* Floating Mobile CTA */}
+      {/* Floating Mobile CTA – only after user scrolls past pain section */}
       <FloatingMobileCTA
+        visible={showFloatingCTA}
         onClick={openCheckout}
         spotsLeftText={String(t('landing.spotsLeft'))}
         buttonText={String(t('landing.pricingCta'))}
