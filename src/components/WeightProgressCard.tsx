@@ -12,13 +12,13 @@ interface WeightProgressCardProps {
 
 const ARC_WIDTH = 132;
 const ARC_HEIGHT = 74;
-const ARC_STROKE_WIDTH = 10;
+const ARC_STROKE_WIDTH = 14;
 const ARC_RADIUS = (ARC_WIDTH - ARC_STROKE_WIDTH) / 2;
 const ARC_CENTER_X = ARC_WIDTH / 2;
 const ARC_CENTER_Y = ARC_HEIGHT;
 const ARC_START_X = ARC_CENTER_X - ARC_RADIUS;
 const ARC_END_X = ARC_CENTER_X + ARC_RADIUS;
-const GOAL_ARC_PATH = `M ${ARC_START_X} ${ARC_CENTER_Y} A ${ARC_RADIUS} ${ARC_RADIUS} 0 0 0 ${ARC_END_X} ${ARC_CENTER_Y}`;
+const GOAL_ARC_PATH = `M ${ARC_START_X} ${ARC_CENTER_Y} A ${ARC_RADIUS} ${ARC_RADIUS} 0 0 1 ${ARC_END_X} ${ARC_CENTER_Y}`;
 
 function clampPercentage(value: number): number {
   return Math.min(100, Math.max(0, value));
@@ -97,12 +97,13 @@ export function WeightProgressCard({
 
         <div className="mt-2 rounded-2xl bg-stone-50/70 p-2.5 shadow-surface">
           <div
-            className="relative mx-auto h-[76px] w-[118px]"
+            className="relative mx-auto"
+            style={{ width: ARC_WIDTH, height: ARC_HEIGHT + 2 }}
             data-testid="goal-progress-arc"
           >
             <svg
-              height={ARC_HEIGHT}
               width={ARC_WIDTH}
+              height={ARC_HEIGHT}
               viewBox={`0 0 ${ARC_WIDTH} ${ARC_HEIGHT}`}
               aria-hidden="true"
             >
@@ -114,9 +115,8 @@ export function WeightProgressCard({
               </defs>
               <path
                 d={GOAL_ARC_PATH}
-                stroke="currentColor"
+                stroke="#78716c"
                 strokeWidth={ARC_STROKE_WIDTH}
-                className="text-stone-200"
                 fill="none"
                 strokeLinecap="round"
               />
