@@ -1,6 +1,11 @@
+import { useState } from 'react';
+import { format } from 'date-fns';
+import { nl } from 'date-fns/locale';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
@@ -28,19 +33,28 @@ import {
   Trash2,
   Mail,
   ChevronRight,
+  CalendarIcon,
+  Salad,
+  Flame,
+  Dumbbell,
+  Save,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/i18n';
+import { CHEAT_DAY_LABELS, CHEAT_DAY_OPTIONS } from '@/lib/cheatDay';
+import type { CheatDay } from '@/types';
 
 export function SettingsTab() {
+  const [showStartDateCalendar, setShowStartDateCalendar] = useState(false);
   const { t, locale, setLocale } = useTranslation();
   const { profile, updateProfile, logout } = useUserStore();
   const { journey, resetJourney, startJourney } = useJourney();
 
   if (!profile) {
     return (
-      <div className="space-y-4">
-        <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
+      <div className="space-y-3">
+        <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-4 text-white">
           <div className="flex items-center gap-3">
             <Settings className="w-6 h-6" />
             <h2 className="font-display font-semibold text-lg">{String(t('settings.title'))}</h2>
@@ -63,11 +77,18 @@ export function SettingsTab() {
     updateProfile({ ...profile, weightGoal: value[0] });
   };
 
-  const handleCheatDayChange = (cheatDay: 'zaterdag' | 'zondag') => {
+  const handleCheatDayChange = (cheatDay: CheatDay) => {
     updateProfile({ ...profile, cheatDay });
     if (journey.startDate) {
       startJourney(journey.startDate, cheatDay, journey.targetWeight);
     }
+  };
+
+  const handleStartDateChange = (selectedDate: Date | undefined) => {
+    if (!selectedDate || !journey.startDate) return;
+    const formattedDate = format(selectedDate, 'yyyy-MM-dd');
+    startJourney(formattedDate, currentCheatDay, journey.targetWeight);
+    setShowStartDateCalendar(false);
   };
 
   const handleVegetarianToggle = (checked: boolean) => {
@@ -91,15 +112,28 @@ export function SettingsTab() {
     logout();
   };
 
+  const handleSave = () => {
+    if (!profile) return;
+    updateProfile(profile);
+    toast.success(String(t('settings.savedToast')));
+  };
+
   const currentCheatDay = profile.cheatDay || journey.cheatDay || 'zaterdag';
+  const journeyStartDateLabel = journey.startDate
+    ? new Date(`${journey.startDate}T12:00:00`).toLocaleDateString('nl-NL', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+    : 'Nog niet gestart';
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Header Banner */}
-      <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-5 text-white">
+      <div className="bg-gradient-to-br from-sage-600 to-sage-700 rounded-2xl p-4 text-white">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-            <Settings className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <Settings className="w-5 h-5 text-white" />
           </div>
           <div>
             <h2 className="font-display font-semibold text-lg">{String(t('settings.title'))}</h2>
@@ -112,15 +146,15 @@ export function SettingsTab() {
 
       {/* Profile Section */}
       <Card className="rounded-2xl shadow-sm border-stone-100">
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
             <User className="w-5 h-5 text-sage-600" />
             {String(t('settings.profileTitle'))}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-5">
+        <CardContent className="space-y-3">
           {/* Name Input */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="name" className="text-sm font-medium text-stone-700">
               {String(t('settings.nameLabel'))}
             </Label>
@@ -136,7 +170,7 @@ export function SettingsTab() {
           <Separator className="bg-stone-100" />
 
           {/* Weight Goal Slider */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label htmlFor="weight-goal" className="text-sm font-medium text-stone-700">
               {String(t('settings.weightGoalLabel'))}
             </Label>
@@ -147,7 +181,7 @@ export function SettingsTab() {
               step={1}
               value={[profile.weightGoal || 10]}
               onValueChange={handleWeightGoalChange}
-              className="py-2"
+              className="py-1"
             />
             <div className="flex items-center justify-between">
               <span className="text-sm text-stone-500">3 kg</span>
@@ -161,24 +195,55 @@ export function SettingsTab() {
           <Separator className="bg-stone-100" />
 
           {/* Cheat Day Selection */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label className="text-sm font-medium text-stone-700">{String(t('settings.cheatDayLabel'))}</Label>
-            <div className="flex gap-2">
-              {(['zaterdag', 'zondag'] as const).map((day) => (
+            <p className="text-xs text-stone-500">Kies de dag die past bij je ritme (bijv. uit eten).</p>
+            <div className="grid grid-cols-2 gap-2">
+              {CHEAT_DAY_OPTIONS.map((day) => (
                 <button
                   key={day}
                   onClick={() => handleCheatDayChange(day)}
                   className={cn(
-                    'flex-1 py-2.5 px-4 rounded-xl text-sm font-medium transition-all duration-200',
+                    'flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all duration-200',
                     currentCheatDay === day
                       ? 'bg-sage-600 text-white shadow-sm'
                       : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                   )}
                 >
-                  {String(t(day === 'zaterdag' ? 'settings.daySaturday' : 'settings.daySunday'))}
+                  {CHEAT_DAY_LABELS[day]}
                 </button>
               ))}
             </div>
+          </div>
+
+          <Separator className="bg-stone-100" />
+
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-stone-700">Startdatum journey</Label>
+            <p className="text-xs text-stone-500">Huidige startdatum: {journeyStartDateLabel}</p>
+            {journey.startDate ? (
+              <Popover open={showStartDateCalendar} onOpenChange={setShowStartDateCalendar}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="inline-flex h-10 w-full items-center justify-between rounded-xl border border-stone-200 bg-white px-3 text-sm text-stone-700 transition-colors hover:bg-stone-50"
+                  >
+                    Startdatum wijzigen
+                    <CalendarIcon className="h-4 w-4 text-stone-500" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="z-[60] w-auto rounded-xl border border-stone-200 bg-white p-0 shadow-soft [--cell-size:2.5rem]">
+                  <Calendar
+                    mode="single"
+                    locale={nl}
+                    selected={new Date(`${journey.startDate}T12:00:00`)}
+                    defaultMonth={new Date(`${journey.startDate}T12:00:00`)}
+                    onSelect={handleStartDateChange}
+                    disabled={{ after: new Date() }}
+                  />
+                </PopoverContent>
+              </Popover>
+            ) : null}
           </div>
 
           <Separator className="bg-stone-100" />
@@ -197,12 +262,23 @@ export function SettingsTab() {
               <option value="nl">Nederlands</option>
             </select>
           </div>
+
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={handleSave}
+              className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-sage-600 text-white font-medium text-sm hover:bg-sage-700 active:scale-[0.98] transition-colors"
+            >
+              <Save className="w-4 h-4" />
+              {String(t('settings.saveButton'))}
+            </button>
+          </div>
         </CardContent>
       </Card>
 
       {/* Preferences Section */}
       <Card className="rounded-2xl shadow-sm border-stone-100">
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
             <Settings2 className="w-5 h-5 text-sage-600" />
             {String(t('settings.preferencesTitle'))}
@@ -210,10 +286,10 @@ export function SettingsTab() {
         </CardHeader>
         <CardContent className="space-y-1">
           {/* Vegetarian Toggle */}
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center">
-                <span className="text-lg">🥗</span>
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+                <Salad className="w-4 h-4 text-emerald-600" />
               </div>
               <div>
                 <p className="text-sm font-medium text-stone-700">{String(t('settings.vegetarianLabel'))}</p>
@@ -230,10 +306,10 @@ export function SettingsTab() {
           <Separator className="bg-stone-100" />
 
           {/* Airfryer Toggle */}
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center">
-                <span className="text-lg">🍳</span>
+              <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+                <Flame className="w-4 h-4 text-amber-600" />
               </div>
               <div>
                 <p className="text-sm font-medium text-stone-700">{String(t('settings.airfryerLabel'))}</p>
@@ -250,10 +326,10 @@ export function SettingsTab() {
           <Separator className="bg-stone-100" />
 
           {/* Sports Toggle */}
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
-                <span className="text-lg">💪</span>
+              <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
+                <Dumbbell className="w-4 h-4 text-orange-600" />
               </div>
               <div>
                 <p className="text-sm font-medium text-stone-700">{String(t('settings.sportsLabel'))}</p>
@@ -271,19 +347,19 @@ export function SettingsTab() {
 
       {/* Data & Privacy Section */}
       <Card className="rounded-2xl shadow-sm border-stone-100">
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
             <Shield className="w-5 h-5 text-sage-600" />
             {String(t('settings.dataPrivacyTitle'))}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-2">
           {/* Reset Journey */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <button className="w-full flex items-center justify-between p-3 rounded-xl bg-stone-50 hover:bg-stone-100 transition-colors group">
+              <button className="w-full flex items-center justify-between p-2.5 rounded-xl bg-stone-50 hover:bg-stone-100 transition-colors group">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-stone-200 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-stone-200 flex items-center justify-center">
                     <RotateCcw className="w-4 h-4 text-stone-600" />
                   </div>
                   <div className="text-left">
@@ -316,9 +392,9 @@ export function SettingsTab() {
           {/* Clear All Data */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <button className="w-full flex items-center justify-between p-3 rounded-xl border border-red-200 bg-red-50/50 hover:bg-red-50 transition-colors group">
+              <button className="w-full flex items-center justify-between p-2.5 rounded-xl border border-red-200 bg-red-50/50 hover:bg-red-50 transition-colors group">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-red-100 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
                     <Trash2 className="w-4 h-4 text-red-600" />
                   </div>
                   <div className="text-left">
@@ -352,13 +428,13 @@ export function SettingsTab() {
 
       {/* About Section */}
       <Card className="rounded-2xl shadow-sm border-stone-100">
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
             <Info className="w-5 h-5 text-sage-600" />
             {String(t('settings.aboutTitle'))}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-2">
           <div className="flex items-center justify-between py-1">
             <span className="text-sm text-stone-500">{String(t('settings.versionLabel'))}</span>
             <span className="text-sm font-medium text-stone-700">3.0.0</span>

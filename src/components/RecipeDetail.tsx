@@ -109,11 +109,21 @@ export function RecipeDetail({ recipe, isOpen, onClose, isFavorite, onToggleFavo
             <h3 className="font-display font-semibold text-stone-800 text-lg mb-4 flex items-center gap-2">
               <ChefHat className="w-5 h-5 text-sage-600" />Bereiding
             </h3>
+            {recipe.prepNote && (
+              <div className="mb-4 rounded-2xl border border-stone-200 bg-stone-50 p-4 text-sm leading-relaxed text-stone-600">
+                {recipe.prepNote}
+              </div>
+            )}
             <ol className="space-y-4">
               {recipe.steps.map((step, idx) => (
                 <li key={idx} className="flex gap-4">
                   <span className="flex-shrink-0 w-8 h-8 rounded-xl bg-sage-100 text-sage-700 text-sm font-display font-semibold flex items-center justify-center">{idx + 1}</span>
-                  <span className="text-stone-700 pt-1 leading-relaxed">{step}</span>
+                  <span className="pt-1">
+                    <span className="block leading-relaxed text-stone-700">{step.text}</span>
+                    {step.note && (
+                      <span className="mt-1 block text-xs leading-relaxed text-stone-500">{step.note}</span>
+                    )}
+                  </span>
                 </li>
               ))}
             </ol>

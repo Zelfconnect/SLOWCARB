@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { useJourney, getDaysUntilCheatDay, getWeekData } from '../useJourney';
-import type { Journey } from '@/types';
+import type { CheatDay, Journey } from '@/types';
 
 // Fixed "today" used across date-sensitive tests: 2024-01-15 (Monday)
 const FIXED_TODAY = new Date('2024-01-15T12:00:00.000Z');
@@ -29,7 +29,7 @@ const partialDay = (date: string) => ({
 describe('getDaysUntilCheatDay', () => {
   afterEach(() => vi.useRealTimers());
 
-  const makeJourney = (cheatDay: 'zaterdag' | 'zondag'): Journey => ({
+  const makeJourney = (cheatDay: CheatDay): Journey => ({
     startDate: '2024-01-01',
     cheatDay,
     targetWeight: undefined,
@@ -57,12 +57,14 @@ describe('getDaysUntilCheatDay', () => {
     expect(getDaysUntilCheatDay(makeJourney('zondag'))).toBe(1);
   });
 
-  // BUG: when today IS the cheat day, `diff` equals 0, but the condition
-  // `if (diff <= 0)` adds 7, returning 7 instead of 0.
-  // Fix: change `<= 0` to `< 0` in getDaysUntilCheatDay.
-  it('returns 7 (bug: should be 0) when today is Saturday and cheat day is Saturday', () => {
+  it('supports a midweek cheat day (Wednesday)', () => {
+    vi.setSystemTime(new Date('2024-01-08T12:00:00.000Z')); // Monday
+    expect(getDaysUntilCheatDay(makeJourney('woensdag'))).toBe(2);
+  });
+
+  it('returns 0 when today is Saturday and cheat day is Saturday', () => {
     vi.setSystemTime(new Date('2024-01-13T12:00:00.000Z'));
-    expect(getDaysUntilCheatDay(makeJourney('zaterdag'))).toBe(7); // known bug
+    expect(getDaysUntilCheatDay(makeJourney('zaterdag'))).toBe(0);
   });
 });
 
@@ -103,6 +105,13 @@ describe('getWeekData', () => {
     // Saturday in the week of 2024-01-15 is 2024-01-20
     const saturday = data.find((d) => d.date === WEEK_SAT_STR);
     expect(saturday?.isCheatDay).toBe(true);
+  });
+
+  it('marks Monday as cheat day when cheatDay = maandag', () => {
+    const mondayJourney: Journey = { ...baseJourney, cheatDay: 'maandag' };
+    const data = getWeekData(mondayJourney, []);
+    const monday = data.find((d) => d.date === WEEK_MON_STR);
+    expect(monday?.isCheatDay).toBe(true);
   });
 
   it('does not mark non-Saturday days as cheat days', () => {
@@ -239,6 +248,18 @@ describe('getStreak', () => {
     seedMealLog([completeDay(TWO_DAYS_AGO_STR)]);
     const { result } = renderHook(() => useJourney());
     expect(result.current.getStreak()).toBe(0);
+  });
+
+  it('continues streak across cheat day when gap is only the cheat day', () => {
+    // Monday 2024-01-22: yesterday Sun 21st, Sat 20th = cheat day (no log), Fri 19th
+    vi.setSystemTime(new Date('2024-01-22T12:00:00.000Z'));
+    window.localStorage.setItem(
+      'slowcarb-journey',
+      JSON.stringify({ startDate: '2024-01-01', cheatDay: 'zaterdag', targetWeight: undefined }),
+    );
+    seedMealLog([completeDay('2024-01-21'), completeDay('2024-01-19')]);
+    const { result } = renderHook(() => useJourney());
+    expect(result.current.getStreak()).toBe(2);
   });
 });
 

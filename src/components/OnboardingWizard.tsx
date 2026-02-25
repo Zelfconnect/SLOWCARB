@@ -8,7 +8,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ChevronLeft } from 'lucide-react';
 import { useTranslation } from '@/i18n';
+import { CHEAT_DAY_LABELS, CHEAT_DAY_OPTIONS } from '@/lib/cheatDay';
 import { formatWeekEstimate } from '@/lib/formatWeekEstimate';
+import type { CheatDay } from '@/types';
 
 interface OnboardingData {
   name: string;
@@ -16,7 +18,7 @@ interface OnboardingData {
   vegetarian: boolean;
   hasAirfryer: boolean;
   sportsRegularly: boolean;
-  cheatDay: 'zaterdag' | 'zondag';
+  cheatDay: CheatDay;
 }
 
 interface OnboardingWizardProps {
@@ -267,41 +269,28 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                     <RadioGroup
                       value={data.cheatDay}
                       className="mt-10 gap-3"
-                      onValueChange={(value: 'zaterdag' | 'zondag') =>
-                        setData({ ...data, cheatDay: value })
+                      onValueChange={(value: string) =>
+                        setData({ ...data, cheatDay: value as CheatDay })
                       }
                     >
-                      <Label
-                        htmlFor="saturday"
-                        className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-semibold transition-colors ${
-                          data.cheatDay === 'zaterdag'
-                            ? 'border-sage-600 bg-sage-50 text-sage-700'
-                            : 'border-stone-200 bg-white/85 text-warm-800'
-                        }`}
-                      >
-                        <RadioGroupItem
-                          value="zaterdag"
-                          id="saturday"
-                          className="h-6 w-6 border-stone-300 text-sage-600"
-                        />
-                        <span>Zaterdag</span>
-                      </Label>
-
-                      <Label
-                        htmlFor="sunday"
-                        className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-semibold transition-colors ${
-                          data.cheatDay === 'zondag'
-                            ? 'border-sage-600 bg-sage-50 text-sage-700'
-                            : 'border-stone-200 bg-white/85 text-warm-800'
-                        }`}
-                      >
-                        <RadioGroupItem
-                          value="zondag"
-                          id="sunday"
-                          className="h-6 w-6 border-stone-300 text-sage-600"
-                        />
-                        <span>Zondag</span>
-                      </Label>
+                      {CHEAT_DAY_OPTIONS.map((day) => (
+                        <Label
+                          key={day}
+                          htmlFor={day}
+                          className={`flex min-h-[56px] cursor-pointer items-center gap-4 rounded-2xl border px-4 py-3 text-base font-semibold transition-colors ${
+                            data.cheatDay === day
+                              ? 'border-sage-600 bg-sage-50 text-sage-700'
+                              : 'border-stone-200 bg-white/85 text-warm-800'
+                          }`}
+                        >
+                          <RadioGroupItem
+                            value={day}
+                            id={day}
+                            className="h-6 w-6 border-stone-300 text-sage-600"
+                          />
+                          <span>{CHEAT_DAY_LABELS[day]}</span>
+                        </Label>
+                      ))}
                     </RadioGroup>
 
                     <div className="mt-auto pt-8">

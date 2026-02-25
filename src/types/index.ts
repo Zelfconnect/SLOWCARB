@@ -4,8 +4,21 @@ export interface Ingredient {
   scalable?: boolean;
 }
 
+export interface RecipeStep {
+  text: string;
+  note?: string;
+}
+
 export type RecipeIconKey = 'cooking-pot' | 'soup' | 'flame' | 'salad' | 'fish' | 'egg';
 export type MealTypeIconKey = 'sunrise' | 'sun' | 'moon' | 'package' | 'flame' | 'apple' | 'zap' | 'clock';
+export type CheatDay =
+  | 'maandag'
+  | 'dinsdag'
+  | 'woensdag'
+  | 'donderdag'
+  | 'vrijdag'
+  | 'zaterdag'
+  | 'zondag';
 
 export interface Recipe {
   id: string;
@@ -19,7 +32,8 @@ export interface Recipe {
   cookTime: string;
   servings: number;
   ingredients: Ingredient[];
-  steps: string[];
+  steps: RecipeStep[];
+  prepNote?: string;
   tips?: string[];
   isFavorite?: boolean;
   tags: string[];
@@ -28,7 +42,7 @@ export interface Recipe {
 export interface Journey {
   startDate: string | null;
   targetWeight?: number;
-  cheatDay: 'zaterdag' | 'zondag';
+  cheatDay: CheatDay;
 }
 
 export interface MealEntry {
@@ -210,6 +224,6 @@ export interface UserProfile {
   hasAirfryer: boolean;
   sportsRegularly: boolean;
   doesSport: boolean;
-  cheatDay: "zaterdag" | "zondag";
+  cheatDay: CheatDay;
   createdAt: string;
 }

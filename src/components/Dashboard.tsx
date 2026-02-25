@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { getDaysUntilCheatDay, getWeekData } from '@/hooks/useJourney';
-import type { Journey, MealEntry, WeightEntry } from '@/types';
+import type { CheatDay, Journey, MealEntry, WeightEntry } from '@/types';
 import { useTranslation } from '@/i18n';
 
 interface DashboardProps {
@@ -16,7 +16,7 @@ interface DashboardProps {
   progress: { day: number; week: number; totalDays: number; percentage: number };
   currentTip: { day: number; tip?: { title: string; tips: string[]; metabolicState: string }; weekTip?: { title: string; tips: string[]; warning?: string } } | null;
   isCheatDay: boolean;
-  onStartJourney: (date: string, cheatDay: 'zaterdag' | 'zondag', targetWeight?: number) => void;
+  onStartJourney: (date: string, cheatDay: CheatDay, targetWeight?: number) => void;
   onResetJourney: () => void;
   todayMeals: MealEntry;
   streak: number;
@@ -175,7 +175,8 @@ export function Dashboard({
       {isCheatDay ? (
         <div className="rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/90 to-clay-100/80 px-3 py-2.5 shadow-soft">
           <h3 className="mb-1 font-display text-base font-semibold text-clay-900">🍕 Cheat Day!</h3>
-          <p className="text-sm text-clay-700">
+          <p className="text-sm font-medium text-clay-800">Vandaag is je cheat day.</p>
+          <p className="mt-1 text-sm text-clay-700">
             Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp.
             Geniet ervan en ga morgen weer terug naar het protocol.
           </p>

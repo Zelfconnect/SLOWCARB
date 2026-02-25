@@ -67,12 +67,12 @@ function MealCarouselCard({
       aria-label={title}
       data-testid={`meal-photo-card-${type}`}
       className={cn(
-        'group w-full overflow-hidden rounded-2xl bg-white text-left shadow-surface transition-all duration-200',
+        'group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-white text-left shadow-surface transition-all duration-200',
         isCompleted ? 'ring-2 ring-emerald-500/40' : 'active:scale-[0.99]',
         isCheatDay && 'cursor-not-allowed opacity-55'
       )}
     >
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl">
+      <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-t-2xl">
         <div className={cn('absolute inset-0 bg-gradient-to-br', fallbackGradient)} />
         {image ? (
           <img
@@ -98,7 +98,7 @@ function MealCarouselCard({
           ) : null}
         </div>
       </div>
-      <div className="px-2 py-1.5">
+      <div className="flex min-h-[52px] flex-1 flex-col justify-center px-2 py-1.5">
         <p className="truncate font-display text-[15px] font-semibold text-stone-900">{title}</p>
         <p className="line-clamp-2 text-[11px] leading-tight text-stone-600">{subtitle}</p>
       </div>
@@ -207,11 +207,11 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
         </div>
       </div>
 
-      <div className="mt-2 flex gap-1.5" data-testid="meal-cards-grid">
+      <div className="mt-2 grid grid-cols-3 gap-1.5 items-stretch" data-testid="meal-cards-grid">
         {mealCards.map((meal) => (
           <div
             key={meal.type}
-            className="min-w-0 flex-1"
+            className="min-w-0 flex"
             data-testid="meal-card-column"
           >
             <MealCarouselCard

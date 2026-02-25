@@ -1,7 +1,8 @@
 import recipesJson from './recipes.json';
 import type { Recipe as ImportedRecipe, RecipeDatabase } from '../types/recipe';
-import type { Ingredient, Recipe as AppRecipe, RecipeIconKey, MealTypeIconKey } from '@/types';
+import type { Ingredient, Recipe as AppRecipe, RecipeIconKey, MealTypeIconKey, RecipeStep } from '@/types';
 
+type RawRecipeStep = string | { text: string; note?: string };
 type RawRecipe = {
   id: string;
   title: string;
@@ -10,13 +11,15 @@ type RawRecipe = {
   time: number;
   tags: string[];
   ingredients: string[];
-  steps: string[];
+  steps: RawRecipeStep[];
   macros?: {
     protein?: number;
     carbs?: number;
     fat?: number;
   };
   mealPrepTip?: string;
+  prepNote?: string;
+  tips?: string[];
   servings?: number;
   difficulty?: string;
   protein?: string;
@@ -180,6 +183,18 @@ const assertValidRecipe = (recipe: RawRecipe) => {
   if (!Array.isArray(recipe.steps) || recipe.steps.length === 0) {
     throw new Error(`Recipe ${recipe.id} has no steps`);
   }
+  const hasInvalidStep = recipe.steps.some((step) => {
+    if (typeof step === 'string') return step.trim().length === 0;
+    return (
+      typeof step !== 'object' ||
+      step === null ||
+      typeof step.text !== 'string' ||
+      step.text.trim().length === 0
+    );
+  });
+  if (hasInvalidStep) {
+    throw new Error(`Recipe ${recipe.id} has invalid step format`);
+  }
   if (!Array.isArray(recipe.tags)) {
     throw new Error(`Recipe ${recipe.id} has no tags`);
   }
@@ -199,6 +214,7 @@ const assertCategoryCount = (
 };
 
 const toImportedRecipe = (raw: RawRecipe, category: ImportedRecipe['category']): ImportedRecipe => {
+  const legacySteps = raw.steps.map((step) => (typeof step === 'string' ? step : step.text));
   return {
     id: raw.id,
     title: raw.title,
@@ -207,13 +223,26 @@ const toImportedRecipe = (raw: RawRecipe, category: ImportedRecipe['category']):
     protein: raw.protein || 'onbekend',
     cookTime: formatCookTime(raw.time),
     ingredients: raw.ingredients,
-    steps: raw.steps,
+    steps: legacySteps,
     mealPrepTip: raw.mealPrepTip,
     tags: raw.tags,
   };
 };
 
+const normalizeSteps = (rawSteps: RawRecipeStep[]): RecipeStep[] => {
+  return rawSteps.map((step) => {
+    if (typeof step === 'string') {
+      return { text: step };
+    }
+    return {
+      text: step.text,
+      note: step.note,
+    };
+  });
+};
+
 const toAppRecipe = (raw: RawRecipe): AppRecipe => {
+  const normalizedTips = raw.tips?.length ? raw.tips : (raw.mealPrepTip ? [raw.mealPrepTip] : undefined);
   return {
     id: raw.id,
     name: raw.title,
@@ -226,8 +255,9 @@ const toAppRecipe = (raw: RawRecipe): AppRecipe => {
     cookTime: formatCookTime(raw.time),
     servings: raw.servings ?? 1,
     ingredients: raw.ingredients.map(parseIngredient),
-    steps: raw.steps,
-    tips: raw.mealPrepTip ? [raw.mealPrepTip] : undefined,
+    steps: normalizeSteps(raw.steps),
+    prepNote: raw.prepNote,
+    tips: normalizedTips,
     tags: raw.tags,
     ...(raw.macros ? { macros: raw.macros } : {}),
   };

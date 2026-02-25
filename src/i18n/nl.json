@@ -172,6 +172,8 @@
     "daySaturday": "Zaterdag",
     "daySunday": "Zondag",
     "languageLabel": "Taal",
+    "saveButton": "Opslaan",
+    "savedToast": "Voorkeuren opgeslagen",
     "preferencesTitle": "Voorkeuren",
     "vegetarianLabel": "Vegetarisch",
     "vegetarianHint": "Toon alleen veggie recepten",

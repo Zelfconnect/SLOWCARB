@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { BookOpen, Calendar, ChevronRight, FlaskConical, Info, Lightbulb, PartyPopper, Rocket, RotateCcw, X } from 'lucide-react';
+import { format } from 'date-fns';
+import { nl } from 'date-fns/locale';
+import { BookOpen, CalendarIcon, ChevronRight, FlaskConical, Info, Lightbulb, PartyPopper, Rocket, RotateCcw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
@@ -8,14 +11,15 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DailyMealTracker } from './DailyMealTracker';
 import { Card } from '@/components/primitives/Card';
-import type { MealEntry } from '@/types';
+import { CHEAT_DAY_LABELS, CHEAT_DAY_OPTIONS } from '@/lib/cheatDay';
+import type { CheatDay, MealEntry } from '@/types';
 
 interface JourneyCardProps {
-  journey: { startDate: string | null; targetWeight?: number; cheatDay: 'zaterdag' | 'zondag' };
+  journey: { startDate: string | null; targetWeight?: number; cheatDay: CheatDay };
   progress: { day: number; week: number; totalDays: number; percentage: number };
   currentTip: { day: number; tip?: { title: string; tips: string[]; metabolicState: string }; weekTip?: { title: string; tips: string[]; warning?: string } } | null;
   isCheatDay: boolean;
-  onStartJourney: (date: string, cheatDay: 'zaterdag' | 'zondag', targetWeight?: number) => void;
+  onStartJourney: (date: string, cheatDay: CheatDay, targetWeight?: number) => void;
   onResetJourney: () => void;
   todayMeals: MealEntry;
   streak: number;
@@ -24,10 +28,23 @@ interface JourneyCardProps {
 
 export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStartJourney, onResetJourney, todayMeals, streak, onToggleMeal }: JourneyCardProps) {
   const [showStartDialog, setShowStartDialog] = useState(false);
+  const [showStartDateCalendar, setShowStartDateCalendar] = useState(false);
   const [showTipDialog, setShowTipDialog] = useState(false);
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
-  const [cheatDay, setCheatDay] = useState<'zaterdag' | 'zondag'>('zaterdag');
+  const [cheatDay, setCheatDay] = useState<CheatDay>('zaterdag');
   const [targetWeight, setTargetWeight] = useState('');
+  const startDateLabel = new Date(`${startDate}T12:00:00`).toLocaleDateString('nl-NL', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+  const journeyStartDateLabel = journey.startDate
+    ? new Date(`${journey.startDate}T12:00:00`).toLocaleDateString('nl-NL', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+    : null;
 
   const handleStart = () => {
     onStartJourney(startDate, cheatDay, targetWeight ? parseFloat(targetWeight) : undefined);
@@ -74,26 +91,53 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
               <div className="space-y-3 rounded-xl border border-stone-200 p-4">
                 <div>
                   <Label htmlFor="start-date" className="text-sm font-medium uppercase tracking-wide text-stone-500">Start datum</Label>
-                  <div className="relative mt-2">
-                    <Input
-                      id="start-date"
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                      className="h-11 appearance-none rounded-xl border border-stone-200 bg-white px-4 pr-10 text-base text-stone-600 placeholder:text-stone-400 focus:border-transparent focus:ring-2 focus:ring-sage-300"
-                    />
-                    <Calendar className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
-                  </div>
+                  <Button
+                    id="start-date"
+                    type="button"
+                    variant="outline"
+                    onClick={() => setShowStartDateCalendar((v) => !v)}
+                    className="mt-2 h-11 w-full justify-between rounded-xl border-stone-200 bg-white px-4 text-left text-base font-normal text-stone-600 hover:bg-white"
+                  >
+                    <span>{startDateLabel}</span>
+                    <CalendarIcon className={`h-4 w-4 text-stone-400 transition-transform ${showStartDateCalendar ? 'rotate-180' : ''}`} />
+                  </Button>
+                  {showStartDateCalendar && (
+                    <div data-testid="journey-calendar-wrapper" className="mt-3 min-w-[17.5rem] w-fit rounded-xl border border-stone-200 bg-stone-50/80 p-3 [--cell-size:2.5rem]">
+                      <Calendar
+                        mode="single"
+                        locale={nl}
+                        classNames={{
+                          day: 'min-w-[var(--cell-size)] shrink-0',
+                          weekday: 'min-w-[var(--cell-size)] shrink-0',
+                        }}
+                        selected={new Date(`${startDate}T12:00:00`)}
+                        defaultMonth={(() => {
+                          const d = new Date(`${startDate}T12:00:00`);
+                          const today = new Date();
+                          return d > today ? today : d;
+                        })()}
+                        onSelect={(selectedDate) => {
+                          if (!selectedDate) return;
+                          setStartDate(format(selectedDate, 'yyyy-MM-dd'));
+                          setShowStartDateCalendar(false);
+                        }}
+                        disabled={{ after: new Date() }}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="cheat-day" className="text-sm font-medium uppercase tracking-wide text-stone-500">Cheat day</Label>
-                  <Select value={cheatDay} onValueChange={(v) => setCheatDay(v as 'zaterdag' | 'zondag')}>
+                  <Select value={cheatDay} onValueChange={(value) => setCheatDay(value as CheatDay)}>
                     <SelectTrigger className="mt-2 h-11 rounded-xl border border-stone-200 bg-white px-4 text-base text-stone-600 focus:border-transparent focus:ring-2 focus:ring-sage-300">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border border-stone-200 bg-white shadow-soft">
-                      <SelectItem value="zaterdag" className="rounded-lg text-stone-700 focus:bg-stone-100">Zaterdag</SelectItem>
-                      <SelectItem value="zondag" className="rounded-lg text-stone-700 focus:bg-stone-100">Zondag</SelectItem>
+                      {CHEAT_DAY_OPTIONS.map((day) => (
+                        <SelectItem key={day} value={day} className="rounded-lg text-stone-700 focus:bg-stone-100">
+                          {CHEAT_DAY_LABELS[day]}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -140,11 +184,14 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
             </div>
             <div>
               <h3 className="font-display text-xl font-semibold text-white">
-                {isCheatDay ? 'Cheat Day!' : `Dag ${progress.day} van 84`}
+                {isCheatDay ? 'Cheat Day!' : `Kalenderdag ${progress.day} van 84`}
               </h3>
               <p className="text-sm text-white/80">
                 {isCheatDay ? 'Geniet ervan!' : `Week ${progress.week} van 12`}
               </p>
+              {journeyStartDateLabel ? (
+                <p className="mt-0.5 text-xs text-white/70">Gestart op {journeyStartDateLabel}</p>
+              ) : null}
             </div>
           </div>
           <button 
@@ -227,7 +274,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                         {currentTip?.tip?.title}
                       </h2>
                       <p className="text-sm text-white/80 mt-1">
-                        Dag {currentTip?.day} van je journey
+                        Kalenderdag {currentTip?.day} van je journey
                       </p>
                     </div>
                   </div>

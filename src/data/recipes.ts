@@ -1,6 +1,8 @@
 import type { MealTypeIconKey, Recipe } from '@/types';
 
-export const recipes: Recipe[] = [
+type LegacyRecipe = Omit<Recipe, 'steps' | 'prepNote'> & { steps: string[]; prepNote?: string };
+
+export const recipes: LegacyRecipe[] = [
   {
     id: 'eiwit-omelet',
     name: 'Eiwitrijke Omelet',

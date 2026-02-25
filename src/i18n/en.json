@@ -164,6 +164,8 @@
     "daySaturday": "Saturday",
     "daySunday": "Sunday",
     "languageLabel": "Language",
+    "saveButton": "Save",
+    "savedToast": "Settings saved",
     "preferencesTitle": "Preferences",
     "vegetarianLabel": "Vegetarian",
     "vegetarianHint": "Show only vegetarian recipes",

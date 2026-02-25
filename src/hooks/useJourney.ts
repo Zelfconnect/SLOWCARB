@@ -1,7 +1,8 @@
 import { addDays, format, isAfter, isBefore, isSameDay, startOfWeek } from 'date-fns';
 import { nl } from 'date-fns/locale';
 import { useLocalStorage } from './useLocalStorage';
-import type { DayStatus, Journey, WeightEntry, MealEntry } from '@/types';
+import { CHEAT_DAY_OPTIONS, CHEAT_DAY_TO_JS_DAY_INDEX } from '@/lib/cheatDay';
+import type { DayStatus, Journey, WeightEntry, MealEntry, CheatDay } from '@/types';
 import { getCurrentDayTip } from '@/data/journey';
 
 const defaultJourney: Journey = {
@@ -15,7 +16,7 @@ export function useJourney() {
   const [weightLog, setWeightLog] = useLocalStorage<WeightEntry[]>('slowcarb-weight-log', []);
   const [mealLog, setMealLog] = useLocalStorage<MealEntry[]>('slowcarb-meal-log', []);
 
-  const startJourney = (startDate: string, cheatDay: 'zaterdag' | 'zondag', targetWeight?: number) => {
+  const startJourney = (startDate: string, cheatDay: CheatDay, targetWeight?: number) => {
     setJourney({ startDate, cheatDay, targetWeight });
   };
 
@@ -60,21 +61,30 @@ export function useJourney() {
     let streak = 0;
     const today = new Date().toISOString().split('T')[0];
     const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    
+    const cheatDayNum = CHEAT_DAY_TO_JS_DAY_INDEX[journey.cheatDay];
+
     for (let i = 0; i < sorted.length; i++) {
       const entry = sorted[i];
       const allCompleted = entry.breakfast && entry.lunch && entry.dinner;
       if (!allCompleted) break;
-      
+
       if (i === 0 && entry.date === today) streak++;
       else if (i === 0 && entry.date === yesterday) streak++;
-      else if (i > 0 && entry.date === sorted[i-1].date) continue;
+      else if (i > 0 && entry.date === sorted[i - 1].date) continue;
       else if (i > 0) {
-        const prevDate = new Date(sorted[i-1].date);
+        const prevDate = new Date(sorted[i - 1].date);
         const currDate = new Date(entry.date);
         const diffDays = (prevDate.getTime() - currDate.getTime()) / (1000 * 60 * 60 * 24);
-        if (diffDays === 1) streak++;
-        else break;
+        if (diffDays === 1) {
+          streak++;
+        } else if (diffDays === 2) {
+          const midDate = new Date(prevDate);
+          midDate.setDate(midDate.getDate() - 1);
+          if (midDate.getDay() === cheatDayNum) streak++;
+          else break;
+        } else {
+          break;
+        }
       }
     }
     return streak;
@@ -99,7 +109,7 @@ export function useJourney() {
   const isCheatDay = () => {
     if (!journey.startDate) return false;
     const today = new Date().getDay();
-    const cheatDayNum = journey.cheatDay === 'zaterdag' ? 6 : 0;
+    const cheatDayNum = CHEAT_DAY_TO_JS_DAY_INDEX[journey.cheatDay];
     return today === cheatDayNum;
   };
 
@@ -154,12 +164,12 @@ export function getDaysUntilCheatDay(journey: Journey): number {
   const today = new Date();
   const currentDay = format(today, 'EEEE', { locale: nl }).toLowerCase();
 
-  const daysOfWeek = ['maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag', 'zondag'];
+  const daysOfWeek = CHEAT_DAY_OPTIONS;
   const currentIndex = daysOfWeek.indexOf(currentDay);
   const cheatIndex = daysOfWeek.indexOf(journey.cheatDay);
 
   let diff = cheatIndex - currentIndex;
-  if (diff <= 0) diff += 7;
+  if (diff < 0) diff += 7;
 
   return diff;
 }

@@ -97,32 +97,29 @@ export function WeightProgressCard({
 
         <div className="mt-2 rounded-2xl bg-stone-50/70 p-2.5 shadow-surface">
           <div
-            className="relative mx-auto h-[76px] w-[118px]"
+            className="relative mx-auto flex flex-col items-center"
+            style={{ width: ARC_WIDTH, minHeight: ARC_HEIGHT + 36 }}
             data-testid="goal-progress-arc"
           >
             <svg
+              className="block shrink-0"
               height={ARC_HEIGHT}
               width={ARC_WIDTH}
               viewBox={`0 0 ${ARC_WIDTH} ${ARC_HEIGHT}`}
               aria-hidden="true"
             >
-              <defs>
-                <linearGradient id="weightProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#34d399" />
-                  <stop offset="100%" stopColor="#059669" />
-                </linearGradient>
-              </defs>
+              {/* Half-arc track: light green */}
               <path
                 d={GOAL_ARC_PATH}
-                stroke="currentColor"
+                stroke="#BBF7D0"
                 strokeWidth={ARC_STROKE_WIDTH}
-                className="text-stone-200"
                 fill="none"
                 strokeLinecap="round"
               />
+              {/* Progress fill: emerald when user loses weight */}
               <path
                 d={GOAL_ARC_PATH}
-                stroke={goalCompleted ? '#22C55E' : 'url(#weightProgressGradient)'}
+                stroke={goalCompleted ? '#059669' : '#10b981'}
                 strokeWidth={ARC_STROKE_WIDTH}
                 strokeLinecap="round"
                 pathLength={100}
@@ -131,7 +128,7 @@ export function WeightProgressCard({
                 fill="none"
               />
             </svg>
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-1 text-center">
+            <div className="mt-0.5 flex items-end justify-center gap-1 text-center">
               {goalCompleted ? (
                 <Check className="mb-0.5 h-3.5 w-3.5 text-emerald-600" />
               ) : null}

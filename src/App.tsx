@@ -164,7 +164,7 @@ function AppShell() {
             <button
               type="button"
               onClick={() => setSettingsOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-stone-200 bg-stone-100/70 text-stone-700 shadow-sm transition-all duration-200 hover:bg-stone-100 hover:text-stone-800 active:scale-95"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-stone-500 transition-colors duration-200 hover:bg-primary-100 hover:text-primary-700 active:bg-primary-200"
               aria-label="Open instellingen"
             >
               <Cog className="w-5 h-5" />

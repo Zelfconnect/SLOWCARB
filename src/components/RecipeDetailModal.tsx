@@ -150,13 +150,23 @@ export function RecipeDetailModal({
 
             <TabsContent value="instructions" className="mt-0 min-h-0 flex-1 overflow-y-auto">
               <div className="space-y-3 px-4 py-3">
+                {recipe.prepNote && (
+                  <div className="rounded-2xl bg-stone-50 p-3 text-sm leading-relaxed text-stone-600 shadow-surface">
+                    {recipe.prepNote}
+                  </div>
+                )}
                 <ol className="space-y-2">
                   {recipe.steps.map((step, index) => (
                     <li key={`${recipe.id}-step-${index}`} className="flex gap-3">
                       <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-emerald-50 text-xs font-semibold text-emerald-700">
                         {index + 1}
                       </span>
-                      <span className="text-sm leading-relaxed text-stone-700">{step}</span>
+                      <span className="space-y-1">
+                        <span className="block text-sm leading-relaxed text-stone-700">{step.text}</span>
+                        {step.note && (
+                          <span className="block text-xs leading-relaxed text-stone-500">{step.note}</span>
+                        )}
+                      </span>
                     </li>
                   ))}
                 </ol>
