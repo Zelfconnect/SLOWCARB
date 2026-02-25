@@ -105,7 +105,7 @@ export function WeightProgressCard({
     const showMiddlePercentage = progressPercentage > 0 && progressPercentage < 100;
 
     return (
-      <div className="w-full rounded-2xl bg-white p-3 text-left shadow-surface">
+      <div className="w-full rounded-2xl bg-white p-2.5 text-left shadow-surface">
         <div className="flex items-center justify-between gap-2">
           <span className="text-sm font-medium text-stone-700">Huidig gewicht</span>
           <div className="flex items-center gap-2">
@@ -126,7 +126,7 @@ export function WeightProgressCard({
           </div>
         </div>
 
-        <div className="mt-2 rounded-2xl bg-stone-50/70 p-2.5 shadow-surface">
+        <div className="mt-1.5 rounded-2xl bg-stone-50/70 p-2 shadow-surface">
           <div className="mx-auto flex max-w-[220px] flex-col items-center" data-testid="goal-progress-linear">
             <div className="mt-0.5 flex items-end justify-center gap-1 text-center">
               {goalCompleted ? (
@@ -161,7 +161,7 @@ export function WeightProgressCard({
           </p>
         </div>
 
-        <div className="mt-2">
+        <div className="mt-1.5">
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${changeColorClass}`}>
             <ChangeIcon className="h-3 w-3" />
             {changeDirection === 'flat' ? 'Stabiel' : `${deltaKilograms < 0 ? '-' : '+'}${absoluteDeltaKilograms.toFixed(1)} kg`}
