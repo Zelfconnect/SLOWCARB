@@ -314,7 +314,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                 )}
 
                 {currentStep === 4 && (
-                  <section className="flex flex-1 flex-col">
+                  <section className="flex flex-1 min-h-0 flex-col">
                     <div className="space-y-4 text-center">
                       <span className="block text-6xl leading-none">🎉</span>
                       <h1 className="font-display text-3xl font-bold text-stone-900">Kies je cheat day</h1>
@@ -325,7 +325,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
                     <RadioGroup
                       value={data.cheatDay}
-                      className="mt-10 gap-3"
+                      className="mt-8 max-h-[42dvh] gap-3 overflow-y-auto pb-1 pr-1"
                       onValueChange={(value: string) =>
                         setData({ ...data, cheatDay: value as CheatDay })
                       }
@@ -350,7 +350,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       ))}
                     </RadioGroup>
 
-                    <div className="mt-auto pt-8">
+                    <div className="sticky bottom-0 mt-6 bg-cream/95 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] pt-4 backdrop-blur">
                       <Button
                         type="button"
                         onClick={handleNext}
