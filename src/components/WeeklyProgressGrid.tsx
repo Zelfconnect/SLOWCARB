@@ -20,12 +20,16 @@ export function WeeklyProgressGrid({ weekData }: WeeklyProgressGridProps) {
             className={cn(
               'relative flex h-9 items-center justify-center rounded-full text-xs font-semibold',
               day.isToday
-                ? 'bg-white text-stone-700 ring-1 ring-emerald-500'
+                ? day.completed
+                  ? 'bg-emerald-500 text-white ring-1 ring-emerald-700 ring-offset-1'
+                  : 'bg-white text-stone-700 ring-1 ring-emerald-500'
                 : day.isFuture
                   ? 'bg-stone-100 text-stone-600'
-                  : day.completed
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-stone-200 text-stone-600'
+                  : day.isCheatDay
+                    ? 'bg-clay-200 text-clay-700'
+                    : day.completed
+                      ? 'bg-emerald-500 text-white'
+                      : 'bg-stone-200 text-stone-600'
             )}
           >
             <span>{day.label}</span>

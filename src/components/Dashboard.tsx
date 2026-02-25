@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
 import { StreakHeroCard } from './StreakHeroCard';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { getDaysUntilCheatDay, getWeekData } from '@/hooks/useJourney';
+import { getLocalDateString } from '@/lib/localDate';
 import type { CheatDay, Journey, MealEntry, WeightEntry } from '@/types';
 import { useTranslation } from '@/i18n';
 
@@ -43,10 +44,9 @@ export function Dashboard({
   const { t, locale } = useTranslation();
   const [weightDialogOpen, setWeightDialogOpen] = useState(false);
   const [weightInput, setWeightInput] = useState('');
-  const today = useMemo(() => new Date().toISOString().split('T')[0], []);
-  const todayLabel = useMemo(
-    () => new Date(today).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-US'),
-    [today, locale]
+  const today = getLocalDateString();
+  const todayLabel = new Date(`${today}T12:00:00`).toLocaleDateString(
+    locale === 'nl' ? 'nl-NL' : 'en-US'
   );
 
   const sortedWeights = [...weightLog].sort(

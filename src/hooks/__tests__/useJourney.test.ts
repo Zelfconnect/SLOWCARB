@@ -146,11 +146,11 @@ describe('getWeekData', () => {
     expect(tuesday?.completed).toBe(false);
   });
 
-  it('does not mark today as completed when all meals are logged', () => {
+  it('marks today as completed when all meals are logged', () => {
     const mealEntries = [completeDay(WEEK_MON_STR)];
     const data = getWeekData(baseJourney, mealEntries);
     const monday = data.find((d) => d.date === WEEK_MON_STR);
-    expect(monday?.completed).toBe(false);
+    expect(monday?.completed).toBe(true);
   });
 
   it('marks a past day as completed when all meals are logged', () => {
@@ -339,5 +339,48 @@ describe('toggleMeal', () => {
 
     act(() => result.current.toggleMeal('lunch'));
     expect(result.current.getTodayMeals().lunch).toBe(false);
+  });
+
+  it('handles rapid toggling of all meals without data loss', () => {
+    const { result } = renderHook(() => useJourney());
+
+    act(() => {
+      result.current.toggleMeal('breakfast');
+      result.current.toggleMeal('lunch');
+      result.current.toggleMeal('dinner');
+    });
+
+    const meals = result.current.getTodayMeals();
+    expect(meals.breakfast).toBe(true);
+    expect(meals.lunch).toBe(true);
+    expect(meals.dinner).toBe(true);
+  });
+});
+
+// ─── logWeight edge cases ────────────────────────────────────────────────────
+
+describe('logWeight', () => {
+  beforeEach(() => vi.setSystemTime(FIXED_TODAY));
+  afterEach(() => vi.useRealTimers());
+
+  it('replaces weight for the same date (no duplicates)', () => {
+    const { result } = renderHook(() => useJourney());
+
+    act(() => result.current.logWeight(100, TODAY_STR));
+    act(() => result.current.logWeight(99.5, TODAY_STR));
+
+    const todayEntries = result.current.weightLog.filter(e => e.date === TODAY_STR);
+    expect(todayEntries).toHaveLength(1);
+    expect(todayEntries[0].weight).toBe(99.5);
+  });
+
+  it('keeps the log sorted chronologically', () => {
+    const { result } = renderHook(() => useJourney());
+
+    act(() => result.current.logWeight(100, TODAY_STR));
+    act(() => result.current.logWeight(101, YESTERDAY_STR));
+
+    expect(result.current.weightLog[0].date).toBe(YESTERDAY_STR);
+    expect(result.current.weightLog[1].date).toBe(TODAY_STR);
   });
 });
