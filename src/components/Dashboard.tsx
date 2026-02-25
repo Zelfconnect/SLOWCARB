@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
 import { StreakHeroCard } from './StreakHeroCard';
@@ -131,40 +131,8 @@ export function Dashboard({
   const hasFutureDays = weekData.some(day => day.isFuture);
   const perfectWeek = !hasFutureDays && weekData.every(day => day.isCheatDay || day.completed);
 
-  const contentWrapperRef = useRef<HTMLDivElement | null>(null);
-  // #region agent log
-  useEffect(() => {
-    const el = contentWrapperRef.current;
-    if (!el) return;
-    const raf = requestAnimationFrame(() => {
-      const rect = el.getBoundingClientRect();
-      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
-      const nav = document.querySelector('nav.fixed.bottom-0');
-      const navTop = nav?.getBoundingClientRect().top ?? viewportHeight;
-      const payload = {
-        sessionId: '3bc562',
-        hypothesisId: 'H2',
-        location: 'Dashboard.tsx:contentWrapper',
-        message: 'Dashboard content wrapper overflow and card position',
-        data: {
-          wrapperClientHeight: el.clientHeight,
-          wrapperScrollHeight: el.scrollHeight,
-          wrapperRectBottom: rect.bottom,
-          viewportHeight,
-          navTop,
-          contentOverflows: el.scrollHeight > el.clientHeight,
-          bottomHidden: rect.bottom > navTop,
-        },
-        timestamp: Date.now(),
-      };
-      fetch('http://127.0.0.1:7463/ingest/a0558390-360f-4072-93db-bed8e45837de', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '3bc562' }, body: JSON.stringify(payload) }).catch(() => {});
-    });
-    return () => cancelAnimationFrame(raf);
-  }, [weekData, isCheatDay, perfectWeek, daysUntilCheatDay]);
-  // #endregion
-
   return (
-    <div ref={contentWrapperRef} data-testid="dashboard-content" className="space-y-1.5">
+    <div data-testid="dashboard-content" className="space-y-1.5">
       <StreakHeroCard
         streak={streak}
         currentWeek={progress.week}
