@@ -204,6 +204,8 @@ export interface UserProfile {
   hasCompletedOnboarding: boolean;
   name: string;
   weightGoal: number;
+  currentWeight?: number;
+  desiredWeight?: number;
   isVegetarian: boolean;
   vegetarian: boolean;
   allergies: string;

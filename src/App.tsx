@@ -101,10 +101,13 @@ function AppShell() {
     return (
       <OnboardingWizard
         onComplete={(data) => {
+          const computedWeightGoal = Math.round((data.currentWeight - data.targetWeight) * 10) / 10;
           updateProfile({
             hasCompletedOnboarding: true,
             name: data.name,
-            weightGoal: data.weightGoal,
+            weightGoal: computedWeightGoal,
+            currentWeight: data.currentWeight,
+            desiredWeight: data.targetWeight,
             isVegetarian: data.vegetarian,
             vegetarian: data.vegetarian,
             allergies: '',
@@ -114,7 +117,8 @@ function AppShell() {
             cheatDay: data.cheatDay,
             createdAt: new Date().toISOString(),
           });
-          startJourney(new Date().toISOString().split('T')[0], data.cheatDay, data.weightGoal);
+          logWeight(data.currentWeight);
+          startJourney(new Date().toISOString().split('T')[0], data.cheatDay, computedWeightGoal);
         }}
       />
     );
