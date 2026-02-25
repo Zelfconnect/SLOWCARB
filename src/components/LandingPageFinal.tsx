@@ -344,6 +344,7 @@ export default function LandingPageFinal() {
   const [showAppButton, setShowAppButton] = useState(false);
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const painSectionRef = useRef<HTMLElement | null>(null);
+  const heroImageSrc = '/images/landing/HERO.webp';
 
   useEffect(() => {
     const el = painSectionRef.current;
@@ -400,6 +401,28 @@ export default function LandingPageFinal() {
     }
   }, []);
 
+  useEffect(() => {
+    const existingPreload = document.querySelector(
+      `link[rel="preload"][href="${heroImageSrc}"]`
+    );
+    if (existingPreload) return;
+
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = heroImageSrc;
+    preloadLink.type = 'image/webp';
+    preloadLink.setAttribute('fetchpriority', 'high');
+    preloadLink.setAttribute('data-landing-hero-preload', 'true');
+    document.head.appendChild(preloadLink);
+
+    return () => {
+      if (preloadLink.parentNode) {
+        preloadLink.parentNode.removeChild(preloadLink);
+      }
+    };
+  }, [heroImageSrc]);
+
   const openCheckout = () => {
     window.open(stripeUrl, '_blank');
   };
@@ -421,7 +444,7 @@ export default function LandingPageFinal() {
         data-index={0}
         className="relative flex min-h-[70vh] items-center overflow-hidden md:min-h-[80vh]"
         style={{
-          backgroundImage: 'url(/images/landing/HERO.webp)',
+          backgroundImage: `url(${heroImageSrc})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -571,6 +594,7 @@ export default function LandingPageFinal() {
                 src="/images/landing/HEROBREAKFAST.webp"
                 alt={String(t('landing.breakfastImageAlt'))}
                 loading="lazy"
+                decoding="async"
                 className='h-48 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-64'
               />
               <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
@@ -633,6 +657,7 @@ export default function LandingPageFinal() {
               src="/images/landing/MEALPREP.webp"
               alt={String(t('landing.mealPrepImageAlt'))}
               loading="lazy"
+              decoding="async"
               className='h-56 w-full object-cover saturate-[0.85] brightness-105 contrast-105 md:h-72'
             />
             <div className='absolute inset-0 bg-sage-700/10 mix-blend-overlay pointer-events-none' />
