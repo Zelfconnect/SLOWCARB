@@ -14,14 +14,14 @@ interface RecipesListProps {
 }
 
 const PLACEHOLDER_GRADIENTS: Record<string, string> = {
-  ontbijt: 'bg-gradient-to-br from-amber-100 to-orange-200',
-  breakfast: 'bg-gradient-to-br from-amber-100 to-orange-200',
-  lunch: 'bg-gradient-to-br from-green-100 to-emerald-200',
-  avondeten: 'bg-gradient-to-br from-stone-100 to-stone-200',
-  dinner: 'bg-gradient-to-br from-stone-100 to-stone-200',
-  snack: 'bg-gradient-to-br from-rose-100 to-pink-200',
-  airfryer: 'bg-gradient-to-br from-orange-100 to-amber-200',
-  default: 'bg-gradient-to-br from-sage-100 to-sage-200',
+  ontbijt: 'bg-stone-100',
+  breakfast: 'bg-stone-100',
+  lunch: 'bg-stone-100',
+  avondeten: 'bg-stone-100',
+  dinner: 'bg-stone-100',
+  snack: 'bg-stone-100',
+  airfryer: 'bg-stone-100',
+  default: 'bg-stone-100',
 };
 
 const getRecipeGradient = (recipe: Recipe) => {
@@ -170,7 +170,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
             <p className="text-sm mt-1">Probeer een andere zoekterm</p>
           </div>
         ) : (
-          filteredRecipes.map((recipe, index) => {
+          filteredRecipes.map((recipe) => {
             const protein = (recipe as Recipe & { macros?: { protein?: number } }).macros?.protein;
             const timeLabel = recipe.cookTime || recipe.prepTime || 'Tijd n.b.';
             const servingsLabel = Number.isFinite(recipe.servings) ? `${recipe.servings}p` : 'Porties n.b.';
@@ -194,9 +194,9 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
                         'absolute inset-0 h-full w-full object-cover transition-opacity duration-300',
                         loadedImages[recipe.id] ? 'opacity-100' : 'opacity-0'
                       )}
-                      loading={index < 4 ? 'eager' : 'lazy'}
-                      fetchPriority={index < 4 ? 'high' : 'auto'}
-                      decoding="async"
+                      loading="lazy"
+                      fetchPriority="auto"
+                      decoding="auto"
                       onLoad={() => setLoadedImages((prev) => ({ ...prev, [recipe.id]: true }))}
                       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                     />
