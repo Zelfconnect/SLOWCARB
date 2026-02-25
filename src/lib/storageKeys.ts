@@ -1,4 +1,5 @@
 export const STORAGE_KEYS = {
+  ACCESS_TOKEN: 'slowcarb_access',
   PROFILE: 'slowcarb_profile',
   PROGRESS: 'slowcarb_progress',
   RECIPES: 'slowcarb_recipes',

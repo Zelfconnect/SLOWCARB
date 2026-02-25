@@ -15,6 +15,7 @@ import { useFavorites } from '@/hooks/useFavorites';
 import { useJourney } from '@/hooks/useJourney';
 import { useUserStore } from '@/store/useUserStore';
 import { getLocalDateString } from '@/lib/localDate';
+import { STORAGE_KEYS } from '@/lib/storageKeys';
 import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import './App.css';
@@ -26,9 +27,19 @@ function App() {
   const isWelcome = searchParams.get('welcome') === '1';
   if (isWelcome) return <WelcomePage />;
 
-  // Only show app when explicitly requested via ?app=1
-  const isApp = searchParams.get('app') === '1';
-  if (!isApp) return <LandingPage />;
+  const tokenFromUrl = searchParams.get('token');
+  if (tokenFromUrl) {
+    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, tokenFromUrl);
+
+    const nextParams = new URLSearchParams(window.location.search);
+    nextParams.delete('token');
+    const nextSearch = nextParams.toString();
+    const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
+    window.history.replaceState({}, '', nextUrl);
+  }
+
+  const hasAccessToken = Boolean(localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN));
+  if (!hasAccessToken && !tokenFromUrl) return <LandingPage />;
 
   return <AppShell />;
 }
