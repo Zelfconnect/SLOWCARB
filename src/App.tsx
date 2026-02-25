@@ -13,6 +13,7 @@ import { OnboardingWizard } from '@/components/OnboardingWizard';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useJourney } from '@/hooks/useJourney';
 import { useUserStore } from '@/store/useUserStore';
+import { getLocalDateString } from '@/lib/localDate';
 import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import './App.css';
@@ -81,7 +82,7 @@ function AppShell() {
             createdAt: new Date().toISOString(),
           });
           logWeight(data.currentWeight);
-          startJourney(new Date().toISOString().split('T')[0], data.cheatDay, computedWeightGoal);
+          startJourney(getLocalDateString(), data.cheatDay, computedWeightGoal);
         }}
       />
     );
