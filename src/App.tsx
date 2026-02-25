@@ -33,12 +33,16 @@ function App() {
 
     const nextParams = new URLSearchParams(window.location.search);
     nextParams.delete('token');
+    nextParams.set('app', '1');
     const nextSearch = nextParams.toString();
     const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
     window.history.replaceState({}, '', nextUrl);
   }
 
   const hasAccessToken = Boolean(localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN));
+  const isAppRequested = searchParams.get('app') === '1' || Boolean(tokenFromUrl);
+
+  if (!isAppRequested) return <LandingPage />;
   if (!hasAccessToken && !tokenFromUrl) return <LandingPage />;
 
   return <AppShell />;
