@@ -185,7 +185,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
             </div>
             <div>
               <h3 className="font-display text-xl font-semibold text-white">
-                {isCheatDay ? 'Cheat Day!' : `Kalenderdag ${progress.day} van 84`}
+                {isCheatDay ? 'Cheat Day!' : `Kalenderdag ${progress.day}`}
               </h3>
               <p className="text-sm text-white/80">
                 {isCheatDay ? 'Geniet ervan!' : `Week ${progress.week} van 12`}

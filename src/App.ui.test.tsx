@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from '@/App';
 
 vi.mock('@/components/LandingPageFinal', () => ({
@@ -65,7 +65,6 @@ vi.mock('@/store/useUserStore', () => ({
 }));
 
 beforeAll(() => {
-  window.history.replaceState({}, '', '/?app=1');
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation((query: string) => ({
@@ -81,7 +80,13 @@ beforeAll(() => {
   });
 });
 
+beforeEach(() => {
+  localStorage.setItem('slowcarb_access', 'test-token');
+  window.history.replaceState({}, '', '/?app=1');
+});
+
 afterAll(() => {
+  localStorage.removeItem('slowcarb_access');
   vi.unstubAllGlobals();
 });
 
@@ -98,7 +103,7 @@ describe('App UI/UX', () => {
 
     const main = screen.getByRole('main');
     expect(main.className).toContain('max-w-md');
-    expect(main.className).toContain('pb-[calc(6rem+env(safe-area-inset-bottom,0px))]');
+    expect(main.className).toContain('pb-[calc(5rem+env(safe-area-inset-bottom,0px))]');
   });
 
   it('switches tabs and renders matching section content', () => {

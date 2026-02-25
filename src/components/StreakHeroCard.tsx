@@ -21,10 +21,10 @@ export function StreakHeroCard({ streak, currentWeek, currentDay, isCheatDay }: 
     if (isCheatDay) return 'Geniet ervan, morgen weer protocol';
     if (isNewStart) return 'Net gestart!';
     if (currentDay > 0 && currentDay % 7 === 1) {
-      return `Dag ${currentDay} van 84 • Nieuwe week, nieuw begin`;
+      return `Dag ${currentDay} • Nieuwe week, nieuw begin`;
     }
-    if (streak === 0) return `Dag ${currentDay} van 84 • Log je maaltijden om je streak te starten`;
-    return `Dag ${currentDay} van 84`;
+    if (streak === 0) return `Dag ${currentDay} • Log je maaltijden om je streak te starten`;
+    return `Dag ${currentDay}`;
   };
 
   const getIcon = () => {
