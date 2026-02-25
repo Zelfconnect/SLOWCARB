@@ -45,13 +45,13 @@ describe('DailyMealTracker', () => {
     );
 
     const grid = screen.getByTestId('meal-cards-grid');
-    expect(grid).toHaveClass('flex');
+    expect(grid).toHaveClass('grid');
+    expect(grid).toHaveClass('grid-cols-3');
     expect(grid).toHaveClass('gap-1.5');
 
     const columns = screen.getAllByTestId('meal-card-column');
     expect(columns).toHaveLength(3);
     columns.forEach((column) => {
-      expect(column).toHaveClass('flex-1');
       expect(column).toHaveClass('min-w-0');
     });
   });

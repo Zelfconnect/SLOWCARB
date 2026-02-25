@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { JourneyCard } from '@/components/JourneyCard';
-import type { CheatDay, MealEntry } from '@/types';
+import type { MealEntry } from '@/types';
 
 function createProps(overrides: Partial<React.ComponentProps<typeof JourneyCard>> = {}) {
   const defaultProps: React.ComponentProps<typeof JourneyCard> = {

@@ -162,7 +162,7 @@ export function getWeekData(journey: Journey, mealEntries: MealEntry[]): DayStat
 
 export function getDaysUntilCheatDay(journey: Journey): number {
   const today = new Date();
-  const currentDay = format(today, 'EEEE', { locale: nl }).toLowerCase();
+  const currentDay = format(today, 'EEEE', { locale: nl }).toLowerCase() as CheatDay;
 
   const daysOfWeek = CHEAT_DAY_OPTIONS;
   const currentIndex = daysOfWeek.indexOf(currentDay);
