@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { X, FlaskConical, Lightbulb, AlertCircle, HelpCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import type { RuleCard as RuleCardType } from '@/types';
 import { RULE_TOKENS } from '@/data/educationTokens';
 import { getEducationIcon } from '@/lib/educationIcons';

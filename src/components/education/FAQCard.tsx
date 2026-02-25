@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { X, Check, XCircle, HelpCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import type { FAQCard as FAQCardType } from '@/types';
 import { getEducationIcon } from '@/lib/educationIcons';

@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { X, Zap, Lightbulb, ArrowRight, HelpCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ConceptCard as ConceptCardType } from '@/types';
 import { CONCEPT_TOKENS } from '@/data/educationTokens';
 import { getEducationIcon } from '@/lib/educationIcons';
