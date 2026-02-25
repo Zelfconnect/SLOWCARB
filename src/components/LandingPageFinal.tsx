@@ -837,7 +837,10 @@ export default function LandingPageFinal() {
             )}`}
           >
             <p className="text-sm">{String(t('landing.footerCopy'))}</p>
-            <div className="flex items-center gap-6 text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
+              <a href="/?app=1" className="text-sage-300 transition-colors hover:text-sage-200">
+                {String(t('landing.openApp'))}
+              </a>
               {footerLinks.map((label) => (
                 <a key={label} href="#" className="transition-colors hover:text-white">
                   {label}

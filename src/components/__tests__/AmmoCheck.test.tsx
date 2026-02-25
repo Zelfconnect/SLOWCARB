@@ -23,10 +23,10 @@ describe('AmmoCheck', () => {
   it('renders all zones and the Vers-Lade section', () => {
     render(<AmmoCheck />);
 
-    expect(screen.getByText('ZONE 1: De Vriezer')).toBeInTheDocument();
-    expect(screen.getByText('ZONE 2: De Koelkast')).toBeInTheDocument();
-    expect(screen.getByText('ZONE 3: De Voorraadkast')).toBeInTheDocument();
-    expect(screen.getByText('ZONE 4: Smaakmakers')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /ZONE 1: De Vriezer/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /ZONE 2: De Koelkast/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /ZONE 3: De Voorraadkast/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /ZONE 4: Smaakmakers/i })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /ZONE 2: De Koelkast/i }));
     expect(screen.getByText('De Vers-Lade')).toBeInTheDocument();

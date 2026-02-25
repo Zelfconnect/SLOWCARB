@@ -8,6 +8,7 @@ import { RecipesList } from '@/components/RecipesList';
 import { LearnSection } from '@/components/LearnSection';
 import { AmmoCheck } from '@/components/AmmoCheck';
 import { SettingsTab } from '@/components/SettingsTab';
+import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { OnboardingWizard } from '@/components/OnboardingWizard';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -58,7 +59,11 @@ function AppShell() {
   }, [loadProfile]);
 
   if (!isLoaded) {
-    return null;
+    return (
+      <div className="flex h-[100dvh] items-center justify-center bg-cream">
+        <p className="text-stone-500">Laden…</p>
+      </div>
+    );
   }
 
   if (!profile || !profile.hasCompletedOnboarding) {
@@ -129,14 +134,16 @@ function AppShell() {
         <header className="sticky left-0 right-0 top-0 z-50 h-14 shrink-0 border-b border-stone-200 bg-white/95 backdrop-blur-md">
           <div className="max-w-md mx-auto h-full px-4 flex items-center justify-between">
             <h1 className="font-display text-lg font-semibold text-stone-800">SlowCarb</h1>
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={() => setSettingsOpen(true)}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-stone-500 transition-colors duration-200 hover:bg-primary-100 hover:text-primary-700 active:bg-primary-200"
+              className="size-9 rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-900"
               aria-label="Open instellingen"
             >
-              <Cog className="w-5 h-5" />
-            </button>
+              <Cog className="size-5" />
+            </Button>
           </div>
         </header>
 
