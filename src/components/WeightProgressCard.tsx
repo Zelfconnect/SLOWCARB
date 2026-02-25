@@ -1,5 +1,6 @@
-import { Check, Minus, TrendingDown, TrendingUp } from 'lucide-react';
+import { Check, Minus, Plus, TrendingDown, TrendingUp } from 'lucide-react';
 import type { WeightEntry } from '@/types';
+import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { WeightSparkline } from './WeightSparkline';
 
@@ -101,17 +102,28 @@ export function WeightProgressCard({
       : Math.max(progressPercentage, MIN_VISIBLE_PROGRESS_PERCENT);
 
   if (goalWeight != null) {
+    const showMiddlePercentage = progressPercentage > 0 && progressPercentage < 100;
+
     return (
-      <button
-        onClick={onOpenLog}
-        className="w-full rounded-2xl bg-white p-3 text-left shadow-surface transition-all hover:shadow-card-hover"
-        type="button"
-      >
+      <div className="w-full rounded-2xl bg-white p-3 text-left shadow-surface">
         <div className="flex items-center justify-between gap-2">
           <span className="text-sm font-medium text-stone-700">Huidig gewicht</span>
-          <span className="inline-flex items-center rounded-full bg-sage-50 px-2 py-0.5 text-[11px] font-medium text-sage-700">
-            Doel {goalWeight.toFixed(0)} kg
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center rounded-full bg-sage-50 px-2 py-0.5 text-[11px] font-medium text-sage-700">
+              Doel {goalWeight.toFixed(0)} kg
+            </span>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={onOpenLog}
+              aria-label="Log gewicht"
+              className="h-auto rounded-full px-2.5 py-1.5 text-[11px] text-stone-600 hover:bg-sage-50 hover:text-sage-700"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Log
+            </Button>
+          </div>
         </div>
 
         <div className="mt-2 rounded-2xl bg-stone-50/70 p-2.5 shadow-surface">
@@ -128,7 +140,11 @@ export function WeightProgressCard({
             <div className="mt-2 w-full">
               <div className="mb-1 flex items-center justify-between text-[10px] font-medium text-stone-500">
                 <span>0%</span>
-                <span className="text-stone-700">{progressPercentage.toFixed(0)}%</span>
+                {showMiddlePercentage ? (
+                  <span className="text-stone-700">{progressPercentage.toFixed(0)}%</span>
+                ) : (
+                  <span aria-hidden="true" />
+                )}
                 <span>100%</span>
               </div>
               <Progress
@@ -155,7 +171,7 @@ export function WeightProgressCard({
             {percentChange.toFixed(1)}%
           </span>
         </div>
-      </button>
+      </div>
     );
   }
 

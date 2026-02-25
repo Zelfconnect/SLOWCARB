@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { WeightProgressCard } from '@/components/WeightProgressCard';
 import type { WeightEntry } from '@/types';
 
@@ -123,6 +123,30 @@ describe('WeightProgressCard', () => {
 
     expect(screen.getByText('Doel 90 kg')).toBeInTheDocument();
     expect(screen.getByText((content) => content.includes('Resterend 6.5 kg'))).toBeInTheDocument();
+  });
+
+  it('shows a visible Log button in goal mode that opens the weight log', () => {
+    const weightLog = createWeightLog([
+      { date: '2026-02-01', weight: 108.0 },
+      { date: '2026-02-20', weight: 108.0 },
+    ]);
+    const onOpenLog = vi.fn();
+
+    render(
+      <WeightProgressCard
+        weightLog={weightLog}
+        startWeight={108.0}
+        currentWeight={108.0}
+        targetWeight={100}
+        onOpenLog={onOpenLog}
+      />
+    );
+
+    const logButton = screen.getByRole('button', { name: 'Log gewicht' });
+    expect(logButton).toBeInTheDocument();
+    expect(logButton).toHaveTextContent('Log');
+    fireEvent.click(logButton);
+    expect(onOpenLog).toHaveBeenCalledTimes(1);
   });
 
   it('keeps goal progress indicator visible when progress is near zero', () => {
