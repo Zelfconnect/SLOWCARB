@@ -134,7 +134,7 @@ export function Dashboard({
   const perfectWeek = !hasFutureDays && weekData.every(day => day.isCheatDay || day.completed);
 
   return (
-    <div data-testid="dashboard-content" className="space-y-1.5">
+    <div data-testid="dashboard-content" className="space-y-1">
       <StreakHeroCard
         streak={streak}
         currentWeek={progress.week}

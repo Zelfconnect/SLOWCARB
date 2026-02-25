@@ -181,7 +181,7 @@ function AppShell() {
         className={cn(
           'w-full max-w-md mx-auto px-5 pt-4 flex-1 min-h-0',
           activeTab === 'dashboard'
-            ? 'pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] overflow-y-hidden'
+            ? 'pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] overflow-y-hidden'
             : 'pb-28 overflow-y-auto'
         )}
         style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain' }}
