@@ -50,7 +50,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
           </div>
 
           {/* Content - Scrollable */}
-          <ScrollArea className="flex-1 min-h-0">
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain -webkit-overflow-scrolling-touch">
             <div
               ref={contentRef}
               className="p-5 space-y-5"
@@ -126,7 +126,7 @@ export function ConceptCard({ card, isOpen, onClose, onOpenRelated }: ConceptCar
             {/* Bottom spacing */}
             <div className="h-4" />
             </div>
-          </ScrollArea>
+          </div>
 
           {/* Scroll indicator gradient */}
           <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-3xl" />
