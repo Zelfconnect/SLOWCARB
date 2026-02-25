@@ -141,7 +141,10 @@ function AppShell() {
   };
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-x-hidden overflow-y-hidden bg-cream">
+    <div
+      className="flex h-[100dvh] flex-col overflow-x-hidden overflow-y-hidden bg-cream"
+      style={{ overscrollBehaviorX: 'none' }}
+    >
       <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
         <header className="sticky left-0 right-0 top-0 z-50 h-14 shrink-0 border-b border-stone-200 bg-white/95 backdrop-blur-md">
           <div className="max-w-md mx-auto h-full px-4 flex items-center justify-between">
@@ -159,7 +162,11 @@ function AppShell() {
           </div>
         </header>
 
-        <SheetContent side="right" className="z-[60] w-full overflow-y-auto bg-white p-4 sm:max-w-md">
+        <SheetContent
+          side="right"
+          className="z-[60] w-full overflow-y-auto bg-white p-4 sm:max-w-md"
+          style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain', touchAction: 'pan-y' }}
+        >
           <SheetHeader className="-mx-4 border-b border-stone-200 px-4">
             <SheetTitle>Instellingen</SheetTitle>
           </SheetHeader>
@@ -174,9 +181,10 @@ function AppShell() {
         className={cn(
           'w-full max-w-md mx-auto px-5 pt-4 flex-1 min-h-0',
           activeTab === 'dashboard'
-            ? 'pb-[calc(5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto overscroll-contain'
-            : 'pb-28 overflow-y-auto overscroll-contain'
+            ? 'pb-[calc(5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto'
+            : 'pb-28 overflow-y-auto'
         )}
+        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain' }}
       >
         {renderContent()}
       </main>

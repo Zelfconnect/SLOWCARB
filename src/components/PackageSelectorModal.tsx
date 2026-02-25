@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, type TouchEvent } from 'react';
 import { Home, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -33,6 +33,7 @@ export function PackageSelectorModal({
   onConfirm,
 }: PackageSelectorModalProps) {
   const [selections, setSelections] = useState<Record<string, SelectedPackage>>({});
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const renderIcon = (iconKey: string, ariaLabel: string) => {
     const iconInfo = getStockIconInfo(iconKey);
@@ -93,11 +94,35 @@ export function PackageSelectorModal({
   const allItemsAlreadyHave = Object.values(selections).every((item) => item.alreadyHave);
   const itemsToAddCount = Object.values(selections).filter((item) => !item.alreadyHave).length;
 
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    const touchStart = touchStartRef.current;
+    const touch = event.touches[0];
+    if (!touchStart || !touch) return;
+
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+    const isHorizontalSwipe = Math.abs(deltaX) > 10 && Math.abs(deltaX) > Math.abs(deltaY);
+
+    if (isHorizontalSwipe) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
         className="flex max-h-[85dvh] max-w-lg flex-col rounded-3xl border border-stone-100 bg-white p-0 shadow-elevated"
+        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain', touchAction: 'pan-y' }}
+        onTouchStartCapture={handleTouchStart}
+        onTouchMoveCapture={handleTouchMove}
       >
         {/* Header */}
         <div className="p-5 bg-gradient-to-br from-sage-600 to-sage-700 flex-shrink-0 rounded-t-3xl">

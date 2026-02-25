@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState, type TouchEvent } from 'react';
 import { Heart, Users, ChevronLeft } from 'lucide-react';
 import type { Recipe } from '@/types';
 import { cn } from '@/lib/utils';
@@ -35,12 +35,37 @@ export function RecipeDetailModal({
   onClose
 }: RecipeDetailModalProps) {
   const [portionMultiplier, setPortionMultiplier] = useState(1);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    const touchStart = touchStartRef.current;
+    const touch = event.touches[0];
+    if (!touchStart || !touch) return;
+
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+    const isHorizontalSwipe = Math.abs(deltaX) > 10 && Math.abs(deltaX) > Math.abs(deltaY);
+
+    if (isHorizontalSwipe) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={false}
         className="flex h-[calc(100dvh-1rem)] max-h-[calc(100dvh-1rem)] max-w-md flex-col rounded-2xl border-0 bg-white p-0 shadow-surface"
+        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain', touchAction: 'pan-y' }}
+        onTouchStartCapture={handleTouchStart}
+        onTouchMoveCapture={handleTouchMove}
       >
         <DialogTitle className="sr-only">{recipe.name}</DialogTitle>
         <DialogDescription className="sr-only">Recept detail met ingredienten en bereiding.</DialogDescription>
