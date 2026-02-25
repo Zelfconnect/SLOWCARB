@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import { STORAGE_KEYS } from '@/lib/storageKeys';
+
+const ACCESS_TOKEN = 'slowcarb2026';
 
 const confettiColors = ['#729c72', '#527e52', '#c5855a', '#dec0a3', '#9bbd9b', '#e3ebe3'];
 
@@ -12,6 +16,11 @@ const confettiDots = Array.from({ length: 24 }, (_, index) => ({
 }));
 
 export default function WelcomePage() {
+  useEffect(() => {
+    // Arriving on welcome page means payment succeeded — grant access
+    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, ACCESS_TOKEN);
+  }, []);
+
   return (
     <div className="relative min-h-[100dvh] overflow-hidden bg-cream px-5 py-8">
       <style>{`

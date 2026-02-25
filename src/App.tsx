@@ -43,7 +43,25 @@ function App() {
   const isAppRequested = searchParams.get('app') === '1' || Boolean(tokenFromUrl);
 
   if (!isAppRequested) return <LandingPage />;
-  if (!hasAccessToken && !tokenFromUrl) return <LandingPage />;
+  if (!hasAccessToken && !tokenFromUrl) {
+    // If user has a completed profile but lost the token (e.g. cleared URL), restore access
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.PROFILE);
+      if (stored) {
+        const p = JSON.parse(stored) as { hasCompletedOnboarding?: boolean };
+        if (p.hasCompletedOnboarding) {
+          localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, 'slowcarb2026');
+          // continue to app
+        } else {
+          return <LandingPage />;
+        }
+      } else {
+        return <LandingPage />;
+      }
+    } catch {
+      return <LandingPage />;
+    }
+  }
 
   return <AppShell />;
 }
