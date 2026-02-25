@@ -29,8 +29,6 @@ function renderEducationIcon(iconKey: string, className: string) {
   return createElement(IconComponent, { className, 'aria-hidden': true });
 }
 
-// Card preview component for the list view
-// Gebruikt semantisch type-based styling systeem
 function CardPreview({
   card,
   onClick

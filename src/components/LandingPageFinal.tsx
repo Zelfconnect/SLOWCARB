@@ -28,9 +28,6 @@ import { Button } from '@/components/ui/button';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 import { useTranslation } from '@/i18n';
 
-// ============================================
-// TYPES
-// ============================================
 type Rule = {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   title: string;
@@ -54,9 +51,6 @@ type FAQ = {
   answer: string;
 };
 
-// ============================================
-// DATA
-// ============================================
 const painPoints = [
   { icon: RotateCcw },
   { icon: Calculator },
@@ -68,9 +62,6 @@ const ruleIcons = [WheatOff, Egg, GlassWater, Apple, Bean] as const;
 const featureIcons = [ChefHat, Smartphone, ShoppingCart, BookOpen, PartyPopper, TrendingUp] as const;
 
 
-// ============================================
-// HOOKS
-// ============================================
 function useSectionReveal(sectionCount: number) {
   const refs = useRef<(HTMLElement | null)[]>([]);
   const [visibleSections, setVisibleSections] = useState<boolean[]>(
@@ -112,9 +103,6 @@ function useSectionReveal(sectionCount: number) {
   return { visibleSections, setRef };
 }
 
-// ============================================
-// UTILITY FUNCTIONS
-// ============================================
 function revealClass(isVisible: boolean, delay = 0) {
   const baseClasses = isVisible
     ? 'opacity-100 translate-y-0'
@@ -123,9 +111,6 @@ function revealClass(isVisible: boolean, delay = 0) {
   return baseClasses + delayStyle;
 }
 
-// ============================================
-// SUB-COMPONENTS
-// ============================================
 function PainPointCard({
   icon: Icon,
   text,
@@ -282,9 +267,6 @@ function FloatingMobileCTA({
   );
 }
 
-// ============================================
-// MAIN COMPONENT
-// ============================================
 export default function LandingPageFinal() {
   const { t } = useTranslation();
   const { visibleSections, setRef } = useSectionReveal(9);
