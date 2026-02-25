@@ -55,19 +55,19 @@ describe('WeightProgressCard', () => {
         weightLog={weightLog}
         startWeight={100.0}
         currentWeight={96.5}
-        targetWeight={10}
+        targetWeight={90}
       />
     );
 
     expect(screen.getByText('Huidig gewicht')).toBeInTheDocument();
-    expect(screen.getByText('Doel -10 kg')).toBeInTheDocument();
+    expect(screen.getByText('Doel 90 kg')).toBeInTheDocument();
     expect(screen.getByText('100.0 kg')).toBeInTheDocument();
     expect(screen.getByText((content) => content.includes('Resterend 6.5 kg'))).toBeInTheDocument();
     expect(screen.queryByText('Nu')).not.toBeInTheDocument();
     expect(screen.queryByText('Veranderd')).not.toBeInTheDocument();
   });
 
-  it('renders exactly one progress indicator for goal mode', () => {
+  it('renders exactly one linear progress indicator for goal mode', () => {
     const weightLog = createWeightLog([
       { date: '2026-02-01', weight: 100.0 },
       { date: '2026-02-20', weight: 98.0 },
@@ -78,10 +78,74 @@ describe('WeightProgressCard', () => {
         weightLog={weightLog}
         startWeight={100.0}
         currentWeight={98.0}
+        targetWeight={90}
+      />
+    );
+
+    expect(screen.getAllByTestId('goal-progress-linear')).toHaveLength(1);
+    expect(screen.getByLabelText('Voortgang naar doelgewicht')).toBeInTheDocument();
+  });
+
+  it('keeps absolute target weight semantics for values like 100', () => {
+    const weightLog = createWeightLog([
+      { date: '2026-02-01', weight: 98.0 },
+      { date: '2026-02-20', weight: 98.0 },
+    ]);
+
+    render(
+      <WeightProgressCard
+        weightLog={weightLog}
+        startWeight={98.0}
+        currentWeight={98.0}
+        targetWeight={100}
+      />
+    );
+
+    expect(screen.getByText('Doel 100 kg')).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Doel bereikt'))).toBeInTheDocument();
+    expect(screen.queryByText('Doel -100 kg')).not.toBeInTheDocument();
+  });
+
+  it('converts legacy kg-to-lose target to absolute goal weight', () => {
+    const weightLog = createWeightLog([
+      { date: '2026-02-01', weight: 100.0 },
+      { date: '2026-02-20', weight: 96.5 },
+    ]);
+
+    render(
+      <WeightProgressCard
+        weightLog={weightLog}
+        startWeight={100.0}
+        currentWeight={96.5}
         targetWeight={10}
       />
     );
 
-    expect(screen.getAllByTestId('goal-progress-arc')).toHaveLength(1);
+    expect(screen.getByText('Doel 90 kg')).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Resterend 6.5 kg'))).toBeInTheDocument();
+  });
+
+  it('keeps goal progress indicator visible when progress is near zero', () => {
+    const weightLog = createWeightLog([
+      { date: '2026-02-01', weight: 100.0 },
+      { date: '2026-02-20', weight: 100.0 },
+    ]);
+
+    const { container } = render(
+      <WeightProgressCard
+        weightLog={weightLog}
+        startWeight={100.0}
+        currentWeight={100.0}
+        targetWeight={90}
+      />
+    );
+
+    const progressRoot = container.querySelector('[data-testid="goal-progress-linear"] [data-slot="progress"]');
+    const progressIndicator = container.querySelector(
+      '[data-testid="goal-progress-linear"] [data-slot="progress-indicator"]'
+    ) as HTMLElement | null;
+    expect(progressRoot).toBeTruthy();
+    expect(progressIndicator).toBeTruthy();
+    expect(progressIndicator?.style.transform).not.toBe('translateX(-100%)');
   });
 });

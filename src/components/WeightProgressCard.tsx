@@ -1,5 +1,6 @@
 import { Check, Minus, TrendingDown, TrendingUp } from 'lucide-react';
 import type { WeightEntry } from '@/types';
+import { Progress } from '@/components/ui/progress';
 import { WeightSparkline } from './WeightSparkline';
 
 interface WeightProgressCardProps {
@@ -10,18 +11,24 @@ interface WeightProgressCardProps {
   onOpenLog?: () => void;
 }
 
-const ARC_WIDTH = 132;
-const ARC_HEIGHT = 74;
-const ARC_STROKE_WIDTH = 10;
-const ARC_RADIUS = (ARC_WIDTH - ARC_STROKE_WIDTH) / 2;
-const ARC_CENTER_X = ARC_WIDTH / 2;
-const ARC_CENTER_Y = ARC_HEIGHT;
-const ARC_START_X = ARC_CENTER_X - ARC_RADIUS;
-const ARC_END_X = ARC_CENTER_X + ARC_RADIUS;
-const GOAL_ARC_PATH = `M ${ARC_START_X} ${ARC_CENTER_Y} A ${ARC_RADIUS} ${ARC_RADIUS} 0 0 0 ${ARC_END_X} ${ARC_CENTER_Y}`;
+const MIN_HEALTHY_GOAL_WEIGHT = 40;
+const MIN_VISIBLE_PROGRESS_PERCENT = 2;
 
 function clampPercentage(value: number): number {
   return Math.min(100, Math.max(0, value));
+}
+
+function resolveGoalWeight(targetWeight: number | undefined, startWeight: number): number | null {
+  if (!Number.isFinite(targetWeight) || targetWeight == null || targetWeight <= 0) {
+    return null;
+  }
+
+  // Backward compatibility: older onboarding stored kg-to-lose (3-20) instead of absolute goal kg.
+  if (targetWeight < MIN_HEALTHY_GOAL_WEIGHT) {
+    return Math.max(MIN_HEALTHY_GOAL_WEIGHT, startWeight - targetWeight);
+  }
+
+  return targetWeight;
 }
 
 export function WeightProgressCard({
@@ -69,19 +76,31 @@ export function WeightProgressCard({
         ? 'text-clay-700 bg-clay-100'
         : 'text-stone-700 bg-stone-100';
   const ChangeIcon = changeIcon;
-  const hasGoal = typeof targetWeight === 'number' && targetWeight > 0;
-  const goalLossKilograms = hasGoal ? targetWeight : null;
-  const lostSoFarKilograms = Math.max(0, resolvedStart - resolvedCurrent);
-  const remainingKilograms = goalLossKilograms == null
+  const goalWeight = resolveGoalWeight(targetWeight, resolvedStart);
+  const remainingKilograms = goalWeight == null
     ? null
-    : Math.max(0, goalLossKilograms - lostSoFarKilograms);
-  const progressPercentage = goalLossKilograms == null
-    ? 0
-    : clampPercentage((lostSoFarKilograms / goalLossKilograms) * 100);
-  const progressStrokeOffset = 100 - progressPercentage;
+    : Math.max(0, resolvedCurrent - goalWeight);
+  const totalToLoseKilograms = goalWeight == null
+    ? null
+    : Math.max(0, resolvedStart - goalWeight);
   const goalCompleted = remainingKilograms != null && remainingKilograms <= 0.05;
+  const lostSoFarKilograms = goalWeight == null
+    ? 0
+    : Math.max(0, resolvedStart - resolvedCurrent);
+  const progressPercentage = goalWeight == null
+    ? 0
+    : totalToLoseKilograms != null && totalToLoseKilograms > 0
+      ? clampPercentage((lostSoFarKilograms / totalToLoseKilograms) * 100)
+      : goalCompleted
+        ? 100
+        : 0;
+  const visibleProgressPercentage = goalWeight == null
+    ? 0
+    : goalCompleted
+      ? 100
+      : Math.max(progressPercentage, MIN_VISIBLE_PROGRESS_PERCENT);
 
-  if (goalLossKilograms != null) {
+  if (goalWeight != null) {
     return (
       <button
         onClick={onOpenLog}
@@ -91,43 +110,12 @@ export function WeightProgressCard({
         <div className="flex items-center justify-between gap-2">
           <span className="text-sm font-medium text-stone-700">Huidig gewicht</span>
           <span className="inline-flex items-center rounded-full bg-sage-50 px-2 py-0.5 text-[11px] font-medium text-sage-700">
-            Doel -{goalLossKilograms.toFixed(0)} kg
+            Doel {goalWeight.toFixed(0)} kg
           </span>
         </div>
 
         <div className="mt-2 rounded-2xl bg-stone-50/70 p-2.5 shadow-surface">
-          <div
-            className="relative mx-auto flex flex-col items-center"
-            style={{ width: ARC_WIDTH, minHeight: ARC_HEIGHT + 36 }}
-            data-testid="goal-progress-arc"
-          >
-            <svg
-              className="block shrink-0"
-              height={ARC_HEIGHT}
-              width={ARC_WIDTH}
-              viewBox={`0 0 ${ARC_WIDTH} ${ARC_HEIGHT}`}
-              aria-hidden="true"
-            >
-              {/* Half-arc track: light green */}
-              <path
-                d={GOAL_ARC_PATH}
-                stroke="#BBF7D0"
-                strokeWidth={ARC_STROKE_WIDTH}
-                fill="none"
-                strokeLinecap="round"
-              />
-              {/* Progress fill: emerald when user loses weight */}
-              <path
-                d={GOAL_ARC_PATH}
-                stroke={goalCompleted ? '#059669' : '#10b981'}
-                strokeWidth={ARC_STROKE_WIDTH}
-                strokeLinecap="round"
-                pathLength={100}
-                strokeDasharray={100}
-                strokeDashoffset={progressStrokeOffset}
-                fill="none"
-              />
-            </svg>
+          <div className="mx-auto flex max-w-[220px] flex-col items-center" data-testid="goal-progress-linear">
             <div className="mt-0.5 flex items-end justify-center gap-1 text-center">
               {goalCompleted ? (
                 <Check className="mb-0.5 h-3.5 w-3.5 text-emerald-600" />
@@ -136,6 +124,18 @@ export function WeightProgressCard({
                 {resolvedCurrent.toFixed(1)}
               </span>
               <span className="mb-0.5 text-xs font-medium text-stone-500">kg</span>
+            </div>
+            <div className="mt-2 w-full">
+              <div className="mb-1 flex items-center justify-between text-[10px] font-medium text-stone-500">
+                <span>0%</span>
+                <span className="text-stone-700">{progressPercentage.toFixed(0)}%</span>
+                <span>100%</span>
+              </div>
+              <Progress
+                value={visibleProgressPercentage}
+                aria-label="Voortgang naar doelgewicht"
+                className="h-2 rounded-full bg-sage-100"
+              />
             </div>
           </div>
           <p className="mt-2 text-center text-[11px] text-stone-500">
