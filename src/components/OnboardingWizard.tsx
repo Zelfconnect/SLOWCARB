@@ -91,14 +91,14 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
     <DialogPrimitive.Root open>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Content
-          className="fixed inset-0 z-50 h-full w-full max-w-none overflow-y-auto border-none bg-cream p-0 outline-none"
+          className="fixed inset-0 z-50 h-[100dvh] w-full max-w-none overflow-hidden border-none bg-cream p-0 outline-none"
           aria-describedby={undefined}
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
           <DialogPrimitive.Title className="sr-only">Onboarding wizard</DialogPrimitive.Title>
-          <div className="flex min-h-screen flex-col bg-gradient-to-b from-cream via-cream to-warm-100/70">
-            <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-6 pb-[calc(2rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-8">
+          <div className="flex h-[100dvh] min-h-[100dvh] flex-col bg-gradient-to-b from-cream via-cream to-warm-100/70">
+            <div className="mx-auto flex w-full max-w-xl min-h-0 flex-1 flex-col overflow-y-auto px-6 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-8">
               <div className="mb-8 flex items-center justify-between">
                 <Button
                   type="button"
@@ -127,7 +127,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                 <div className="h-10 w-10" />
               </div>
 
-              <div className="flex flex-1 flex-col">
+              <div className="flex min-h-0 flex-1 flex-col">
                 {currentStep === 1 && (
                   <section className="flex flex-1 flex-col">
                     <div className="space-y-4 text-center">
@@ -325,7 +325,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
                     <RadioGroup
                       value={data.cheatDay}
-                      className="mt-8 max-h-[42dvh] gap-3 overflow-y-auto pb-1 pr-1"
+                      className="mt-8 flex-1 gap-3 overflow-y-auto pb-24 pr-1"
                       onValueChange={(value: string) =>
                         setData({ ...data, cheatDay: value as CheatDay })
                       }
@@ -350,7 +350,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                       ))}
                     </RadioGroup>
 
-                    <div className="sticky bottom-0 mt-6 bg-cream/95 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] pt-4 backdrop-blur">
+                    <div className="sticky bottom-0 mt-6 border-t border-cream/60 bg-cream/95 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] pt-4 backdrop-blur">
                       <Button
                         type="button"
                         onClick={handleNext}
