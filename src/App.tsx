@@ -110,6 +110,7 @@ function AppShell() {
         return (
           <Dashboard
             journey={journey}
+            onboardingStartWeight={profile.currentWeight}
             progress={getProgress()}
             currentTip={getCurrentTip()}
             isCheatDay={isCheatDay()}

@@ -14,6 +14,7 @@ import { useTranslation } from '@/i18n';
 
 interface DashboardProps {
   journey: Journey;
+  onboardingStartWeight?: number;
   progress: { day: number; week: number; totalDays: number; percentage: number };
   currentTip: { day: number; tip?: { title: string; tips: string[]; metabolicState: string }; weekTip?: { title: string; tips: string[]; warning?: string } } | null;
   isCheatDay: boolean;
@@ -29,6 +30,7 @@ interface DashboardProps {
 
 export function Dashboard({
   journey,
+  onboardingStartWeight,
   progress,
   currentTip,
   isCheatDay,
@@ -52,7 +54,7 @@ export function Dashboard({
   const sortedWeights = [...weightLog].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
-  const startWeight = sortedWeights[0]?.weight;
+  const startWeight = onboardingStartWeight ?? sortedWeights[0]?.weight;
   const latestWeight = sortedWeights[sortedWeights.length - 1]?.weight;
 
   const openWeightDialog = () => {
