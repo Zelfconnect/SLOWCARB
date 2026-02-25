@@ -1,6 +1,24 @@
 import recipesJson from './recipes.json';
-import type { Recipe as ImportedRecipe, RecipeDatabase } from '../types/recipe';
 import type { Ingredient, Recipe as AppRecipe, RecipeIconKey, MealTypeIconKey, RecipeStep } from '@/types';
+
+interface ImportedRecipe {
+  id: string;
+  title: string;
+  image?: string;
+  category: 'Quick' | 'Meal Prep' | 'No-Time';
+  protein: string;
+  cookTime: string;
+  ingredients: string[];
+  steps: string[];
+  mealPrepTip?: string;
+  tags?: string[];
+}
+
+export interface RecipeDatabase {
+  quick: ImportedRecipe[];
+  mealPrep: ImportedRecipe[];
+  noTime: ImportedRecipe[];
+}
 
 type RawRecipeStep = string | { text: string; note?: string };
 type RawRecipe = {
