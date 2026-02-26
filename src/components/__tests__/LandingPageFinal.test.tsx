@@ -68,6 +68,29 @@ describe('LandingPageFinal', () => {
     ).toBeInTheDocument();
   });
 
+  it('renders hero headline with editorial Fraunces styling', () => {
+    window.IntersectionObserver = IntersectionObserverMock;
+    render(<LandingPageFinal />);
+
+    const headline = screen.getByTestId('landing-hero-headline');
+    expect(headline.className).toContain("font-['Fraunces']");
+    expect(headline.className).toContain('font-[900]');
+  });
+
+  it('renders the founder why editorial section with SF and ADHD context', () => {
+    window.IntersectionObserver = IntersectionObserverMock;
+    render(<LandingPageFinal />);
+
+    expect(screen.getByTestId('founder-editorial-quote')).toHaveTextContent(
+      'Ik wilde een slowcarb systeem dat werkt op mijn slechtste ADHD-dag, niet alleen op mijn beste.'
+    );
+    expect(
+      screen.getByText(
+        'Ik ben Jesper, ik woon in San Francisco en ik heb ADHD. Ik viel telkens terug omdat elke dieet-app meer keuzes en frictie toevoegde.'
+      )
+    ).toBeInTheDocument();
+  });
+
   it('shows trust footer legal links including imprint', () => {
     window.IntersectionObserver = IntersectionObserverMock;
     render(<LandingPageFinal />);

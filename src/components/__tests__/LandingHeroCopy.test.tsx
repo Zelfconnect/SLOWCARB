@@ -32,7 +32,7 @@ describe('Landing hero copy', () => {
 
     expect(
       screen.getByText(
-        'SlowCarb Companion – 5 simpele regels + 50+ kant-en-klare recepten, boodschappenlijsten en tracker. Lifetime toegang voor €29.'
+        'Voor drukke ADHD-hoofden: 5 simpele regels, 50+ no-brainer recepten en een boodschappenflow die je elke week op rails houdt.'
       )
     ).toBeInTheDocument();
   });

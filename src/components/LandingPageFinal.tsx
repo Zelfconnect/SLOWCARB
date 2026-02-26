@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -78,6 +78,17 @@ const testimonialPlaceholders: Testimonial[] = [
     result: 'Resultaat gebruiker 3',
   },
 ];
+
+const calmPalette = {
+  sage: '#6E8B78',
+  sageDeep: '#264138',
+} as const;
+
+const grainTextureStyle: CSSProperties = {
+  backgroundImage:
+    'radial-gradient(circle at 20% 30%, rgba(27,42,42,0.08) 0.6px, transparent 0.6px), radial-gradient(circle at 80% 70%, rgba(27,42,42,0.05) 0.55px, transparent 0.55px)',
+  backgroundSize: '4px 4px, 5px 5px',
+};
 
 function useSectionReveal(sectionCount: number) {
   const refs = useRef<(HTMLElement | null)[]>([]);
@@ -445,7 +456,7 @@ export default function LandingPageFinal() {
   };
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-[#F8F7F4] text-[#1B2A2A]">
       {showAppButton && (
         <a
           href="/?app=1"
@@ -459,25 +470,29 @@ export default function LandingPageFinal() {
       <section
         ref={setRef(0)}
         data-index={0}
-        className="relative flex min-h-[70vh] items-center overflow-hidden md:min-h-[80vh]"
+        className="relative flex min-h-[72vh] items-center overflow-hidden md:min-h-[82vh]"
         style={{
           backgroundImage: `url(${heroImageSrc})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0 bg-sage-900/60" />
+        <div className="absolute inset-0 bg-[#1B2A2A]/62" />
+        <div className="absolute inset-0 opacity-20" style={grainTextureStyle} />
 
-        <div className="relative z-10 mx-auto w-full max-w-3xl px-5 pb-24 pt-20 text-center md:pb-40 md:pt-32">
+        <div className="relative z-10 mx-auto w-full max-w-4xl px-4 pb-20 pt-16 text-center sm:px-6 sm:pt-20 md:pb-40 md:pt-32">
           <div
             className={`transition-all duration-700 ${revealClass(
               visibleSections[0]
             )}`}
           >
-            <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm">
+            <span className="mb-6 inline-block rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm">
               {String(t('landing.badge'))}
             </span>
-            <h1 className="font-display text-4xl font-bold leading-tight text-white text-shadow md:text-5xl lg:text-6xl">
+            <h1
+              data-testid="landing-hero-headline"
+              className="font-['Fraunces'] text-[clamp(2.15rem,8.7vw,4.6rem)] font-[900] leading-[1.03] tracking-[-0.02em] text-[#F8F7F4] text-shadow"
+            >
               {String(t('landing.heroTitle')).split('\n').map((line, index, arr) => (
                 <span key={line}>
                   {line}
@@ -485,7 +500,7 @@ export default function LandingPageFinal() {
                 </span>
               ))}
             </h1>
-            <p className="mx-auto mb-10 mt-6 max-w-xl text-xl leading-relaxed text-sage-100 md:text-2xl">
+            <p className="mx-auto mb-10 mt-6 max-w-[42ch] text-base leading-relaxed text-[#E8EFEA] sm:text-lg md:text-xl">
               {String(t('landing.heroSubtitle'))}
             </p>
 
@@ -493,14 +508,14 @@ export default function LandingPageFinal() {
               <Button
                 onClick={openCheckout}
                 size="lg"
-                className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
+                className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-[#264138] shadow-elevated hover:bg-stone-50"
               >
                 {String(t('landing.ctaPrimary'))}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
 
-            <p className="text-sm font-medium text-sage-200">
+            <p className="text-sm font-medium text-[#DAE7DE]">
               Veilige betaling via Stripe • 30 dagen niet-goed-geld-terug • Direct toegang
             </p>
           </div>
@@ -519,6 +534,35 @@ export default function LandingPageFinal() {
               fill="#FAFAF9"
             />
           </svg>
+        </div>
+      </section>
+
+      {/* Founder Why Section */}
+      <section className="relative overflow-hidden border-y border-[#DCE6DF] bg-[#F8F7F4]">
+        <div className="absolute inset-0 opacity-[0.3]" style={grainTextureStyle} />
+        <div className="relative mx-auto grid max-w-5xl gap-10 px-4 py-14 sm:px-6 md:py-20 lg:grid-cols-[1.2fr_1fr] lg:gap-12 lg:px-8">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#4E6C5E]">
+              {String(t('landing.founderLabel'))}
+            </p>
+            <blockquote
+              data-testid="founder-editorial-quote"
+              className="mt-3 font-['Fraunces'] text-[clamp(2rem,7.5vw,3.8rem)] font-[900] leading-[1.04] tracking-[-0.02em] text-[#1B2A2A]"
+            >
+              &ldquo;{String(t('landing.founderQuote'))}&rdquo;
+            </blockquote>
+            <p className="mt-5 text-sm font-medium text-[#4E6C5E]">{String(t('landing.founderAttribution'))}</p>
+          </div>
+
+          <aside className="rounded-3xl border border-[#C8D8CE] bg-white/70 p-6 shadow-soft sm:p-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[#4E6C5E]">
+              {String(t('landing.founderContextLabel'))}
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-[#1B2A2A]">{String(t('landing.founderContextLead'))}</p>
+            <p className="mt-4 text-base leading-relaxed text-[#1B2A2A]">
+              {String(t('landing.founderContextBody'))}
+            </p>
+          </aside>
         </div>
       </section>
 
@@ -696,7 +740,8 @@ export default function LandingPageFinal() {
       </section>
 
       {/* Testimonials Section */}
-      <section ref={setRef(4)} data-index={4} className="bg-stone-50 py-20">
+      <section ref={setRef(4)} data-index={4} className="relative overflow-hidden bg-[#F3F4F0] py-20">
+        <div className="absolute inset-0 opacity-[0.2]" style={grainTextureStyle} />
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div
             className={`mb-12 text-center transition-all duration-700 ${revealClass(
@@ -829,13 +874,17 @@ export default function LandingPageFinal() {
 
       {/* Final CTA Section */}
       <section ref={setRef(7)} data-index={7} className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-sage-700 to-sage-800" />
+        <div
+          className="absolute inset-0"
+          style={{ background: `linear-gradient(135deg, ${calmPalette.sageDeep} 0%, ${calmPalette.sage} 100%)` }}
+        />
         <div
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
         />
+        <div className="absolute inset-0 opacity-[0.12]" style={grainTextureStyle} />
 
         <div className="relative mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28 lg:px-8 text-center">
           <div
