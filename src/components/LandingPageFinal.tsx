@@ -344,7 +344,7 @@ function FloatingMobileCTA({
 
 export default function LandingPageFinal() {
   const { t } = useTranslation();
-  const { visibleSections, setRef } = useSectionReveal(9);
+  const { visibleSections, setRef } = useSectionReveal(10);
   const [showAppButton, setShowAppButton] = useState(false);
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const painSectionRef = useRef<HTMLElement | null>(null);
@@ -714,17 +714,63 @@ export default function LandingPageFinal() {
         </div>
       </section>
 
+      {/* Founder Section */}
+      <section ref={setRef(5)} data-index={5} className="bg-white py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div
+            className={`mb-12 transition-all duration-700 ${revealClass(
+              visibleSections[5]
+            )}`}
+          >
+            <span className="text-sm font-medium uppercase tracking-[0.16em] text-sage-600">
+              {String(t('landing.founderLabel'))}
+            </span>
+            <h2 className="mt-3 font-display text-3xl font-bold text-stone-800 md:text-4xl">
+              {String(t('landing.founderTitle'))}
+            </h2>
+          </div>
+
+          <article
+            className={`grid gap-10 border-y border-stone-200 py-10 transition-all duration-700 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] ${revealClass(
+              visibleSections[5]
+            )}`}
+            style={{ transitionDelay: '120ms' }}
+          >
+            <div className="space-y-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-clay-600">
+                {String(t('landing.founderKicker'))}
+              </p>
+              <blockquote className="border-l-2 border-sage-600 pl-4">
+                <p className="font-display text-2xl leading-tight text-stone-800">
+                  &ldquo;{String(t('landing.founderQuote'))}&rdquo;
+                </p>
+              </blockquote>
+              <p className="text-sm font-medium text-stone-500">{String(t('landing.founderSignature'))}</p>
+            </div>
+
+            <div className="space-y-6">
+              <p className="text-lg leading-relaxed text-stone-700">
+                {String(t('landing.founderIntro'))}
+              </p>
+              <p className="leading-relaxed text-stone-600">
+                {String(t('landing.founderBody'))}
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section
         id="pricing"
-        ref={setRef(5)}
-        data-index={5}
+        ref={setRef(6)}
+        data-index={6}
         className="py-20"
       >
         <div className="mx-auto max-w-md px-4 sm:px-6 lg:px-8">
           <div
             className={`rounded-3xl border border-stone-200 bg-white p-8 shadow-elevated transition-all duration-700 ${revealClass(
-              visibleSections[5]
+              visibleSections[6]
             )}`}
           >
             <div className="mb-8 text-center">
@@ -738,7 +784,7 @@ export default function LandingPageFinal() {
             </div>
 
             <div className="mb-8 flex items-baseline justify-center gap-3">
-              <span className="font-display text-3xl font-semibold text-stone-400 line-through">
+              <span className="font-display text-3xl font-semibold text-stone-500 line-through">
                 €47
               </span>
               <span className="font-display text-5xl font-bold text-stone-800">€29</span>
@@ -775,11 +821,11 @@ export default function LandingPageFinal() {
       </section>
 
       {/* FAQ Section */}
-      <section ref={setRef(6)} data-index={6} className="bg-white py-20">
+      <section ref={setRef(7)} data-index={7} className="bg-white py-20">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <div
             className={`mb-12 text-center transition-all duration-700 ${revealClass(
-              visibleSections[6]
+              visibleSections[7]
             )}`}
           >
             <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
@@ -792,7 +838,7 @@ export default function LandingPageFinal() {
 
           <div
             className={`rounded-2xl border border-stone-100 bg-stone-50 p-6 md:p-8 transition-all duration-700 ${revealClass(
-              visibleSections[6]
+              visibleSections[7]
             )}`}
           >
             <Accordion type="single" collapsible defaultValue={faqs[0].question}>
@@ -816,7 +862,7 @@ export default function LandingPageFinal() {
       </section>
 
       {/* Final CTA Section */}
-      <section ref={setRef(7)} data-index={7} className="relative overflow-hidden">
+      <section ref={setRef(8)} data-index={8} className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-sage-700 to-sage-800" />
         <div
           className="absolute inset-0 opacity-30"
@@ -828,7 +874,7 @@ export default function LandingPageFinal() {
         <div className="relative mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28 lg:px-8 text-center">
           <div
             className={`transition-all duration-700 ${revealClass(
-              visibleSections[7]
+              visibleSections[8]
             )}`}
           >
             <h2 className="mb-6 font-display text-3xl font-bold text-white text-shadow md:text-5xl">
@@ -847,7 +893,7 @@ export default function LandingPageFinal() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-300">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-200">
               {footerBadges.map((badge) => (
                 <div key={badge} className="flex items-center gap-2">
                   <Check className="h-4 w-4" />
@@ -860,11 +906,11 @@ export default function LandingPageFinal() {
       </section>
 
       {/* Footer */}
-      <footer ref={setRef(8)} data-index={8} className="bg-stone-900 py-8 text-stone-400">
+      <footer ref={setRef(9)} data-index={9} className="bg-stone-900 py-8 text-stone-400">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div
             className={`flex flex-col items-center justify-between gap-4 md:flex-row transition-all duration-700 ${revealClass(
-              visibleSections[8]
+              visibleSections[9]
             )}`}
           >
             <p className="text-sm">{String(t('landing.footerCopy'))}</p>

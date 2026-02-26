@@ -26,6 +26,32 @@ afterEach(() => {
 });
 
 describe('LandingPageFinal', () => {
+  it('renders all 8 core landing sections after the hero', () => {
+    const { container } = render(<LandingPageFinal />);
+
+    const sections = container.querySelectorAll('section');
+    expect(sections).toHaveLength(9);
+
+    expect(screen.getByRole('heading', { name: /Ken je dit\?/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /De 5 Regels/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Alles wat je nodig hebt/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Wat gebruikers zeggen/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Waarom ik SlowCarb heb gebouwd/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /SlowCarb Lifetime Access/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /FAQ/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Klaar om te beginnen\?/i })).toBeInTheDocument();
+  });
+
+  it('renders founder section as editorial content with quote and signature', () => {
+    render(<LandingPageFinal />);
+
+    expect(screen.getByText(/Founder Note/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Je hebt geen motivatieprobleem\. Je hebt een systeemprobleem\./i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Jesper Horst, oprichter van SlowCarb/i)).toBeInTheDocument();
+  });
+
   it('shows first two sections immediately and keeps later sections visible via fallback opacity', () => {
     window.IntersectionObserver = IntersectionObserverMock;
     const { container } = render(<LandingPageFinal />);
