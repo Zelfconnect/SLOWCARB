@@ -12,18 +12,17 @@ export function CheatDayPicker({ cheatDay, onChange }: CheatDayPickerProps) {
   return (
     <section className="flex flex-1 min-h-0 flex-col">
       <div className="space-y-3 text-center">
-        <span className="block text-5xl leading-none">&#x1F389;</span>
         <h1 className="font-display text-3xl font-bold text-stone-900">
           Kies je cheat day
         </h1>
-        <p className="text-base text-stone-600">
+        <p className="text-base text-stone-500">
           De meeste mensen kiezen zaterdag
         </p>
       </div>
 
       <RadioGroup
         value={cheatDay}
-        className="mt-6 flex-1 gap-2.5 overflow-y-auto pb-4 pr-1"
+        className="mt-8 flex-1 gap-2.5 overflow-y-auto pb-4 pr-1"
         onValueChange={(value: string) => onChange(value as CheatDay)}
       >
         {CHEAT_DAY_OPTIONS.map((day) => (

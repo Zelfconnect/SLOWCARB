@@ -5,20 +5,13 @@ import {
   ChefHat,
   GraduationCap,
   ClipboardCheck,
+  CheckCircle2,
 } from 'lucide-react';
 import type { OnboardingData } from '../OnboardingWizard';
 
 interface SummaryLaunchProps {
   data: OnboardingData;
 }
-
-const floatingDots = [
-  { top: '8%', left: '6%', size: 5, opacity: 0.3 },
-  { top: '15%', right: '10%', size: 7, opacity: 0.25 },
-  { top: '55%', left: '10%', size: 4, opacity: 0.35 },
-  { top: '70%', right: '6%', size: 6, opacity: 0.2 },
-  { top: '85%', left: '18%', size: 3, opacity: 0.3 },
-];
 
 const appTour = [
   { icon: LayoutDashboard, label: 'Dashboard', desc: 'Voortgang & dagelijkse check' },
@@ -41,59 +34,45 @@ export function SummaryLaunch({ data }: SummaryLaunchProps) {
         : 'Standaard';
 
   return (
-    <section className="relative flex flex-1 flex-col overflow-hidden">
-      {/* Floating dots */}
-      {floatingDots.map((dot, i) => (
-        <div
-          key={i}
-          className="pointer-events-none absolute rounded-full bg-sage-400/50"
-          style={{
-            top: dot.top,
-            left: dot.left,
-            right: dot.right,
-            width: dot.size,
-            height: dot.size,
-            opacity: dot.opacity,
-          }}
-        />
-      ))}
-
-      <div className="space-y-3 text-center">
-        <span className="block text-5xl leading-none">&#x1F680;</span>
+    <section className="flex flex-1 flex-col">
+      <div className="flex flex-col items-center space-y-3 text-center">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-sage-100">
+          <CheckCircle2 className="h-8 w-8 text-sage-600" strokeWidth={2} />
+        </div>
         <h1 className="font-display text-3xl font-bold text-stone-900">
           Klaar, {data.name || 'jij'}!
         </h1>
-        <p className="text-base text-stone-600">
+        <p className="text-base text-stone-500">
           Dit wordt de beste beslissing van je jaar.
         </p>
       </div>
 
       {/* Summary grid */}
-      <div className="relative z-10 mt-6 grid grid-cols-2 gap-3">
-        <div className="rounded-2xl border border-stone-200 bg-warm-100/80 p-3.5">
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-stone-500">Start</p>
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <div className="rounded-2xl border border-stone-200 bg-white/80 p-3.5">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-stone-400">Start</p>
           <p className="mt-0.5 text-lg font-bold text-stone-900">{data.currentWeight} kg</p>
         </div>
-        <div className="rounded-2xl border border-sage-200 bg-sage-50 p-3.5">
+        <div className="rounded-2xl border border-sage-200 bg-sage-50/60 p-3.5">
           <p className="text-[10px] font-semibold uppercase tracking-wide text-sage-600">Doel</p>
-          <p className="mt-0.5 text-lg font-bold text-sage-900">{data.targetWeight} kg</p>
+          <p className="mt-0.5 text-lg font-bold text-sage-800">{data.targetWeight} kg</p>
           <p className="text-[10px] text-sage-600">
             &minus;{weightGoal} kg &middot; ~{formatWeekEstimate(weekEstimate)}
           </p>
         </div>
-        <div className="rounded-2xl border border-stone-200 bg-warm-100/80 p-3.5">
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-stone-500">Cheat day</p>
+        <div className="rounded-2xl border border-stone-200 bg-white/80 p-3.5">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-stone-400">Cheat day</p>
           <p className="mt-0.5 text-lg font-bold text-stone-900">{cheatDayLabel}</p>
         </div>
-        <div className="rounded-2xl border border-sage-200 bg-sage-50 p-3.5">
+        <div className="rounded-2xl border border-sage-200 bg-sage-50/60 p-3.5">
           <p className="text-[10px] font-semibold uppercase tracking-wide text-sage-600">Voorkeur</p>
-          <p className="mt-0.5 text-base font-bold text-sage-900">{preferenceLabel}</p>
+          <p className="mt-0.5 text-base font-bold text-sage-800">{preferenceLabel}</p>
         </div>
       </div>
 
       {/* Mini app tour */}
-      <div className="relative z-10 mt-6 rounded-2xl border border-stone-200 bg-white/80 p-4">
-        <p className="mb-3 text-xs font-bold uppercase tracking-wide text-stone-500">
+      <div className="mt-6 rounded-2xl border border-stone-200 bg-white/80 p-4">
+        <p className="mb-3 text-[10px] font-bold uppercase tracking-wide text-stone-400">
           Jouw app
         </p>
         <div className="space-y-2.5">
