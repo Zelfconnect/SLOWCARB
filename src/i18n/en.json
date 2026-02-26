@@ -132,9 +132,17 @@
     ],
     "finalCtaTitle": "Ready to start?",
     "finalCtaText": "In 6 weeks you could be 8 to 10 kg lighter. No hunger, no doubt, no hassle.",
-    "footerBadges": ["Instant access", "No subscription", "30 day money back"],
+    "footerBadges": [
+      "Instant access",
+      "No subscription",
+      "30 day money back"
+    ],
     "footerCopy": "© 2026 SlowCarb. All rights reserved.",
-    "footerLinks": ["Privacy", "Terms", "Contact"],
+    "footerLinks": [
+      "Privacy",
+      "Terms",
+      "Refund Policy"
+    ],
     "lifestyleImageAlt": "Healthy lifestyle and transformation",
     "breakfastImageAlt": "Healthy breakfast with protein and vegetables",
     "mealPrepImageAlt": "Meal prep containers with healthy meals"

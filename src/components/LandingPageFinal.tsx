@@ -27,6 +27,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 import { useTranslation } from '@/i18n';
+import { TrustFooter } from '@/components/TrustFooter';
 
 type Rule = {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
@@ -60,7 +61,23 @@ const painPoints = [
 const ruleIcons = [WheatOff, Egg, GlassWater, Apple, Bean] as const;
 
 const featureIcons = [ChefHat, Smartphone, ShoppingCart, BookOpen, PartyPopper, TrendingUp] as const;
-
+const testimonialPlaceholders: Testimonial[] = [
+  {
+    quote: 'Quote van gebruiker 1',
+    name: 'Naam gebruiker 1',
+    result: 'Resultaat gebruiker 1',
+  },
+  {
+    quote: 'Quote van gebruiker 2',
+    name: 'Naam gebruiker 2',
+    result: 'Resultaat gebruiker 2',
+  },
+  {
+    quote: 'Quote van gebruiker 3',
+    name: 'Naam gebruiker 3',
+    result: 'Resultaat gebruiker 3',
+  },
+];
 
 function useSectionReveal(sectionCount: number) {
   const refs = useRef<(HTMLElement | null)[]>([]);
@@ -376,18 +393,13 @@ export default function LandingPageFinal() {
     title: String(t(`landing.features.${index}.title`)),
     description: String(t(`landing.features.${index}.description`)),
   }));
-  const testimonials: Testimonial[] = [0, 1, 2].map((index) => ({
-    quote: String(t(`landing.testimonials.${index}.quote`)),
-    name: String(t(`landing.testimonials.${index}.name`)),
-    result: String(t(`landing.testimonials.${index}.result`)),
-  }));
+  const testimonials = testimonialPlaceholders;
   const faqs: FAQ[] = [0, 1, 2, 3, 4].map((index) => ({
     question: String(t(`landing.faqs.${index}.question`)),
     answer: String(t(`landing.faqs.${index}.answer`)),
   }));
   const pricingFeatures = t('landing.pricingFeatures') as string[];
   const footerBadges = t('landing.footerBadges') as string[];
-  const footerLinks = t('landing.footerLinks') as string[];
 
   const stripeUrl = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
   // Stripe success_url should be: https://www.eatslowcarb.com/?token=slowcarb2026
@@ -489,7 +501,7 @@ export default function LandingPageFinal() {
             </div>
 
             <p className="text-sm font-medium text-sage-200">
-              {String(t('landing.ctaSubtext'))}
+              Veilige betaling via Stripe • 30 dagen niet-goed-geld-terug • Direct toegang
             </p>
           </div>
         </div>
@@ -692,10 +704,10 @@ export default function LandingPageFinal() {
             )}`}
           >
             <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
-              {String(t('landing.testimonialsLabel'))}
+              Proof section
             </span>
             <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-              {String(t('landing.testimonialsTitle'))}
+              Resultaten van gebruikers
             </h2>
           </div>
 
@@ -739,9 +751,9 @@ export default function LandingPageFinal() {
 
             <div className="mb-8 flex items-baseline justify-center gap-3">
               <span className="font-display text-3xl font-semibold text-stone-400 line-through">
-                €47
+                Value €197
               </span>
-              <span className="font-display text-5xl font-bold text-stone-800">€29</span>
+              <span className="font-display text-5xl font-bold text-stone-800">Pay €29</span>
             </div>
 
             <p className="mb-6 text-center text-sm text-clay-600">
@@ -860,27 +872,17 @@ export default function LandingPageFinal() {
       </section>
 
       {/* Footer */}
-      <footer ref={setRef(8)} data-index={8} className="bg-stone-900 py-8 text-stone-400">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div
-            className={`flex flex-col items-center justify-between gap-4 md:flex-row transition-all duration-700 ${revealClass(
-              visibleSections[8]
-            )}`}
-          >
-            <p className="text-sm">{String(t('landing.footerCopy'))}</p>
-            <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
-              <a href="/?app=1" className="text-sage-300 transition-colors hover:text-sage-200">
-                {String(t('landing.openApp'))}
-              </a>
-              {footerLinks.map((label) => (
-                <a key={label} href="#" className="transition-colors hover:text-white">
-                  {label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </footer>
+      <div
+        ref={setRef(8)}
+        data-index={8}
+        className={`transition-all duration-700 ${revealClass(visibleSections[8])}`}
+      >
+        <TrustFooter
+          tone="dark"
+          includeOpenAppLink
+          copy={String(t('landing.footerCopy'))}
+        />
+      </div>
 
       {/* Floating Mobile CTA – only after user scrolls past pain section */}
       <FloatingMobileCTA

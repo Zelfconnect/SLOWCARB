@@ -20,7 +20,7 @@ export function summarizeOnboardingRun(stepResults) {
 
 export function getVisualQaRunMessage(summary) {
   if (summary.status === 'Clean') {
-    return 'Visual QA run is "Clean" for all onboarding steps.';
+    return 'Visual QA run is clean.';
   }
 
   return `Visual QA run is "Issue" for onboarding steps: ${summary.issueSteps.join(', ')}.`;

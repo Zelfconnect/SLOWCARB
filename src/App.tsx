@@ -18,9 +18,32 @@ import { getLocalDateString } from '@/lib/localDate';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
+import { ImprintPage, PrivacyPage, RefundPolicyPage, TermsPage } from '@/components/LegalPages';
 import './App.css';
 
+const LEGAL_ROUTE_COMPONENTS = {
+  '/privacy': PrivacyPage,
+  '/privacy-policy': PrivacyPage,
+  '/terms': TermsPage,
+  '/terms-and-conditions': TermsPage,
+  '/terms-of-service': TermsPage,
+  '/refund-policy': RefundPolicyPage,
+  '/refund': RefundPolicyPage,
+  '/refunds': RefundPolicyPage,
+  '/imprint': ImprintPage,
+  '/impressum': ImprintPage,
+} as const;
+
+function normalizePathname(pathname: string) {
+  const withoutTrailingSlash = pathname.replace(/\/+$/, '') || '/';
+  return withoutTrailingSlash.toLowerCase();
+}
+
 function App() {
+  const pathname = normalizePathname(window.location.pathname);
+  const LegalPage = LEGAL_ROUTE_COMPONENTS[pathname as keyof typeof LEGAL_ROUTE_COMPONENTS];
+  if (LegalPage) return <LegalPage />;
+
   const searchParams = new URLSearchParams(window.location.search);
 
   // Show welcome page via ?welcome=1 query param

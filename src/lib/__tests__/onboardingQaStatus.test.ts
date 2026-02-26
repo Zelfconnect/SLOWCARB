@@ -43,9 +43,7 @@ describe('onboarding QA status helpers', () => {
       issueCount: 0,
       issueSteps: [],
     });
-    expect(getVisualQaRunMessage(summary)).toBe(
-      'Visual QA run is "Clean" for all onboarding steps.',
-    );
+    expect(getVisualQaRunMessage(summary)).toBe('Visual QA run is clean.');
   });
 
   it('summarizes issue steps and reports their step numbers', () => {

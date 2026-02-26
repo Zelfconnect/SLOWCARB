@@ -91,6 +91,41 @@ afterAll(() => {
 });
 
 describe('App UI/UX', () => {
+  it.each(['/privacy', '/privacy/', '/privacy-policy', '/privacy-policy?app=1'])(
+    'renders privacy page on %s',
+    (route) => {
+      window.history.replaceState({}, '', route);
+      render(<App />);
+      expect(screen.getByRole('heading', { name: 'Privacyverklaring' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Imprint' })).toHaveAttribute('href', '/imprint');
+    }
+  );
+
+  it.each(['/terms', '/terms/', '/terms-and-conditions', '/terms-of-service'])(
+    'renders terms page on %s',
+    (route) => {
+      window.history.replaceState({}, '', route);
+      render(<App />);
+      expect(screen.getByRole('heading', { name: 'Algemene Voorwaarden' })).toBeInTheDocument();
+    }
+  );
+
+  it.each(['/refund-policy', '/refund-policy/', '/refund', '/refunds'])(
+    'renders refund policy page on %s',
+    (route) => {
+      window.history.replaceState({}, '', route);
+      render(<App />);
+      expect(screen.getByRole('heading', { name: 'Terugbetalingsbeleid' })).toBeInTheDocument();
+    }
+  );
+
+  it.each(['/imprint', '/imprint/', '/impressum'])('renders imprint page on %s', (route) => {
+    window.history.replaceState({}, '', route);
+    render(<App />);
+    expect(screen.getByRole('heading', { name: 'Imprint' })).toBeInTheDocument();
+    expect(screen.getByText(/SlowCarb wordt aangeboden door Boostd B\.V\./i)).toBeInTheDocument();
+  });
+
   it('keeps global shell layout contract', () => {
     const { container } = render(<App />);
     const appShell = container.firstElementChild as HTMLElement;

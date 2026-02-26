@@ -52,4 +52,49 @@ describe('LandingPageFinal', () => {
     render(<LandingPageFinal />);
     expect(screen.getByText(/Herkenbaar\?/i)).toBeInTheDocument();
   });
+
+  it('shows the trust indicator below the main hero CTA', () => {
+    window.IntersectionObserver = IntersectionObserverMock;
+    render(<LandingPageFinal />);
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'Verlies 8–10 kg in 6 weken zonder calorieën te tellen of honger te lijden',
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Veilige betaling via Stripe • 30 dagen niet-goed-geld-terug • Direct toegang')
+    ).toBeInTheDocument();
+  });
+
+  it('shows trust footer legal links including imprint', () => {
+    window.IntersectionObserver = IntersectionObserverMock;
+    render(<LandingPageFinal />);
+
+    expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy');
+    expect(screen.getByRole('link', { name: 'Voorwaarden' })).toHaveAttribute('href', '/terms');
+    expect(screen.getByRole('link', { name: 'Terugbetalingsbeleid' })).toHaveAttribute('href', '/refund-policy');
+    expect(screen.getByRole('link', { name: 'Imprint' })).toHaveAttribute('href', '/imprint');
+  });
+
+  it('shows a placeholder proof section for user results', () => {
+    window.IntersectionObserver = IntersectionObserverMock;
+    render(<LandingPageFinal />);
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Resultaten van gebruikers' })
+    ).toBeInTheDocument();
+    expect(screen.getByText('Naam gebruiker 1')).toBeInTheDocument();
+    expect(screen.getByText('Resultaat gebruiker 1')).toBeInTheDocument();
+    expect(screen.getAllByText(/Naam gebruiker/)).toHaveLength(3);
+  });
+
+  it('shows the value stack in the pricing section', () => {
+    window.IntersectionObserver = IntersectionObserverMock;
+    render(<LandingPageFinal />);
+
+    expect(screen.getByText('Value €197')).toBeInTheDocument();
+    expect(screen.getByText('Pay €29')).toBeInTheDocument();
+  });
 });
