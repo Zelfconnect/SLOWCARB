@@ -32,6 +32,20 @@ describe('OnboardingWizard', () => {
     expect(stepScrollContainer?.className).toContain('pb-[calc(120px+env(safe-area-inset-bottom,0px))]');
   });
 
+  it('renders CTA in bottom footer outside the scrollable step content', () => {
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+
+    const stepShell = document.body.querySelector('.app-screen');
+    const stepScrollContainer = stepShell?.querySelector('.overflow-y-auto');
+    const ctaButton = screen.getByRole('button', { name: 'Vertel me meer' });
+    const ctaFooter = ctaButton.parentElement;
+
+    expect(stepScrollContainer).not.toContainElement(ctaButton);
+    expect(stepScrollContainer?.nextElementSibling).toContainElement(ctaButton);
+    expect(ctaFooter?.className).toContain('border-t');
+    expect(ctaFooter?.className).toContain('pb-[calc(24px+env(safe-area-inset-bottom,0px))]');
+  });
+
   it('shows the hero screen first with CTA', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
     expect(screen.getByText(/8-10 kg lichter/)).toBeInTheDocument();

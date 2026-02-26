@@ -47,55 +47,65 @@ export function OnboardingStep({
       }`}
     >
       <div
-        className={`mx-auto flex w-full max-w-xl min-h-0 flex-1 flex-col overflow-y-auto px-6 pb-[calc(120px+env(safe-area-inset-bottom,0px))] pt-6 sm:px-8 ${className}`}
+        className="mx-auto flex w-full max-w-xl min-h-0 flex-1 flex-col"
       >
-        {/* Chrome: back button + progress bar */}
-        {!hideChrome && (
-          <div className="mb-6 flex items-center gap-3">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={onBack}
-              className={`shrink-0 ${
-                dark
-                  ? 'text-white/70 hover:bg-white/10 hover:text-white'
-                  : 'text-stone-700 hover:bg-transparent hover:text-stone-900'
-              } ${step <= 2 ? 'invisible' : ''}`}
-              aria-label="Vorige stap"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </Button>
+        <div
+          className={`min-h-0 flex-1 overflow-y-auto px-6 pb-[calc(120px+env(safe-area-inset-bottom,0px))] pt-6 sm:px-8 ${className}`}
+        >
+          {/* Chrome: back button + progress bar */}
+          {!hideChrome && (
+            <div className="mb-6 flex items-center gap-3">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={onBack}
+                className={`shrink-0 ${
+                  dark
+                    ? 'text-white/70 hover:bg-white/10 hover:text-white'
+                    : 'text-stone-700 hover:bg-transparent hover:text-stone-900'
+                } ${step <= 2 ? 'invisible' : ''}`}
+                aria-label="Vorige stap"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </Button>
 
-            {/* Segmented progress bar */}
-            <div className="flex flex-1 gap-1.5">
-              {Array.from({ length: progressSegments }, (_, i) => (
-                <div
-                  key={i}
-                  className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-                    i < activeSegments
-                      ? dark
-                        ? 'bg-white/90'
-                        : 'bg-sage-600'
-                      : dark
-                        ? 'bg-white/20'
-                        : 'bg-warm-200'
-                  }`}
-                />
-              ))}
+              {/* Segmented progress bar */}
+              <div className="flex flex-1 gap-1.5">
+                {Array.from({ length: progressSegments }, (_, i) => (
+                  <div
+                    key={i}
+                    className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
+                      i < activeSegments
+                        ? dark
+                          ? 'bg-white/90'
+                          : 'bg-sage-600'
+                        : dark
+                          ? 'bg-white/20'
+                          : 'bg-warm-200'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* Spacer to balance the back button */}
+              <div className="h-10 w-10 shrink-0" />
             </div>
+          )}
 
-            {/* Spacer to balance the back button */}
-            <div className="h-10 w-10 shrink-0" />
-          </div>
-        )}
-
-        {/* Step content */}
-        <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+          {/* Step content */}
+          <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+        </div>
 
         {/* CTA button */}
         {cta && onNext && (
-          <div className="mt-auto shrink-0 pt-6">
+          <div
+            className={`shrink-0 border-t px-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] pt-4 sm:px-8 ${
+              dark
+                ? 'border-white/10 bg-sage-900/95'
+                : 'border-warm-200/80 bg-cream/95'
+            }`}
+          >
             <Button
               type="button"
               onClick={onNext}
