@@ -35,7 +35,7 @@ export function ThePromise({ name }: ThePromiseProps) {
         </p>
       </div>
 
-      <div className="mt-10 grid w-full grid-cols-3 gap-3">
+      <div className="mt-10 grid w-full grid-cols-1 gap-3 md:grid-cols-3">
         {stats.map((stat) => (
           <div
             key={stat.label}
