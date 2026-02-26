@@ -65,10 +65,14 @@ const featureIcons = [ChefHat, Smartphone, ShoppingCart, BookOpen, PartyPopper, 
 function useSectionReveal(sectionCount: number) {
   const refs = useRef<(HTMLElement | null)[]>([]);
   const [visibleSections, setVisibleSections] = useState<boolean[]>(
-    Array.from({ length: sectionCount }, (_, index) => index === 0)
+    Array.from({ length: sectionCount }, (_, index) => index <= 1)
   );
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.IntersectionObserver !== 'function') {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -106,7 +110,7 @@ function useSectionReveal(sectionCount: number) {
 function revealClass(isVisible: boolean, delay = 0) {
   const baseClasses = isVisible
     ? 'opacity-100 translate-y-0'
-    : 'opacity-0 translate-y-6';
+    : 'opacity-100 translate-y-6';
   const delayStyle = delay > 0 ? ` transition-delay-${delay}` : '';
   return baseClasses + delayStyle;
 }
@@ -349,6 +353,7 @@ export default function LandingPageFinal() {
   useEffect(() => {
     const el = painSectionRef.current;
     if (!el) return;
+    if (typeof window === 'undefined' || typeof window.IntersectionObserver !== 'function') return;
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
@@ -519,7 +524,7 @@ export default function LandingPageFinal() {
             visibleSections[1]
           )}`}
         >
-          <span className="text-sm font-medium uppercase tracking-wider text-clay-600">
+          <span className="text-sm font-bold tracking-wider text-gray-600">
             {String(t('landing.painPointsLabel'))}
           </span>
           <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
