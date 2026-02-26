@@ -10,7 +10,7 @@ import { AmmoCheck } from '@/components/AmmoCheck';
 import { SettingsTab } from '@/components/SettingsTab';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { OnboardingWizard } from '@/components/OnboardingWizard';
+import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useJourney } from '@/hooks/useJourney';
 import { useUserStore } from '@/store/useUserStore';

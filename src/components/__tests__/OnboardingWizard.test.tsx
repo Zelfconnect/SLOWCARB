@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { OnboardingWizard } from '@/components/OnboardingWizard';
+import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
 import { formatWeekEstimate } from '@/lib/formatWeekEstimate';
 
 describe('formatWeekEstimate', () => {
@@ -14,15 +14,41 @@ describe('formatWeekEstimate', () => {
   });
 });
 
-describe('OnboardingWizard weight step', () => {
-  it('shows calculated weight goal when valid weights are entered', () => {
+describe('OnboardingWizard', () => {
+  it('renders the onboarding dialog', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
-    expect(screen.getByRole('dialog', { name: 'Onboarding wizard' })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: 'Onboarding' })).toBeInTheDocument();
+  });
 
+  it('shows the hero screen first with CTA', () => {
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+    expect(screen.getByText(/8-10 kg lichter/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Vertel me meer' })).toBeInTheDocument();
+  });
+
+  it('navigates to name input on step 2', () => {
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
+    expect(screen.getByLabelText('Je naam')).toBeInTheDocument();
+  });
+
+  it('shows weight goal on weight step', () => {
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+
+    // Step 1 → 2 (hero → name)
+    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
     fireEvent.change(screen.getByLabelText('Je naam'), { target: { value: 'Jesper' } });
     fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
 
-    fireEvent.change(screen.getByLabelText('Huidig gewicht (kg)'), { target: { value: '110' } });
+    // Step 3 → 4 → 5 → 6 → 7 (educational screens)
+    fireEvent.click(screen.getByRole('button', { name: 'Laat me de regels zien' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Wat doet mijn lichaam?' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Waarom werkt dit?' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Wat mag wel en niet?' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Nu mijn gegevens' }));
+
+    // Step 8: Weight + preferences
+    fireEvent.change(screen.getByLabelText('Huidig (kg)'), { target: { value: '110' } });
     fireEvent.change(screen.getByLabelText('Streefgewicht (kg)'), { target: { value: '100' } });
 
     expect(screen.getByText('10 kg afvallen in ~6 weken')).toBeInTheDocument();
