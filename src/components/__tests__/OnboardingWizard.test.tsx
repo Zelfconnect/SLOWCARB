@@ -1,6 +1,6 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
 import { formatWeekEstimate } from '@/lib/formatWeekEstimate';
 
@@ -15,6 +15,61 @@ describe('formatWeekEstimate', () => {
 });
 
 describe('OnboardingWizard', () => {
+  afterEach(() => {
+    Object.defineProperty(window, 'visualViewport', {
+      configurable: true,
+      writable: true,
+      value: undefined,
+    });
+  });
+
+  const setupVisualViewport = (height: number) => {
+    const resizeHandlers = new Set<() => void>();
+    const scrollHandlers = new Set<() => void>();
+
+    const visualViewport = {
+      get height() {
+        return height;
+      },
+      set height(value: number) {
+        height = value;
+      },
+      addEventListener: (type: string, handler: () => void) => {
+        if (type === 'resize') resizeHandlers.add(handler);
+        if (type === 'scroll') scrollHandlers.add(handler);
+      },
+      removeEventListener: (type: string, handler: () => void) => {
+        if (type === 'resize') resizeHandlers.delete(handler);
+        if (type === 'scroll') scrollHandlers.delete(handler);
+      },
+      triggerResize: () => {
+        resizeHandlers.forEach((handler) => handler());
+      },
+      triggerScroll: () => {
+        scrollHandlers.forEach((handler) => handler());
+      },
+    };
+
+    Object.defineProperty(window, 'visualViewport', {
+      configurable: true,
+      writable: true,
+      value: visualViewport,
+    });
+
+    return visualViewport;
+  };
+
+  const goToWeightStep = () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
+    fireEvent.change(screen.getByLabelText('Je naam'), { target: { value: 'Jesper' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Laat me de regels zien' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Wat doet mijn lichaam?' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Waarom werkt dit?' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Wat mag wel en niet?' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Nu mijn gegevens' }));
+  };
+
   it('renders the onboarding dialog', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
     expect(screen.getByRole('dialog', { name: 'Onboarding' })).toBeInTheDocument();
@@ -27,9 +82,75 @@ describe('OnboardingWizard', () => {
 
     const stepShell = document.body.querySelector('.app-screen');
     expect(stepShell).toBeInTheDocument();
+    expect(stepShell?.className).toContain('h-full');
 
     const stepScrollContainer = stepShell?.querySelector('.overflow-y-auto');
-    expect(stepScrollContainer?.className).toContain('pb-[calc(120px+env(safe-area-inset-bottom,0px))]');
+    expect(stepScrollContainer).toHaveStyle({ paddingBottom: 'calc(120px + env(safe-area-inset-bottom, 0px))' });
+  });
+
+  it('keeps onboarding shell full-height after step changes so CTA stays bottom-anchored', async () => {
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
+    const nameInput = await screen.findByLabelText('Je naam');
+    fireEvent.change(nameInput, { target: { value: 'Jesper' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
+
+    const stepShell = document.body.querySelector('.app-screen');
+    expect(stepShell?.className).toContain('h-full');
+  });
+
+  it('hides footer CTA and adds keyboard inset to scroll padding on name step', () => {
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    });
+
+    setupVisualViewport(900);
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
+
+    const input = screen.getByLabelText('Je naam');
+    act(() => {
+      fireEvent.focus(input);
+      (window.visualViewport as { height: number; triggerResize: () => void }).height = 500;
+      (window.visualViewport as { height: number; triggerResize: () => void }).triggerResize();
+    });
+
+    const stepShell = document.body.querySelector('.app-screen');
+    const stepScrollContainer = stepShell?.querySelector('.overflow-y-auto');
+    const ctaFooter = screen.getByRole('button', { name: 'Volgende', hidden: true }).parentElement;
+
+    expect(stepScrollContainer?.getAttribute('style')).toContain('424px');
+    expect(ctaFooter).toHaveAttribute('aria-hidden', 'true');
+    expect(ctaFooter?.className).toContain('pointer-events-none');
+  });
+
+  it('adds keyboard inset to scroll padding on weight step', () => {
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      writable: true,
+      value: 900,
+    });
+
+    setupVisualViewport(900);
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+
+    goToWeightStep();
+
+    const currentWeightInput = screen.getByLabelText('Huidig (kg)');
+    act(() => {
+      currentWeightInput.focus();
+      fireEvent.focusIn(currentWeightInput);
+      (window.visualViewport as { height: number; triggerResize: () => void }).height = 500;
+      (window.visualViewport as { height: number; triggerResize: () => void }).triggerResize();
+    });
+
+    const stepShell = document.body.querySelector('.app-screen');
+    const stepScrollContainer = stepShell?.querySelector('.overflow-y-auto');
+    expect(stepScrollContainer?.getAttribute('style')).toContain('424px');
   });
 
   it('renders CTA in bottom footer outside the scrollable step content', () => {
@@ -77,19 +198,8 @@ describe('OnboardingWizard', () => {
   it('shows weight goal on weight step', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
 
-    // Step 1 → 2 (hero → name)
-    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
-    fireEvent.change(screen.getByLabelText('Je naam'), { target: { value: 'Jesper' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
+    goToWeightStep();
 
-    // Step 3 → 4 → 5 → 6 → 7 (educational screens)
-    fireEvent.click(screen.getByRole('button', { name: 'Laat me de regels zien' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Wat doet mijn lichaam?' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Waarom werkt dit?' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Wat mag wel en niet?' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Nu mijn gegevens' }));
-
-    // Step 8: Weight + preferences
     fireEvent.change(screen.getByLabelText('Huidig (kg)'), { target: { value: '110' } });
     fireEvent.change(screen.getByLabelText('Streefgewicht (kg)'), { target: { value: '100' } });
 

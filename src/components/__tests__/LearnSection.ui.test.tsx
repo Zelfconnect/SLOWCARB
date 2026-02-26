@@ -117,6 +117,11 @@ vi.mock('@/components/education/FAQCard', () => ({
 }));
 
 describe('LearnSection UI/UX', () => {
+  it('uses unified section spacing on the root container', () => {
+    const { container } = render(<LearnSection />);
+    expect(container.firstElementChild).toHaveClass('space-y-8');
+  });
+
   it('switches tab content between quick start, science and faq', () => {
     render(<LearnSection />);
 

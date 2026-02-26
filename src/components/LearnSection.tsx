@@ -136,7 +136,7 @@ export function LearnSection() {
     : null;
 
   return (
-  <div className="space-y-6">
+  <div className="space-y-8">
       <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'quickstart' | 'science' | 'faq')}>
       {/* Tabs */}
       <TabsList className="mb-4 h-auto w-full rounded-2xl bg-stone-100 p-1">
