@@ -45,7 +45,6 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
-  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   const filteredRecipes = useMemo(() => {
     let filtered = RECIPES;
@@ -170,11 +169,12 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
             <p className="text-sm mt-1">Probeer een andere zoekterm</p>
           </div>
         ) : (
-          filteredRecipes.map((recipe) => {
+          filteredRecipes.map((recipe, index) => {
             const protein = (recipe as Recipe & { macros?: { protein?: number } }).macros?.protein;
             const timeLabel = recipe.cookTime || recipe.prepTime || 'Tijd n.b.';
             const servingsLabel = Number.isFinite(recipe.servings) ? `${recipe.servings}p` : 'Porties n.b.';
             const proteinLabel = protein != null ? `${protein}g eiwit` : 'Eiwit n.b.';
+            const isPriorityImage = index < 6;
 
             return (
               <div
@@ -190,14 +190,10 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
                     <img
                       src={recipe.image}
                       alt={recipe.name}
-                      className={cn(
-                        'absolute inset-0 h-full w-full object-cover transition-opacity duration-300',
-                        loadedImages[recipe.id] ? 'opacity-100' : 'opacity-0'
-                      )}
-                      loading="lazy"
-                      fetchPriority="auto"
+                      className="absolute inset-0 h-full w-full object-cover"
+                      loading={isPriorityImage ? 'eager' : 'lazy'}
+                      fetchPriority={isPriorityImage ? 'high' : 'auto'}
                       decoding="auto"
-                      onLoad={() => setLoadedImages((prev) => ({ ...prev, [recipe.id]: true }))}
                       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                     />
                   )}

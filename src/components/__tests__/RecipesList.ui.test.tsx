@@ -8,6 +8,7 @@ vi.mock('@/data/recipeLoader', () => {
     {
       id: 'omelet',
       name: 'Omelet bowl',
+      image: '/images/omelet.jpg',
       category: 'airfryer',
       icon: 'egg',
       prepTime: '5 min',
@@ -20,6 +21,7 @@ vi.mock('@/data/recipeLoader', () => {
     {
       id: 'kip-salade',
       name: 'Kip salade',
+      image: '/images/kip-salade.jpg',
       category: 'meal-prep',
       icon: 'salad',
       prepTime: '8 min',
@@ -32,6 +34,7 @@ vi.mock('@/data/recipeLoader', () => {
     {
       id: 'tonijn-quick',
       name: 'Tonijn wrap',
+      image: '/images/tonijn-wrap.jpg',
       category: 'no-time',
       icon: 'fish',
       prepTime: '3 min',
@@ -40,6 +43,58 @@ vi.mock('@/data/recipeLoader', () => {
       ingredients: [{ name: 'tonijn', amount: '1 blik', scalable: true }],
       steps: ['Vullen en rollen'],
       tags: ['avondeten', 'no-time'],
+    },
+    {
+      id: 'zalm-bowl',
+      name: 'Zalm bowl',
+      image: '/images/zalm-bowl.jpg',
+      category: 'meal-prep',
+      icon: 'fish',
+      prepTime: '7 min',
+      cookTime: '9 min',
+      servings: 2,
+      ingredients: [{ name: 'zalm', amount: '200g', scalable: true }],
+      steps: ['Serveer'],
+      tags: ['lunch'],
+    },
+    {
+      id: 'biefstuk',
+      name: 'Biefstuk salade',
+      image: '/images/biefstuk-salade.jpg',
+      category: 'avondeten',
+      icon: 'beef',
+      prepTime: '12 min',
+      cookTime: '15 min',
+      servings: 2,
+      ingredients: [{ name: 'biefstuk', amount: '250g', scalable: true }],
+      steps: ['Bak en serveer'],
+      tags: ['avondeten'],
+    },
+    {
+      id: 'chia-pudding',
+      name: 'Chia pudding',
+      image: '/images/chia-pudding.jpg',
+      category: 'ontbijt',
+      icon: 'bowl',
+      prepTime: '4 min',
+      cookTime: '0 min',
+      servings: 1,
+      ingredients: [{ name: 'chia', amount: '40g', scalable: true }],
+      steps: ['Laat rusten'],
+      tags: ['ontbijt'],
+    },
+    {
+      id: 'snack-rolletjes',
+      name: 'Snack rolletjes',
+      image: '/images/snack-rolletjes.jpg',
+      category: 'no-time',
+      icon: 'wrap',
+      prepTime: '2 min',
+      cookTime: '4 min',
+      servings: 1,
+      ingredients: [{ name: 'ham', amount: '3 plakken', scalable: true }],
+      steps: ['Oprollen'],
+      tags: ['snack', 'no-time'],
     },
   ];
 
@@ -139,5 +194,24 @@ describe('RecipesList UI/UX', () => {
     const allFilterButton = screen.getByRole('button', { name: 'Alles' });
     expect(allFilterButton.className).toContain('h-10');
     expect(allFilterButton.className).toContain('rounded-full');
+  });
+
+  it('prioritizes first six images and removes fade-in transition classes', () => {
+    render(<RecipesList favorites={[]} onToggleFavorite={vi.fn()} />);
+
+    const firstImage = screen.getByAltText('Omelet bowl');
+    const sixthImage = screen.getByAltText('Chia pudding');
+    const seventhImage = screen.getByAltText('Snack rolletjes');
+
+    expect(firstImage).toHaveAttribute('loading', 'eager');
+    expect(firstImage).toHaveAttribute('fetchpriority', 'high');
+    expect(sixthImage).toHaveAttribute('loading', 'eager');
+    expect(sixthImage).toHaveAttribute('fetchpriority', 'high');
+    expect(seventhImage).toHaveAttribute('loading', 'lazy');
+    expect(seventhImage).toHaveAttribute('fetchpriority', 'auto');
+
+    expect(firstImage.className).not.toContain('transition-opacity');
+    expect(firstImage.className).not.toContain('duration-300');
+    expect(firstImage.className).not.toContain('opacity-0');
   });
 });
