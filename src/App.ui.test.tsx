@@ -96,6 +96,8 @@ describe('App UI/UX', () => {
     const appShell = container.firstElementChild as HTMLElement;
     expect(appShell.className).toContain('h-app-screen');
     expect(appShell.className).toContain('bg-cream');
+    expect(appShell.className).toContain('overflow-x-hidden');
+    expect(appShell.className).not.toContain('overflow-y-hidden');
 
     const header = screen.getByText('SlowCarb').closest('header');
     expect(header).toBeInTheDocument();
@@ -104,6 +106,11 @@ describe('App UI/UX', () => {
     const main = screen.getByRole('main');
     expect(main.className).toContain('max-w-md');
     expect(main.className).toContain('pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))]');
+    expect(main.className).toContain('overflow-y-auto');
+
+    const bottomNav = screen.getByRole('navigation');
+    expect(bottomNav.className).toContain('fixed');
+    expect(bottomNav.className).toContain('bottom-0');
   });
 
   it('switches tabs and renders matching section content', () => {
