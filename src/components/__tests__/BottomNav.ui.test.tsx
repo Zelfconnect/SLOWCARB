@@ -23,8 +23,18 @@ describe('BottomNav UI/UX', () => {
     render(<BottomNav activeTab="ammo" onTabChange={vi.fn()} />);
     const shoppingTab = screen.getByRole('button', { name: 'AmmoCheck' });
     expect(shoppingTab.className).toContain('text-sage-600');
+    expect(shoppingTab.className).toContain('shrink-0');
 
     const activeIconContainer = shoppingTab.querySelector('div');
     expect(activeIconContainer?.className).toContain('bg-sage-50');
+  });
+
+  it('keeps fixed nav safe-area aware in Safari', () => {
+    const { container } = render(<BottomNav activeTab="dashboard" onTabChange={vi.fn()} />);
+    const nav = container.querySelector('nav');
+    expect(nav).toHaveStyle({
+      height: 'calc(5rem + env(safe-area-inset-bottom, 0px))',
+      paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+    });
   });
 });

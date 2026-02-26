@@ -47,7 +47,7 @@ export function OnboardingStep({
       }`}
     >
       <div
-        className={`mx-auto flex w-full max-w-xl min-h-0 flex-1 flex-col overflow-y-auto px-6 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] pt-6 sm:px-8 ${className}`}
+        className={`mx-auto flex w-full max-w-xl min-h-0 flex-1 flex-col overflow-y-auto px-6 pb-[calc(120px+env(safe-area-inset-bottom,0px))] pt-6 sm:px-8 ${className}`}
       >
         {/* Chrome: back button + progress bar */}
         {!hideChrome && (
@@ -95,12 +95,12 @@ export function OnboardingStep({
 
         {/* CTA button */}
         {cta && onNext && (
-          <div className="mt-auto pt-6">
+          <div className="mt-auto shrink-0 pt-6">
             <Button
               type="button"
               onClick={onNext}
               disabled={disabled}
-              className={`h-14 w-full rounded-xl text-lg font-semibold ${
+              className={`h-14 w-full shrink-0 rounded-xl text-lg font-semibold ${
                 dark
                   ? 'bg-white text-sage-800 hover:bg-white/90'
                   : 'bg-sage-600 text-white hover:bg-sage-700'

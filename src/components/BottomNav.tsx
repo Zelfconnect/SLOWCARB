@@ -15,8 +15,14 @@ const navItems = [
 
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-30 h-20 border-t border-stone-200 bg-white/90 backdrop-blur-md">
-      <div className="flex items-center h-full max-w-md mx-auto px-2 gap-1">
+    <nav
+      className="fixed bottom-0 left-0 right-0 z-30 border-t border-stone-200 bg-white/90 backdrop-blur-md"
+      style={{
+        height: 'calc(5rem + env(safe-area-inset-bottom, 0px))',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+      }}
+    >
+      <div className="mx-auto flex h-full max-w-md items-center gap-1 px-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -26,7 +32,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               key={item.id}
               onClick={() => onTabChange(item.id)}
               className={cn(
-                'flex flex-col items-center justify-center flex-1 h-full py-2 px-1 rounded-lg transition-all duration-200 min-w-0',
+                'flex h-full min-w-0 flex-1 shrink-0 flex-col items-center justify-center rounded-lg px-1 py-2 transition-all duration-200',
                 isActive ? 'text-sage-600' : 'text-stone-400 hover:text-stone-600'
               )}
             >

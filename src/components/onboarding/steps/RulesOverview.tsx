@@ -29,11 +29,14 @@ export function RulesOverview() {
         <p className="text-base text-stone-600">Meer is het niet. Echt.</p>
       </div>
 
-      <div className="mt-8 space-y-3">
+      <div
+        className="mt-8 space-y-3"
+        style={{ paddingBottom: 'calc(120px + env(safe-area-inset-bottom, 0px))' }}
+      >
         {coreRules.map((rule, i) => (
           <div
             key={rule.id}
-            className="flex items-start gap-4 rounded-2xl border border-stone-200 bg-white/80 p-4"
+            className="flex shrink-0 items-start gap-4 rounded-2xl border border-stone-200 bg-white/80 p-4"
             style={{ animationDelay: `${i * 80}ms` }}
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sage-100 text-sage-700">

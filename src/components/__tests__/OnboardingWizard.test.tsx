@@ -27,6 +27,9 @@ describe('OnboardingWizard', () => {
 
     const stepShell = document.body.querySelector('.app-screen');
     expect(stepShell).toBeInTheDocument();
+
+    const stepScrollContainer = stepShell?.querySelector('.overflow-y-auto');
+    expect(stepScrollContainer?.className).toContain('pb-[calc(120px+env(safe-area-inset-bottom,0px))]');
   });
 
   it('shows the hero screen first with CTA', () => {
@@ -39,6 +42,22 @@ describe('OnboardingWizard', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
     fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
     expect(screen.getByLabelText('Je naam')).toBeInTheDocument();
+  });
+
+  it('keeps rules content clear of bottom actions and cards non-shrinking', () => {
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
+    fireEvent.change(screen.getByLabelText('Je naam'), { target: { value: 'Jesper' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Laat me de regels zien' }));
+
+    const rulesHeading = screen.getByRole('heading', { name: 'De 5 regels' });
+    const rulesSection = rulesHeading.closest('section');
+    const rulesList = rulesSection?.querySelector('.mt-8');
+    expect(rulesList).toHaveStyle({ paddingBottom: 'calc(120px + env(safe-area-inset-bottom, 0px))' });
+
+    const firstRuleCard = rulesList?.firstElementChild as HTMLElement | null;
+    expect(firstRuleCard?.className).toContain('shrink-0');
   });
 
   it('shows weight goal on weight step', () => {
