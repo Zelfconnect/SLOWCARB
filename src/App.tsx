@@ -67,10 +67,11 @@ function App() {
 }
 
 function AppShell() {
+  const forceOnboarding = new URLSearchParams(window.location.search).get('onboarding') === '1';
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);
-  
+
   const { profile, isLoaded, loadProfile, updateProfile } = useUserStore();
   const { favorites, toggleFavorite } = useFavorites();
   const { 
@@ -99,7 +100,7 @@ function AppShell() {
     );
   }
 
-  if (!profile || !profile.hasCompletedOnboarding) {
+  if (!profile || !profile.hasCompletedOnboarding || forceOnboarding) {
     return (
       <OnboardingWizard
         onComplete={(data) => {
@@ -121,6 +122,12 @@ function AppShell() {
           });
           logWeight(data.currentWeight);
           startJourney(getLocalDateString(), data.cheatDay, computedWeightGoal);
+          // Clean up ?onboarding=1 so it doesn't loop
+          if (forceOnboarding) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('onboarding');
+            window.history.replaceState({}, '', url.toString());
+          }
         }}
       />
     );

@@ -38,6 +38,7 @@ import {
   Flame,
   Dumbbell,
   Save,
+  PlayCircle,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -358,6 +359,28 @@ export function SettingsTab() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
+          {/* Replay Onboarding */}
+          <button
+            type="button"
+            onClick={() => {
+              const url = new URL(window.location.href);
+              url.searchParams.set('onboarding', '1');
+              window.location.href = url.toString();
+            }}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl bg-stone-50 hover:bg-stone-100 transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-sage-100 flex items-center justify-center">
+                <PlayCircle className="w-4 h-4 text-sage-600" />
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-medium text-stone-700">Herstart onboarding</p>
+                <p className="text-xs text-stone-500">Bekijk de introductie opnieuw</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-stone-400 group-hover:text-stone-600 transition-colors" />
+          </button>
+
           {/* Reset Journey */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
