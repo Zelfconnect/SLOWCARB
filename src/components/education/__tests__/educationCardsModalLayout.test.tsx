@@ -50,23 +50,26 @@ const sampleFaqCard: FAQCardType = {
 const noop = () => undefined;
 
 describe('Education card modal layout', () => {
+  const getScrollableContent = () =>
+    document.body.querySelector('[data-slot="dialog-content"] > div.flex-1.min-h-0.overflow-y-auto');
+
   it('uses a shrinkable scroll area for RuleCard', () => {
     render(<RuleCard card={sampleRuleCard} isOpen onClose={noop} />);
-    const scrollArea = document.body.querySelector('[data-slot="scroll-area"]');
+    const scrollArea = getScrollableContent();
     expect(scrollArea).toHaveClass('flex-1');
     expect(scrollArea).toHaveClass('min-h-0');
   });
 
   it('uses a shrinkable scroll area for ConceptCard', () => {
     render(<ConceptCard card={sampleConceptCard} isOpen onClose={noop} />);
-    const scrollArea = document.body.querySelector('[data-slot="scroll-area"]');
+    const scrollArea = getScrollableContent();
     expect(scrollArea).toHaveClass('flex-1');
     expect(scrollArea).toHaveClass('min-h-0');
   });
 
   it('uses a shrinkable scroll area for FAQCard', () => {
     render(<FAQCard card={sampleFaqCard} isOpen onClose={noop} />);
-    const scrollArea = document.body.querySelector('[data-slot="scroll-area"]');
+    const scrollArea = getScrollableContent();
     expect(scrollArea).toHaveClass('flex-1');
     expect(scrollArea).toHaveClass('min-h-0');
   });

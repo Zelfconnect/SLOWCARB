@@ -44,6 +44,7 @@ function App() {
 
   if (!isAppRequested) return <LandingPage />;
   if (!hasAccessToken && !tokenFromUrl) {
+    let shouldShowLanding = false;
     // If user has a completed profile but lost the token (e.g. cleared URL), restore access
     try {
       const stored = localStorage.getItem(STORAGE_KEYS.PROFILE);
@@ -53,12 +54,16 @@ function App() {
           localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, 'slowcarb2026');
           // continue to app
         } else {
-          return <LandingPage />;
+          shouldShowLanding = true;
         }
       } else {
-        return <LandingPage />;
+        shouldShowLanding = true;
       }
     } catch {
+      shouldShowLanding = true;
+    }
+
+    if (shouldShowLanding) {
       return <LandingPage />;
     }
   }
@@ -94,7 +99,7 @@ function AppShell() {
 
   if (!isLoaded) {
     return (
-      <div className="flex h-[100dvh] items-center justify-center bg-cream">
+      <div className="flex h-app-screen items-center justify-center bg-cream">
         <p className="text-stone-500">Laden…</p>
       </div>
     );
@@ -171,7 +176,7 @@ function AppShell() {
 
   return (
     <div
-      className="flex h-[100dvh] flex-col overflow-x-hidden overflow-y-hidden bg-cream"
+      className="flex h-app-screen flex-col overflow-x-hidden overflow-y-hidden bg-cream"
       style={{ overscrollBehaviorX: 'none' }}
     >
       <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>

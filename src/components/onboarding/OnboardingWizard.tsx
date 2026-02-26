@@ -162,7 +162,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
     <DialogPrimitive.Root open>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Content
-          className="fixed inset-0 z-50 h-[100dvh] w-full max-w-none overflow-hidden border-none bg-cream p-0 outline-none"
+          className="fixed inset-0 z-50 h-app-screen w-full max-w-none overflow-hidden border-none bg-cream p-0 outline-none"
           aria-describedby={undefined}
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}

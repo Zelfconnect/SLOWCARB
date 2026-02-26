@@ -138,6 +138,19 @@ html, body {
 }
 
 @layer utilities {
+  /* Full-screen containers with Safari-safe fallback */
+  .h-app-screen {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .app-screen {
+    height: 100vh;
+    min-height: 100vh;
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
   /* Custom scrollbar hide */
   .scrollbar-hide {
     -ms-overflow-style: none;

@@ -20,6 +20,15 @@ describe('OnboardingWizard', () => {
     expect(screen.getByRole('dialog', { name: 'Onboarding' })).toBeInTheDocument();
   });
 
+  it('uses Safari-safe fullscreen viewport classes for dialog and step shell', () => {
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+    const dialog = screen.getByRole('dialog', { name: 'Onboarding' });
+    expect(dialog.className).toContain('h-app-screen');
+
+    const stepShell = document.body.querySelector('.app-screen');
+    expect(stepShell).toBeInTheDocument();
+  });
+
   it('shows the hero screen first with CTA', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
     expect(screen.getByText(/8-10 kg lichter/)).toBeInTheDocument();

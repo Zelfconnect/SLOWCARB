@@ -40,7 +40,7 @@ export function OnboardingStep({
 
   return (
     <div
-      className={`flex h-[100dvh] min-h-[100dvh] flex-col ${
+      className={`app-screen flex flex-col ${
         dark
           ? 'bg-gradient-to-b from-sage-700 via-sage-800 to-stone-900'
           : 'bg-gradient-to-b from-cream via-cream to-warm-100/70'
