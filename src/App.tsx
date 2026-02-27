@@ -176,7 +176,7 @@ function AppShell() {
 
   return (
     <div
-      className="flex h-app-screen flex-col overflow-x-hidden bg-cream"
+      className="flex h-app-screen flex-col overflow-hidden bg-cream"
       style={{ overscrollBehaviorX: 'none' }}
     >
       <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
@@ -218,7 +218,7 @@ function AppShell() {
             ? 'pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto'
             : 'pb-28 overflow-y-auto'
         )}
-        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain' }}
+        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain', WebkitOverflowScrolling: 'touch' }}
       >
         {renderContent()}
       </main>

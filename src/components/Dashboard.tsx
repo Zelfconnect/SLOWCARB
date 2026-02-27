@@ -82,7 +82,7 @@ export function Dashboard({
 
   if (!journey.startDate) {
     return (
-      <div className="space-y-6 overflow-hidden">
+      <div className="space-y-6">
         <JourneyCard
           journey={journey}
           progress={progress}
