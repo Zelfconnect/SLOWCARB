@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Cog } from 'lucide-react';
 import LandingPage from '@/components/LandingPageFinal';
 import WelcomePage from '@/components/WelcomePage';
+import { LoginPage } from '@/components/LoginPage';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { RecipesList } from '@/components/RecipesList';
@@ -13,6 +14,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useJourney } from '@/hooks/useJourney';
+import { useAuth } from '@/hooks/useAuth';
 import { useUserStore } from '@/store/useUserStore';
 import { getLocalDateString } from '@/lib/localDate';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
@@ -22,50 +24,46 @@ import './App.css';
 
 function App() {
   const searchParams = new URLSearchParams(window.location.search);
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
 
-  // Show welcome page via ?welcome=1 query param
+  // Show welcome page via ?welcome=1 query param (post-Stripe redirect)
   const isWelcome = searchParams.get('welcome') === '1';
   if (isWelcome) return <WelcomePage />;
 
-  const tokenFromUrl = searchParams.get('token');
-  if (tokenFromUrl) {
-    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, tokenFromUrl);
+  // Legacy backward compat: check localStorage token
+  const hasLegacyToken = Boolean(localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN));
 
-    const nextParams = new URLSearchParams(window.location.search);
-    nextParams.delete('token');
-    nextParams.set('app', '1');
-    const nextSearch = nextParams.toString();
-    const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
-    window.history.replaceState({}, '', nextUrl);
+  // Also restore access if user completed onboarding but lost token
+  let hasCompletedProfile = false;
+  try {
+    const stored = localStorage.getItem(STORAGE_KEYS.PROFILE);
+    if (stored) {
+      const p = JSON.parse(stored) as { hasCompletedOnboarding?: boolean };
+      hasCompletedProfile = !!p.hasCompletedOnboarding;
+    }
+  } catch { /* ignore */ }
+
+  const hasAccess = isAuthenticated || hasLegacyToken || hasCompletedProfile;
+  const isAppRequested = searchParams.get('app') === '1';
+
+  // Wait for Supabase auth to resolve before deciding
+  if (authLoading) {
+    return (
+      <div className="flex h-app-screen items-center justify-center bg-cream">
+        <p className="text-stone-500">Laden…</p>
+      </div>
+    );
   }
 
-  const hasAccessToken = Boolean(localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN));
-  const isAppRequested = searchParams.get('app') === '1' || Boolean(tokenFromUrl);
-
+  // No ?app=1 → landing page
   if (!isAppRequested) return <div className="h-full overflow-y-auto"><LandingPage /></div>;
-  if (!hasAccessToken && !tokenFromUrl) {
-    let shouldShowLanding = false;
-    // If user has a completed profile but lost the token (e.g. cleared URL), restore access
-    try {
-      const stored = localStorage.getItem(STORAGE_KEYS.PROFILE);
-      if (stored) {
-        const p = JSON.parse(stored) as { hasCompletedOnboarding?: boolean };
-        if (p.hasCompletedOnboarding) {
-          localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, 'slowcarb2026');
-          // continue to app
-        } else {
-          shouldShowLanding = true;
-        }
-      } else {
-        shouldShowLanding = true;
-      }
-    } catch {
-      shouldShowLanding = true;
-    }
 
-    if (shouldShowLanding) {
-      return <div className="h-full overflow-y-auto"><LandingPage /></div>;
-    }
+  // ?app=1 but no access → login page for returning users
+  if (!hasAccess) return <LoginPage />;
+
+  // Restore legacy token if user has completed profile (backward compat)
+  if (!hasLegacyToken && hasCompletedProfile) {
+    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, 'slowcarb2026');
   }
 
   return <AppShell />;
