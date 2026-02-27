@@ -218,7 +218,7 @@ function AppShell() {
             ? 'pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto'
             : 'pb-28 overflow-y-auto'
         )}
-        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain', WebkitOverflowScrolling: 'touch' }}
+        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain', WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
       >
         {renderContent()}
       </main>

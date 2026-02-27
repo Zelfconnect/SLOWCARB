@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 html, body {
-  overflow-x: hidden;
+  height: 100%;
   width: 100%;
+  overflow: hidden; /* Prevent document scroll on iOS — app container handles scroll */
+  position: fixed;  /* iOS Safari: prevents bounce scroll on body */
 }
 
 @layer base {
