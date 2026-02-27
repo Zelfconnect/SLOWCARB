@@ -2,11 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+html {
   height: 100%;
   width: 100%;
-  overflow: hidden; /* Prevent document scroll on iOS — app container handles scroll */
-  position: fixed;  /* iOS Safari: prevents bounce scroll on body */
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Block document scroll — app container handles it */
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
 }
 
 @layer base {
