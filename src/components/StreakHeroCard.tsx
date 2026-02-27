@@ -11,7 +11,7 @@ export function StreakHeroCard({ streak, currentWeek, currentDay, isCheatDay }: 
   const isNewStart = currentDay <= 0;
 
   const getTitle = () => {
-    if (isCheatDay) return '🍕 Cheat Day!';
+    if (isCheatDay) return '🍕 Cheatdag!';
     if (streak > 0) return `${streak} ${streak === 1 ? 'dag' : 'dagen'} op rij`;
     if (isNewStart) return 'Klaar voor dag 1?';
     return `Week ${currentWeek} gestart`;

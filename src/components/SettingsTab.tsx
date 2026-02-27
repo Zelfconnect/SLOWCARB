@@ -224,7 +224,7 @@ export function SettingsTab() {
           <Separator className="bg-stone-100" />
 
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-stone-700">Startdatum journey</Label>
+            <Label className="text-sm font-medium text-stone-700">Startdatum traject</Label>
             <p className="text-xs text-stone-500">Huidige startdatum: {journeyStartDateLabel}</p>
             {journey.startDate ? (
               <Popover open={showStartDateCalendar} onOpenChange={setShowStartDateCalendar}>
@@ -263,7 +263,7 @@ export function SettingsTab() {
               onChange={(event) => setLocale(event.target.value)}
               className="h-10 w-full rounded-xl border border-stone-200 bg-white px-3 text-sm text-stone-700 outline-none focus:border-sage-400 focus:ring-2 focus:ring-sage-200"
             >
-              <option value="en">English</option>
+              <option value="en">Engels</option>
               <option value="nl">Nederlands</option>
             </select>
           </div>

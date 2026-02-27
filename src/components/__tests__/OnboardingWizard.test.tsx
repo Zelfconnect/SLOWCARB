@@ -72,12 +72,12 @@ describe('OnboardingWizard', () => {
 
   it('renders the onboarding dialog', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
-    expect(screen.getByRole('dialog', { name: 'Onboarding' })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: 'Introductie' })).toBeInTheDocument();
   });
 
   it('uses Safari-safe fullscreen viewport classes for dialog and step shell', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
-    const dialog = screen.getByRole('dialog', { name: 'Onboarding' });
+    const dialog = screen.getByRole('dialog', { name: 'Introductie' });
     expect(dialog.className).toContain('h-app-screen');
 
     const stepShell = document.body.querySelector('.app-screen');

@@ -39,13 +39,13 @@ De landing page heeft geen /privacy-policy, /terms-of-service of /refund-policy 
 
 > **Instructie voor agent:** Werk taken sequentieel af. Check box pas als taak volledig klaar is. Dit is een React + Vite + React Router project. De app zit in `src/`, de landing page component is `src/components/LandingPageFinal.tsx`. Routing zit in `src/App.tsx`.
 
-- [ ] **Route setup:** Voeg routes toe in `src/App.tsx` voor `/privacy-policy`, `/terms-of-service`, en `/refund-policy`. Gebruik lazy loading.
-- [ ] **Privacy Policy pagina:** Maak `src/components/legal/PrivacyPolicy.tsx`. Nederlandse tekst. Bevat: welke data we verzamelen (naam, email, gewicht via onboarding), Stripe betalingsverwerking, geen cookies tracking, geen data verkoop, contact email. Gebruik dezelfde styling als de rest van de app (Tailwind, stone/sage kleuren).
-- [ ] **Terms of Service pagina:** Maak `src/components/legal/TermsOfService.tsx`. Nederlandse tekst. Bevat: wat het product is (PWA web-app, lifetime access), eenmalige betaling, intellectueel eigendom, aansprakelijkheid (geen medisch advies), beëindiging.
-- [ ] **Refund Policy pagina:** Maak `src/components/legal/RefundPolicy.tsx`. Nederlandse tekst. Bevat: 30 dagen geld-terug garantie, geen vragen, hoe aan te vragen (email), verwerkingstijd 5-7 werkdagen.
-- [ ] **Trust bar:** Voeg een trust bar toe aan `LandingPageFinal.tsx`, direct onder de hero sectie (boven de pain points). Tekst: "Veilig afrekenen • 30 dagen geld-terug • EU-conform • Direct toegang". Subtiel, niet schreeuwerig. Gebruik sage/stone kleuren, kleine iconen (Shield, RefreshCw, Globe, Zap uit lucide-react).
-- [ ] **Footer update:** Voeg links naar de drie legal pagina's toe in de footer van `LandingPageFinal.tsx`. Plus "© 2026 SlowCarb" en een contact email link.
-- [ ] **Navigation:** Elke legal pagina heeft een "← Terug naar home" link bovenaan.
+- [x] **Route setup:** Voeg routes toe in `src/App.tsx` voor `/privacy-policy`, `/terms-of-service`, en `/refund-policy`. Gebruik lazy loading.
+- [x] **Privacy Policy pagina:** Maak `src/components/legal/PrivacyPolicy.tsx`. Nederlandse tekst. Bevat: welke data we verzamelen (naam, email, gewicht via onboarding), Stripe betalingsverwerking, geen cookies tracking, geen data verkoop, contact email. Gebruik dezelfde styling als de rest van de app (Tailwind, stone/sage kleuren).
+- [x] **Terms of Service pagina:** Maak `src/components/legal/TermsOfService.tsx`. Nederlandse tekst. Bevat: wat het product is (PWA web-app, lifetime access), eenmalige betaling, intellectueel eigendom, aansprakelijkheid (geen medisch advies), beëindiging.
+- [x] **Refund Policy pagina:** Maak `src/components/legal/RefundPolicy.tsx`. Nederlandse tekst. Bevat: 30 dagen geld-terug garantie, geen vragen, hoe aan te vragen (email), verwerkingstijd 5-7 werkdagen.
+- [x] **Trust bar:** Voeg een trust bar toe aan `LandingPageFinal.tsx`, direct onder de hero sectie (boven de pain points). Tekst: "Veilig afrekenen • 30 dagen geld-terug • EU-conform • Direct toegang". Subtiel, niet schreeuwerig. Gebruik sage/stone kleuren, kleine iconen (Shield, RefreshCw, Globe, Zap uit lucide-react).
+- [x] **Footer update:** Voeg links naar de drie legal pagina's toe in de footer van `LandingPageFinal.tsx`. Plus "© 2026 SlowCarb" en een contact email link.
+- [x] **Navigation:** Elke legal pagina heeft een "← Terug naar home" link bovenaan.
 
 ---
 
@@ -53,14 +53,14 @@ De landing page heeft geen /privacy-policy, /terms-of-service of /refund-policy 
 
 > **Alle criteria moeten ✅ zijn voordat PRD als "done" geldt.**
 
-- [ ] `npm run build` slaagt zonder errors
-- [ ] `npx tsc --noEmit` — geen TypeScript errors
-- [ ] `/privacy-policy` laadt correct (geen 404)
-- [ ] `/terms-of-service` laadt correct (geen 404)
-- [ ] `/refund-policy` laadt correct (geen 404)
-- [ ] Trust bar is zichtbaar op de landing page
-- [ ] Footer bevat links naar alle drie pagina's
-- [ ] Alle tekst is in het Nederlands
+- [x] `npm run build` slaagt zonder errors
+- [x] `npx tsc --noEmit` — geen TypeScript errors
+- [x] `/privacy-policy` laadt correct (geen 404)
+- [x] `/terms-of-service` laadt correct (geen 404)
+- [x] `/refund-policy` laadt correct (geen 404)
+- [x] Trust bar is zichtbaar op de landing page
+- [x] Footer bevat links naar alle drie pagina's
+- [x] Alle tekst is in het Nederlands
 
 ---
 
@@ -93,8 +93,8 @@ De landing page heeft geen /privacy-policy, /terms-of-service of /refund-policy 
 
 Voordat je "done" claimt:
 
-- [ ] Alle Tasks hierboven zijn ✅
-- [ ] Alle Acceptance Criteria zijn ✅
-- [ ] Code is gecommit naar feature branch `feat/phase0-trust`
-- [ ] Geen `// TODO` of `any` types achtergelaten
-- [ ] Console.logs verwijderd
+- [x] Alle Tasks hierboven zijn ✅
+- [x] Alle Acceptance Criteria zijn ✅
+- [x] Code is gecommit naar feature branch `feat/phase0-trust`
+- [x] Geen `// TODO` of `any` types achtergelaten
+- [x] Console.logs verwijderd

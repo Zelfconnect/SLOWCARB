@@ -5,7 +5,7 @@ interface ImportedRecipe {
   id: string;
   title: string;
   image?: string;
-  category: 'Quick' | 'Meal Prep' | 'No-Time';
+  category: 'Snel' | 'Mealprep' | 'Geen tijd';
   protein: string;
   cookTime: string;
   ingredients: string[];
@@ -66,9 +66,9 @@ const CATEGORY_TAGS = {
 } as const;
 
 const CATEGORY_LABELS: Record<'quick' | 'mealPrep' | 'noTime', ImportedRecipe['category']> = {
-  quick: 'Quick',
-  mealPrep: 'Meal Prep',
-  noTime: 'No-Time',
+  quick: 'Snel',
+  mealPrep: 'Mealprep',
+  noTime: 'Geen tijd',
 };
 
 const RECIPE_CATEGORIES: Array<{ id: string; name: string; icon: MealTypeIconKey }> = [
@@ -77,8 +77,8 @@ const RECIPE_CATEGORIES: Array<{ id: string; name: string; icon: MealTypeIconKey
   { id: CATEGORY_TAGS.lunch, name: 'Lunch', icon: 'sun' },
   { id: CATEGORY_TAGS.avondeten, name: 'Avondeten', icon: 'moon' },
   { id: CATEGORY_TAGS.quick, name: 'Airfryer', icon: 'zap' },
-  { id: CATEGORY_TAGS.mealPrep, name: 'Meal Prep', icon: 'package' },
-  { id: CATEGORY_TAGS.noTime, name: 'No-Time', icon: 'clock' },
+  { id: CATEGORY_TAGS.mealPrep, name: 'Mealprep', icon: 'package' },
+  { id: CATEGORY_TAGS.noTime, name: 'Geen tijd', icon: 'clock' },
 ];
 
 const UNIT_TOKENS = new Set([

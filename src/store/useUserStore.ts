@@ -24,8 +24,7 @@ export const useUserStore = create<UserState>((set) => ({
     if (stored) {
       try {
         set({ profile: JSON.parse(stored), isLoaded: true });
-      } catch (error) {
-        console.warn('Failed to parse stored profile', error);
+      } catch {
         set({ profile: null, isLoaded: true });
       }
     } else {

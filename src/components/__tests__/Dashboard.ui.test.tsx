@@ -110,7 +110,7 @@ describe('Dashboard UI/UX', () => {
     const { props } = createProps({ isCheatDay: true });
     render(<Dashboard {...props} />);
 
-    expect(screen.getByText('🍕 Cheat Day!')).toBeInTheDocument();
+    expect(screen.getByText('🍕 Cheatdag!')).toBeInTheDocument();
     expect(screen.queryByText('DailyMealTracker')).not.toBeInTheDocument();
   });
 
@@ -119,7 +119,7 @@ describe('Dashboard UI/UX', () => {
     render(<Dashboard {...props} />);
 
     expect(screen.getByText('DailyMealTracker')).toBeInTheDocument();
-    expect(screen.getByText('Nog 2 dagen tot je cheat day.')).toBeInTheDocument();
+    expect(screen.getByText('Nog 2 dagen tot je cheatdag.')).toBeInTheDocument();
   });
 
   it('keeps compact dashboard section order', () => {

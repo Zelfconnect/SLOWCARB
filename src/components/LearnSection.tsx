@@ -61,9 +61,9 @@ function CardPreview({
       case 'rule':
         return 'Regel';
       case 'concept':
-        return 'Concept';
+        return 'Uitleg';
       case 'faq':
-        return 'FAQ';
+        return 'Veelgestelde vraag';
       default:
         return '';
     }
@@ -141,13 +141,13 @@ export function LearnSection() {
       {/* Tabs */}
       <TabsList className="mb-4 h-auto w-full rounded-2xl bg-stone-100 p-1">
         <TabsTrigger value="quickstart" className="flex-1 gap-2">
-          <Zap className="w-4 h-4" />Quick Start
+          <Zap className="w-4 h-4" />Snelstart
         </TabsTrigger>
         <TabsTrigger value="science" className="flex-1 gap-2">
           <FlaskConical className="w-4 h-4" />Wetenschap
         </TabsTrigger>
         <TabsTrigger value="faq" className="flex-1 gap-2">
-          <HelpCircle className="w-4 h-4" />FAQ
+          <HelpCircle className="w-4 h-4" />Vragen
         </TabsTrigger>
       </TabsList>
 
@@ -224,7 +224,7 @@ export function LearnSection() {
           <div className="space-y-4">
             <h2 className="text-lg font-semibold mb-3 text-stone-800 flex items-center gap-2">
               <Zap className="w-5 h-5 text-sage-600" />
-              Quick Reference
+              Snelle referentie
             </h2>
             
             {/* YES List */}

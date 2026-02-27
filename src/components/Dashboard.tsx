@@ -144,8 +144,8 @@ export function Dashboard({
 
       {isCheatDay ? (
         <div className="rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/90 to-clay-100/80 px-3 py-2.5 shadow-soft">
-          <h3 className="mb-1 font-display text-base font-semibold text-clay-900">🍕 Cheat Day!</h3>
-          <p className="text-sm font-medium text-clay-800">Vandaag is je cheat day.</p>
+          <h3 className="mb-1 font-display text-base font-semibold text-clay-900">🍕 Cheatdag!</h3>
+          <p className="text-sm font-medium text-clay-800">Vandaag is je cheatdag.</p>
           <p className="mt-1 text-sm text-clay-700">
             Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp.
             Geniet ervan en ga morgen weer terug naar het protocol.
@@ -169,7 +169,7 @@ export function Dashboard({
       <WeeklyProgressGrid weekData={weekData} />
       {!isCheatDay && daysUntilCheatDay > 0 && daysUntilCheatDay <= 2 ? (
         <p className="px-0.5 text-[10px] text-clay-700">
-          Nog {daysUntilCheatDay} {daysUntilCheatDay === 1 ? 'dag' : 'dagen'} tot je cheat day.
+          Nog {daysUntilCheatDay} {daysUntilCheatDay === 1 ? 'dag' : 'dagen'} tot je cheatdag.
         </p>
       ) : null}
 

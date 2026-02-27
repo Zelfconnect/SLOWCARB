@@ -3,7 +3,7 @@
     "badge": "Gebaseerd op het 4-Hour Body protocol",
     "heroTitle": "8 tot 10 kg kwijt\nin 6 weken",
     "heroSubtitle": "Geen calorieën tellen. Geen bullshit. Gewoon eten wat werkt.",
-    "ctaPrimary": "Start nu • €29 early bird",
+    "ctaPrimary": "Start nu • €29 vroege vogel",
     "ctaSubtext": "Eenmalige betaling • Geen abonnement • Direct toegang",
     "openApp": "Open je app →",
     "painPointsLabel": "Herkenbaar?",
@@ -91,7 +91,7 @@
       }
     ],
     "pricingLabel": "Early bird-aanbieding",
-    "pricingTitle": "SlowCarb Lifetime Access",
+    "pricingTitle": "SlowCarb levenslange toegang",
     "pricingSubtitle": "Eenmalige betaling, levenslange toegang",
     "pricingNote": "Alleen voor de eerste 100 mensen, daarna €47",
     "pricingFeatures": [
@@ -107,7 +107,7 @@
     "pricingGuarantee": "30 dagen geld-teruggarantie",
     "spotsLeft": "Nog 71 plekken",
     "faqLabel": "Veelgestelde vragen",
-    "faqTitle": "FAQ",
+    "faqTitle": "Veelgestelde vragen",
     "faqs": [
       {
         "question": "Is dit veilig?",
@@ -139,13 +139,24 @@
     ],
     "footerCopy": "© 2026 SlowCarb. Alle rechten voorbehouden.",
     "footerLinks": [
-      "Privacy",
-      "Voorwaarden",
-      "Contact"
+      {
+        "label": "Privacybeleid",
+        "href": "/privacy-policy"
+      },
+      {
+        "label": "Algemene voorwaarden",
+        "href": "/terms-of-service"
+      },
+      {
+        "label": "Refundbeleid",
+        "href": "/refund-policy"
+      }
     ],
+    "footerContactLabel": "Contact opnemen",
+    "footerContactEmail": "hello@slowcarb.nl",
     "lifestyleImageAlt": "Gezonde levensstijl en transformatie",
     "breakfastImageAlt": "Gezond ontbijt met eiwitten en groenten",
-    "mealPrepImageAlt": "Meal prep containers met gezonde maaltijden"
+    "mealPrepImageAlt": "Voorbereide maaltijdbakjes met gezonde gerechten"
   },
   "app": {
     "searchRecipes": "Zoek recepten...",
@@ -181,13 +192,13 @@
     "airfryerHint": "Toon airfryer instructies",
     "sportsLabel": "Sport regelmatig",
     "sportsHint": "Pas voedingsadvies aan",
-    "dataPrivacyTitle": "Data en Privacy",
-    "resetJourneyTitle": "Reset Journey",
+    "dataPrivacyTitle": "Gegevens en privacy",
+    "resetJourneyTitle": "Traject resetten",
     "resetJourneyHint": "Begin opnieuw met dag 1",
-    "resetJourneyDialogTitle": "Reset Journey?",
-    "resetJourneyDialogDescription": "Dit reset je voortgang maar behoudt je profiel en voorkeuren.",
+    "resetJourneyDialogTitle": "Traject resetten?",
+    "resetJourneyDialogDescription": "Dit reset je voortgang, maar behoudt je profiel en voorkeuren.",
     "cancel": "Annuleer",
-    "reset": "Reset",
+    "reset": "Resetten",
     "clearAllTitle": "Wis alle data",
     "clearAllHint": "Verwijder alle gegevens",
     "clearAllDialogTitle": "Wis alle data?",

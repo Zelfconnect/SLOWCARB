@@ -8,7 +8,7 @@ describe('BottomNav UI/UX', () => {
     const onTabChange = vi.fn();
     render(<BottomNav activeTab="dashboard" onTabChange={onTabChange} />);
 
-    const labels = ['Dashboard', 'Recepten', 'Leren', 'AmmoCheck'];
+    const labels = ['Overzicht', 'Recepten', 'Leren', 'AmmoCheck'];
     for (const label of labels) {
       expect(screen.getByRole('button', { name: label })).toBeInTheDocument();
     }

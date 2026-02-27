@@ -176,7 +176,7 @@ export const conceptCards: ConceptCard[] = [
           text: 'Bonen houden je vol tot de volgende maaltijd.',
         },
         {
-          title: 'Second Meal Effect',
+          title: 'Tweede-maaltijdeffect',
           text: 'Bonen bij lunch = betere bloedsuiker bij avondeten.',
         },
       ],
@@ -194,11 +194,11 @@ export const conceptCards: ConceptCard[] = [
       keyPoints: [
         {
           title: 'Hoge insuline',
-          text: 'Body is in "opslag modus". Vetverbranding stopt.',
+          text: 'Je lichaam staat in "opslagmodus". Vetverbranding stopt.',
         },
         {
           title: 'Lage insuline',
-          text: 'Body schakelt over naar "verbrandings modus".',
+          text: 'Je lichaam schakelt over naar "verbrandingsmodus".',
         },
         {
           title: 'Koolhydraten triggeren',
@@ -392,19 +392,6 @@ export function validateEducationCard(card: EducationCard): string[] {
   }
 
   return errors;
-}
-
-// Validate all cards on load
-const allErrors: string[] = [];
-allEducationCards.forEach(card => {
-  const errors = validateEducationCard(card);
-  if (errors.length > 0) {
-    allErrors.push(`[${card.id}] ${errors.join(', ')}`);
-  }
-});
-
-if (allErrors.length > 0) {
-  console.error('Education card validation errors:', allErrors);
 }
 
 export const yesNoList = {

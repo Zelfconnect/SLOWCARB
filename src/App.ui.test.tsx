@@ -11,6 +11,18 @@ vi.mock('@/components/WelcomePage', () => ({
   default: () => <div>WelcomePage</div>,
 }));
 
+vi.mock('@/components/legal/PrivacyPolicyPage', () => ({
+  default: () => <div>PrivacyPolicyPage</div>,
+}));
+
+vi.mock('@/components/legal/TermsOfServicePage', () => ({
+  default: () => <div>TermsOfServicePage</div>,
+}));
+
+vi.mock('@/components/legal/RefundPolicyPage', () => ({
+  default: () => <div>RefundPolicyPage</div>,
+}));
+
 vi.mock('@/components/Dashboard', () => ({
   Dashboard: () => <div>DashboardContent</div>,
 }));
@@ -131,5 +143,18 @@ describe('App UI/UX', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: 'Open instellingen' }));
     expect(screen.getByText('Instellingen')).toBeInTheDocument();
+  });
+
+  it.each([
+    ['/privacy-policy', 'PrivacyPolicyPage'],
+    ['/privacy-policy/', 'PrivacyPolicyPage'],
+    ['/terms-of-service', 'TermsOfServicePage'],
+    ['/refund-policy', 'RefundPolicyPage'],
+  ])('renders legal page route %s', async (route, pageText) => {
+    window.history.replaceState({}, '', route);
+    render(<App />);
+
+    expect(await screen.findByText(pageText)).toBeInTheDocument();
+    expect(screen.queryByText('LandingPage')).not.toBeInTheDocument();
   });
 });

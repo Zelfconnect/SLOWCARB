@@ -94,14 +94,14 @@ describe('addCustomItem', () => {
   it('adds an item to the list', () => {
     const { result } = renderHook(() => useShoppingList());
     act(() => result.current.addCustomItem('melk'));
-    expect(result.current.items.some((i: any) => i.name === 'melk')).toBe(true);
+    expect(result.current.items.some((i) => i.name === 'melk')).toBe(true);
   });
 
   it('does not duplicate an already-present unchecked item', () => {
     const { result } = renderHook(() => useShoppingList());
     act(() => result.current.addCustomItem('melk'));
     act(() => result.current.addCustomItem('melk'));
-    const melkItems = result.current.items.filter((i: any) => i.name === 'melk');
+    const melkItems = result.current.items.filter((i) => i.name === 'melk');
     expect(melkItems).toHaveLength(1);
   });
 
@@ -138,13 +138,13 @@ describe('clearChecked', () => {
     const { result } = renderHook(() => useShoppingList());
     act(() => result.current.addCustomItem('melk'));
     act(() => result.current.addCustomItem('eieren'));
-    const milkId = result.current.items.find((i: any) => i.name === 'melk')!.id;
+    const milkId = result.current.items.find((i) => i.name === 'melk')!.id;
     act(() => result.current.toggleItem(milkId));
 
     act(() => result.current.clearChecked());
 
-    expect(result.current.items.some((i: any) => i.name === 'melk')).toBe(false);
-    expect(result.current.items.some((i: any) => i.name === 'eieren')).toBe(true);
+    expect(result.current.items.some((i) => i.name === 'melk')).toBe(false);
+    expect(result.current.items.some((i) => i.name === 'eieren')).toBe(true);
   });
 });
 
@@ -177,7 +177,7 @@ describe('getByCategory', () => {
       result.current.addItemsFromPackage('Recept A', [pkg('kipfilet', 500)]);
     });
     const grouped = result.current.getByCategory();
-    expect(grouped.eiwit.some((i: any) => i.name === 'kipfilet')).toBe(true);
+    expect(grouped.eiwit.some((i) => i.name === 'kipfilet')).toBe(true);
   });
 });
 
@@ -188,7 +188,7 @@ describe('getTotalCount', () => {
     const { result } = renderHook(() => useShoppingList());
     act(() => result.current.addCustomItem('melk'));
     act(() => result.current.addCustomItem('eieren'));
-    const milkId = result.current.items.find((i: any) => i.name === 'melk')!.id;
+    const milkId = result.current.items.find((i) => i.name === 'melk')!.id;
     act(() => result.current.toggleItem(milkId));
 
     expect(result.current.getTotalCount()).toBe(1);
@@ -210,9 +210,9 @@ describe('removeItem', () => {
     const { result } = renderHook(() => useShoppingList());
     act(() => result.current.addCustomItem('melk'));
     act(() => result.current.addCustomItem('eieren'));
-    const milkId = result.current.items.find((i: any) => i.name === 'melk')!.id;
+    const milkId = result.current.items.find((i) => i.name === 'melk')!.id;
     act(() => result.current.removeItem(milkId));
-    expect(result.current.items.some((i: any) => i.name === 'eieren')).toBe(true);
+    expect(result.current.items.some((i) => i.name === 'eieren')).toBe(true);
   });
 });
 
