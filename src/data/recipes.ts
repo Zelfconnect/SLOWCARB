@@ -193,7 +193,7 @@ export const categories: Array<{ id: Recipe['category']; name: string; icon: Mea
   { id: 'ontbijt', name: 'Ontbijt', icon: 'sunrise' },
   { id: 'lunch', name: 'Lunch', icon: 'sun' },
   { id: 'avond', name: 'Avond', icon: 'moon' },
-  { id: 'mealprep', name: 'Mealprep', icon: 'package' },
+  { id: 'mealprep', name: 'Meal Prep', icon: 'package' },
   { id: 'airfryer', name: 'Airfryer', icon: 'flame' },
   { id: 'snack', name: 'Snack', icon: 'apple' },
 ];

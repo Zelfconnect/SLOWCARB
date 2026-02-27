@@ -62,7 +62,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
               <Rocket className="w-7 h-7" />
             </div>
             <div>
-              <h3 className="font-semibold text-xl text-white">Start je traject</h3>
+              <h3 className="font-semibold text-xl text-white">Start je Journey</h3>
               <p className="text-sm text-white/80">Track je 12-weekse transformatie</p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
             onClick={() => setShowStartDialog(true)} 
             className="h-12 w-full rounded-xl border border-stone-200 bg-white font-medium text-sage-700 hover:bg-stone-50"
           >
-            Start nu
+            Start Nu
           </Button>
         </Card>
 
@@ -85,7 +85,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
           <DialogContent className="max-h-[85dvh] overflow-y-auto rounded-2xl border border-stone-100 bg-white p-6 leading-relaxed shadow-soft">
             <DialogHeader className="text-left gap-3">
               <DialogTitle className="font-display text-2xl font-bold tracking-tight text-stone-800">
-                Start je Slow-carbtraject
+                Start je Slow-Carb Journey
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4 pt-1 text-base text-stone-600">
@@ -128,7 +128,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="cheat-day" className="text-sm font-medium uppercase tracking-wide text-stone-500">Cheatdag</Label>
+                  <Label htmlFor="cheat-day" className="text-sm font-medium uppercase tracking-wide text-stone-500">Cheat day</Label>
                   <Select value={cheatDay} onValueChange={(value) => setCheatDay(value as CheatDay)}>
                     <SelectTrigger className="mt-2 h-11 rounded-xl border border-stone-200 bg-white px-4 text-base text-stone-600 focus:border-transparent focus:ring-2 focus:ring-sage-300">
                       <SelectValue />
@@ -160,7 +160,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                 onClick={handleStart}
                 className="h-11 w-full rounded-xl bg-sage-600 text-white transition-all hover:bg-sage-700 active:scale-95"
               >
-                Start traject
+                Start Journey
               </Button>
             </div>
           </DialogContent>
@@ -185,7 +185,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
             </div>
             <div>
               <h3 className="font-display text-xl font-semibold text-white">
-                {isCheatDay ? 'Cheatdag!' : `Kalenderdag ${progress.day}`}
+                {isCheatDay ? 'Cheat Day!' : `Kalenderdag ${progress.day}`}
               </h3>
               <p className="text-sm text-white/80">
                 {isCheatDay ? 'Geniet ervan!' : `Week ${progress.week} van 12`}
@@ -198,7 +198,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
           <button 
             onClick={() => onResetJourney()} 
             className="p-2.5 rounded-lg hover:bg-white/20 transition-colors" 
-            title="Traject resetten"
+            title="Reset journey"
           >
             <RotateCcw className="w-5 h-5" />
           </button>
@@ -275,7 +275,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                         {currentTip?.tip?.title}
                       </h2>
                       <p className="text-sm text-white/80 mt-1">
-                        Kalenderdag {currentTip?.day} van je traject
+                        Kalenderdag {currentTip?.day} van je journey
                       </p>
                     </div>
                   </div>

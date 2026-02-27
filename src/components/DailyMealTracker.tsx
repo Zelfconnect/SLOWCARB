@@ -158,7 +158,7 @@ export function DailyMealTracker({ todayMeals, streak, onToggleMeal, isCheatDay 
           )}
         >
           <Flame className={cn('h-3.5 w-3.5', streak > 0 && 'text-emerald-600')} />
-          <span>{streak > 0 ? `${streak} dag${streak === 1 ? '' : 'en'}` : 'Start reeks'}</span>
+          <span>{streak > 0 ? `${streak} dag${streak === 1 ? '' : 'en'}` : 'Start streak'}</span>
         </Badge>
       </div>
 

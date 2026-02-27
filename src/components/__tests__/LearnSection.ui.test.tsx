@@ -129,7 +129,7 @@ describe('LearnSection UI/UX', () => {
     fireEvent.click(screen.getByRole('tab', { name: /Wetenschap/i }));
     expect(screen.getByText('De Wetenschap')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('tab', { name: /Vragen/i }));
+    fireEvent.click(screen.getByRole('tab', { name: /FAQ/i }));
     expect(screen.getAllByText('Veelgestelde Vragen').length).toBeGreaterThan(0);
   });
 
@@ -146,7 +146,7 @@ describe('LearnSection UI/UX', () => {
     fireEvent.click(screen.getByRole('button', { name: /Insuline basis/i }));
     expect(screen.getByText('ConceptModal:Insuline basis')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('tab', { name: /Vragen/i }));
+    fireEvent.click(screen.getByRole('tab', { name: /FAQ/i }));
     fireEvent.click(screen.getByRole('button', { name: /Mag ik koffie/i }));
     expect(screen.getByText('FaqModal:Mag ik koffie?')).toBeInTheDocument();
   });

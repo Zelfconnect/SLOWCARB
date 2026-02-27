@@ -18,7 +18,7 @@ export function NameInput({ name, onChange, onEnter }: NameInputProps) {
           H&eacute;, hoe heet je?
         </h1>
         <p className="text-base text-stone-500">
-          We personaliseren jouw slow-carbtraject
+          We personaliseren jouw slow-carb journey
         </p>
       </div>
 

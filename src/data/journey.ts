@@ -59,18 +59,18 @@ export const dayTips: DayTip[] = [
   },
   {
     day: 6,
-    title: 'Dag Voor Cheatdag',
+    title: 'Pre-Cheat Day',
     tips: [
       'Energie is goed',
       'Mogelijk wat loom (leptine is gedaald)',
       'Je kijkt uit naar morgen — dat is de bedoeling!',
       'Kleren voelen al anders',
     ],
-    metabolicState: 'Leptine is gedaald door calorietekort. Dit is PRECIES waarom je morgen cheatdag hebt.',
+    metabolicState: 'Leptine is gedaald door calorietekort. Dit is PRECIES waarom je morgen cheat day hebt.',
   },
   {
     day: 7,
-    title: 'Cheatdag!',
+    title: 'Cheat Day!',
     tips: [
       'Geniet van ELKE hap',
       'Geen schuldgevoel — dit is onderdeel van het plan',
@@ -83,7 +83,7 @@ export const dayTips: DayTip[] = [
 
 export const weekTips: Record<number, { title: string; tips: string[]; warning?: string }> = {
   1: {
-    title: 'Week 1: de aanpassing',
+    title: 'Week 1: De Aanpassing',
     tips: [
       'Dag 3 is het moeilijkst — verwacht hoofdpijn',
       'Drink 2-3 liter water per dag',
@@ -94,7 +94,7 @@ export const weekTips: Record<number, { title: string; tips: string[]; warning?:
     warning: 'Week 1 is de moeilijkste. Het wordt beter!',
   },
   2: {
-    title: 'Week 2: de omschakeling',
+    title: 'Week 2: De Omschakeling',
     tips: [
       'Eerste cheat day kan zwaar vallen — dit is normaal',
       'Energie begint te stabiliseren',
@@ -103,14 +103,14 @@ export const weekTips: Record<number, { title: string; tips: string[]; warning?:
     ],
   },
   3: {
-    title: 'Week 3: in het ritme',
+    title: 'Week 3: De Groove',
     tips: [
       'Gewicht kan stilstaan — dit is het Whoosh Effect',
       'Je verliest WEL vet, maar vetcellen vullen met water',
       'Meet je buikomtrek — die daalt vaak wél',
       'Geduld — de whoosh komt',
     ],
-    warning: 'Plateau in week 3 is NORMAAL. Vertrouw het proces.',
+    warning: 'Week 3 plateau is NORMAAL. Vertrouw het proces.',
   },
 };
 

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Cog } from 'lucide-react';
 import LandingPage from '@/components/LandingPageFinal';
 import WelcomePage from '@/components/WelcomePage';
@@ -20,41 +20,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import './App.css';
 
-const PrivacyPolicyPage = lazy(() => import('@/components/legal/PrivacyPolicyPage'));
-const TermsOfServicePage = lazy(() => import('@/components/legal/TermsOfServicePage'));
-const RefundPolicyPage = lazy(() => import('@/components/legal/RefundPolicyPage'));
-
-function renderLegalRoute(pathname: string) {
-  const normalizedPathname = pathname !== '/' ? pathname.replace(/\/+$/, '') : pathname;
-
-  switch (normalizedPathname) {
-    case '/privacy-policy':
-      return <PrivacyPolicyPage />;
-    case '/terms-of-service':
-      return <TermsOfServicePage />;
-    case '/refund-policy':
-      return <RefundPolicyPage />;
-    default:
-      return null;
-  }
-}
-
 function App() {
-  const legalRoute = renderLegalRoute(window.location.pathname);
-  if (legalRoute) {
-    return (
-      <Suspense
-        fallback={
-          <div className="flex h-app-screen items-center justify-center bg-cream">
-            <p className="text-stone-500">Laden…</p>
-          </div>
-        }
-      >
-        {legalRoute}
-      </Suspense>
-    );
-  }
-
   const searchParams = new URLSearchParams(window.location.search);
 
   // Show welcome page via ?welcome=1 query param

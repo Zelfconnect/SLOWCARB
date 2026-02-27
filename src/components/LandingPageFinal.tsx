@@ -23,10 +23,6 @@ import {
   WheatOff,
   Apple,
   Quote,
-  Shield,
-  RefreshCw,
-  Globe,
-  Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
@@ -64,13 +60,6 @@ const painPoints = [
 const ruleIcons = [WheatOff, Egg, GlassWater, Apple, Bean] as const;
 
 const featureIcons = [ChefHat, Smartphone, ShoppingCart, BookOpen, PartyPopper, TrendingUp] as const;
-
-const trustItems = [
-  { icon: Shield, text: 'Veilig afrekenen' },
-  { icon: RefreshCw, text: '30 dagen geld-terug' },
-  { icon: Globe, text: 'EU-conform' },
-  { icon: Zap, text: 'Direct toegang' },
-] as const;
 
 
 function useSectionReveal(sectionCount: number) {
@@ -398,9 +387,7 @@ export default function LandingPageFinal() {
   }));
   const pricingFeatures = t('landing.pricingFeatures') as string[];
   const footerBadges = t('landing.footerBadges') as string[];
-  const footerLinks = t('landing.footerLinks') as Array<{ label: string; href: string }>;
-  const footerContactLabel = String(t('landing.footerContactLabel'));
-  const footerContactEmail = String(t('landing.footerContactEmail'));
+  const footerLinks = t('landing.footerLinks') as string[];
 
   const stripeUrl = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
   // Stripe success_url should be: https://www.eatslowcarb.com/?token=slowcarb2026
@@ -520,26 +507,6 @@ export default function LandingPageFinal() {
               fill="#FAFAF9"
             />
           </svg>
-        </div>
-      </section>
-
-      <section
-        data-testid="landing-trust-bar"
-        className="border-y border-sage-100/80 bg-sage-50 py-4"
-        aria-label="Vertrouwen en zekerheid"
-      >
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-stone-700">
-            {trustItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <li key={item.text} className="flex items-center gap-2">
-                  <Icon className="h-3.5 w-3.5 text-sage-700" strokeWidth={2.1} aria-hidden />
-                  <span className="font-medium">{item.text}</span>
-                </li>
-              );
-            })}
-          </ul>
         </div>
       </section>
 
@@ -905,17 +872,11 @@ export default function LandingPageFinal() {
               <a href="/?app=1" className="text-sage-300 transition-colors hover:text-sage-200">
                 {String(t('landing.openApp'))}
               </a>
-              {footerLinks.map(({ label, href }) => (
-                <a key={href} href={href} className="transition-colors hover:text-white">
+              {footerLinks.map((label) => (
+                <a key={label} href="#" className="transition-colors hover:text-white">
                   {label}
                 </a>
               ))}
-              <a
-                href={`mailto:${footerContactEmail}`}
-                className="transition-colors hover:text-white"
-              >
-                {footerContactLabel}
-              </a>
             </div>
           </div>
         </div>

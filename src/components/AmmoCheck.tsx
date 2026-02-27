@@ -262,8 +262,8 @@ export function AmmoCheck() {
       const parsedLegacy = JSON.parse(legacyRaw) as unknown;
       if (!hasLegacyShape(parsedLegacy)) return;
       setZones(migrateLegacyAmmoZones(parsedLegacy));
-    } catch {
-      return;
+    } catch (error) {
+      console.warn('Error migrating ammo data:', error);
     }
   }, [setZones]);
 

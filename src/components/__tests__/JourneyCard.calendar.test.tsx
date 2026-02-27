@@ -24,7 +24,7 @@ describe('JourneyCard calendar (Start Journey modal)', () => {
     render(<JourneyCard {...createProps()} />);
 
     fireEvent.click(screen.getByRole('button', { name: /start nu/i }));
-    expect(screen.getByRole('dialog', { name: /start je slow-carbtraject/i })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /start je slow-carb journey/i })).toBeInTheDocument();
 
     const startDateButton = screen.getByRole('button', { name: /start datum/i });
     fireEvent.click(startDateButton);

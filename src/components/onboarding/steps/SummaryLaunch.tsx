@@ -14,9 +14,9 @@ interface SummaryLaunchProps {
 }
 
 const appTour = [
-  { icon: LayoutDashboard, label: 'Overzicht', desc: 'Voortgang & dagelijkse check' },
+  { icon: LayoutDashboard, label: 'Dashboard', desc: 'Voortgang & dagelijkse check' },
   { icon: ChefHat, label: 'Recepten', desc: 'Slow-carb maaltijden' },
-  { icon: GraduationCap, label: 'Leren', desc: 'Regels, wetenschap & veelgestelde vragen' },
+  { icon: GraduationCap, label: 'Leren', desc: 'Regels, wetenschap & FAQ' },
   { icon: ClipboardCheck, label: 'AmmoCheck', desc: 'Dagelijkse 5-regels check' },
 ];
 
@@ -61,7 +61,7 @@ export function SummaryLaunch({ data }: SummaryLaunchProps) {
           </p>
         </div>
         <div className="rounded-2xl border border-stone-200 bg-white/80 p-3.5">
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-stone-400">Cheatdag</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-stone-400">Cheat day</p>
           <p className="mt-0.5 text-lg font-bold text-stone-900">{cheatDayLabel}</p>
         </div>
         <div className="rounded-2xl border border-sage-200 bg-sage-50/60 p-3.5">
