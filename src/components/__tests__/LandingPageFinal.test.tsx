@@ -30,7 +30,7 @@ describe('LandingPageFinal', () => {
     window.IntersectionObserver = IntersectionObserverMock;
     const { container } = render(<LandingPageFinal />);
 
-    const eyebrow = screen.getByText(/Herkenbaar\?/i);
+    const eyebrow = screen.getAllByText(/Herken je dit\?/i)[0];
     expect(eyebrow).toHaveClass('text-sm', 'font-bold', 'tracking-wider', 'text-gray-600');
 
     const painHeader = container.querySelector('section[data-index="1"] > div');
@@ -50,6 +50,6 @@ describe('LandingPageFinal', () => {
     window.IntersectionObserver = undefined;
 
     render(<LandingPageFinal />);
-    expect(screen.getByText(/Herkenbaar\?/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Herken je dit\?/i).length).toBeGreaterThan(0);
   });
 });

@@ -1,78 +1,102 @@
 {
   "landing": {
-    "badge": "Gebaseerd op het 4-Hour Body protocol • 84-dagen journey",
-    "heroTitle": "Start je 84-dagen journey\nnaar 8 tot 10 kg vetverlies",
-    "heroSubtitle": "Geen calorieën tellen. Geen wilskracht-gevecht. Alleen een bewezen systeem dat je 84 dagen stap voor stap volgt.",
-    "ctaPrimary": "Start nu • €47 Early Bird",
-    "ctaSubtext": "Early Bird €47 • Regular €79 (normaal €247) • Eenmalige betaling",
+    "badge": "Gebaseerd op het 4-Hour Body protocol",
+    "heroTitle": "Verlies 8 tot 10 kilo in 6 weken zonder calorieën te tellen, zonder honger en zonder jezelf te dwingen.",
+    "heroSubtitle": "Eet gewoon tot je vol zit. Volg 5 simpele regels. Inclusief cheatdag. Resultaat dat blijft. Zonder ingewikkeld gedoe.",
+    "ctaPrimary": "Start nu – Direct toegang →",
+    "ctaSubtext": "Normale waarde: €247 • Jij betaalt vandaag: €47 • Daarna €79 (eenmalig, lifetime)",
     "openApp": "Open je app →",
-    "painPointsLabel": "Herkenbaar?",
-    "painPointsTitle": "Ken je dit?",
+    "painPointsLabel": "Herken je dit?",
+    "painPointsTitle": "Herken je dit?",
     "painPoints": [
-      "Elke maandag \"opnieuw beginnen\" en vrijdag weer stoppen",
-      "Calorieën tellen tot je gek wordt, en dan toch niet afvallen",
-      "Geen idee wat je moet eten, elke dag opnieuw dezelfde strijd"
+      "Maandag vol goede moed. Vrijdag alweer klaar.",
+      "Calorieën tellen tot je er gek van wordt - en nog steeds niet afvallen.",
+      "Elke dag diezelfde vraag: \"Wat mag ik eigenlijk eten?\" terwijl je al weet dat je het toch niet volhoudt.",
+      "De meeste diëten mislukken omdat ze alleen op wilskracht draaien.",
+      "Jij bent geen robot. Je hebt een leven.",
+      "Dit is waarom 95 % faalt… en waarom dit wél werkt."
     ],
-    "solutionTitle": "Waarom de 84-dagen journey wél werkt.",
-    "solutionText": "De meeste diëten falen omdat je moet gokken, plannen en opnieuw beginnen. SlowCarb vervangt dat met een 84-dagen systeem: 5 duidelijke regels, dagelijkse structuur en nul ruis. Je weet elke dag exact wat je moet doen, zonder calorieën tellen of honger.",
-    "rulesLabel": "De Methode",
-    "rulesTitle": "De 5 Regels",
-    "rulesSubtitle": "Deze 5 regels zijn je fundament voor alle 84 dagen. Simpel, herhaalbaar en praktisch.",
+    "solutionTitle": "",
+    "solutionText": "",
+    "rulesLabel": "De 5 simpele regels",
+    "rulesTitle": "De 5 simpele regels (gebaseerd op Tim Ferriss)",
+    "rulesSubtitle": "",
     "rules": [
       {
         "title": "Geen witte koolhydraten",
-        "description": "Geen brood, pasta, rijst, aardappelen of suiker. Geen uitzonderingen tijdens de week."
+        "description": ""
       },
       {
-        "title": "30g eiwit binnen 30 min",
-        "description": "Eet binnen 30 minuten na het opstaan minimaal 30 gram eiwit voor een kickstart van je metabolisme."
+        "title": "30 gram eiwit binnen 30 minuten na opstaan",
+        "description": ""
       },
       {
-        "title": "Geen vloeibare calorieën",
-        "description": "Drink water, koffie en thee. Geen frisdrank, vruchtensap, melk of alcohol (behalve op cheatday)."
+        "title": "Geen drankjes met calorieën",
+        "description": ""
       },
       {
-        "title": "Geen fruit",
-        "description": "Fructose remt vetverbranding. Avocado en tomaat zijn wel toegestaan in beperkte hoeveelheden."
+        "title": "Geen fruit (behalve avocado en tomaat)",
+        "description": ""
       },
       {
         "title": "Peulvruchten bij elke maaltijd",
-        "description": "Bonen, linzen en kikkererwten geven langdurige energie en houden je verzadigd."
+        "description": ""
       }
     ],
-    "cheatdayTitle": "De Cheatday",
-    "cheatdayText": "Eén dag per week eet je wat je wilt. Dit is niet optioneel. Het reset je hormonen en zorgt dat je het volhoudt.",
+    "cheatdayTitle": "1 verplichte cheatdag per week",
+    "cheatdayText": "Pizza, ijs, bier - alles mag. Dit houdt je hormonen in balans.",
     "featuresLabel": "Wat je krijgt",
-    "featuresTitle": "Alles voor een volledige 84-dagen transformatie",
-    "featuresSubtitle": "Geen losse eindjes. Je krijgt alles om te starten, vol te houden en af te maken.",
+    "featuresTitle": "Dit is het programma dat je écht krijgt",
+    "featuresSubtitle": "",
     "features": [
       {
-        "title": "50+ recepten",
-        "description": "Ontbijt, lunch en diner. Allemaal getest, allemaal lekker, allemaal binnen 20 minuten op tafel."
+        "title": "Persoonlijke start in 10 stappen",
+        "description": ""
       },
       {
-        "title": "Werkt als een app",
-        "description": "Voeg SlowCarb toe aan je homescreen. Geen download uit de App Store nodig."
+        "title": "Meer dan 50 kant-en-klare recepten (max 20 minuten)",
+        "description": ""
       },
       {
-        "title": "Slimme boodschappenlijst",
-        "description": "Genereer automatisch je boodschappenlijst voor de week. Gegroepeerd per winkelafdeling."
+        "title": "Automatische boodschappenlijst per winkelpad",
+        "description": ""
       },
       {
-        "title": "84-dagen begeleiding",
-        "description": "Heldere uitleg en focus per fase van je journey, zodat je weet wat je lichaam doet en waarom je doorpakt."
+        "title": "Overzicht van je gewicht en voortgang",
+        "description": ""
       },
       {
-        "title": "Cheatday-handleiding",
-        "description": "Eén dag per week eet je wat je wilt. Pizza, ijs, alles mag. Dit is geen beloning. Het is onderdeel van het protocol."
-      },
-      {
-        "title": "Voortgang bijhouden",
-        "description": "Log je gewicht en zie de trend. Niks motiveert zo hard als een dalende lijn."
+        "title": "Werkt op je telefoon, tablet en laptop – zet op homescreen, werkt offline, geen app downloaden.",
+        "description": ""
       }
     ],
+    "kissLabel": "Het is zó simpel",
+    "kissTitle": "Het is zó simpel",
+    "kissTextTop": "Je hoeft niet na te denken. Je hoeft alleen maar te doen.",
+    "kissTextMiddle": "Elke dag open je het programma, vink je af wat je gedaan hebt, en klaar.",
+    "kissTextBottom": "Eten tot je vol zit. Een vinkje per regel. Dat is alles.",
+    "storyLabel": "Mijn verhaal",
+    "storyTitle": "Mijn verhaal – waarom ik dit voor je gemaakt heb",
+    "storyPlaceholder": "Placeholder voor persoonlijk verhaal + foto's",
+    "storyQuote": "Ik heb ADHD. Wilskracht was voor mij altijd een verloren strijd. Ik probeerde elk dieet, viel af, kwam er dubbel bij. Tot ik dit systeem bouwde. Geen denken meer, alleen uitvoeren. In 6 weken 9 kilo kwijt en het bleef eraf. Nu help ik anderen hetzelfde te doen – zonder het gedoe dat ik zelf altijd had.",
+    "pricingLabel": "Dit krijg je allemaal – voor altijd",
+    "pricingTitle": "Dit krijg je allemaal – voor altijd",
+    "pricingSubtitle": "Normale waarde: €247",
+    "pricingNote": "Jij betaalt vandaag: €47 (eerste 200 mensen) • Daarna €79 (eenmalig, lifetime)",
+    "pricingFeatures": [
+      "Meer dan 50 recepten",
+      "Automatische boodschappenlijst",
+      "Voortgangsoverzicht",
+      "Dagelijkse check",
+      "Persoonlijke start",
+      "Alle updates gratis",
+      "Geen abonnement, nooit"
+    ],
+    "pricingCta": "JA, GEEF MIJ LIFETIME TOEGANG VOOR €47 →",
+    "pricingGuarantee": "30 dagen 100 % geld-terug garantie",
+    "spotsLeft": "Nog 71 plekken",
     "testimonialsLabel": "Resultaten",
-    "testimonialsTitle": "Wat gebruikers zeggen",
+    "testimonialsTitle": "Wat echte mensen zeggen",
     "testimonials": [
       {
         "quote": "Vijf jaar lang elk dieet geprobeerd. Dit is het eerste waar ik niet over na hoef te denken. Regels volgen, eten, klaar.",
@@ -90,48 +114,12 @@
         "result": "7 kg kwijt in 6 weken"
       }
     ],
-    "pricingLabel": "Early Bird + Regular prijs",
-    "pricingTitle": "SlowCarb 84-dagen journey + levenslange toegang",
-    "pricingSubtitle": "Vandaag €47 Early Bird • daarna €79 Regular",
-    "pricingNote": "Regular is €79 (normaal €247) • Activeer nu je Early Bird van €47",
-    "pricingFeatures": [
-      "50+ slowcarb-recepten",
-      "Slimme boodschappenlijst",
-      "Voortgang bijhouden",
-      "84-dagen roadmap en begeleiding",
-      "Cheatday-protocol",
-      "Toekomstige updates",
-      "30 dagen geld-teruggarantie"
-    ],
-    "pricingCta": "Direct toegang →",
-    "pricingGuarantee": "30 dagen geld-teruggarantie",
-    "spotsLeft": "Nog 71 plekken",
-    "faqLabel": "Veelgestelde vragen",
-    "faqTitle": "Veelgestelde vragen over de 84-dagen journey",
-    "faqs": [
-      {
-        "question": "Is dit veilig?",
-        "answer": "Ja. De 84-dagen journey gebruikt volwaardige voeding zoals eiwit, groenten en peulvruchten. Geen crashdieet, geen extreme restricties. Bij medische vragen of aandoeningen: overleg altijd met je arts."
-      },
-      {
-        "question": "Wat mag ik op een cheatday?",
-        "answer": "Alles mag. De cheatday is een vast onderdeel van de 84-dagen journey en helpt om het protocol mentaal vol te houden. Plan 1 vaste cheatday per week en pak de dag erna direct je ritme terug."
-      },
-      {
-        "question": "Moet ik calorieën tellen?",
-        "answer": "Nee. Je volgt de 5 regels en de 84-dagen structuur. Daardoor hoef je niet te rekenen, alleen uit te voeren."
-      },
-      {
-        "question": "Hoe lang heb ik toegang?",
-        "answer": "Je krijgt direct toegang tot de volledige 84-dagen journey en levenslang toegang tot de app, inclusief toekomstige updates."
-      },
-      {
-        "question": "Wat als het niet werkt?",
-        "answer": "Je bent gedekt door 30 dagen geld-teruggarantie. Niet tevreden? Mail ons en je krijgt je betaling terug."
-      }
-    ],
-    "finalCtaTitle": "Klaar om je 84-dagen journey te starten?",
-    "finalCtaText": "Je kunt vandaag dag 1 activeren voor €47 Early Bird. Daarna wordt het €79 Regular (normaal €247).",
+    "guaranteeLabel": "Garantie",
+    "guaranteeTitle": "30 dagen 100 % geld-terug garantie",
+    "guaranteeText": "Niet tevreden? Mail ons binnen 30 dagen en je krijgt je betaling terug. Zonder gedoe.",
+    "finalCtaTitle": "Klaar om over 6 weken 8 tot 10 kilo lichter te zijn?",
+    "finalCtaText": "",
+    "finalCtaButton": "JA, GEEF MIJ LIFETIME TOEGANG VOOR €47 →",
     "footerBadges": [
       "Direct toegang",
       "Geen abonnement",

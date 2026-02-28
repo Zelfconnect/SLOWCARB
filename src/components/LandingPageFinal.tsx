@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import {
   Bean,
   Egg,
   GlassWater,
@@ -16,10 +10,6 @@ import {
   PartyPopper,
   TrendingUp,
   Check,
-  ArrowRight,
-  RotateCcw,
-  Calculator,
-  Clock,
   WheatOff,
   Apple,
   Quote,
@@ -27,6 +17,7 @@ import {
   RefreshCw,
   Globe,
   Zap,
+  Heart,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
@@ -50,20 +41,9 @@ type Testimonial = {
   result: string;
 };
 
-type FAQ = {
-  question: string;
-  answer: string;
-};
-
-const painPoints = [
-  { icon: RotateCcw },
-  { icon: Calculator },
-  { icon: Clock },
-] as const;
-
 const ruleIcons = [WheatOff, Egg, GlassWater, Apple, Bean] as const;
 
-const featureIcons = [ChefHat, Smartphone, ShoppingCart, BookOpen, PartyPopper, TrendingUp] as const;
+const featureIcons = [ChefHat, Smartphone, ShoppingCart, BookOpen, TrendingUp] as const;
 
 const trustItems = [
   { icon: Shield, text: 'Veilig afrekenen' },
@@ -126,33 +106,6 @@ function revealClass(isVisible: boolean, delay = 0) {
   return baseClasses + delayStyle;
 }
 
-function PainPointCard({
-  icon: Icon,
-  text,
-  delay = 0,
-  isVisible,
-}: {
-  icon: React.ElementType;
-  text: string;
-  delay?: number;
-  isVisible: boolean;
-}) {
-  return (
-    <article
-      className={`flex items-center gap-4 rounded-xl bg-stone-50 p-4 border border-stone-100 transition-all duration-700 ${revealClass(
-        isVisible,
-        delay
-      )}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-soft">
-        <Icon className="h-5 w-5 text-clay-600" strokeWidth={2} />
-      </div>
-      <p className="text-sm font-medium text-stone-700">{text}</p>
-    </article>
-  );
-}
-
 /**
  * Rule card: number = sequence anchor (primary), icon = topic reinforcement (secondary).
  * Good practice: one clear left anchor for order; icon grouped with title so it supports
@@ -200,7 +153,9 @@ function RuleCard({
             />
             <h3 className="font-display font-semibold text-stone-800">{title}</h3>
           </div>
-          <p className="text-sm leading-relaxed text-stone-600">{description}</p>
+          {description && (
+            <p className="text-sm leading-relaxed text-stone-600">{description}</p>
+          )}
         </div>
       </div>
     </article>
@@ -279,7 +234,7 @@ function FeatureCard({
         <Icon className="h-6 w-6 text-sage-700" strokeWidth={2} />
       </div>
       <h3 className="font-display text-lg font-semibold text-stone-800 mb-2">{title}</h3>
-      <p className="text-sm leading-relaxed text-stone-600">{description}</p>
+      {description && <p className="text-sm leading-relaxed text-stone-600">{description}</p>}
     </article>
   );
 }
@@ -355,7 +310,7 @@ function FloatingMobileCTA({
 
 export default function LandingPageFinal() {
   const { t } = useTranslation();
-  const { visibleSections, setRef } = useSectionReveal(9);
+  const { visibleSections, setRef } = useSectionReveal(11);
   const [showAppButton, setShowAppButton] = useState(false);
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const painSectionRef = useRef<HTMLElement | null>(null);
@@ -392,10 +347,7 @@ export default function LandingPageFinal() {
     name: String(t(`landing.testimonials.${index}.name`)),
     result: String(t(`landing.testimonials.${index}.result`)),
   }));
-  const faqs: FAQ[] = [0, 1, 2, 3, 4].map((index) => ({
-    question: String(t(`landing.faqs.${index}.question`)),
-    answer: String(t(`landing.faqs.${index}.answer`)),
-  }));
+  const painItems = t('landing.painPoints') as string[];
   const pricingFeatures = t('landing.pricingFeatures') as string[];
   const footerBadges = t('landing.footerBadges') as string[];
   const footerLinks = t('landing.footerLinks') as Array<{ label: string; href: string }>;
@@ -497,7 +449,6 @@ export default function LandingPageFinal() {
                 className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
               >
                 {String(t('landing.ctaPrimary'))}
-                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
 
@@ -565,39 +516,17 @@ export default function LandingPageFinal() {
           </h2>
         </div>
 
-        <div className="mb-16 grid gap-4 md:grid-cols-3">
-          {painPoints.map((point, idx) => (
-            <PainPointCard
-              key={idx}
-              icon={point.icon}
-              text={String(t(`landing.painPoints.${idx}`))}
-              delay={idx * 100}
-              isVisible={visibleSections[1]}
-            />
-          ))}
-        </div>
-
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-          <div
-            className={`rounded-3xl border border-sage-100 bg-gradient-to-br from-sage-50 to-stone-50 p-8 md:p-12 transition-all duration-700 ${revealClass(
-              visibleSections[1]
-            )}`}
-            style={{ transitionDelay: '400ms' }}
-          >
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sage-600">
-                <Check className="h-5 w-5 text-white" strokeWidth={3} />
-              </div>
-              <h3 className="font-display text-2xl font-bold text-stone-800">
-                {String(t('landing.solutionTitle'))}
-              </h3>
-            </div>
-            <p className="max-w-3xl text-lg leading-relaxed text-stone-600">
-              {String(t('landing.solutionText'))}
-            </p>
+        <div
+          className={`mx-auto max-w-3xl rounded-3xl border border-stone-200 bg-stone-50 p-8 transition-all duration-700 md:p-10 ${revealClass(
+            visibleSections[1]
+          )}`}
+          style={{ transitionDelay: '150ms' }}
+        >
+          <div className="space-y-4 text-base leading-relaxed text-stone-700 md:text-lg">
+            {painItems.map((item, idx) => (
+              <p key={idx}>{item}</p>
+            ))}
           </div>
-
-          {/* lifestyle image removed */}
         </div>
       </section>
 
@@ -615,9 +544,6 @@ export default function LandingPageFinal() {
             <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
               {String(t('landing.rulesTitle'))}
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-stone-600">
-              {String(t('landing.rulesSubtitle'))}
-            </p>
           </div>
 
           {/* Breakfast Image */}
@@ -678,9 +604,6 @@ export default function LandingPageFinal() {
           <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
             {String(t('landing.featuresTitle'))}
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-stone-600">
-            {String(t('landing.featuresSubtitle'))}
-          </p>
         </div>
 
         {/* Meal Prep Image */}
@@ -716,48 +639,75 @@ export default function LandingPageFinal() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section ref={setRef(4)} data-index={4} className="bg-stone-50 py-20">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      {/* KISS Section */}
+      <section ref={setRef(4)} data-index={4} className="bg-white py-20">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div
-            className={`mb-12 text-center transition-all duration-700 ${revealClass(
+            className={`rounded-3xl border border-sage-100 bg-gradient-to-br from-sage-50 to-stone-50 p-8 text-center transition-all duration-700 md:p-12 ${revealClass(
               visibleSections[4]
             )}`}
           >
-            <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
-              {String(t('landing.testimonialsLabel'))}
+            <span className="text-sm font-medium uppercase tracking-wider text-sage-700">
+              {String(t('landing.kissLabel'))}
             </span>
-            <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-              {String(t('landing.testimonialsTitle'))}
+            <h2 className="mt-3 font-display text-3xl font-bold text-stone-800 md:text-4xl">
+              {String(t('landing.kissTitle'))}
             </h2>
+            <div className="mx-auto mt-8 max-w-2xl space-y-4 text-lg leading-relaxed text-stone-700">
+              <p>{String(t('landing.kissTextTop'))}</p>
+              <p>{String(t('landing.kissTextMiddle'))}</p>
+              <p className="font-semibold text-stone-800">{String(t('landing.kissTextBottom'))}</p>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            {testimonials.map((testimonial, idx) => (
-              <TestimonialCard
-                key={testimonial.name}
-                quote={testimonial.quote}
-                name={testimonial.name}
-                result={testimonial.result}
-                delay={idx * 100}
-                isVisible={visibleSections[4]}
-              />
-            ))}
+      {/* Personal Story Section */}
+      <section
+        ref={setRef(5)}
+        data-index={5}
+        className="bg-stone-50 py-20"
+      >
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div
+            className={`rounded-3xl border border-sage-100 bg-sage-50 p-8 transition-all duration-700 md:p-12 ${revealClass(
+              visibleSections[5]
+            )}`}
+          >
+            <div className="mb-8">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-medium text-sage-700">
+                <Heart className="h-4 w-4" strokeWidth={2.2} />
+                {String(t('landing.storyLabel'))}
+              </span>
+            </div>
+
+            <h2 className="max-w-3xl font-display text-3xl font-bold text-stone-800 md:text-4xl">
+              {String(t('landing.storyTitle'))}
+            </h2>
+
+            <div className="mt-8 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-start">
+              <blockquote className="rounded-2xl border border-white/70 bg-white p-6 text-xl leading-relaxed text-stone-700 md:p-8">
+                <p className="font-display text-4xl leading-none text-sage-300">&ldquo;</p>
+                <p className="-mt-2">{String(t('landing.storyQuote'))}</p>
+              </blockquote>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="aspect-[4/5] rounded-2xl border-2 border-dashed border-sage-200 bg-white/70 p-4 text-sm text-stone-500">
+                  {String(t('landing.storyPlaceholder'))}
+                </div>
+                <div className="aspect-[4/5] rounded-2xl border-2 border-dashed border-sage-200 bg-white/70 p-4 text-sm text-stone-500" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section
-        id="pricing"
-        ref={setRef(5)}
-        data-index={5}
-        className="py-20"
-      >
+      <section id="pricing" ref={setRef(6)} data-index={6} className="py-20">
         <div className="mx-auto max-w-md px-4 sm:px-6 lg:px-8">
           <div
             className={`rounded-3xl border border-stone-200 bg-white p-8 shadow-elevated transition-all duration-700 ${revealClass(
-              visibleSections[5]
+              visibleSections[6]
             )}`}
           >
             <div className="mb-8 text-center">
@@ -800,57 +750,64 @@ export default function LandingPageFinal() {
             >
               {String(t('landing.pricingCta'))}
             </Button>
+          </div>
+        </div>
+      </section>
 
-            <p className="mt-4 text-center text-sm text-stone-500">
-              {String(t('landing.pricingGuarantee'))}
+      {/* Testimonials Section */}
+      <section ref={setRef(7)} data-index={7} className="bg-stone-50 py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div
+            className={`mb-12 text-center transition-all duration-700 ${revealClass(
+              visibleSections[7]
+            )}`}
+          >
+            <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
+              {String(t('landing.testimonialsLabel'))}
+            </span>
+            <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
+              {String(t('landing.testimonialsTitle'))}
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {testimonials.map((testimonial, idx) => (
+              <TestimonialCard
+                key={testimonial.name}
+                quote={testimonial.quote}
+                name={testimonial.name}
+                result={testimonial.result}
+                delay={idx * 100}
+                isVisible={visibleSections[7]}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Guarantee Section */}
+      <section ref={setRef(8)} data-index={8} className="bg-white py-20">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          <div
+            className={`rounded-3xl border border-sage-100 bg-sage-50 p-8 text-center transition-all duration-700 md:p-12 ${revealClass(
+              visibleSections[8]
+            )}`}
+          >
+            <span className="text-sm font-medium uppercase tracking-wider text-sage-700">
+              {String(t('landing.guaranteeLabel'))}
+            </span>
+            <h2 className="mt-3 font-display text-3xl font-bold text-stone-800 md:text-4xl">
+              {String(t('landing.guaranteeTitle'))}
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-stone-700">
+              {String(t('landing.guaranteeText'))}
             </p>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section ref={setRef(6)} data-index={6} className="bg-white py-20">
-        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <div
-            className={`mb-12 text-center transition-all duration-700 ${revealClass(
-              visibleSections[6]
-            )}`}
-          >
-            <span className="text-sm font-medium uppercase tracking-wider text-sage-600">
-              {String(t('landing.faqLabel'))}
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-bold text-stone-800 md:text-4xl">
-              {String(t('landing.faqTitle'))}
-            </h2>
-          </div>
-
-          <div
-            className={`rounded-2xl border border-stone-100 bg-stone-50 p-6 md:p-8 transition-all duration-700 ${revealClass(
-              visibleSections[6]
-            )}`}
-          >
-            <Accordion type="single" collapsible defaultValue={faqs[0].question}>
-              {faqs.map((faq) => (
-                <AccordionItem
-                  key={faq.question}
-                  value={faq.question}
-                  className="border-stone-200"
-                >
-                  <AccordionTrigger className="text-left text-sm font-medium text-stone-700 hover:no-underline py-3">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-base leading-relaxed text-stone-600">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA Section */}
-      <section ref={setRef(7)} data-index={7} className="relative overflow-hidden">
+      <section ref={setRef(9)} data-index={9} className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-sage-700 to-sage-800" />
         <div
           className="absolute inset-0 opacity-30"
@@ -862,23 +819,19 @@ export default function LandingPageFinal() {
         <div className="relative mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28 lg:px-8 text-center">
           <div
             className={`transition-all duration-700 ${revealClass(
-              visibleSections[7]
+              visibleSections[9]
             )}`}
           >
             <h2 className="mb-6 font-display text-3xl font-bold text-white text-shadow md:text-5xl">
               {String(t('landing.finalCtaTitle'))}
             </h2>
-            <p className="mx-auto mb-10 max-w-xl text-xl text-sage-200">
-              {String(t('landing.finalCtaText'))}
-            </p>
 
             <Button
               onClick={openCheckout}
               size="lg"
               className="h-14 rounded-xl bg-white px-10 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
             >
-              {String(t('landing.ctaPrimary'))}
-              <ArrowRight className="ml-2 h-5 w-5" />
+              {String(t('landing.finalCtaButton'))}
             </Button>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-300">
@@ -894,11 +847,11 @@ export default function LandingPageFinal() {
       </section>
 
       {/* Footer */}
-      <footer ref={setRef(8)} data-index={8} className="bg-stone-900 py-8 pb-24 md:pb-8 text-stone-400">
+      <footer ref={setRef(10)} data-index={10} className="bg-stone-900 py-8 pb-24 md:pb-8 text-stone-400">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div
             className={`flex flex-col items-center justify-between gap-4 md:flex-row transition-all duration-700 ${revealClass(
-              visibleSections[8]
+              visibleSections[10]
             )}`}
           >
             <p className="text-sm">{String(t('landing.footerCopy'))}</p>
@@ -927,7 +880,7 @@ export default function LandingPageFinal() {
         visible={showFloatingCTA}
         onClick={openCheckout}
         spotsLeftText={String(t('landing.spotsLeft'))}
-        buttonText={String(t('landing.pricingCta'))}
+        buttonText={String(t('landing.ctaPrimary'))}
       />
     </div>
   );
