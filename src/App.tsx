@@ -76,7 +76,13 @@ function App() {
   const hasAccessToken = Boolean(localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN));
   const isAppRequested = searchParams.get('app') === '1' || Boolean(tokenFromUrl);
 
-  if (!isAppRequested) return <LandingPage />;
+  if (!isAppRequested) {
+    return (
+      <div className="h-full overflow-y-auto">
+        <LandingPage />
+      </div>
+    );
+  }
   if (!hasAccessToken && !tokenFromUrl) {
     let shouldShowLanding = false;
     // If user has a completed profile but lost the token (e.g. cleared URL), restore access
@@ -98,7 +104,11 @@ function App() {
     }
 
     if (shouldShowLanding) {
-      return <LandingPage />;
+      return (
+        <div className="h-full overflow-y-auto">
+          <LandingPage />
+        </div>
+      );
     }
   }
 
