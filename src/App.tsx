@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { Cog } from 'lucide-react';
 import LandingPage from '@/components/LandingPageFinal';
 import WelcomePage from '@/components/WelcomePage';
@@ -22,7 +22,39 @@ import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import './App.css';
 
+const PrivacyPolicyPage = lazy(() => import('@/components/legal/PrivacyPolicyPage'));
+const TermsOfServicePage = lazy(() => import('@/components/legal/TermsOfServicePage'));
+const RefundPolicyPage = lazy(() => import('@/components/legal/RefundPolicyPage'));
+
+function renderLegalRoute() {
+  switch (window.location.pathname) {
+    case '/privacy-policy':
+      return (
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <PrivacyPolicyPage />
+        </Suspense>
+      );
+    case '/terms-of-service':
+      return (
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <TermsOfServicePage />
+        </Suspense>
+      );
+    case '/refund-policy':
+      return (
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <RefundPolicyPage />
+        </Suspense>
+      );
+    default:
+      return null;
+  }
+}
+
 function App() {
+  const legalRoute = renderLegalRoute();
+  if (legalRoute) return legalRoute;
+
   const searchParams = new URLSearchParams(window.location.search);
   const { isAuthenticated, isLoading: authLoading } = useAuth();
 
