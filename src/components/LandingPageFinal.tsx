@@ -23,6 +23,10 @@ import {
   WheatOff,
   Apple,
   Quote,
+  Shield,
+  RefreshCw,
+  Globe,
+  Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
@@ -60,6 +64,13 @@ const painPoints = [
 const ruleIcons = [WheatOff, Egg, GlassWater, Apple, Bean] as const;
 
 const featureIcons = [ChefHat, Smartphone, ShoppingCart, BookOpen, PartyPopper, TrendingUp] as const;
+
+const trustItems = [
+  { icon: Shield, text: 'Veilig afrekenen' },
+  { icon: RefreshCw, text: '30 dagen geld-terug' },
+  { icon: Globe, text: 'EU-conform' },
+  { icon: Zap, text: 'Direct toegang' },
+] as const;
 
 
 function useSectionReveal(sectionCount: number) {
@@ -326,7 +337,7 @@ function FloatingMobileCTA({
       <div className="mx-3 mb-3 flex flex-col items-center gap-2 rounded-xl border border-sage-600 bg-sage-800 px-4 py-2.5 shadow-lg">
         <div className="flex flex-col items-center gap-0.5 text-center">
           <p className="text-sm font-bold tracking-tight text-white antialiased">
-            €29 <span className="ml-1 text-xs font-normal text-sage-100 line-through opacity-90">€47</span>
+            €47 <span className="ml-1 text-xs font-normal text-sage-100 line-through opacity-90">€79</span>
           </p>
           <p className="text-xs leading-snug text-sage-100">{spotsLeftText}</p>
         </div>
@@ -387,7 +398,9 @@ export default function LandingPageFinal() {
   }));
   const pricingFeatures = t('landing.pricingFeatures') as string[];
   const footerBadges = t('landing.footerBadges') as string[];
-  const footerLinks = t('landing.footerLinks') as string[];
+  const footerLinks = t('landing.footerLinks') as Array<{ label: string; href: string }>;
+  const footerContactLabel = String(t('landing.footerContactLabel'));
+  const footerContactEmail = String(t('landing.footerContactEmail'));
 
   const stripeUrl = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
   // Stripe success_url should be: https://www.eatslowcarb.com/?token=slowcarb2026
@@ -507,6 +520,26 @@ export default function LandingPageFinal() {
               fill="#FAFAF9"
             />
           </svg>
+        </div>
+      </section>
+
+      <section
+        data-testid="landing-trust-bar"
+        className="border-y border-sage-100/80 bg-sage-50 py-4"
+        aria-label="Vertrouwen en zekerheid"
+      >
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-stone-700">
+            {trustItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <li key={item.text} className="flex items-center gap-2">
+                  <Icon className="h-3.5 w-3.5 text-sage-700" strokeWidth={2.1} aria-hidden />
+                  <span className="font-medium">{item.text}</span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </section>
 
@@ -659,7 +692,7 @@ export default function LandingPageFinal() {
         >
           <div className='relative overflow-hidden rounded-3xl shadow-lg'>
             <img
-              src="/images/landing/MEALPREP.webp"
+              src="/images/landing/MEALPREP.jpg"
               alt={String(t('landing.mealPrepImageAlt'))}
               loading="lazy"
               decoding="async"
@@ -737,11 +770,12 @@ export default function LandingPageFinal() {
               <p className="text-sm text-stone-600">{String(t('landing.pricingSubtitle'))}</p>
             </div>
 
-            <div className="mb-8 flex items-baseline justify-center gap-3">
-              <span className="font-display text-3xl font-semibold text-stone-400 line-through">
-                €47
+            <div className="mb-8 flex flex-wrap items-end justify-center gap-x-3 gap-y-1">
+              <span className="font-display text-2xl font-semibold text-stone-400 line-through">
+                €247
               </span>
-              <span className="font-display text-5xl font-bold text-stone-800">€29</span>
+              <span className="font-display text-3xl font-semibold text-stone-500">€79</span>
+              <span className="font-display text-5xl font-bold text-stone-800">€47</span>
             </div>
 
             <p className="mb-6 text-center text-sm text-clay-600">
@@ -872,11 +906,17 @@ export default function LandingPageFinal() {
               <a href="/?app=1" className="text-sage-300 transition-colors hover:text-sage-200">
                 {String(t('landing.openApp'))}
               </a>
-              {footerLinks.map((label) => (
-                <a key={label} href="#" className="transition-colors hover:text-white">
+              {footerLinks.map(({ label, href }) => (
+                <a key={href} href={href} className="transition-colors hover:text-white">
                   {label}
                 </a>
               ))}
+              <a
+                href={`mailto:${footerContactEmail}`}
+                className="transition-colors hover:text-white"
+              >
+                {footerContactLabel}
+              </a>
             </div>
           </div>
         </div>

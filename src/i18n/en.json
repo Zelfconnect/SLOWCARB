@@ -1,10 +1,10 @@
 {
   "landing": {
-    "badge": "Based on the 4 Hour Body protocol",
-    "heroTitle": "Lose 8 to 10 kg\nin 6 weeks",
-    "heroSubtitle": "No calorie counting. No nonsense. Just eat what works.",
-    "ctaPrimary": "Start now €29 early bird",
-    "ctaSubtext": "One time payment • No subscription • Instant access",
+    "badge": "Based on the 4 Hour Body protocol • 84-day journey",
+    "heroTitle": "Start your 84-day journey\nto lose 8 to 10 kg",
+    "heroSubtitle": "No calorie counting. No willpower battles. Just a proven system you follow for 84 days.",
+    "ctaPrimary": "Start now • €47 Early Bird",
+    "ctaSubtext": "Early Bird €47 • Regular €79 (normally €247) • One-time payment",
     "openApp": "Open your app →",
     "painPointsLabel": "Sound familiar?",
     "painPointsTitle": "Recognize this?",
@@ -13,11 +13,11 @@
       "Counting calories until you lose your mind, and still not losing weight",
       "No idea what to eat, the same struggle every single day"
     ],
-    "solutionTitle": "Why this actually works.",
-    "solutionText": "Diets fail because they rely on willpower. SlowCarb works because it replaces willpower with simple rules. No calorie counting, no starving, no confusion. Just follow 5 rules and eat until you're full. The result: 8 to 10 kg in 6 weeks, without the gym.",
+    "solutionTitle": "Why the 84-day journey actually works.",
+    "solutionText": "Most diets fail because you keep guessing and restarting. SlowCarb replaces that with an 84-day system: 5 clear rules, daily structure, zero noise. You know exactly what to do every day, without counting calories or starving.",
     "rulesLabel": "The Method",
     "rulesTitle": "The 5 Rules",
-    "rulesSubtitle": "No calculations. No supplements. Just follow these rules and eat until you're full.",
+    "rulesSubtitle": "These 5 rules are your foundation for all 84 days. Simple, repeatable, practical.",
     "rules": [
       {
         "title": "No white carbs",
@@ -43,8 +43,8 @@
     "cheatdayTitle": "The Cheat Day",
     "cheatdayText": "One day per week you eat whatever you want. This is not optional. It resets your hormones and makes the diet sustainable.",
     "featuresLabel": "What you get",
-    "featuresTitle": "Everything you need",
-    "featuresSubtitle": "Everything to start today and keep going. No loose ends.",
+    "featuresTitle": "Everything for a full 84-day transformation",
+    "featuresSubtitle": "No loose ends. You get everything to start, stay consistent, and finish strong.",
     "features": [
       {
         "title": "50+ recipes",
@@ -59,8 +59,8 @@
         "description": "Automatically generate your weekly shopping list. Grouped by store section."
       },
       {
-        "title": "Weekly insights",
-        "description": "Brief explanations of why the protocol works. No dry theory. Practical knowledge that keeps you motivated."
+        "title": "84-day guidance",
+        "description": "Clear phase-by-phase guidance so you understand what your body is doing and why you keep going."
       },
       {
         "title": "Cheat day guide",
@@ -90,15 +90,15 @@
         "result": "Lost 7 kg in 6 weeks"
       }
     ],
-    "pricingLabel": "Early Bird Offer",
-    "pricingTitle": "SlowCarb Lifetime Access",
-    "pricingSubtitle": "One time payment, lifetime access",
-    "pricingNote": "Only for the first 100 people, then €47",
+    "pricingLabel": "Early Bird + Regular pricing",
+    "pricingTitle": "SlowCarb 84-day journey + lifetime access",
+    "pricingSubtitle": "Today €47 Early Bird • then €79 Regular",
+    "pricingNote": "Regular is €79 (normally €247) • Unlock your €47 Early Bird now",
     "pricingFeatures": [
       "50+ slow carb recipes",
       "Smart shopping list",
       "Progress tracking",
-      "Weekly education",
+      "84-day roadmap and guidance",
       "Cheat day protocol",
       "Future updates",
       "30 day money back guarantee"
@@ -107,34 +107,49 @@
     "pricingGuarantee": "30 day money back guarantee",
     "spotsLeft": "71 spots left",
     "faqLabel": "Frequently asked questions",
-    "faqTitle": "FAQ",
+    "faqTitle": "FAQ about the 84-day journey",
     "faqs": [
       {
         "question": "Is this safe?",
-        "answer": "Absolutely. The slow carb diet is based on whole foods like eggs, vegetables, legumes, and lean meat. It is not a crash diet. You simply eat nutritious meals that keep you full longer."
+        "answer": "Yes. The 84-day journey is built on whole foods like protein, vegetables, and legumes. No crash dieting, no extreme restriction. If you have medical concerns, consult your doctor first."
       },
       {
         "question": "What can I eat on a cheat day?",
-        "answer": "Anything. The cheat day is essential to the protocol. On Saturday (or your chosen day) you eat whatever you want. Pizza, ice cream, chips. This resets your metabolism and makes the diet mentally sustainable."
+        "answer": "Anything goes. The cheat day is a fixed part of the 84-day journey and helps you stay consistent mentally. Keep it to one planned day per week, then return to the protocol immediately."
       },
       {
         "question": "Do I have to count calories?",
-        "answer": "No. That is exactly the point of SlowCarb. You follow the 5 simple rules and eat until you are full. No apps, no scales, no stressing over numbers."
+        "answer": "No. You follow the 5 rules and the 84-day structure. That means execution, not calculations."
       },
       {
         "question": "How long do I have access?",
-        "answer": "Forever. You pay once and get lifetime access to all recipes, the shopping list, and future updates. No hidden costs."
+        "answer": "You get immediate access to the full 84-day journey and lifetime access to the app, including future updates."
       },
       {
         "question": "What if it does not work?",
-        "answer": "We offer a 30 day money back guarantee. If you are not satisfied, send us an email and you will get a full refund. No questions asked."
+        "answer": "You are protected by a 30-day money-back guarantee. Not satisfied? Email us and get your payment refunded."
       }
     ],
-    "finalCtaTitle": "Ready to start?",
-    "finalCtaText": "In 6 weeks you could be 8 to 10 kg lighter. No hunger, no doubt, no hassle.",
+    "finalCtaTitle": "Ready to start your 84-day journey?",
+    "finalCtaText": "Activate day 1 today for €47 Early Bird. After that it is €79 Regular (normally €247).",
     "footerBadges": ["Instant access", "No subscription", "30 day money back"],
     "footerCopy": "© 2026 SlowCarb. All rights reserved.",
-    "footerLinks": ["Privacy", "Terms", "Contact"],
+    "footerLinks": [
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy-policy"
+      },
+      {
+        "label": "Terms of Service",
+        "href": "/terms-of-service"
+      },
+      {
+        "label": "Refund Policy",
+        "href": "/refund-policy"
+      }
+    ],
+    "footerContactLabel": "Contact",
+    "footerContactEmail": "hello@slowcarb.nl",
     "lifestyleImageAlt": "Healthy lifestyle and transformation",
     "breakfastImageAlt": "Healthy breakfast with protein and vegetables",
     "mealPrepImageAlt": "Meal prep containers with healthy meals"
