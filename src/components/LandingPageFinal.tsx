@@ -692,7 +692,7 @@ export default function LandingPageFinal() {
         >
           <div className='relative overflow-hidden rounded-3xl shadow-lg'>
             <img
-              src="/images/landing/MEALPREP.webp"
+              src="/images/landing/MEALPREP.jpg"
               alt={String(t('landing.mealPrepImageAlt'))}
               loading="lazy"
               decoding="async"
