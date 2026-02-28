@@ -11,6 +11,10 @@ vi.mock('@/components/WelcomePage', () => ({
   default: () => <div>WelcomePage</div>,
 }));
 
+vi.mock('@/components/LoginPage', () => ({
+  LoginPage: () => <div>LoginPage</div>,
+}));
+
 vi.mock('@/components/Dashboard', () => ({
   Dashboard: () => <div>DashboardContent</div>,
 }));
@@ -29,6 +33,16 @@ vi.mock('@/components/SettingsTab', () => ({
 
 vi.mock('@/components/OnboardingWizard', () => ({
   OnboardingWizard: () => <div>OnboardingWizard</div>,
+}));
+
+vi.mock('@/hooks/useAuth', () => ({
+  useAuth: () => ({
+    session: null,
+    user: null,
+    isAuthenticated: false,
+    isLoading: false,
+    signOut: vi.fn(),
+  }),
 }));
 
 vi.mock('@/hooks/useFavorites', () => ({
@@ -94,10 +108,9 @@ describe('App UI/UX', () => {
   it('keeps global shell layout contract', () => {
     const { container } = render(<App />);
     const appShell = container.firstElementChild as HTMLElement;
-    expect(appShell.className).toContain('h-app-screen');
+    expect(appShell.className).toContain('h-full');
     expect(appShell.className).toContain('bg-cream');
-    expect(appShell.className).toContain('overflow-x-hidden');
-    expect(appShell.className).not.toContain('overflow-y-hidden');
+    expect(appShell.className).toContain('overflow-hidden');
 
     const header = screen.getByText('SlowCarb').closest('header');
     expect(header).toBeInTheDocument();

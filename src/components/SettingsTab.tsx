@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useUserStore } from '@/store/useUserStore';
 import { useJourney } from '@/hooks/useJourney';
+import { useAuth } from '@/hooks/useAuth';
 import {
   User,
   Settings2,
@@ -39,6 +40,7 @@ import {
   Dumbbell,
   Save,
   PlayCircle,
+  LogOut,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -51,6 +53,7 @@ export function SettingsTab() {
   const { t, locale, setLocale } = useTranslation();
   const { profile, updateProfile, logout } = useUserStore();
   const { journey, resetJourney, startJourney } = useJourney();
+  const { user, isAuthenticated, signOut } = useAuth();
 
   if (!profile) {
     return (
@@ -112,8 +115,14 @@ export function SettingsTab() {
     resetJourney();
   };
 
-  const handleClearAllData = () => {
+  const handleClearAllData = async () => {
     resetJourney();
+    if (isAuthenticated) await signOut();
+    logout();
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
     logout();
   };
 
@@ -148,6 +157,59 @@ export function SettingsTab() {
           </div>
         </div>
       </div>
+
+      {/* Account Section */}
+      {isAuthenticated && user?.email && (
+        <Card className="rounded-2xl shadow-sm border-stone-100">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-semibold text-stone-800 flex items-center gap-2">
+              <Mail className="w-5 h-5 text-sage-600" />
+              Account
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-stone-700">{user.email}</p>
+                <p className="text-xs text-stone-500">Ingelogd via magic link</p>
+              </div>
+            </div>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button className="w-full flex items-center justify-between p-2.5 rounded-xl bg-stone-50 hover:bg-stone-100 transition-colors group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-stone-200 flex items-center justify-center">
+                      <LogOut className="w-4 h-4 text-stone-600" />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-medium text-stone-700">Uitloggen</p>
+                      <p className="text-xs text-stone-500">Je kunt altijd opnieuw inloggen via je e-mail</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-stone-400 group-hover:text-stone-600 transition-colors" />
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="rounded-2xl">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Uitloggen?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Je wordt uitgelogd. Je kunt altijd opnieuw inloggen via een magic link naar {user.email}.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="rounded-xl">{String(t('settings.cancel'))}</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleSignOut}
+                    className="rounded-xl bg-sage-600 hover:bg-sage-700"
+                  >
+                    Uitloggen
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Profile Section */}
       <Card className="rounded-2xl shadow-sm border-stone-100">
