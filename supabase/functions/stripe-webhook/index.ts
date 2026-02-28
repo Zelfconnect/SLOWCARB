@@ -129,8 +129,6 @@ Deno.serve(async (req: Request) => {
 
   if (linkError) {
     console.error("Failed to generate magic link", linkError);
-  } else {
-    console.log("Magic link generated for", customerEmail, linkData);
   }
 
   return new Response(JSON.stringify({ received: true, userId }), {

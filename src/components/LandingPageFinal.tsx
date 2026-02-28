@@ -359,7 +359,6 @@ export default function LandingPageFinal() {
   const footerContactEmail = String(t('landing.footerContactEmail'));
 
   const stripeUrl = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
-  // Stripe success_url should be: https://www.eatslowcarb.com/?token=slowcarb2026
 
   useEffect(() => {
     const storedProfile = localStorage.getItem(STORAGE_KEYS.PROFILE);

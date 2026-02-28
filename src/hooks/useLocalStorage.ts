@@ -49,14 +49,22 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === key && event.newValue) {
-        setStoredValue(JSON.parse(event.newValue));
+        try {
+          setStoredValue(JSON.parse(event.newValue));
+        } catch {
+          console.warn(`Error parsing localStorage key "${key}" from storage event`);
+        }
       }
     };
 
     const handleSameTabSync = (event: Event) => {
       const detail = (event as CustomEvent<LocalStorageSyncDetail>).detail;
       if (detail.key === key) {
-        setStoredValue(JSON.parse(detail.newValue));
+        try {
+          setStoredValue(JSON.parse(detail.newValue));
+        } catch {
+          console.warn(`Error parsing localStorage key "${key}" from sync event`);
+        }
       }
     };
 

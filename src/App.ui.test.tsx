@@ -95,12 +95,12 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-  localStorage.setItem('slowcarb_access', 'test-token');
+  localStorage.setItem('slowcarb_profile', JSON.stringify({ hasCompletedOnboarding: true, name: 'Test' }));
   window.history.replaceState({}, '', '/?app=1');
 });
 
 afterAll(() => {
-  localStorage.removeItem('slowcarb_access');
+  localStorage.removeItem('slowcarb_profile');
   vi.unstubAllGlobals();
 });
 

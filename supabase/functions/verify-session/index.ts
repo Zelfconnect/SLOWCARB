@@ -2,16 +2,30 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const STRIPE_API_KEY = Deno.env.get("STRIPE_API_KEY")!;
 
+const ALLOWED_ORIGINS = [
+  "https://www.eatslowcarb.com",
+  "https://eatslowcarb.com",
+  "https://slowcarb-new.vercel.app",
+];
+
+function getCorsOrigin(req: Request): string {
+  const origin = req.headers.get("Origin") || "";
+  return ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+}
+
+function corsHeaders(req: Request): Record<string, string> {
+  return {
+    "Access-Control-Allow-Origin": getCorsOrigin(req),
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Vary": "Origin",
+  };
+}
+
 Deno.serve(async (req: Request) => {
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
-    return new Response(null, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    });
+    return new Response(null, { headers: corsHeaders(req) });
   }
 
   if (req.method !== "POST") {
@@ -26,10 +40,7 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({ error: "Missing session_id" }),
         {
           status: 400,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
+          headers: { "Content-Type": "application/json", ...corsHeaders(req) },
         }
       );
     }
@@ -49,10 +60,7 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({ error: "Invalid session" }),
         {
           status: 400,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
+          headers: { "Content-Type": "application/json", ...corsHeaders(req) },
         }
       );
     }
@@ -66,29 +74,20 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({ error: "No email found in session" }),
         {
           status: 400,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
+          headers: { "Content-Type": "application/json", ...corsHeaders(req) },
         }
       );
     }
 
     return new Response(JSON.stringify({ email }), {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: { "Content-Type": "application/json", ...corsHeaders(req) },
     });
   } catch {
     return new Response(
       JSON.stringify({ error: "Internal error" }),
       {
         status: 500,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: { "Content-Type": "application/json", ...corsHeaders(req) },
       }
     );
   }

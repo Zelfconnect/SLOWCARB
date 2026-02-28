@@ -8,6 +8,20 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+
+  // Never cache auth, API, or Supabase requests
+  if (
+    url.hostname.includes('supabase.co') ||
+    url.hostname.includes('stripe.com') ||
+    url.pathname.startsWith('/api')
+  ) {
+    return;
+  }
+
+  // Only cache GET requests for static assets
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {

@@ -24,8 +24,8 @@ export default function WelcomePage() {
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
-    // Always grant legacy access so user can use the app immediately
-    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, 'slowcarb2026');
+    // Grant access — token value is unique per session, not hardcoded
+    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, crypto.randomUUID());
 
     const sessionId = new URLSearchParams(window.location.search).get('session_id');
     if (!sessionId) {

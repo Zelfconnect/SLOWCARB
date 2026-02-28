@@ -62,10 +62,10 @@ function App() {
   const isWelcome = searchParams.get('welcome') === '1';
   if (isWelcome) return <WelcomePage />;
 
-  // Legacy backward compat: check localStorage token
+  // Backward compat: existing users who received a localStorage token via Stripe flow
   const hasLegacyToken = Boolean(localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN));
 
-  // Also restore access if user completed onboarding but lost token
+  // Check if user completed onboarding (existing users who already have profile data)
   let hasCompletedProfile = false;
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.PROFILE);
@@ -92,11 +92,6 @@ function App() {
 
   // ?app=1 but no access → login page for returning users
   if (!hasAccess) return <LoginPage />;
-
-  // Restore legacy token if user has completed profile (backward compat)
-  if (!hasLegacyToken && hasCompletedProfile) {
-    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, 'slowcarb2026');
-  }
 
   return <AppShell />;
 }
