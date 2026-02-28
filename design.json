@@ -1,0 +1,710 @@
+{
+  "meta": {
+    "project": "Slow-Carb Companion",
+    "description": "Mobile-first web app voor het Slow-Carb dieet (Tim Ferriss's 4-Hour Body)",
+    "language": "nl (Nederlands)",
+    "platform": "Web (mobile-first PWA)",
+    "framework": "React 19 + Vite + Tailwind CSS 3.4 + shadcn/ui",
+    "url": "https://eatslowcarb.com",
+    "themeColor": "#3d623d"
+  },
+
+  "colors": {
+    "background": "#FAFAF9",
+    "foreground": "#292524",
+
+    "sage": {
+      "description": "Primary green — slow-carb identity, navigation active states, rule cards",
+      "50": "#f4f7f4",
+      "100": "#e3ebe3",
+      "200": "#c5d8c5",
+      "300": "#9bbd9b",
+      "400": "#729c72",
+      "500": "#527e52",
+      "600": "#3d623d",
+      "700": "#314f31",
+      "800": "#293f29",
+      "900": "#223422"
+    },
+
+    "clay": {
+      "description": "Warm accent — tags, secondary highlights, pain-point icons",
+      "50": "#fbf8f6",
+      "100": "#f5efe9",
+      "200": "#eadbc9",
+      "300": "#dec0a3",
+      "400": "#d0a07a",
+      "500": "#c5855a",
+      "600": "#ba6d48",
+      "700": "#9a573c",
+      "800": "#7f4935",
+      "900": "#663d2d"
+    },
+
+    "primary": {
+      "description": "Bright green — buttons, success states, progress fills",
+      "50": "#F0FDF4",
+      "100": "#DCFCE7",
+      "200": "#BBF7D0",
+      "300": "#86EFAC",
+      "400": "#4ADE80",
+      "500": "#22C55E",
+      "600": "#16A34A",
+      "700": "#15803D",
+      "800": "#166534",
+      "900": "#14532D"
+    },
+
+    "accent": {
+      "description": "Amber — concept cards, warnings, attention elements",
+      "50": "#FFFBEB",
+      "100": "#FEF3C7",
+      "200": "#FDE68A",
+      "300": "#FCD34D",
+      "400": "#FBBF24",
+      "500": "#F59E0B",
+      "600": "#D97706",
+      "700": "#B45309",
+      "800": "#92400E",
+      "900": "#78350F"
+    },
+
+    "warm": {
+      "description": "Warm gray (beige tint) — neutral surfaces, text, borders",
+      "50": "#FAFAF9",
+      "100": "#F5F5F4",
+      "200": "#E7E5E4",
+      "300": "#D6D3D1",
+      "400": "#A8A29E",
+      "500": "#78716C",
+      "600": "#57534E",
+      "700": "#44403C",
+      "800": "#292524",
+      "900": "#1C1917"
+    },
+
+    "status": {
+      "success": "#22C55E",
+      "error": "#EF4444",
+      "warning": "#F59E0B",
+      "info": "#3B82F6"
+    },
+
+    "cream": "#FAFAF9",
+
+    "semantic": {
+      "description": "Education card color coding",
+      "rules": "sage-600 to sage-700 gradient (green)",
+      "concepts": "stone-600 to stone-700 gradient (neutral dark)",
+      "reference": "white with stone-200 border"
+    },
+
+    "cssVariables": {
+      "description": "HSL tokens used by shadcn/ui components (in H S% L% format without hsl() wrapper)",
+      "--background": "40 25% 97%",
+      "--foreground": "120 15% 15%",
+      "--card": "40 25% 99%",
+      "--card-foreground": "120 15% 15%",
+      "--popover": "40 25% 99%",
+      "--popover-foreground": "120 15% 15%",
+      "--primary": "120 25% 31%",
+      "--primary-foreground": "40 25% 97%",
+      "--secondary": "40 20% 94%",
+      "--secondary-foreground": "120 15% 15%",
+      "--muted": "40 15% 92%",
+      "--muted-foreground": "120 8% 45%",
+      "--accent": "25 40% 55%",
+      "--accent-foreground": "40 25% 97%",
+      "--destructive": "0 60% 55%",
+      "--destructive-foreground": "40 25% 97%",
+      "--border": "40 15% 88%",
+      "--input": "40 15% 88%",
+      "--ring": "120 25% 31%",
+      "--radius": "1rem"
+    }
+  },
+
+  "typography": {
+    "fontFamilies": {
+      "display": ["SF Pro Display", "SF Pro Text", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Inter", "system-ui", "sans-serif"],
+      "sans": ["SF Pro Text", "SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Inter", "system-ui", "sans-serif"],
+      "landing": {
+        "headings": ["Fraunces", "serif"],
+        "body": ["Satoshi", "sans-serif"]
+      }
+    },
+    "fontWeights": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
+    "headings": {
+      "fontFamily": "display",
+      "fontWeight": "semibold",
+      "letterSpacing": "tight (-0.025em)"
+    },
+    "body": {
+      "fontFamily": "sans",
+      "fontSmoothing": "antialiased"
+    },
+    "lineHeight": {
+      "tight": 1.25,
+      "snug": 1.375,
+      "normal": 1.5,
+      "relaxed": 1.625
+    },
+    "letterSpacing": {
+      "tighter": "-0.05em",
+      "tight": "-0.025em",
+      "normal": "0",
+      "wide": "0.025em",
+      "wider": "0.05em"
+    },
+    "scale": {
+      "xs": "0.75rem (12px)",
+      "sm": "0.875rem (14px)",
+      "base": "1rem (16px)",
+      "lg": "1.125rem (18px)",
+      "xl": "1.25rem (20px)",
+      "2xl": "1.5rem (24px)"
+    }
+  },
+
+  "spacing": {
+    "description": "8pt grid system",
+    "base": "8px",
+    "scale": {
+      "0.5": "0.125rem (2px)",
+      "1": "0.25rem (4px)",
+      "1.5": "0.375rem (6px)",
+      "2": "0.5rem (8px)",
+      "2.5": "0.625rem (10px)",
+      "3": "0.75rem (12px)",
+      "4": "1rem (16px)",
+      "4.5": "1.125rem (18px)",
+      "5": "1.25rem (20px)",
+      "5.5": "1.375rem (22px)",
+      "6": "1.5rem (24px)",
+      "8": "2rem (32px)",
+      "10": "2.5rem (40px)",
+      "12": "3rem (48px)",
+      "16": "4rem (64px)",
+      "18": "4.5rem (72px)",
+      "20": "5rem (80px)",
+      "22": "5.5rem (88px)",
+      "safe": "6rem (96px)"
+    }
+  },
+
+  "borders": {
+    "radius": {
+      "md": "0.5rem (8px)",
+      "lg": "1rem (16px) — default interactive surfaces",
+      "xl": "1rem (16px) — large cards",
+      "2xl": "1.25rem (20px) — modals, buttons, inputs",
+      "3xl": "1.5rem (24px) — hero elements",
+      "full": "9999px — pills, tags, avatar circles"
+    },
+    "styles": {
+      "default": "1px solid stone-200",
+      "input": "1px solid warm-300",
+      "card-reference": "1px solid stone-200"
+    }
+  },
+
+  "shadows": {
+    "soft": "0 2px 8px rgba(0,0,0,0.04)",
+    "sm": "0 1px 2px 0 rgba(0,0,0,0.05)",
+    "card": "0 4px 20px rgba(0,0,0,0.06)",
+    "surface": "0 4px 20px rgba(0,0,0,0.06)",
+    "md": "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.06)",
+    "card-hover": "0 8px 28px rgba(0,0,0,0.09)",
+    "surface-pressed": "inset 0 1px 2px rgba(0,0,0,0.16), 0 2px 10px rgba(0,0,0,0.04)",
+    "elevated": "0 10px 30px rgba(0,0,0,0.12)",
+    "lg": "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.05)",
+    "dialog": "0 25px 50px -12px rgba(0,0,0,0.5)"
+  },
+
+  "zIndex": {
+    "dropdown": 10,
+    "sticky": 20,
+    "fixed": 30,
+    "modal-backdrop": 40,
+    "modal": 50,
+    "popover": 60,
+    "tooltip": 70
+  },
+
+  "components": {
+    "buttons": {
+      "base": {
+        "borderRadius": "rounded-2xl (20px)",
+        "fontWeight": "medium (500)",
+        "fontSize": "sm (14px)",
+        "transition": "all 200ms",
+        "focusRing": "2px solid sage-500, offset 2px"
+      },
+      "variants": {
+        "default": {
+          "background": "#10b981",
+          "hoverBackground": "#059669",
+          "textColor": "white",
+          "shadow": "surface",
+          "activeEffect": "shadow-surface-pressed + translateY(1px)"
+        },
+        "destructive": {
+          "background": "destructive (red)",
+          "textColor": "white",
+          "shadow": "surface"
+        },
+        "outline": {
+          "background": "white",
+          "textColor": "sage-700",
+          "border": "none",
+          "shadow": "surface",
+          "hoverBackground": "sage-50"
+        },
+        "secondary": {
+          "background": "stone-100",
+          "textColor": "stone-700",
+          "hoverBackground": "stone-200"
+        },
+        "ghost": {
+          "background": "transparent",
+          "hoverBackground": "stone-100",
+          "hoverTextColor": "stone-900"
+        },
+        "link": {
+          "textColor": "sage-600",
+          "hoverDecoration": "underline"
+        }
+      },
+      "sizes": {
+        "default": { "height": "56px (h-14)", "paddingX": "20px (px-5)", "paddingY": "10px (py-2.5)" },
+        "sm": { "height": "44px (h-11)", "paddingX": "14px (px-3.5)" },
+        "lg": { "height": "56px (h-14)", "paddingX": "24px (px-6)" },
+        "xl": { "height": "56px (h-14)", "paddingX": "24px (px-6)", "fontSize": "base (16px)" },
+        "icon": { "size": "40px (size-10)" },
+        "icon-sm": { "size": "32px (size-8)", "borderRadius": "rounded-xl" }
+      }
+    },
+
+    "cards": {
+      "base": {
+        "overflow": "hidden",
+        "transition": "shadow 200ms"
+      },
+      "variants": {
+        "default": {
+          "background": "white",
+          "textColor": "stone-800",
+          "shadow": "sm"
+        },
+        "rule": {
+          "background": "gradient sage-600 → sage-700",
+          "textColor": "white",
+          "description": "Primary green gradient for slow-carb rules"
+        },
+        "concept": {
+          "background": "gradient stone-600 → stone-700",
+          "textColor": "white",
+          "description": "Neutral dark gradient for concept/education cards"
+        },
+        "reference": {
+          "background": "white",
+          "textColor": "stone-800",
+          "border": "1px solid stone-200",
+          "shadow": "sm"
+        },
+        "success": {
+          "background": "sage-50",
+          "textColor": "sage-900",
+          "border": "1px solid sage-200"
+        },
+        "warning": {
+          "background": "stone-50",
+          "textColor": "stone-800",
+          "border": "1px solid stone-200"
+        },
+        "error": {
+          "background": "red-50",
+          "textColor": "red-900",
+          "border": "1px solid red-200"
+        }
+      },
+      "padding": {
+        "none": "0",
+        "compact": "12px (p-3)",
+        "default": "16px (p-4)",
+        "medium": "20px (p-5)",
+        "large": "24px (p-6)"
+      },
+      "radius": {
+        "md": "8px",
+        "lg": "12px (default)",
+        "xl": "16px",
+        "2xl": "20px"
+      },
+      "premiumCard": {
+        "description": "CSS class .card-premium — elevated card style",
+        "background": "white",
+        "borderRadius": "rounded-2xl (20px)",
+        "shadow": "0 4px 20px rgba(0,0,0,0.06)",
+        "hoverShadow": "0 8px 28px rgba(0,0,0,0.09)",
+        "activeScale": "scale(0.98)",
+        "transition": "all 0.3s ease-out"
+      }
+    },
+
+    "inputs": {
+      "base": {
+        "height": "56px (h-14)",
+        "borderRadius": "rounded-2xl (20px)",
+        "paddingX": "20px (px-5)",
+        "fontSize": "base (16px) / md:sm (14px)",
+        "background": "white/90",
+        "border": "1px solid warm-300",
+        "shadow": "xs",
+        "placeholderColor": "muted-foreground",
+        "transition": "color, box-shadow"
+      },
+      "focus": {
+        "borderColor": "ring (sage)",
+        "ringWidth": "3px",
+        "ringColor": "ring/50"
+      },
+      "premiumInput": {
+        "description": "CSS class .input-premium",
+        "borderRadius": "rounded-2xl (20px)",
+        "background": "white",
+        "border": "none",
+        "shadow": "surface",
+        "focusBorderColor": "sage-400",
+        "focusRing": "0 0 0 3px rgba(114, 156, 114, 0.18)"
+      }
+    },
+
+    "tags": {
+      "base": {
+        "display": "inline-flex items-center",
+        "paddingX": "12px (px-3)",
+        "paddingY": "4px (py-1)",
+        "borderRadius": "full (pill)",
+        "fontSize": "xs (12px)",
+        "fontWeight": "medium (500)",
+        "letterSpacing": "wide",
+        "textTransform": "uppercase"
+      },
+      "variants": {
+        "sage": { "background": "sage-50", "textColor": "sage-600" },
+        "clay": { "background": "clay-50", "textColor": "clay-500" }
+      }
+    },
+
+    "dialogs": {
+      "overlay": {
+        "background": "rgba(0, 0, 0, 0.6)",
+        "backdropFilter": "blur(8px)",
+        "zIndex": 40,
+        "position": "fixed inset-0"
+      },
+      "content": {
+        "position": "fixed center (50% / 50% with translate)",
+        "width": "calc(100% - 2rem) on mobile, max-w-lg on sm+",
+        "maxHeight": "90dvh",
+        "background": "white",
+        "borderRadius": "rounded-2xl (20px)",
+        "border": "1px solid stone-200",
+        "shadow": "0 25px 50px -12px rgba(0,0,0,0.5)",
+        "padding": "0 (inner elements handle padding)",
+        "zIndex": 50,
+        "overflow": "hidden, flex col for scroll"
+      },
+      "animations": {
+        "enter": "fade-in + zoom-in-95",
+        "exit": "fade-out + zoom-out-95",
+        "duration": "200ms"
+      },
+      "closeButton": {
+        "position": "absolute top-4 right-4",
+        "padding": "8px (p-2)",
+        "borderRadius": "full",
+        "iconSize": "20px (w-5 h-5)",
+        "color": "gray-500 → hover:gray-900"
+      }
+    },
+
+    "bottomNav": {
+      "position": "fixed bottom-0 left-0 right-0",
+      "height": "calc(5rem + safe-area-inset-bottom)",
+      "paddingBottom": "env(safe-area-inset-bottom, 0px)",
+      "background": "white/90",
+      "backdropFilter": "blur(12px)",
+      "border": "top 1px solid stone-200",
+      "zIndex": 30,
+      "maxWidth": "max-w-md (centered)",
+      "items": {
+        "layout": "flex-col items-center justify-center",
+        "iconSize": "20px (w-5 h-5)",
+        "labelSize": "xs (12px)",
+        "states": {
+          "inactive": { "textColor": "stone-400", "hoverColor": "stone-600" },
+          "active": {
+            "textColor": "sage-600",
+            "labelColor": "sage-700",
+            "iconBackground": "sage-50",
+            "iconScale": "scale-110",
+            "iconFill": "fill-current",
+            "strokeWidth": 2.5
+          }
+        }
+      },
+      "tabs": [
+        { "id": "dashboard", "label": "Dashboard", "icon": "LayoutDashboard" },
+        { "id": "recipes", "label": "Recepten", "icon": "ChefHat" },
+        { "id": "learn", "label": "Leren", "icon": "BookOpen" },
+        { "id": "ammo", "label": "AmmoCheck", "icon": "Package" }
+      ]
+    },
+
+    "progressBar": {
+      "height": "8px (h-2)",
+      "borderRadius": "full",
+      "trackColor": "stone-200",
+      "fillGradient": "sage-400 → sage-600 (left to right)",
+      "animation": "width 0.5s ease-out"
+    },
+
+    "sectionHeader": {
+      "fontSize": "2xl (24px)",
+      "fontFamily": "display",
+      "fontWeight": "semibold (600)",
+      "textColor": "stone-800",
+      "letterSpacing": "tight (-0.025em)"
+    }
+  },
+
+  "layout": {
+    "appShell": {
+      "html": "height: 100%, width: 100%",
+      "body": "height: 100%, width: 100%, overflow: hidden",
+      "root": "height: 100%, overflow: hidden",
+      "viewport": "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    },
+    "header": {
+      "height": "64px"
+    },
+    "bottomNav": {
+      "height": "80px (5rem)",
+      "safeBottom": "96px (6rem) — includes safe-area-inset-bottom"
+    },
+    "contentArea": {
+      "description": "Main scrollable area between header and bottom nav",
+      "paddingBottom": "safe (96px) to avoid bottom nav overlap"
+    },
+    "maxWidth": {
+      "app": "max-w-md (448px) — bottom nav container",
+      "dialog": "max-w-lg (512px)"
+    },
+    "dialogContent": {
+      "width": "calc(100% - 2rem) on mobile",
+      "maxWidth": "max-w-lg (512px) on sm+",
+      "maxHeight": "90dvh",
+      "centering": "fixed left-50% top-50% translate(-50%, -50%)"
+    }
+  },
+
+  "images": {
+    "formats": ["webp (primary)", "jpg (fallback/og)"],
+    "patterns": {
+      "hero": {
+        "description": "Full-width hero images on landing page",
+        "aspectRatio": "auto",
+        "objectFit": "cover",
+        "loading": "eager"
+      },
+      "recipeGrid": {
+        "description": "Recipe card thumbnails in grid",
+        "objectFit": "cover",
+        "loading": "lazy",
+        "borderRadius": "rounded-2xl (top corners)"
+      },
+      "landing": {
+        "ogImage": {
+          "url": "https://eatslowcarb.com/images/landing/og-image.jpg",
+          "width": 1200,
+          "height": 630
+        }
+      }
+    },
+    "loading": {
+      "strategy": "lazy by default, eager for above-the-fold",
+      "preconnect": ["fonts.googleapis.com", "fonts.gstatic.com"]
+    },
+    "fallbacks": {
+      "gradientSage": "bg-gradient-to-br from-sage-500 to-sage-600",
+      "gradientClay": "bg-gradient-to-br from-clay-500 to-clay-600"
+    }
+  },
+
+  "icons": {
+    "library": "lucide-react",
+    "defaultStrokeWidth": 2,
+    "activeStrokeWidth": 2.5,
+    "sizes": {
+      "xs": "16px (w-4 h-4)",
+      "sm": "20px (w-5 h-5) — nav icons, close buttons",
+      "md": "24px (w-6 h-6)",
+      "lg": "32px (w-8 h-8)"
+    },
+    "containers": {
+      "circle": {
+        "description": "Icon in circular background (pain-point cards, features)",
+        "size": "40px (h-10 w-10)",
+        "borderRadius": "full",
+        "background": "white",
+        "shadow": "soft",
+        "iconColor": "clay-600"
+      },
+      "navActive": {
+        "description": "Active nav icon container",
+        "padding": "8px (p-2)",
+        "borderRadius": "lg",
+        "background": "sage-50"
+      }
+    },
+    "commonIcons": {
+      "navigation": ["LayoutDashboard", "ChefHat", "BookOpen", "Package"],
+      "actions": ["Check", "ArrowRight", "XIcon"],
+      "food": ["Bean", "Egg", "GlassWater", "WheatOff", "Apple"],
+      "features": ["Smartphone", "ShoppingCart", "TrendingUp", "PartyPopper"]
+    }
+  },
+
+  "animations": {
+    "transitions": {
+      "fast": "150ms",
+      "normal": "200ms",
+      "slow": "300ms",
+      "premium": "0.3s ease-out"
+    },
+    "easing": {
+      "default": "ease",
+      "out": "ease-out"
+    },
+    "interactions": {
+      "press": {
+        "translateY": "1px",
+        "shadow": "surface-pressed"
+      },
+      "premiumPress": {
+        "scale": "0.98"
+      },
+      "hover": {
+        "shadowElevation": "card → card-hover"
+      }
+    },
+    "reveals": {
+      "sectionReveal": {
+        "description": "IntersectionObserver-based scroll reveals on landing page",
+        "threshold": 0.12,
+        "rootMargin": "0px 0px -10% 0px",
+        "enterClass": "opacity-100 translate-y-0",
+        "exitClass": "opacity-100 translate-y-6",
+        "duration": "700ms"
+      }
+    },
+    "dialogAnimations": {
+      "enter": {
+        "fade": "fade-in-0",
+        "zoom": "zoom-in-95"
+      },
+      "exit": {
+        "fade": "fade-out-0",
+        "zoom": "zoom-out-95"
+      }
+    },
+    "progressFill": {
+      "property": "width",
+      "duration": "0.5s",
+      "easing": "ease-out"
+    }
+  },
+
+  "css": {
+    "utilities": {
+      "glass": {
+        "background": "rgba(250, 248, 245, 0.85)",
+        "backdropFilter": "blur(12px)",
+        "webkitBackdropFilter": "blur(12px)"
+      },
+      "scrollbar-hide": {
+        "msOverflowStyle": "none",
+        "scrollbarWidth": "none",
+        "webkitScrollbar": "display: none"
+      },
+      "safe-area-bottom": {
+        "paddingBottom": "env(safe-area-inset-bottom, 0)"
+      },
+      "safe-bottom": {
+        "paddingBottom": "96px"
+      },
+      "h-app-screen": {
+        "height": "100dvh"
+      },
+      "app-screen": {
+        "height": "100dvh",
+        "minHeight": "100dvh"
+      },
+      "line-clamp-1": "single line truncation with ellipsis",
+      "line-clamp-2": "two line truncation with ellipsis",
+      "text-shadow": "0 1px 2px rgba(0,0,0,0.1)",
+      "no-select": "user-select: none"
+    },
+    "globals": {
+      "tapHighlight": "transparent (-webkit-tap-highlight-color)",
+      "scrollBehavior": "smooth",
+      "focusVisible": "2px solid hsl(var(--ring)), offset 2px"
+    },
+    "gradients": {
+      "sage": "bg-gradient-to-br from-sage-500 to-sage-600",
+      "clay": "bg-gradient-to-br from-clay-500 to-clay-600",
+      "progressFill": "bg-gradient-to-r from-sage-400 to-sage-600"
+    }
+  },
+
+  "responsive": {
+    "philosophy": "Mobile-first (390px primary target)",
+    "breakpoints": {
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px"
+    },
+    "patterns": {
+      "dialogWidth": "calc(100% - 2rem) on mobile → max-w-lg on sm+",
+      "inputFontSize": "base (16px) on mobile → sm (14px) on md+",
+      "maxContentWidth": "max-w-md (448px)"
+    }
+  },
+
+  "safeArea": {
+    "description": "iOS Safari safe area handling",
+    "bottomNav": "height: calc(5rem + env(safe-area-inset-bottom, 0px))",
+    "contentPadding": "padding-bottom: 96px (safe bottom)",
+    "webAppCapable": true,
+    "statusBarStyle": "default"
+  },
+
+  "fonts": {
+    "loading": {
+      "preconnect": [
+        "https://fonts.googleapis.com",
+        "https://fonts.gstatic.com"
+      ],
+      "googleFonts": "Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400",
+      "fontshare": "Satoshi@400,500,600,700",
+      "display": "swap"
+    }
+  }
+}
