@@ -15,6 +15,8 @@ import {
   Quote,
   Shield,
   RefreshCw,
+  AlertCircle,
+  XCircle,
   Globe,
   Zap,
   Heart,
@@ -51,6 +53,8 @@ const trustItems = [
   { icon: Globe, text: 'EU-conform' },
   { icon: Zap, text: 'Direct toegang' },
 ] as const;
+
+const painIcons = [AlertCircle, XCircle, RefreshCw] as const;
 
 
 function useSectionReveal(sectionCount: number) {
@@ -431,12 +435,26 @@ export default function LandingPageFinal() {
               {String(t('landing.badge'))}
             </span>
             <h1 className="font-display text-3xl font-bold leading-tight text-white text-shadow md:text-5xl lg:text-6xl">
-              {String(t('landing.heroTitle')).split('\n').map((line, index, arr) => (
-                <span key={line}>
-                  {line}
-                  {index < arr.length - 1 && <br />}
-                </span>
-              ))}
+              {String(t('landing.heroTitle')).split('\n').map((line, index, arr) => {
+                const numberHighlight = '8 tot 10 kilo';
+                const hasHighlight = line.includes(numberHighlight);
+                const [before, ...after] = line.split(numberHighlight);
+
+                return (
+                  <span key={`${line}-${index}`}>
+                    {hasHighlight ? (
+                      <>
+                        {before}
+                        <span className="text-sage-200">{numberHighlight}</span>
+                        {after.join(numberHighlight)}
+                      </>
+                    ) : (
+                      line
+                    )}
+                    {index < arr.length - 1 && <br />}
+                  </span>
+                );
+              })}
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-xl leading-relaxed text-sage-100 md:text-2xl">
               {String(t('landing.heroSubtitle'))}
@@ -523,9 +541,19 @@ export default function LandingPageFinal() {
           style={{ transitionDelay: '150ms' }}
         >
           <div className="space-y-4 text-base leading-relaxed text-stone-700 md:text-lg">
-            {painItems.map((item, idx) => (
-              <p key={idx}>{item}</p>
-            ))}
+            {painItems.map((item, idx) => {
+              const PainIcon = painIcons[idx % painIcons.length];
+              return (
+                <p key={idx} className="flex items-start gap-3">
+                  <PainIcon
+                    className="mt-0.5 h-5 w-5 shrink-0 text-clay-600"
+                    strokeWidth={2.2}
+                    aria-hidden
+                  />
+                  <span>{item}</span>
+                </p>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -686,10 +714,19 @@ export default function LandingPageFinal() {
             </h2>
 
             <div className="mt-8 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-start">
-              <blockquote className="rounded-2xl border border-white/70 bg-white p-6 text-xl leading-relaxed text-stone-700 md:p-8">
-                <p className="font-display text-4xl leading-none text-sage-300">&ldquo;</p>
-                <p className="-mt-2">{String(t('landing.storyQuote'))}</p>
-              </blockquote>
+              <div className="space-y-5">
+                <blockquote className="rounded-2xl border border-white/70 bg-white p-6 text-xl leading-relaxed text-stone-700 md:p-8">
+                  <p className="font-display text-4xl leading-none text-sage-300">&ldquo;</p>
+                  <p className="-mt-2">{String(t('landing.storyQuote'))}</p>
+                </blockquote>
+                <Button
+                  onClick={openCheckout}
+                  size="lg"
+                  className="h-14 rounded-xl bg-sage-600 px-8 text-lg font-semibold text-white shadow-elevated hover:bg-sage-700"
+                >
+                  {String(t('landing.ctaPrimary'))}
+                </Button>
+              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="aspect-[4/5] rounded-2xl border-2 border-dashed border-sage-200 bg-white/70 p-4 text-sm text-stone-500">
