@@ -9,14 +9,14 @@ type LegalLayoutProps = {
 
 export function LegalLayout({ title, intro, children }: LegalLayoutProps) {
   return (
-    <main className="min-h-screen bg-cream text-stone-600">
+    <main className="min-h-screen bg-cream text-stone-600 overflow-y-auto">
       <div className="mx-auto max-w-3xl px-6 py-12 font-['Source_Sans_3'] text-base leading-relaxed">
         <a
-          className="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white/80 px-4 py-2 text-sm font-semibold text-stone-800 shadow-sm transition hover:-translate-x-0.5 hover:bg-white"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-stone-200 bg-white/60 px-3 py-1.5 text-xs font-medium text-stone-600 transition hover:bg-white"
           href="/"
         >
-          <ArrowLeft size={16} strokeWidth={2.2} />
-          <span>Terug naar home</span>
+          <ArrowLeft size={14} strokeWidth={2.2} />
+          <span>Terug</span>
         </a>
 
         <header className="mt-8 space-y-4">
