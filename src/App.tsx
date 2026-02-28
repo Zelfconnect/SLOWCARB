@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { Cog } from 'lucide-react';
 import LandingPage from '@/components/LandingPageFinal';
 import WelcomePage from '@/components/WelcomePage';
@@ -20,7 +20,41 @@ import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import './App.css';
 
+const PrivacyPolicyPage = lazy(() => import('@/components/legal/PrivacyPolicyPage'));
+const TermsOfServicePage = lazy(() => import('@/components/legal/TermsOfServicePage'));
+const RefundPolicyPage = lazy(() => import('@/components/legal/RefundPolicyPage'));
+
+function renderLegalRoute(pathname: string) {
+  const normalizedPathname = pathname !== '/' ? pathname.replace(/\/+$/, '') : pathname;
+
+  switch (normalizedPathname) {
+    case '/privacy-policy':
+      return <PrivacyPolicyPage />;
+    case '/terms-of-service':
+      return <TermsOfServicePage />;
+    case '/refund-policy':
+      return <RefundPolicyPage />;
+    default:
+      return null;
+  }
+}
+
 function App() {
+  const legalRoute = renderLegalRoute(window.location.pathname);
+  if (legalRoute) {
+    return (
+      <Suspense
+        fallback={
+          <div className="flex h-app-screen items-center justify-center bg-cream">
+            <p className="text-stone-500">Laden…</p>
+          </div>
+        }
+      >
+        {legalRoute}
+      </Suspense>
+    );
+  }
+
   const searchParams = new URLSearchParams(window.location.search);
 
   // Show welcome page via ?welcome=1 query param
@@ -42,7 +76,7 @@ function App() {
   const hasAccessToken = Boolean(localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN));
   const isAppRequested = searchParams.get('app') === '1' || Boolean(tokenFromUrl);
 
-  if (!isAppRequested) return <div className="h-full overflow-y-auto"><LandingPage /></div>;
+  if (!isAppRequested) return <LandingPage />;
   if (!hasAccessToken && !tokenFromUrl) {
     let shouldShowLanding = false;
     // If user has a completed profile but lost the token (e.g. cleared URL), restore access
@@ -64,7 +98,7 @@ function App() {
     }
 
     if (shouldShowLanding) {
-      return <div className="h-full overflow-y-auto"><LandingPage /></div>;
+      return <LandingPage />;
     }
   }
 
@@ -176,7 +210,7 @@ function AppShell() {
 
   return (
     <div
-      className="flex h-full flex-col overflow-hidden bg-cream"
+      className="flex h-app-screen flex-col overflow-x-hidden bg-cream"
       style={{ overscrollBehaviorX: 'none' }}
     >
       <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
@@ -218,7 +252,7 @@ function AppShell() {
             ? 'pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] overflow-y-auto'
             : 'pb-28 overflow-y-auto'
         )}
-        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain', WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
+        style={{ overscrollBehaviorX: 'none', overscrollBehaviorY: 'contain' }}
       >
         {renderContent()}
       </main>
