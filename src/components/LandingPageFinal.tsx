@@ -430,7 +430,7 @@ export default function LandingPageFinal() {
             <span className="mb-6 inline-block rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/90 backdrop-blur-sm">
               {String(t('landing.badge'))}
             </span>
-            <h1 className="font-display text-4xl font-bold leading-tight text-white text-shadow md:text-5xl lg:text-6xl">
+            <h1 className="font-display text-3xl font-bold leading-tight text-white text-shadow md:text-5xl lg:text-6xl">
               {String(t('landing.heroTitle')).split('\n').map((line, index, arr) => (
                 <span key={line}>
                   {line}
@@ -438,21 +438,21 @@ export default function LandingPageFinal() {
                 </span>
               ))}
             </h1>
-            <p className="mx-auto mb-10 mt-6 max-w-xl text-xl leading-relaxed text-sage-100 md:text-2xl">
+            <p className="mx-auto mt-6 max-w-xl text-xl leading-relaxed text-sage-100 md:text-2xl">
               {String(t('landing.heroSubtitle'))}
             </p>
 
-            <div className="mb-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mb-6 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button
                 onClick={openCheckout}
                 size="lg"
-                className="h-14 rounded-xl bg-white px-8 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
+                className="h-14 rounded-xl bg-sage-600 px-8 text-lg font-semibold text-white shadow-elevated hover:bg-sage-700"
               >
                 {String(t('landing.ctaPrimary'))}
               </Button>
             </div>
 
-            <p className="text-sm font-medium text-sage-200">
+            <p className="inline-block rounded-full bg-black/20 px-4 py-1.5 text-sm font-medium text-sage-200 backdrop-blur-sm">
               {String(t('landing.ctaSubtext'))}
             </p>
           </div>
@@ -829,7 +829,7 @@ export default function LandingPageFinal() {
             <Button
               onClick={openCheckout}
               size="lg"
-              className="h-14 rounded-xl bg-white px-10 text-lg font-semibold text-sage-700 shadow-elevated hover:bg-stone-50"
+              className="h-14 rounded-xl bg-sage-600 px-10 text-lg font-semibold text-white shadow-elevated hover:bg-sage-700"
             >
               {String(t('landing.finalCtaButton'))}
             </Button>
