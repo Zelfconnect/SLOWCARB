@@ -894,7 +894,7 @@ export default function LandingPageFinal() {
       </section>
 
       {/* Footer */}
-      <footer ref={setRef(8)} data-index={8} className="bg-stone-900 py-8 text-stone-400">
+      <footer ref={setRef(8)} data-index={8} className="bg-stone-900 py-8 pb-24 md:pb-8 text-stone-400">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div
             className={`flex flex-col items-center justify-between gap-4 md:flex-row transition-all duration-700 ${revealClass(
