@@ -18,6 +18,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useUserStore } from '@/store/useUserStore';
 import { getLocalDateString } from '@/lib/localDate';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import './App.css';
@@ -52,11 +53,11 @@ function renderLegalRoute() {
 }
 
 function App() {
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const legalRoute = renderLegalRoute();
   if (legalRoute) return legalRoute;
 
   const searchParams = new URLSearchParams(window.location.search);
-  const { isAuthenticated, isLoading: authLoading } = useAuth();
 
   // Show welcome page via ?welcome=1 query param (post-Stripe redirect)
   const isWelcome = searchParams.get('welcome') === '1';
@@ -75,7 +76,7 @@ function App() {
     }
   } catch { /* ignore */ }
 
-  const hasAccess = isAuthenticated || hasLegacyToken || hasCompletedProfile;
+  const hasAccess = !isSupabaseConfigured || isAuthenticated || hasLegacyToken || hasCompletedProfile;
   const isAppRequested = searchParams.get('app') === '1';
 
   // Wait for Supabase auth to resolve before deciding

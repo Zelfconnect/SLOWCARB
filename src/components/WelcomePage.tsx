@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { CheckCircle2, Mail, Loader2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim();
 
 const confettiColors = ['#729c72', '#527e52', '#c5855a', '#dec0a3', '#9bbd9b', '#e3ebe3'];
 
@@ -28,7 +28,7 @@ export default function WelcomePage() {
     localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, 'slowcarb2026');
 
     const sessionId = new URLSearchParams(window.location.search).get('session_id');
-    if (!sessionId) {
+    if (!isSupabaseConfigured || !SUPABASE_URL || !sessionId) {
       // No session_id → legacy flow (direct Stripe redirect without session_id)
       setStatus('legacy');
       return;
@@ -56,6 +56,11 @@ export default function WelcomePage() {
   }, []);
 
   const sendMagicLink = async () => {
+    if (!supabase) {
+      setStatus('legacy');
+      return;
+    }
+
     setStatus('loading');
     const { error } = await supabase.auth.signInWithOtp({
       email,

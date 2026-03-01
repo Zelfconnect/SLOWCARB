@@ -12,9 +12,14 @@ interface AuthState {
 
 export function useAuth(): AuthState {
   const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(Boolean(supabase));
 
   useEffect(() => {
+    if (!supabase) {
+      setIsLoading(false);
+      return;
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s);
@@ -33,6 +38,7 @@ export function useAuth(): AuthState {
   }, []);
 
   const signOut = async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
     setSession(null);
   };
