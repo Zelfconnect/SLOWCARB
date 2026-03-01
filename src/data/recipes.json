@@ -3,7 +3,7 @@
   "createdAt": "2026-02-20",
   "totalRecipes": 50,
   "categories": {
-    "airfryer": 33,
+    "airfryer": 8,
     "mealPrep": 9,
     "noTime": 8
   },
@@ -14,7 +14,6 @@
       "subtitle": "30 in 30 ontbijt",
       "time": 12,
       "tags": [
-        "airfryer",
         "ontbijt"
       ],
       "ingredients": [
@@ -43,7 +42,6 @@
       "subtitle": "Ontbijt zonder ei",
       "time": 10,
       "tags": [
-        "airfryer",
         "ontbijt"
       ],
       "ingredients": [
@@ -70,7 +68,6 @@
       "subtitle": "Koud en snel",
       "time": 2,
       "tags": [
-        "airfryer",
         "ontbijt"
       ],
       "ingredients": [
@@ -96,7 +93,6 @@
       "subtitle": "Vegan ontbijt",
       "time": 12,
       "tags": [
-        "airfryer",
         "ontbijt"
       ],
       "ingredients": [
@@ -124,7 +120,6 @@
       "subtitle": "Zacht roerei",
       "time": 8,
       "tags": [
-        "airfryer",
         "ontbijt"
       ],
       "ingredients": [
@@ -151,7 +146,6 @@
       "subtitle": "Restjesontbijt",
       "time": 10,
       "tags": [
-        "airfryer",
         "ontbijt"
       ],
       "ingredients": [
@@ -178,7 +172,6 @@
       "subtitle": "Hartig vegan",
       "time": 14,
       "tags": [
-        "airfryer",
         "ontbijt"
       ],
       "ingredients": [
@@ -207,7 +200,6 @@
       "subtitle": "Snel ontbijt",
       "time": 12,
       "tags": [
-        "airfryer",
         "ontbijt"
       ],
       "ingredients": [
@@ -233,7 +225,6 @@
       "subtitle": "Lunch mealbox",
       "time": 15,
       "tags": [
-        "airfryer",
         "lunch"
       ],
       "ingredients": [
@@ -262,7 +253,6 @@
       "subtitle": "Koude lunch",
       "time": 8,
       "tags": [
-        "airfryer",
         "lunch"
       ],
       "ingredients": [
@@ -291,7 +281,6 @@
       "subtitle": "Dubbele lunch",
       "time": 8,
       "tags": [
-        "airfryer",
         "lunch"
       ],
       "ingredients": [
@@ -317,7 +306,6 @@
       "subtitle": "Klassieke lunch",
       "time": 12,
       "tags": [
-        "airfryer",
         "lunch"
       ],
       "ingredients": [
@@ -352,7 +340,6 @@
       "subtitle": "Draagbare lunch",
       "time": 6,
       "tags": [
-        "airfryer",
         "lunch"
       ],
       "ingredients": [
@@ -383,7 +370,6 @@
       "subtitle": "Vullende lunch",
       "time": 8,
       "tags": [
-        "airfryer",
         "lunch"
       ],
       "ingredients": [
@@ -411,7 +397,6 @@
       "subtitle": "Frisse lunch",
       "time": 7,
       "tags": [
-        "airfryer",
         "lunch"
       ],
       "ingredients": [
@@ -438,7 +423,6 @@
       "subtitle": "Lunch met vetten",
       "time": 8,
       "tags": [
-        "airfryer",
         "lunch"
       ],
       "ingredients": [
@@ -468,7 +452,6 @@
       "subtitle": "Vullend diner",
       "time": 25,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -498,7 +481,6 @@
       "subtitle": "Wokdiner",
       "time": 18,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -528,7 +510,6 @@
       "subtitle": "Traybake",
       "time": 30,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -559,7 +540,6 @@
       "subtitle": "Vegan diner",
       "time": 22,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -586,7 +566,6 @@
       "subtitle": "Snelle klassieker",
       "time": 15,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -617,7 +596,6 @@
       "subtitle": "Ovenfolie",
       "time": 20,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -645,7 +623,6 @@
       "subtitle": "One-pan diner",
       "time": 20,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -671,7 +648,6 @@
       "subtitle": "Smaakvol diner",
       "time": 20,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -701,7 +677,6 @@
       "subtitle": "Snelle vismaaltijd",
       "time": 15,
       "tags": [
-        "airfryer",
         "avondeten"
       ],
       "ingredients": [
@@ -1053,7 +1028,7 @@
       "steps": [
         "Smeer de zalm licht in met een paar druppels olijfolie en bestrooi met zeezout.",
         "Leg de zalm in het mandje, eventueel op een klein stukje bakpapier.",
-        "Bak 8 tot 10 minuten op 180 graden."
+        "Bak 8 tot 10 minuten op 180 graden in de airfryer."
       ],
       "macros": {
         "protein": 30
@@ -1178,7 +1153,8 @@
       "time": 14,
       "tags": [
         "airfryer",
-        "lunch"
+        "lunch",
+        "snack"
       ],
       "ingredients": [
         "100g kikkererwten",
@@ -1188,7 +1164,7 @@
       "steps": [
         "Dep de kikkererwten extreem goed droog met keukenpapier.",
         "Meng ze in een kom met olijfolie en komijnpoeder.",
-        "Bak 12 minuten op 200 graden."
+        "Bak 12 minuten op 200 graden in de airfryer."
       ],
       "macros": {
         "protein": 15
@@ -1284,7 +1260,8 @@
       "time": 1,
       "tags": [
         "no-time",
-        "ontbijt"
+        "ontbijt",
+        "snack"
       ],
       "ingredients": [
         "200g hüttenkäse",
@@ -1336,7 +1313,8 @@
       "time": 1,
       "tags": [
         "no-time",
-        "lunch"
+        "lunch",
+        "snack"
       ],
       "ingredients": [
         "200g gestoomde edamame",
