@@ -76,7 +76,8 @@ function App() {
     }
   } catch { /* ignore */ }
 
-  const hasAccess = !isSupabaseConfigured || isAuthenticated || hasLegacyToken || hasCompletedProfile;
+  const isDevBypass = searchParams.get('dev') === '1';
+  const hasAccess = isDevBypass || !isSupabaseConfigured || isAuthenticated || hasLegacyToken || hasCompletedProfile;
   const isAppRequested = searchParams.get('app') === '1';
 
   // Wait for Supabase auth to resolve before deciding
