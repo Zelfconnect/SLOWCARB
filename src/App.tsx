@@ -118,8 +118,11 @@ function AppShell() {
     getCurrentTip, 
     getProgress, 
     isCheatDay,
+    getMealsForDate,
     getTodayMeals,
+    toggleMealForDate,
     toggleMeal,
+    markDayCompliant,
     logWeight,
     getStreak
   } = useJourney();
@@ -183,6 +186,9 @@ function AppShell() {
             todayMeals={getTodayMeals()}
             streak={getStreak()}
             onToggleMeal={toggleMeal}
+            onToggleMealForDate={toggleMealForDate}
+            onMarkDayCompliant={markDayCompliant}
+            getMealsForDate={getMealsForDate}
             mealEntries={mealLog}
             weightLog={weightLog}
             onLogWeight={logWeight}

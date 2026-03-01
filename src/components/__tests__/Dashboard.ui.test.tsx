@@ -32,6 +32,10 @@ vi.mock('@/components/WeightProgressCard', () => ({
   ),
 }));
 
+vi.mock('@/components/MealHistorySection', () => ({
+  MealHistorySection: () => <div>MealHistorySection</div>,
+}));
+
 vi.mock('@/hooks/useJourney', () => ({
   getDaysUntilCheatDay: () => 2,
   getWeekData: () => [{ isFuture: false, isCheatDay: false, completed: true }],
@@ -68,6 +72,9 @@ function createProps(overrides: Partial<React.ComponentProps<typeof Dashboard>> 
     todayMeals: createMealEntry(),
     streak: 1,
     onToggleMeal: vi.fn(),
+    onToggleMealForDate: vi.fn(),
+    onMarkDayCompliant: vi.fn(),
+    getMealsForDate: vi.fn(() => createMealEntry()),
     mealEntries: [createMealEntry()],
     weightLog: [{ date: '2026-02-19', weight: 83 } satisfies WeightEntry],
     onLogWeight,

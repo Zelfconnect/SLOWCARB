@@ -9,6 +9,7 @@ const FIXED_TODAY = new Date('2024-01-15T12:00:00.000Z');
 const TODAY_STR = '2024-01-15';
 const YESTERDAY_STR = '2024-01-14';
 const TWO_DAYS_AGO_STR = '2024-01-13';
+const THREE_PROTOCOL_DAYS_AGO_STR = '2024-01-12';
 
 const completeDay = (date: string) => ({
   date,
@@ -225,7 +226,7 @@ describe('getStreak', () => {
     seedMealLog([
       completeDay(TODAY_STR),
       completeDay(YESTERDAY_STR),
-      completeDay(TWO_DAYS_AGO_STR),
+      completeDay(THREE_PROTOCOL_DAYS_AGO_STR),
     ]);
     const { result } = renderHook(() => useJourney());
     expect(result.current.getStreak()).toBe(3);
@@ -260,6 +261,19 @@ describe('getStreak', () => {
     seedMealLog([completeDay('2024-01-21'), completeDay('2024-01-19')]);
     const { result } = renderHook(() => useJourney());
     expect(result.current.getStreak()).toBe(2);
+  });
+
+  it('restores streak when a missed past day is marked compliant', () => {
+    seedMealLog([completeDay(TODAY_STR), completeDay(THREE_PROTOCOL_DAYS_AGO_STR)]);
+    const { result } = renderHook(() => useJourney());
+
+    expect(result.current.getStreak()).toBe(1);
+
+    act(() => {
+      result.current.markDayCompliant(YESTERDAY_STR);
+    });
+
+    expect(result.current.getStreak()).toBe(3);
   });
 });
 
@@ -354,6 +368,31 @@ describe('toggleMeal', () => {
     expect(meals.breakfast).toBe(true);
     expect(meals.lunch).toBe(true);
     expect(meals.dinner).toBe(true);
+  });
+
+  it('toggles meals for a past date without affecting today', () => {
+    const { result } = renderHook(() => useJourney());
+
+    act(() => {
+      result.current.toggleMealForDate(YESTERDAY_STR, 'dinner');
+    });
+
+    expect(result.current.getMealsForDate(YESTERDAY_STR).dinner).toBe(true);
+    expect(result.current.getTodayMeals().dinner).toBe(false);
+  });
+
+  it('marks a selected date compliant in one action', () => {
+    const { result } = renderHook(() => useJourney());
+
+    act(() => {
+      result.current.markDayCompliant(YESTERDAY_STR);
+    });
+
+    expect(result.current.getMealsForDate(YESTERDAY_STR)).toMatchObject({
+      breakfast: true,
+      lunch: true,
+      dinner: true,
+    });
   });
 });
 

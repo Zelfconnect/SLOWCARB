@@ -56,7 +56,11 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
         r.tags.some(t => t.toLowerCase().includes(query))
       );
     }
-    if (activeCategory !== 'all') filtered = filtered.filter(r => r.tags.includes(activeCategory));
+    if (activeCategory !== 'all') {
+      filtered = filtered.filter(
+        (r) => r.tags.includes(activeCategory) || r.category === activeCategory
+      );
+    }
     if (showFavoritesOnly) filtered = filtered.filter(r => favorites.includes(r.id));
     return filtered.sort((a, b) => {
       const aFav = favorites.includes(a.id);

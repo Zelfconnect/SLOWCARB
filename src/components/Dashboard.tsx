@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
+import { MealHistorySection } from './MealHistorySection';
 import { StreakHeroCard } from './StreakHeroCard';
 import { WeeklyProgressGrid } from './WeeklyProgressGrid';
 import { WeightProgressCard } from './WeightProgressCard';
@@ -23,6 +24,9 @@ interface DashboardProps {
   todayMeals: MealEntry;
   streak: number;
   onToggleMeal: (meal: 'breakfast' | 'lunch' | 'dinner') => void;
+  onToggleMealForDate: (date: string, meal: 'breakfast' | 'lunch' | 'dinner') => void;
+  onMarkDayCompliant: (date: string) => void;
+  getMealsForDate: (date: string) => MealEntry;
   mealEntries: MealEntry[];
   weightLog: WeightEntry[];
   onLogWeight: (weight: number, date?: string) => void;
@@ -39,17 +43,22 @@ export function Dashboard({
   todayMeals,
   streak,
   onToggleMeal,
+  onToggleMealForDate,
+  onMarkDayCompliant,
+  getMealsForDate,
   mealEntries,
   weightLog,
   onLogWeight,
 }: DashboardProps) {
   const { t, locale } = useTranslation();
+  const today = getLocalDateString();
   const [weightDialogOpen, setWeightDialogOpen] = useState(false);
   const [weightInput, setWeightInput] = useState('');
-  const today = getLocalDateString();
+  const [selectedHistoryDate, setSelectedHistoryDate] = useState(today);
   const todayLabel = new Date(`${today}T12:00:00`).toLocaleDateString(
     locale === 'nl' ? 'nl-NL' : 'en-US'
   );
+  const selectedMeals = getMealsForDate(selectedHistoryDate);
 
   const sortedWeights = [...weightLog].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -165,6 +174,17 @@ export function Dashboard({
           🎉 Perfecte week! 6/6 protocoldagen voltooid.
         </div>
       )}
+
+      <MealHistorySection
+        journeyStartDate={journey.startDate}
+        cheatDay={journey.cheatDay}
+        mealEntries={mealEntries}
+        selectedDate={selectedHistoryDate}
+        selectedMeals={selectedMeals}
+        onSelectDate={setSelectedHistoryDate}
+        onToggleMealForDate={onToggleMealForDate}
+        onMarkDayCompliant={onMarkDayCompliant}
+      />
 
       <WeeklyProgressGrid weekData={weekData} />
       {!isCheatDay && daysUntilCheatDay > 0 && daysUntilCheatDay <= 2 ? (
