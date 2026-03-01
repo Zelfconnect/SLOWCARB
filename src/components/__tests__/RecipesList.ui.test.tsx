@@ -19,6 +19,19 @@ vi.mock('@/data/recipeLoader', () => {
       tags: ['ontbijt', 'airfryer'],
     },
     {
+      id: 'airfryer-zalm',
+      name: 'Airfryer zalm',
+      image: '/images/airfryer-zalm.jpg',
+      category: 'airfryer',
+      icon: 'fish',
+      prepTime: '6 min',
+      cookTime: '9 min',
+      servings: 1,
+      ingredients: [{ name: 'zalm', amount: '180g', scalable: true }],
+      steps: ['Kruid en bak'],
+      tags: ['lunch'],
+    },
+    {
       id: 'kip-salade',
       name: 'Kip salade',
       image: '/images/kip-salade.jpg',
@@ -157,6 +170,18 @@ describe('RecipesList UI/UX', () => {
     expect(screen.queryByText('Tonijn wrap')).not.toBeInTheDocument();
   });
 
+  it('matches category filters against tags or primary category', () => {
+    render(<RecipesList favorites={[]} onToggleFavorite={vi.fn()} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Airfryer' }));
+    expect(screen.getByText('Omelet bowl')).toBeInTheDocument();
+    expect(screen.getByText('Airfryer zalm')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Meal Prep' }));
+    expect(screen.getByText('Kip salade')).toBeInTheDocument();
+    expect(screen.getByText('Zalm bowl')).toBeInTheDocument();
+  });
+
   it('opens and closes recipe detail modal from card click', () => {
     render(<RecipesList favorites={[]} onToggleFavorite={vi.fn()} />);
 
@@ -200,8 +225,8 @@ describe('RecipesList UI/UX', () => {
     render(<RecipesList favorites={[]} onToggleFavorite={vi.fn()} />);
 
     const firstImage = screen.getByAltText('Omelet bowl');
-    const sixthImage = screen.getByAltText('Chia pudding');
-    const seventhImage = screen.getByAltText('Snack rolletjes');
+    const sixthImage = screen.getByAltText('Biefstuk salade');
+    const seventhImage = screen.getByAltText('Chia pudding');
 
     expect(firstImage).toHaveAttribute('loading', 'eager');
     expect(firstImage).toHaveAttribute('fetchpriority', 'high');

@@ -44,9 +44,9 @@ export function Dashboard({
   onLogWeight,
 }: DashboardProps) {
   const { t, locale } = useTranslation();
+  const today = getLocalDateString();
   const [weightDialogOpen, setWeightDialogOpen] = useState(false);
   const [weightInput, setWeightInput] = useState('');
-  const today = getLocalDateString();
   const todayLabel = new Date(`${today}T12:00:00`).toLocaleDateString(
     locale === 'nl' ? 'nl-NL' : 'en-US'
   );

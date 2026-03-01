@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Mail, ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
@@ -9,7 +9,7 @@ export function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (!email.trim() || !supabase) return;
 
     setStatus('sending');
     setErrorMsg('');
@@ -33,6 +33,12 @@ export function LoginPage() {
   return (
     <div className="flex min-h-[100dvh] flex-col bg-cream px-5 py-8">
       <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center gap-8">
+        {!isSupabaseConfigured && (
+          <div className="w-full rounded-xl border border-stone-200 bg-white p-4 text-sm text-stone-600">
+            Inloggen is tijdelijk niet beschikbaar. Je kunt de app wel direct gebruiken.
+          </div>
+        )}
+
         {status === 'sent' ? (
           <div className="flex flex-col items-center gap-6 text-center">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-sage-100">
@@ -97,7 +103,7 @@ export function LoginPage() {
 
               <button
                 type="submit"
-                disabled={status === 'sending' || !email.trim()}
+                disabled={status === 'sending' || !email.trim() || !isSupabaseConfigured}
                 className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-sage-600 text-base font-semibold text-white shadow-soft transition-colors hover:bg-sage-700 disabled:opacity-50"
               >
                 {status === 'sending' ? (

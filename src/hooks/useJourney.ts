@@ -2,7 +2,7 @@ import { addDays, format, isAfter, isBefore, isSameDay, startOfWeek } from 'date
 import { nl } from 'date-fns/locale';
 import { useLocalStorage } from './useLocalStorage';
 import { CHEAT_DAY_OPTIONS, CHEAT_DAY_TO_JS_DAY_INDEX } from '@/lib/cheatDay';
-import { getLocalDateString, getYesterdayDateString } from '@/lib/localDate';
+import { getLocalDateString } from '@/lib/localDate';
 import type { DayStatus, Journey, WeightEntry, MealEntry, CheatDay } from '@/types';
 import { getCurrentDayTip } from '@/data/journey';
 
@@ -11,6 +11,20 @@ const defaultJourney: Journey = {
   targetWeight: undefined,
   cheatDay: 'zaterdag',
 };
+
+const EMPTY_MEAL_FLAGS = { breakfast: false, lunch: false, dinner: false } as const;
+type MealType = keyof typeof EMPTY_MEAL_FLAGS;
+
+const parseLocalDate = (date: string) => {
+  const [year, month, day] = date.split('-').map(Number);
+  return new Date(year, month - 1, day, 12, 0, 0, 0);
+};
+
+const getMealEntryByDate = (mealLog: MealEntry[], date: string): MealEntry =>
+  mealLog.find((entry) => entry.date === date) ?? { date, ...EMPTY_MEAL_FLAGS };
+
+const isMealEntryCompliant = (entry?: MealEntry) =>
+  Boolean(entry?.breakfast && entry.lunch && entry.dinner);
 
 export function useJourney() {
   const [journey, setJourney] = useLocalStorage<Journey>('slowcarb-journey', defaultJourney);
@@ -27,21 +41,39 @@ export function useJourney() {
     setMealLog([]);
   };
 
+  const getMealsForDate = (date: string): MealEntry => getMealEntryByDate(mealLog, date);
+
   const getTodayMeals = (): MealEntry => {
     const today = getLocalDateString();
-    return mealLog.find(entry => entry.date === today) || { date: today, breakfast: false, lunch: false, dinner: false };
+    return getMealsForDate(today);
   };
 
-  const toggleMeal = (meal: 'breakfast' | 'lunch' | 'dinner') => {
-    const today = getLocalDateString();
+  const toggleMealForDate = (date: string, meal: MealType) => {
     setMealLog(prev => {
-      const existing = prev.find(entry => entry.date === today);
+      const existing = prev.find(entry => entry.date === date);
       if (existing) {
         return prev.map(entry => 
-          entry.date === today ? { ...entry, [meal]: !entry[meal] } : entry
+          entry.date === date ? { ...entry, [meal]: !entry[meal] } : entry
         );
       }
-      return [...prev, { date: today, breakfast: false, lunch: false, dinner: false, [meal]: true }];
+      return [...prev, { date, ...EMPTY_MEAL_FLAGS, [meal]: true }];
+    });
+  };
+
+  const toggleMeal = (meal: MealType) => {
+    toggleMealForDate(getLocalDateString(), meal);
+  };
+
+  const markDayCompliant = (date: string) => {
+    setMealLog(prev => {
+      const existing = prev.find(entry => entry.date === date);
+      if (existing) {
+        return prev.map(entry =>
+          entry.date === date ? { ...entry, breakfast: true, lunch: true, dinner: true } : entry
+        );
+      }
+
+      return [...prev, { date, breakfast: true, lunch: true, dinner: true }];
     });
   };
 
@@ -58,36 +90,39 @@ export function useJourney() {
 
   const getStreak = () => {
     if (mealLog.length === 0) return 0;
-    const sorted = [...mealLog].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    let streak = 0;
+
     const today = getLocalDateString();
-    const yesterday = getYesterdayDateString();
     const cheatDayNum = CHEAT_DAY_TO_JS_DAY_INDEX[journey.cheatDay];
+    const startDate = parseLocalDate(journey.startDate ?? '1970-01-01');
+    const mealLogMap = new Map(mealLog.map((entry) => [entry.date, entry]));
+    let streak = 0;
+    let skippedToday = false;
+    let cursor = parseLocalDate(today);
 
-    for (let i = 0; i < sorted.length; i++) {
-      const entry = sorted[i];
-      const allCompleted = entry.breakfast && entry.lunch && entry.dinner;
-      if (!allCompleted) break;
-
-      if (i === 0 && entry.date === today) streak++;
-      else if (i === 0 && entry.date === yesterday) streak++;
-      else if (i > 0 && entry.date === sorted[i - 1].date) continue;
-      else if (i > 0) {
-        const prevDate = new Date(sorted[i - 1].date);
-        const currDate = new Date(entry.date);
-        const diffDays = (prevDate.getTime() - currDate.getTime()) / (1000 * 60 * 60 * 24);
-        if (diffDays === 1) {
-          streak++;
-        } else if (diffDays === 2) {
-          const midDate = new Date(prevDate);
-          midDate.setDate(midDate.getDate() - 1);
-          if (midDate.getDay() === cheatDayNum) streak++;
-          else break;
-        } else {
-          break;
-        }
+    while (cursor.getTime() >= startDate.getTime()) {
+      if (cursor.getDay() === cheatDayNum) {
+        cursor.setDate(cursor.getDate() - 1);
+        continue;
       }
+
+      const cursorDate = getLocalDateString(cursor);
+      const allCompleted = isMealEntryCompliant(mealLogMap.get(cursorDate));
+      if (allCompleted) {
+        streak++;
+        cursor.setDate(cursor.getDate() - 1);
+        continue;
+      }
+
+      // Missing/incomplete today should not kill an existing streak yet.
+      if (!skippedToday && cursorDate === today) {
+        skippedToday = true;
+        cursor.setDate(cursor.getDate() - 1);
+        continue;
+      }
+
+      break;
     }
+
     return streak;
   };
 
@@ -123,8 +158,11 @@ export function useJourney() {
     getCurrentTip,
     getProgress,
     isCheatDay,
+    getMealsForDate,
     getTodayMeals,
+    toggleMealForDate,
     toggleMeal,
+    markDayCompliant,
     logWeight,
     getStreak,
   };
