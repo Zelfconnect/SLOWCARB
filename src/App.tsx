@@ -91,7 +91,8 @@ function App() {
 
   const isDevBypass = searchParams.get('dev') === '1';
   const hasAccess = isDevBypass || !isSupabaseConfigured || isAuthenticated || hasLegacyToken || hasCompletedProfile;
-  const isAppRequested = searchParams.get('app') === '1';
+  // ?dev=1 implies ?app=1 so preview links don't need both params
+  const isAppRequested = searchParams.get('app') === '1' || isDevBypass;
 
   // Wait for Supabase auth to resolve before deciding
   if (authLoading) {
