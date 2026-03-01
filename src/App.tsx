@@ -1,5 +1,5 @@
-import { lazy, Suspense, useState, useEffect } from 'react';
-import { Cog } from 'lucide-react';
+import { lazy, Suspense, useState, useEffect, useRef } from 'react';
+import { CalendarDays, Cog } from 'lucide-react';
 import LandingPage from '@/components/LandingPageFinal';
 import WelcomePage from '@/components/WelcomePage';
 import { LoginPage } from '@/components/LoginPage';
@@ -9,6 +9,7 @@ import { RecipesList } from '@/components/RecipesList';
 import { LearnSection } from '@/components/LearnSection';
 import { AmmoCheck } from '@/components/AmmoCheck';
 import { SettingsTab } from '@/components/SettingsTab';
+import { MealHistorySection } from '@/components/MealHistorySection';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
@@ -108,6 +109,12 @@ function AppShell() {
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [selectedHistoryDate, setSelectedHistoryDate] = useState(getLocalDateString());
+  const [historyDragOffset, setHistoryDragOffset] = useState(0);
+  const [isHistoryDragging, setIsHistoryDragging] = useState(false);
+  const historyDragStartYRef = useRef<number | null>(null);
+  const historyDragOffsetRef = useRef(0);
 
   const { profile, isLoaded, loadProfile, updateProfile } = useUserStore();
   const { favorites, toggleFavorite } = useFavorites();
@@ -131,6 +138,45 @@ function AppShell() {
   useEffect(() => {
     loadProfile();
   }, [loadProfile]);
+
+  const selectedMeals = getMealsForDate(selectedHistoryDate);
+
+  const closeHistorySheet = () => {
+    setHistoryOpen(false);
+    setHistoryDragOffset(0);
+    setIsHistoryDragging(false);
+    historyDragStartYRef.current = null;
+    historyDragOffsetRef.current = 0;
+  };
+
+  const openHistorySheet = () => {
+    setHistoryOpen(true);
+  };
+
+  const handleHistoryDragStart = (clientY: number) => {
+    if (!historyOpen) return;
+    setIsHistoryDragging(true);
+    historyDragStartYRef.current = clientY;
+  };
+
+  const handleHistoryDragMove = (clientY: number) => {
+    if (!isHistoryDragging || historyDragStartYRef.current === null) return;
+    const nextOffset = Math.max(0, clientY - historyDragStartYRef.current);
+    historyDragOffsetRef.current = nextOffset;
+    setHistoryDragOffset(nextOffset);
+  };
+
+  const handleHistoryDragEnd = () => {
+    if (!isHistoryDragging) return;
+    setIsHistoryDragging(false);
+    historyDragStartYRef.current = null;
+    if (historyDragOffsetRef.current > 120) {
+      closeHistorySheet();
+      return;
+    }
+    historyDragOffsetRef.current = 0;
+    setHistoryDragOffset(0);
+  };
 
   if (!isLoaded) {
     return (
@@ -188,9 +234,6 @@ function AppShell() {
             todayMeals={getTodayMeals()}
             streak={getStreak()}
             onToggleMeal={toggleMeal}
-            onToggleMealForDate={toggleMealForDate}
-            onMarkDayCompliant={markDayCompliant}
-            getMealsForDate={getMealsForDate}
             mealEntries={mealLog}
             weightLog={weightLog}
             onLogWeight={logWeight}
@@ -221,16 +264,28 @@ function AppShell() {
         <header className="sticky left-0 right-0 top-0 z-50 h-14 shrink-0 border-b border-stone-200 bg-white/95 backdrop-blur-md">
           <div className="max-w-md mx-auto h-full px-4 flex items-center justify-between">
             <h1 className="font-display text-lg font-semibold text-stone-800">SlowCarb</h1>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => setSettingsOpen(true)}
-              className="size-9 rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-900"
-              aria-label="Open instellingen"
-            >
-              <Cog className="size-5" />
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={openHistorySheet}
+                className="size-9 rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-900"
+                aria-label="Open geschiedenis"
+              >
+                <CalendarDays className="size-5" />
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setSettingsOpen(true)}
+                className="size-9 rounded-full text-stone-500 hover:bg-stone-100 hover:text-stone-900"
+                aria-label="Open instellingen"
+              >
+                <Cog className="size-5" />
+              </Button>
+            </div>
           </div>
         </header>
 
@@ -260,6 +315,56 @@ function AppShell() {
       >
         {renderContent()}
       </main>
+
+      <div
+        className={cn(
+          'fixed inset-0 z-[65] bg-stone-900/35 transition-opacity duration-300',
+          historyOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        )}
+        onClick={closeHistorySheet}
+        aria-hidden={!historyOpen}
+      />
+      <div
+        className={cn(
+          'pointer-events-none fixed inset-x-0 bottom-0 z-[70] flex justify-center px-2',
+          historyOpen ? 'opacity-100' : 'opacity-0'
+        )}
+        aria-hidden={!historyOpen}
+      >
+        <section
+          className="pointer-events-auto flex h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-b-0 border-stone-200 bg-white shadow-elevated"
+          style={{
+            transform: historyOpen ? `translateY(${historyDragOffset}px)` : 'translateY(100%)',
+            transition: isHistoryDragging ? 'none' : 'transform 300ms ease-out',
+          }}
+        >
+          <div
+            className="flex justify-center px-4 py-3"
+            onPointerDown={(event) => {
+              handleHistoryDragStart(event.clientY);
+              event.currentTarget.setPointerCapture(event.pointerId);
+            }}
+            onPointerMove={(event) => handleHistoryDragMove(event.clientY)}
+            onPointerUp={handleHistoryDragEnd}
+            onPointerCancel={handleHistoryDragEnd}
+            role="presentation"
+          >
+            <div className="h-1.5 w-12 rounded-full bg-stone-300" />
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+            <MealHistorySection
+              journeyStartDate={journey.startDate}
+              cheatDay={journey.cheatDay}
+              mealEntries={mealLog}
+              selectedDate={selectedHistoryDate}
+              selectedMeals={selectedMeals}
+              onSelectDate={setSelectedHistoryDate}
+              onToggleMealForDate={toggleMealForDate}
+              onMarkDayCompliant={markDayCompliant}
+            />
+          </div>
+        </section>
+      </div>
 
       {/* Bottom Navigation (80px fixed height) */}
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
