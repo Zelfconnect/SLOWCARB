@@ -319,6 +319,13 @@ describe('getProgress', () => {
     expect(percentage).toBe(100);
   });
 
+  it('caps week at 12 when the journey is complete', () => {
+    vi.setSystemTime(new Date('2024-04-01T12:00:00.000Z')); // well past 84 days
+    seedJourney('2024-01-01');
+    const { result } = renderHook(() => useJourney());
+    expect(result.current.getProgress().week).toBe(12);
+  });
+
   it('sets totalDays to 84', () => {
     vi.setSystemTime(new Date('2024-01-15T12:00:00.000Z'));
     seedJourney('2024-01-01');

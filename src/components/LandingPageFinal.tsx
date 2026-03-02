@@ -268,7 +268,7 @@ export default function LandingPageFinal() {
   }, []);
 
   useEffect(() => {
-    const existingPreload = document.querySelector(`link[rel=\"preload\"][href=\"${heroImageSrc}\"]`);
+    const existingPreload = document.querySelector(`link[rel="preload"][href="${heroImageSrc}"]`);
     if (existingPreload) return;
 
     const preloadLink = document.createElement('link');

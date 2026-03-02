@@ -38,7 +38,7 @@ describe('LandingPageFinal', () => {
     expect(painHeader?.className).toContain('opacity-100');
     expect(painHeader?.className).toContain('translate-y-0');
 
-    const rulesHeader = container.querySelector('section[data-index="2"] > div > div');
+    const rulesHeader = container.querySelector('section[data-index="2"] > div');
     expect(rulesHeader).not.toBeNull();
     expect(rulesHeader?.className).toContain('opacity-100');
     expect(rulesHeader?.className).toContain('translate-y-6');

@@ -13,6 +13,7 @@ import { DailyMealTracker } from './DailyMealTracker';
 import { Card } from '@/components/primitives/Card';
 import { CHEAT_DAY_LABELS, CHEAT_DAY_OPTIONS } from '@/lib/cheatDay';
 import { getLocalDateString } from '@/lib/localDate';
+import { getCurrentPhase } from '@/data/journey';
 import type { CheatDay, MealEntry } from '@/types';
 
 interface JourneyCardProps {
@@ -46,6 +47,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
       year: 'numeric',
     })
     : null;
+  const currentPhase = getCurrentPhase(progress.day);
 
   const handleStart = () => {
     onStartJourney(startDate, cheatDay, targetWeight ? parseFloat(targetWeight) : undefined);
@@ -190,6 +192,14 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
               <p className="text-sm text-white/80">
                 {isCheatDay ? 'Geniet ervan!' : `Week ${progress.week} van 12`}
               </p>
+              {currentPhase?.title ? (
+                <span
+                  data-testid="journey-phase-badge"
+                  className="mt-1 inline-flex rounded-full bg-white/20 px-2.5 py-0.5 text-[11px] font-medium text-white"
+                >
+                  Fase: {currentPhase.title}
+                </span>
+              ) : null}
               {journeyStartDateLabel ? (
                 <p className="mt-0.5 text-xs text-white/70">Gestart op {journeyStartDateLabel}</p>
               ) : null}

@@ -1,8 +1,7 @@
 import type { DayTip } from '@/types';
 
-export const dayTips: DayTip[] = [
+const baseWeekDayTips: Omit<DayTip, 'day'>[] = [
   {
-    day: 1,
     title: 'De Laatste Maaltijd',
     tips: [
       'Waarschijnlijk geen verschil merkbaar',
@@ -13,7 +12,6 @@ export const dayTips: DayTip[] = [
     metabolicState: 'Laatste koolhydraatmaaltijd wordt verwerkt. Glycogeenopslag is vol.',
   },
   {
-    day: 2,
     title: 'De Overschakeling Begint',
     tips: [
       'Mogelijk lichte hoofdpijn — drink extra water',
@@ -24,7 +22,6 @@ export const dayTips: DayTip[] = [
     metabolicState: 'Glycogeen begint te dalen. Lever start gluconeogenese.',
   },
   {
-    day: 3,
     title: 'De Moeilijkste Dag',
     tips: [
       'Drink veel (2-3 liter)',
@@ -36,7 +33,6 @@ export const dayTips: DayTip[] = [
     metabolicState: 'Glycogeen is significant gedaald. Hersenen schreeuwen om glucose.',
   },
   {
-    day: 4,
     title: 'Het Keerpunt',
     tips: [
       'Hoofdpijn neemt af',
@@ -47,7 +43,6 @@ export const dayTips: DayTip[] = [
     metabolicState: 'Lever is efficiënter in gluconeogenese. Ketonen stijgen verder.',
   },
   {
-    day: 5,
     title: 'Eerste Glimp',
     tips: [
       'Energie merkbaar stabieler',
@@ -58,7 +53,6 @@ export const dayTips: DayTip[] = [
     metabolicState: '~50% van je energie komt nu uit vetzuren/ketonen.',
   },
   {
-    day: 6,
     title: 'Pre-Cheat Day',
     tips: [
       'Energie is goed',
@@ -69,7 +63,6 @@ export const dayTips: DayTip[] = [
     metabolicState: 'Leptine is gedaald door calorietekort. Dit is PRECIES waarom je morgen cheat day hebt.',
   },
   {
-    day: 7,
     title: 'Cheat Day!',
     tips: [
       'Geniet van ELKE hap',
@@ -80,6 +73,23 @@ export const dayTips: DayTip[] = [
     metabolicState: 'Insuline spiket HARD. Leptine reset. Glycogeen wordt aangevuld.',
   },
 ];
+
+export const dayTips: DayTip[] = Array.from({ length: 84 }, (_, index) => {
+  const day = index + 1;
+  const baseTip = baseWeekDayTips[index % baseWeekDayTips.length];
+
+  return {
+    day,
+    title: baseTip.title,
+    tips: [...baseTip.tips],
+    metabolicState: baseTip.metabolicState,
+  };
+});
+
+export const getCurrentPhase = (day: number): Omit<DayTip, 'day'> | undefined => {
+  if (!Number.isInteger(day) || day < 1 || day > dayTips.length) return undefined;
+  return baseWeekDayTips[(day - 1) % baseWeekDayTips.length];
+};
 
 export const weekTips: Record<number, { title: string; tips: string[]; warning?: string }> = {
   1: {
@@ -112,9 +122,95 @@ export const weekTips: Record<number, { title: string; tips: string[]; warning?:
     ],
     warning: 'Week 3 plateau is NORMAAL. Vertrouw het proces.',
   },
+  4: {
+    title: 'Week 4: Eerste Versnelling',
+    tips: [
+      'Je routine wordt automatischer',
+      'Focus op consistente porties peulvruchten',
+      'Blijf krachttraining of wandelen volhouden',
+      'Maak je cheat day vooraf bewust, niet impulsief',
+    ],
+  },
+  5: {
+    title: 'Week 5: Stabiliteit',
+    tips: [
+      'Energie is vaak stabiel gedurende de dag',
+      'Houd vaste eetmomenten aan',
+      'Varieer je recepten om verveling te voorkomen',
+      'Bekijk progressie per maand, niet per dag',
+    ],
+  },
+  6: {
+    title: 'Week 6: Middenpunt',
+    tips: [
+      'Je zit op de helft van de 12 weken',
+      'Controleer je slaap en stressniveau extra',
+      'Hydratatie blijft een hefboom voor resultaat',
+      'Neem nieuwe foto en taillemeting voor vergelijking',
+    ],
+    warning: 'Motivatiedip rond week 6 komt vaak voor. Blijf op systeem vertrouwen.',
+  },
+  7: {
+    title: 'Week 7: Verfijning',
+    tips: [
+      'Scherp je standaard ontbijt/lunch verder aan',
+      'Minimaliseer vloeibare calorieen buiten cheat day',
+      'Plan boodschappen voor 3-4 dagen vooruit',
+      'Let op genoeg eiwit bij elke maaltijd',
+    ],
+  },
+  8: {
+    title: 'Week 8: Doorpakken',
+    tips: [
+      'Kleine plateaus blijven normaal',
+      'Check naleving van alle 5 regels eerlijk',
+      'Houd je cheat day op dezelfde weekdag',
+      'Focus op trend: energie, taille, kleding',
+    ],
+  },
+  9: {
+    title: 'Week 9: Nieuwe Baseline',
+    tips: [
+      'Je nieuwe eetpatroon voelt steeds normaler',
+      'Blijf maaltijden simpel en herhaalbaar houden',
+      'Bescherm je slaaproutine',
+      'Gebruik meal prep om drukke dagen op te vangen',
+    ],
+  },
+  10: {
+    title: 'Week 10: Eindfase Inzetten',
+    tips: [
+      'Consistentie wint nu van perfectie',
+      'Vermijd experimenten met nieuwe uitzonderingen',
+      'Houd water- en zoutinname stabiel',
+      'Vergelijk met week 1: zichtbaar verschil motiveert',
+    ],
+  },
+  11: {
+    title: 'Week 11: Bijna Daar',
+    tips: [
+      'Laatste loodjes: blijf protocol strikt volgen',
+      'Plan sociale momenten rond je cheat day',
+      'Blijf dagelijkse beweging prioriteren',
+      'Evalueer welke gewoontes je wilt behouden na dag 84',
+    ],
+  },
+  12: {
+    title: 'Week 12: Afronding',
+    tips: [
+      'Maak je 84-dagen reflectie compleet',
+      'Vier progressie in gedrag, niet alleen gewicht',
+      'Kies een onderhoudsstrategie voor de komende maand',
+      'Behoud je ankers: ontbijt, meal prep, slaap',
+    ],
+    warning: 'Einde traject is start van onderhoud. Blijf je basisregels gebruiken.',
+  },
 };
 
-export const getDayTip = (day: number): DayTip | undefined => dayTips.find(tip => tip.day === day);
+export const getDayTip = (day: number): DayTip | undefined => {
+  if (!Number.isInteger(day) || day < 1 || day > dayTips.length) return undefined;
+  return dayTips[day - 1];
+};
 
 export const getWeekTip = (week: number) => weekTips[week];
 

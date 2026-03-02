@@ -97,7 +97,7 @@ export function useJourney() {
     const mealLogMap = new Map(mealLog.map((entry) => [entry.date, entry]));
     let streak = 0;
     let skippedToday = false;
-    let cursor = parseLocalDate(today);
+    const cursor = parseLocalDate(today);
 
     while (cursor.getTime() >= startDate.getTime()) {
       if (cursor.getDay() === cheatDayNum) {
@@ -134,12 +134,13 @@ export function useJourney() {
     const start = new Date(journey.startDate);
     const now = new Date();
     const diffTime = now.getTime() - start.getTime();
-    const day = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
-    const week = Math.ceil(day / 7);
     const totalDays = 84;
-    const percentage = Math.min((day / totalDays) * 100, 100);
+    const day = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    const clampedDay = Math.min(day, totalDays);
+    const week = Math.ceil(clampedDay / 7);
+    const percentage = Math.min((clampedDay / totalDays) * 100, 100);
     
-    return { day: Math.min(day, totalDays), week, totalDays, percentage };
+    return { day: clampedDay, week, totalDays, percentage };
   };
 
   const isCheatDay = () => {

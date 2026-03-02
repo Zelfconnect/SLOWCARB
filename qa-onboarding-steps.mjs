@@ -51,10 +51,12 @@ async function qaOnboardingSteps() {
     recordStep(1, 'Welcome', [
       {
         name: 'Hero title',
+        critical: true,
         passed: await page.getByRole('heading', { name: /8-10 kg lichter/i }).isVisible().catch(() => false),
       },
       {
         name: 'CTA Vertel me meer',
+        critical: true,
         passed: await page.getByRole('button', { name: 'Vertel me meer' }).isVisible().catch(() => false),
       },
     ]);
@@ -67,6 +69,7 @@ async function qaOnboardingSteps() {
     recordStep(2, 'Name', [
       {
         name: 'Name label',
+        critical: true,
         passed: await page.getByLabel('Je naam').isVisible().catch(() => false),
       },
       {
@@ -84,6 +87,7 @@ async function qaOnboardingSteps() {
     recordStep(3, 'Promise', [
       {
         name: 'Promise heading',
+        critical: true,
         passed: await page.getByRole('heading', { name: /dit gaat werken/i }).isVisible().catch(() => false),
       },
       {
@@ -100,6 +104,7 @@ async function qaOnboardingSteps() {
     recordStep(4, 'Rules', [
       {
         name: 'Rules heading',
+        critical: true,
         passed: await page.getByRole('heading', { name: 'De 5 regels' }).isVisible().catch(() => false),
       },
       {
@@ -116,6 +121,7 @@ async function qaOnboardingSteps() {
     recordStep(5, 'Body timeline', [
       {
         name: 'Timeline heading',
+        critical: true,
         passed: await page.getByRole('heading', { name: /Wat je lichaam doet/i }).isVisible().catch(() => false),
       },
       {
@@ -132,6 +138,7 @@ async function qaOnboardingSteps() {
     recordStep(6, 'Why it works', [
       {
         name: 'Science heading',
+        critical: true,
         passed: await page.getByRole('heading', { name: /Waarom het werkt/i }).isVisible().catch(() => false),
       },
       {
@@ -148,6 +155,7 @@ async function qaOnboardingSteps() {
     recordStep(7, 'Reference', [
       {
         name: 'Reference heading',
+        critical: true,
         passed: await page.getByRole('heading', { name: /Wat mag wel/i }).isVisible().catch(() => false),
       },
       {
@@ -168,10 +176,12 @@ async function qaOnboardingSteps() {
     recordStep(8, 'Weight and preferences', [
       {
         name: 'Current weight input',
+        critical: true,
         passed: await page.getByLabel('Huidig (kg)').isVisible().catch(() => false),
       },
       {
         name: 'Target weight input',
+        critical: true,
         passed: await page.getByLabel('Streefgewicht (kg)').isVisible().catch(() => false),
       },
       {
@@ -190,6 +200,7 @@ async function qaOnboardingSteps() {
     recordStep(9, 'Cheat day', [
       {
         name: 'Cheat day heading',
+        critical: true,
         passed: await page.getByRole('heading', { name: /Kies je cheat day/i }).isVisible().catch(() => false),
       },
       {
@@ -207,10 +218,12 @@ async function qaOnboardingSteps() {
     recordStep(10, 'Summary', [
       {
         name: 'Summary heading',
+        critical: true,
         passed: await page.getByRole('heading', { name: /Klaar/i }).isVisible().catch(() => false),
       },
       {
         name: 'Start CTA',
+        critical: true,
         passed: await page.getByRole('button', { name: /Start mijn journey/i }).isVisible().catch(() => false),
       },
     ]);

@@ -132,6 +132,7 @@ export function Dashboard({
   const daysUntilCheatDay = getDaysUntilCheatDay(journey);
   const hasFutureDays = weekData.some(day => day.isFuture);
   const perfectWeek = !hasFutureDays && weekData.every(day => day.isCheatDay || day.completed);
+  const isEarlyCheatDay = isCheatDay && progress.day >= 1 && progress.day <= 4;
 
   return (
     <div data-testid="dashboard-content" className="space-y-1">
@@ -147,8 +148,9 @@ export function Dashboard({
           <h3 className="mb-1 font-display text-base font-semibold text-clay-900">🍕 Cheat Day!</h3>
           <p className="text-sm font-medium text-clay-800">Vandaag is je cheat day.</p>
           <p className="mt-1 text-sm text-clay-700">
-            Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp.
-            Geniet ervan en ga morgen weer terug naar het protocol.
+            {isEarlyCheatDay
+              ? `Je eerste cheat day valt vroeg (dag ${progress.day}). Zie dit vooral als ritme-opbouw: geniet bewust en pak morgen direct het protocol weer op.`
+              : 'Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp. Geniet ervan en ga morgen weer terug naar het protocol.'}
           </p>
         </div>
       ) : (

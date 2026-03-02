@@ -91,10 +91,14 @@ describe('OnboardingWizard', () => {
   it('keeps onboarding shell full-height after step changes so CTA stays bottom-anchored', async () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
+    });
     const nameInput = await screen.findByLabelText('Je naam');
-    fireEvent.change(nameInput, { target: { value: 'Jesper' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
+    await act(async () => {
+      fireEvent.change(nameInput, { target: { value: 'Jesper' } });
+      fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
+    });
 
     const stepShell = document.body.querySelector('.app-screen');
     expect(stepShell?.className).toContain('h-full');
@@ -179,12 +183,19 @@ describe('OnboardingWizard', () => {
     expect(screen.getByLabelText('Je naam')).toBeInTheDocument();
   });
 
-  it('keeps rules content clear of bottom actions and cards non-shrinking', () => {
+  it('keeps rules content clear of bottom actions and cards non-shrinking', async () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
-    fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
-    fireEvent.change(screen.getByLabelText('Je naam'), { target: { value: 'Jesper' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Laat me de regels zien' }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Vertel me meer' }));
+    });
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText('Je naam'), { target: { value: 'Jesper' } });
+      fireEvent.click(screen.getByRole('button', { name: 'Volgende' }));
+    });
+    const rulesButton = await screen.findByRole('button', { name: 'Laat me de regels zien' });
+    await act(async () => {
+      fireEvent.click(rulesButton);
+    });
 
     const rulesHeading = screen.getByRole('heading', { name: 'De 5 regels' });
     const rulesSection = rulesHeading.closest('section');

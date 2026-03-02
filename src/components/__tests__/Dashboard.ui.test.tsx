@@ -111,7 +111,18 @@ describe('Dashboard UI/UX', () => {
     render(<Dashboard {...props} />);
 
     expect(screen.getByText('🍕 Cheat Day!')).toBeInTheDocument();
+    expect(screen.getByText('Je eerste cheat day valt vroeg (dag 2). Zie dit vooral als ritme-opbouw: geniet bewust en pak morgen direct het protocol weer op.')).toBeInTheDocument();
     expect(screen.queryByText('DailyMealTracker')).not.toBeInTheDocument();
+  });
+
+  it('keeps regular cheat day context after day 4', () => {
+    const { props } = createProps({
+      isCheatDay: true,
+      progress: { day: 5, week: 1, totalDays: 84, percentage: 6 },
+    });
+    render(<Dashboard {...props} />);
+
+    expect(screen.getByText('Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp. Geniet ervan en ga morgen weer terug naar het protocol.')).toBeInTheDocument();
   });
 
   it('renders meal tracker and countdown on non-cheat day', () => {
