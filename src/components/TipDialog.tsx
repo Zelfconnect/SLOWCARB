@@ -1,6 +1,5 @@
 import { BookOpen, FlaskConical, Lightbulb, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface TipDialogProps {
   open: boolean;
@@ -48,7 +47,7 @@ export function TipDialog({ open, onOpenChange, progress, currentTip }: TipDialo
           </div>
         </div>
 
-        <ScrollArea className="flex-1">
+        <div className="flex-1 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
           <div className="p-6 space-y-6">
             <div>
               <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-stone-800">
@@ -108,7 +107,7 @@ export function TipDialog({ open, onOpenChange, progress, currentTip }: TipDialo
 
             <div className="h-4" />
           </div>
-        </ScrollArea>
+        </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-3xl" />
       </DialogContent>
