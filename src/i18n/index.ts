@@ -35,7 +35,7 @@ export function useTranslation() {
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
       if (event.key !== STORAGE_KEY) return;
-      const next = isLocale(event.newValue) ? event.newValue : 'en';
+      const next = isLocale(event.newValue) ? event.newValue : 'nl';
       setLocaleState(next);
     };
 
@@ -56,7 +56,7 @@ export function useTranslation() {
   }, []);
 
   const setLocale = useCallback((nextLocale: string) => {
-    const next = isLocale(nextLocale) ? nextLocale : 'en';
+    const next = isLocale(nextLocale) ? nextLocale : 'nl';
     setLocaleState(next);
     if (typeof window !== 'undefined') {
       window.localStorage.setItem(STORAGE_KEY, next);
