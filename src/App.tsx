@@ -11,7 +11,7 @@ import { AmmoCheck } from '@/components/AmmoCheck';
 import { SettingsTab } from '@/components/SettingsTab';
 import { MealHistorySection } from '@/components/MealHistorySection';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useJourney } from '@/hooks/useJourney';
@@ -291,6 +291,9 @@ function AppShell() {
         >
           <SheetHeader className="-mx-4 border-b border-stone-200 px-4">
             <SheetTitle>Instellingen</SheetTitle>
+            <SheetDescription className="sr-only">
+              Beheer je profiel, meldingen en app-voorkeuren.
+            </SheetDescription>
           </SheetHeader>
           <div className="pt-4">
             <SettingsTab />

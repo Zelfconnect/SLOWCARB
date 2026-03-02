@@ -1,31 +1,52 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { getCurrentDayTip, getDayTip, getWeekTip } from '../journey';
+import { getCurrentDayTip, getCurrentPhase, getDayTip, getWeekTip } from '../journey';
+
+describe('getCurrentPhase', () => {
+  it('returns a valid phase for every day from 1 through 84', () => {
+    for (let day = 1; day <= 84; day++) {
+      expect(getCurrentPhase(day)).toBeDefined();
+    }
+  });
+
+  it('repeats the weekly phase cycle correctly', () => {
+    expect(getCurrentPhase(1)?.title).toBe('De Laatste Maaltijd');
+    expect(getCurrentPhase(7)?.title).toBe('Cheat Day!');
+    expect(getCurrentPhase(8)?.title).toBe('De Laatste Maaltijd');
+    expect(getCurrentPhase(84)?.title).toBe('Cheat Day!');
+  });
+
+  it('returns undefined for invalid day values', () => {
+    expect(getCurrentPhase(0)).toBeUndefined();
+    expect(getCurrentPhase(-1)).toBeUndefined();
+    expect(getCurrentPhase(85)).toBeUndefined();
+    expect(getCurrentPhase(1.5)).toBeUndefined();
+  });
+});
 
 describe('getDayTip', () => {
-  it('returns a tip for days 1 through 7', () => {
-    for (let day = 1; day <= 7; day++) {
+  it('returns a tip for days 1 through 84', () => {
+    for (let day = 1; day <= 84; day++) {
       expect(getDayTip(day)).toBeDefined();
       expect(getDayTip(day)?.day).toBe(day);
     }
   });
 
-  it('returns undefined for days beyond 7', () => {
-    expect(getDayTip(8)).toBeUndefined();
-    expect(getDayTip(42)).toBeUndefined();
-    expect(getDayTip(84)).toBeUndefined();
+  it('returns undefined for days beyond 84', () => {
+    expect(getDayTip(85)).toBeUndefined();
+    expect(getDayTip(120)).toBeUndefined();
   });
 });
 
 describe('getWeekTip', () => {
-  it('returns tips for weeks 1-3', () => {
-    expect(getWeekTip(1)).toBeDefined();
-    expect(getWeekTip(2)).toBeDefined();
-    expect(getWeekTip(3)).toBeDefined();
+  it('returns tips for weeks 1-12', () => {
+    for (let week = 1; week <= 12; week++) {
+      expect(getWeekTip(week)).toBeDefined();
+    }
   });
 
-  it('returns undefined for weeks beyond 3', () => {
-    expect(getWeekTip(4)).toBeUndefined();
-    expect(getWeekTip(12)).toBeUndefined();
+  it('returns undefined for weeks beyond 12', () => {
+    expect(getWeekTip(13)).toBeUndefined();
+    expect(getWeekTip(20)).toBeUndefined();
   });
 });
 
@@ -39,11 +60,12 @@ describe('getCurrentDayTip', () => {
     expect(result.weekTip).toBeUndefined();
   });
 
-  it('returns undefined tip for day 8+ (no misleading cheat-day fallback)', () => {
+  it('returns a defined tip for day 8+', () => {
     vi.setSystemTime(new Date('2024-01-09T12:00:00.000Z'));
     const result = getCurrentDayTip('2024-01-01');
     expect(result.day).toBe(9);
-    expect(result.tip).toBeUndefined();
+    expect(result.tip).toBeDefined();
+    expect(result.tip?.title).toBe('De Overschakeling Begint');
   });
 
   it('returns correct day tip for day 3', () => {

@@ -120,7 +120,7 @@ Deno.serve(async (req: Request) => {
   }
 
   // Generate magic link for the user
-  const { data: linkData, error: linkError } =
+  const { error: linkError } =
     await supabase.auth.admin.generateLink({
       type: "magiclink",
       email: customerEmail,
