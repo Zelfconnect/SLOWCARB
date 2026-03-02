@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { nl } from 'date-fns/locale';
-import { BookOpen, CalendarIcon, ChevronRight, FlaskConical, Info, Lightbulb, PartyPopper, Rocket, RotateCcw, X } from 'lucide-react';
+import { CalendarIcon, ChevronRight, Info, PartyPopper, Rocket, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DailyMealTracker } from './DailyMealTracker';
+import { TipDialog } from './TipDialog';
 import { Card } from '@/components/primitives/Card';
 import { CHEAT_DAY_LABELS, CHEAT_DAY_OPTIONS } from '@/lib/cheatDay';
 import { getLocalDateString } from '@/lib/localDate';
@@ -267,109 +267,12 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
         </Card>
       )}
 
-      {/* Tip Dialog */}
-      <Dialog open={showTipDialog} onOpenChange={(open) => !open && setShowTipDialog(false)}>
-        <DialogContent
-          showCloseButton={false}
-          className="mx-4 flex max-h-[85dvh] max-w-lg flex-col rounded-3xl border border-stone-100 p-0 shadow-elevated sm:mx-auto"
-        >
-          {/* Header */}
-          <div className="flex-shrink-0 rounded-t-3xl bg-gradient-to-br from-sage-600 to-sage-700 p-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center text-4xl">
-                      <Lightbulb className="w-8 h-8 text-white" aria-hidden="true" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h2 className="font-display text-xl font-semibold leading-tight text-white">
-                        {currentTip?.tip?.title}
-                      </h2>
-                      <p className="text-sm text-white/80 mt-1">
-                        Kalenderdag {currentTip?.day} van je journey
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setShowTipDialog(false)}
-                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-white/10 text-white/70 transition-all hover:bg-white/20"
-                    aria-label="Sluiten"
-                  >
-                    <X className="w-6 h-6" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Content */}
-              <ScrollArea className="flex-1">
-                <div className="p-6 space-y-6">
-                {/* Tips voor vandaag */}
-                <div>
-                  <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-stone-800">
-                    <BookOpen className="w-5 h-5 text-sage-600" />
-                    Tips voor vandaag
-                  </h3>
-                  <ul className="space-y-3">
-                    {currentTip?.tip?.tips.map((tip, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-stone-700">
-                        <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-sage-100 text-xs font-medium text-sage-600">
-                          {idx + 1}
-                        </span>
-                        <span className="leading-relaxed">{tip}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                {/* Warning */}
-                {currentTip?.weekTip?.warning && (
-                  <div className="rounded-xl border border-clay-100 bg-clay-50 p-5">
-                    <h3 className="mb-2 flex items-center gap-2 font-display font-semibold text-clay-900">
-                      <Lightbulb className="w-5 h-5" />
-                      Let op
-                    </h3>
-                    <p className="text-sm leading-relaxed text-clay-800">
-                      {currentTip.weekTip.warning}
-                    </p>
-                  </div>
-                )}
-                
-                {/* Metabole staat */}
-                <div className="rounded-xl border border-sage-100 bg-sage-50 p-5">
-                  <h3 className="mb-3 flex items-center gap-2 font-display font-semibold text-sage-900">
-                    <FlaskConical className="w-5 h-5" />
-                    Metabole staat
-                  </h3>
-                  <p className="text-sm leading-relaxed text-sage-800">
-                    {currentTip?.tip?.metabolicState}
-                  </p>
-                </div>
-
-                {/* Week tips */}
-                {currentTip?.weekTip && (
-                  <div>
-                    <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-stone-800">
-                      <BookOpen className="w-5 h-5 text-sage-600" />
-                      {currentTip.weekTip.title}
-                    </h3>
-                    <ul className="space-y-3">
-                      {currentTip.weekTip.tips.map((tip, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-sm text-stone-700">
-                          <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-sage-400" />
-                          <span className="leading-relaxed">{tip}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <div className="h-4" />
-                </div>
-              </ScrollArea>
-
-              {/* Scroll indicator gradient */}
-              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-3xl" />
-        </DialogContent>
-      </Dialog>
+      <TipDialog
+        open={showTipDialog}
+        onOpenChange={setShowTipDialog}
+        currentTip={currentTip}
+        progress={progress}
+      />
     </>
   );
 }

@@ -20,6 +20,10 @@ vi.mock('@/components/WeeklyProgressGrid', () => ({
   WeeklyProgressGrid: () => <div>WeeklyProgressGrid</div>,
 }));
 
+vi.mock('@/components/FysiologieCard', () => ({
+  FysiologieCard: () => <div>FysiologieCard</div>,
+}));
+
 vi.mock('@/components/CheatDayCountdown', () => ({
   CheatDayCountdown: () => <div>CheatDayCountdown</div>,
 }));
@@ -139,10 +143,13 @@ describe('Dashboard UI/UX', () => {
 
     const streakHero = screen.getByText('StreakHeroCard');
     const mealTracker = screen.getByText('DailyMealTracker');
+    const fysiologieCard = screen.getByText('FysiologieCard');
     const weekGrid = screen.getByText('WeeklyProgressGrid');
     const weightTrigger = screen.getByRole('button', { name: 'Open gewicht dialog' });
 
     expect(streakHero.compareDocumentPosition(mealTracker)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(mealTracker.compareDocumentPosition(fysiologieCard)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(fysiologieCard.compareDocumentPosition(weekGrid)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(mealTracker.compareDocumentPosition(weekGrid)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(weekGrid.compareDocumentPosition(weightTrigger)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });

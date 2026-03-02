@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
+import { FysiologieCard } from './FysiologieCard';
 import { StreakHeroCard } from './StreakHeroCard';
 import { WeeklyProgressGrid } from './WeeklyProgressGrid';
 import { WeightProgressCard } from './WeightProgressCard';
@@ -167,6 +168,8 @@ export function Dashboard({
           🎉 Perfecte week! 6/6 protocoldagen voltooid.
         </div>
       )}
+
+      <FysiologieCard currentTip={currentTip} progress={progress} isCheatDay={isCheatDay} />
 
       <WeeklyProgressGrid weekData={weekData} />
       {!isCheatDay && daysUntilCheatDay > 0 && daysUntilCheatDay <= 2 ? (
