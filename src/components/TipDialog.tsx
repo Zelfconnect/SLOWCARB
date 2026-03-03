@@ -17,7 +17,7 @@ export function TipDialog({ open, onOpenChange, progress, currentTip }: TipDialo
     <Dialog open={open} onOpenChange={(nextOpen) => !nextOpen && onOpenChange(false)}>
       <DialogContent
         showCloseButton={false}
-        className="sm:mx-auto max-w-lg max-h-[85dvh] rounded-3xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col"
+        className="sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col"
       >
         <DialogHeader className="sr-only">
           <DialogTitle>{currentTip?.tip?.title ?? `Kalenderdag ${currentTip?.day ?? progress.day}`}</DialogTitle>
