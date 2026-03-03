@@ -1,4 +1,4 @@
-import { FlaskConical, Lightbulb, X } from 'lucide-react';
+import { Lightbulb, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface TipDialogProps {
@@ -17,56 +17,56 @@ export function TipDialog({ open, onOpenChange, progress, currentTip }: TipDialo
     <Dialog open={open} onOpenChange={(nextOpen) => !nextOpen && onOpenChange(false)}>
       <DialogContent
         showCloseButton={false}
-        className="sm:mx-auto max-w-lg max-h-[75dvh] rounded-3xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col"
+        className="sm:mx-auto max-w-lg max-h-[75dvh] rounded-2xl border-0 shadow-[0_28px_60px_-20px_rgba(15,23,42,0.35)] p-0 flex flex-col"
       >
         <DialogHeader className="sr-only">
           <DialogTitle>{currentTip?.tip?.title ?? `Kalenderdag ${currentTip?.day ?? progress.day}`}</DialogTitle>
         </DialogHeader>
-        <div className="flex-shrink-0 rounded-t-3xl bg-gradient-to-br from-sage-600 to-sage-700 p-6">
+        <div className="flex-shrink-0 rounded-t-2xl bg-gradient-to-br from-sage-600 to-sage-700 p-4">
           <div className="flex items-start justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center text-4xl">
-                <FlaskConical className="w-8 h-8 text-white" aria-hidden="true" />
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center text-3xl shadow-sm">
+                🧬
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="font-display text-xl font-semibold leading-tight text-white">
+                <h2 className="font-display text-lg font-semibold leading-tight text-white">
                   Metabole staat
                 </h2>
-                <p className="text-sm text-white/80 mt-1">
-                  Kalenderdag {currentTip?.day ?? progress.day} — {currentTip?.tip?.title}
+                <p className="text-xs text-white/80 mt-0.5">
+                  Dag {currentTip?.day ?? progress.day} — {currentTip?.tip?.title}
                 </p>
               </div>
             </div>
             <button
               onClick={() => onOpenChange(false)}
-              className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-white/10 text-white/70 transition-all hover:bg-white/20"
+              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-white/20 text-white transition-all hover:bg-white/30"
               aria-label="Sluiten"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
         <div className="flex-1 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
-          <div className="p-6 space-y-6">
-            <div className="rounded-xl border border-sage-100 bg-sage-50 p-5">
-              <p className="text-sm leading-relaxed text-sage-800">
+          <div className="p-4 space-y-4">
+            <div className="rounded-lg border border-sage-100 bg-sage-50 p-4">
+              <p className="text-sm leading-relaxed text-sage-900 font-medium">
                 {currentTip?.tip?.metabolicState}
               </p>
             </div>
 
             <div>
-              <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-stone-800">
-                <Lightbulb className="w-5 h-5 text-sage-600" />
+              <h3 className="mb-3 flex items-center gap-2 font-display text-base font-semibold text-stone-800">
+                <Lightbulb className="w-4 h-4 text-sage-600" />
                 Tips voor vandaag
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {currentTip?.tip?.tips.map((tip, idx) => (
                   <li key={idx} className="flex items-start gap-3 text-stone-700">
-                    <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-sage-100 text-xs font-medium text-sage-600">
+                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-sage-200 text-[10px] font-bold text-sage-700">
                       {idx + 1}
                     </span>
-                    <span className="leading-relaxed">{tip}</span>
+                    <span className="text-sm leading-relaxed">{tip}</span>
                   </li>
                 ))}
               </ul>
@@ -88,7 +88,7 @@ export function TipDialog({ open, onOpenChange, progress, currentTip }: TipDialo
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-3xl" />
+        <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-2xl" />
       </DialogContent>
     </Dialog>
   );
