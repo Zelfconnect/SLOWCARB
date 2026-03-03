@@ -145,7 +145,7 @@ export function Dashboard({
       />
 
       {isCheatDay ? (
-        <div className="rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/90 to-clay-100/80 px-3 py-2.5 shadow-soft">
+        <div className="mx-2.5 rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/90 to-clay-100/80 px-3 py-2.5 shadow-soft">
           <h3 className="mb-1 font-display text-base font-semibold text-clay-900">🍕 Cheat Day!</h3>
           <p className="text-sm font-medium text-clay-800">Vandaag is je cheat day.</p>
           <p className="mt-1 text-sm text-clay-700">
@@ -155,36 +155,45 @@ export function Dashboard({
           </p>
         </div>
       ) : (
-        <DailyMealTracker
-          todayMeals={todayMeals}
-          streak={streak}
-          onToggleMeal={onToggleMeal}
-          isCheatDay={isCheatDay}
-        />
+        <div className="px-2.5">
+          <DailyMealTracker
+            todayMeals={todayMeals}
+            streak={streak}
+            onToggleMeal={onToggleMeal}
+            isCheatDay={isCheatDay}
+          />
+        </div>
       )}
 
       {perfectWeek && (
-        <div className="rounded-xl bg-sage-100 border border-sage-300 px-2.5 py-1.5 text-sage-800 text-[11px] font-medium">
+        <div className="mx-2.5 rounded-xl bg-sage-100 border border-sage-300 px-2.5 py-1.5 text-sage-800 text-[11px] font-medium">
           🎉 Perfecte week! 6/6 protocoldagen voltooid.
         </div>
       )}
 
-      <FysiologieCard currentTip={currentTip} progress={progress} isCheatDay={isCheatDay} />
+      <div className="px-2.5">
+        <FysiologieCard currentTip={currentTip} progress={progress} isCheatDay={isCheatDay} />
+      </div>
 
-      <WeeklyProgressGrid weekData={weekData} />
+      <div className="px-2.5">
+        <WeeklyProgressGrid weekData={weekData} />
+      </div>
+
       {!isCheatDay && daysUntilCheatDay > 0 && daysUntilCheatDay <= 2 ? (
-        <p className="px-0.5 text-[10px] text-clay-700">
+        <p className="px-3 text-[10px] text-clay-700">
           Nog {daysUntilCheatDay} {daysUntilCheatDay === 1 ? 'dag' : 'dagen'} tot je cheat day.
         </p>
       ) : null}
 
-      <WeightProgressCard
-        weightLog={weightLog}
-        startWeight={startWeight}
-        currentWeight={latestWeight}
-        targetWeight={journey.targetWeight}
-        onOpenLog={openWeightDialog}
-      />
+      <div className="px-2.5">
+        <WeightProgressCard
+          weightLog={weightLog}
+          startWeight={startWeight}
+          currentWeight={latestWeight}
+          targetWeight={journey.targetWeight}
+          onOpenLog={openWeightDialog}
+        />
+      </div>
 
       <Dialog open={weightDialogOpen} onOpenChange={handleWeightDialogOpenChange}>
         <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">

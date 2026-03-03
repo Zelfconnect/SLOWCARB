@@ -32,24 +32,26 @@ export function FysiologieCard({ progress, currentTip, isCheatDay }: FysiologieC
 
   return (
     <>
-      <div data-testid="fysiologie-card" className="mx-2.5 rounded-2xl border border-sage-100 bg-sage-50/60 p-4 shadow-surface">
+      <section data-testid="fysiologie-card" className="rounded-2xl bg-white p-3 shadow-surface">
         <div className="mb-2 flex items-center justify-between gap-3">
-          <span className="inline-flex rounded-full bg-sage-100 px-2.5 py-1 text-xs font-medium text-sage-800">
+          <span className="inline-flex rounded-full bg-sage-50 px-2 py-0.5 text-[11px] font-medium text-sage-700">
             🧬 Fase {phaseNumber}{currentPhase?.title ? ` — ${currentPhase.title}` : ''}
           </span>
-          <span className="text-xs font-medium text-sage-700">Dag {progress.day}</span>
+          <span className="text-[11px] font-medium text-stone-500">Dag {progress.day}</span>
         </div>
 
-        <p className="line-clamp-2 text-sm leading-relaxed text-sage-900">{metabolicSummary}</p>
+        <div className="rounded-xl border border-sage-100/50 bg-sage-50/50 p-2.5">
+          <p className="line-clamp-2 text-[13px] italic leading-relaxed text-stone-700">{metabolicSummary}</p>
+        </div>
 
         <button
           type="button"
           onClick={() => setShowTipDialog(true)}
-          className="mt-3 text-sm font-medium text-sage-700 transition-colors hover:text-sage-900"
+          className="mt-3 flex w-full items-center justify-center rounded-xl bg-stone-100 py-2.5 text-[13px] font-semibold text-stone-800 shadow-sm transition-all active:scale-[0.98]"
         >
-          Ontdek je fysiologie van vandaag →
+          Ontdek je fysiologie van vandaag
         </button>
-      </div>
+      </section>
 
       <TipDialog
         open={showTipDialog}
