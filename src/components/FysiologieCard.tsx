@@ -32,24 +32,24 @@ export function FysiologieCard({ progress, currentTip, isCheatDay }: FysiologieC
 
   return (
     <>
-      <section data-testid="fysiologie-card" className="rounded-2xl bg-white p-3 shadow-surface">
-        <div className="mb-2 flex items-center justify-between gap-3">
-          <span className="inline-flex rounded-full bg-sage-50 px-2 py-0.5 text-[11px] font-medium text-sage-700">
-            🧬 Fase {phaseNumber}{currentPhase?.title ? ` — ${currentPhase.title}` : ''}
+      <section data-testid="fysiologie-card" className="rounded-xl border border-stone-100 bg-white p-2 shadow-sm">
+        <div className="mb-1.5 flex items-center justify-between gap-2">
+          <span className="inline-flex items-center gap-1 rounded-full bg-stone-50 px-2 py-0.5 text-[11px] font-medium text-stone-600">
+            <span>🧬</span> Fase {phaseNumber}{currentPhase?.title ? ` — ${currentPhase.title}` : ''}
           </span>
-          <span className="text-[11px] font-medium text-stone-500">Dag {progress.day}</span>
+          <span className="text-[11px] font-medium text-stone-400">Dag {progress.day}</span>
         </div>
 
-        <div className="rounded-xl border border-sage-100/50 bg-sage-50/50 p-2.5">
-          <p className="line-clamp-2 text-[13px] italic leading-relaxed text-stone-700">{metabolicSummary}</p>
+        <div className="rounded-lg border border-stone-50 bg-stone-50/50 p-2">
+          <p className="line-clamp-2 text-[12px] italic leading-relaxed text-stone-600">{metabolicSummary}</p>
         </div>
 
         <button
           type="button"
           onClick={() => setShowTipDialog(true)}
-          className="mt-3 flex w-full items-center justify-center rounded-xl bg-stone-100 py-2.5 text-[13px] font-semibold text-stone-800 shadow-sm transition-all active:scale-[0.98]"
+          className="mt-2 flex w-full items-center justify-center rounded-lg bg-stone-800 py-1.5 text-[11px] font-semibold text-white shadow-sm transition-all active:scale-[0.98]"
         >
-          Ontdek je fysiologie van vandaag
+          Ontdek je fysiologie
         </button>
       </section>
 
