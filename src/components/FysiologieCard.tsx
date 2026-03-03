@@ -32,7 +32,7 @@ export function FysiologieCard({ progress, currentTip, isCheatDay }: FysiologieC
 
   return (
     <>
-      <div data-testid="fysiologie-card" className="rounded-2xl border border-sage-100 bg-sage-50/60 p-4 shadow-soft">
+      <div data-testid="fysiologie-card" className="mx-2.5 rounded-2xl border border-sage-100 bg-sage-50/60 p-4 shadow-surface">
         <div className="mb-2 flex items-center justify-between gap-3">
           <span className="inline-flex rounded-full bg-sage-100 px-2.5 py-1 text-xs font-medium text-sage-800">
             🧬 Fase {phaseNumber}{currentPhase?.title ? ` — ${currentPhase.title}` : ''}
@@ -47,7 +47,7 @@ export function FysiologieCard({ progress, currentTip, isCheatDay }: FysiologieC
           onClick={() => setShowTipDialog(true)}
           className="mt-3 text-sm font-medium text-sage-700 transition-colors hover:text-sage-900"
         >
-          Meer over dag {progress.day} →
+          Ontdek je fysiologie van vandaag →
         </button>
       </div>
 

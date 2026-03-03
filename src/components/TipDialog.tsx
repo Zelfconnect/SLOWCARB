@@ -1,4 +1,4 @@
-import { BookOpen, FlaskConical, Lightbulb, X } from 'lucide-react';
+import { FlaskConical, Lightbulb, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface TipDialogProps {
@@ -26,14 +26,14 @@ export function TipDialog({ open, onOpenChange, progress, currentTip }: TipDialo
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center text-4xl">
-                <Lightbulb className="w-8 h-8 text-white" aria-hidden="true" />
+                <FlaskConical className="w-8 h-8 text-white" aria-hidden="true" />
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="font-display text-xl font-semibold leading-tight text-white">
-                  {currentTip?.tip?.title}
+                  Metabole staat
                 </h2>
                 <p className="text-sm text-white/80 mt-1">
-                  Kalenderdag {currentTip?.day ?? progress.day} van je journey
+                  Kalenderdag {currentTip?.day ?? progress.day} — {currentTip?.tip?.title}
                 </p>
               </div>
             </div>
@@ -49,9 +49,15 @@ export function TipDialog({ open, onOpenChange, progress, currentTip }: TipDialo
 
         <div className="flex-1 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
           <div className="p-6 space-y-6">
+            <div className="rounded-xl border border-sage-100 bg-sage-50 p-5">
+              <p className="text-sm leading-relaxed text-sage-800">
+                {currentTip?.tip?.metabolicState}
+              </p>
+            </div>
+
             <div>
               <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-stone-800">
-                <BookOpen className="w-5 h-5 text-sage-600" />
+                <Lightbulb className="w-5 h-5 text-sage-600" />
                 Tips voor vandaag
               </h3>
               <ul className="space-y-3">
@@ -75,33 +81,6 @@ export function TipDialog({ open, onOpenChange, progress, currentTip }: TipDialo
                 <p className="text-sm leading-relaxed text-clay-800">
                   {currentTip.weekTip.warning}
                 </p>
-              </div>
-            )}
-
-            <div className="rounded-xl border border-sage-100 bg-sage-50 p-5">
-              <h3 className="mb-3 flex items-center gap-2 font-display font-semibold text-sage-900">
-                <FlaskConical className="w-5 h-5" />
-                Metabole staat
-              </h3>
-              <p className="text-sm leading-relaxed text-sage-800">
-                {currentTip?.tip?.metabolicState}
-              </p>
-            </div>
-
-            {currentTip?.weekTip && (
-              <div>
-                <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-stone-800">
-                  <BookOpen className="w-5 h-5 text-sage-600" />
-                  {currentTip.weekTip.title}
-                </h3>
-                <ul className="space-y-3">
-                  {currentTip.weekTip.tips.map((tip, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-stone-700">
-                      <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-sage-400" />
-                      <span className="leading-relaxed">{tip}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             )}
 
