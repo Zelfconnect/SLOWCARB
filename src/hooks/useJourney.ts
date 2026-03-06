@@ -41,6 +41,10 @@ export function useJourney() {
     setMealLog([]);
   };
 
+  const setCheatDay = (cheatDay: CheatDay) => {
+    setJourney(prev => ({ ...prev, cheatDay }));
+  };
+
   const getMealsForDate = (date: string): MealEntry => getMealEntryByDate(mealLog, date);
 
   const getTodayMeals = (): MealEntry => {
@@ -156,6 +160,7 @@ export function useJourney() {
     mealLog,
     startJourney,
     resetJourney,
+    setCheatDay,
     getCurrentTip,
     getProgress,
     isCheatDay,

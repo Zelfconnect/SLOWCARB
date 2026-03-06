@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { format } from 'date-fns';
+import { nl } from 'date-fns/locale';
 import { JourneyCard } from './JourneyCard';
 import { DailyMealTracker } from './DailyMealTracker';
 import { FysiologieCard } from './FysiologieCard';
@@ -27,6 +29,9 @@ interface DashboardProps {
   mealEntries: MealEntry[];
   weightLog: WeightEntry[];
   onLogWeight: (weight: number, date?: string) => void;
+  onToggleMealForDate: (date: string, meal: 'breakfast' | 'lunch' | 'dinner') => void;
+  getMealsForDate: (date: string) => MealEntry;
+  onChangeCheatDay: (day: CheatDay) => void;
 }
 
 export function Dashboard({
@@ -43,11 +48,15 @@ export function Dashboard({
   mealEntries,
   weightLog,
   onLogWeight,
+  onToggleMealForDate,
+  getMealsForDate,
+  onChangeCheatDay,
 }: DashboardProps) {
   const { t, locale } = useTranslation();
   const today = getLocalDateString();
   const [weightDialogOpen, setWeightDialogOpen] = useState(false);
   const [weightInput, setWeightInput] = useState('');
+  const [backlogDate, setBacklogDate] = useState<string | null>(null);
   const todayLabel = new Date(`${today}T12:00:00`).toLocaleDateString(
     locale === 'nl' ? 'nl-NL' : 'en-US'
   );
@@ -176,7 +185,12 @@ export function Dashboard({
       </div>
 
       <div className="px-2.5">
-        <WeeklyProgressGrid weekData={weekData} />
+        <WeeklyProgressGrid
+          weekData={weekData}
+          onDayClick={(date) => setBacklogDate(date)}
+          cheatDay={journey.cheatDay}
+          onChangeCheatDay={onChangeCheatDay}
+        />
       </div>
 
       {!isCheatDay && daysUntilCheatDay > 0 && daysUntilCheatDay <= 2 ? (
@@ -224,6 +238,76 @@ export function Dashboard({
           </div>
         </DialogContent>
       </Dialog>
+
+      <BacklogLogDialog
+        date={backlogDate}
+        onClose={() => setBacklogDate(null)}
+        getMealsForDate={getMealsForDate}
+        onToggleMealForDate={onToggleMealForDate}
+      />
     </div>
+  );
+}
+
+function BacklogLogDialog({
+  date,
+  onClose,
+  getMealsForDate,
+  onToggleMealForDate,
+}: {
+  date: string | null;
+  onClose: () => void;
+  getMealsForDate: (date: string) => MealEntry;
+  onToggleMealForDate: (date: string, meal: 'breakfast' | 'lunch' | 'dinner') => void;
+}) {
+  if (!date) return null;
+
+  const meals = getMealsForDate(date);
+  const dateObj = new Date(`${date}T12:00:00`);
+  const dateLabel = format(dateObj, 'EEEE d MMMM', { locale: nl });
+  const allChecked = meals.breakfast && meals.lunch && meals.dinner;
+
+  const handleMarkAll = () => {
+    if (!meals.breakfast) onToggleMealForDate(date, 'breakfast');
+    if (!meals.lunch) onToggleMealForDate(date, 'lunch');
+    if (!meals.dinner) onToggleMealForDate(date, 'dinner');
+  };
+
+  const mealItems: { key: 'breakfast' | 'lunch' | 'dinner'; label: string }[] = [
+    { key: 'breakfast', label: 'Ontbijt' },
+    { key: 'lunch', label: 'Lunch' },
+    { key: 'dinner', label: 'Diner' },
+  ];
+
+  return (
+    <Dialog open={!!date} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
+        <div className="p-6 space-y-4">
+          <DialogHeader className="space-y-1 text-left">
+            <DialogTitle className="font-display capitalize">{dateLabel}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2">
+            {mealItems.map(({ key, label }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => onToggleMealForDate(date, key)}
+                className="flex w-full items-center justify-between rounded-xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-800 transition-colors hover:bg-stone-50"
+              >
+                <span>{label}</span>
+                <span className={meals[key] ? 'text-emerald-500' : 'text-stone-300'}>
+                  {meals[key] ? '✓' : '○'}
+                </span>
+              </button>
+            ))}
+          </div>
+          {!allChecked && (
+            <Button type="button" className="w-full" onClick={handleMarkAll}>
+              Protocol Voltooid
+            </Button>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

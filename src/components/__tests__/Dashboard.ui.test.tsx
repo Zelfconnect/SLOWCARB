@@ -75,6 +75,9 @@ function createProps(overrides: Partial<React.ComponentProps<typeof Dashboard>> 
     mealEntries: [createMealEntry()],
     weightLog: [{ date: '2026-02-19', weight: 83 } satisfies WeightEntry],
     onLogWeight,
+    onToggleMealForDate: vi.fn(),
+    getMealsForDate: vi.fn().mockReturnValue(createMealEntry()),
+    onChangeCheatDay: vi.fn(),
   };
 
   return {

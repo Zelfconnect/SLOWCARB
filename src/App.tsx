@@ -117,9 +117,10 @@ function AppShell() {
     journey, 
     weightLog,
     mealLog,
-    startJourney, 
-    resetJourney, 
-    getCurrentTip, 
+    startJourney,
+    resetJourney,
+    setCheatDay,
+    getCurrentTip,
     getProgress, 
     isCheatDay,
     getMealsForDate,
@@ -232,6 +233,9 @@ function AppShell() {
             mealEntries={mealLog}
             weightLog={weightLog}
             onLogWeight={logWeight}
+            onToggleMealForDate={toggleMealForDate}
+            getMealsForDate={getMealsForDate}
+            onChangeCheatDay={setCheatDay}
           />
         );
       case 'recipes':
