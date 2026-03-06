@@ -281,10 +281,10 @@ function BacklogLogDialog({
 
   return (
     <Dialog open={!!date} onOpenChange={(open) => { if (!open) onClose(); }}>
-      <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-0 shadow-elevated">
-        <div className="p-6 space-y-4">
+      <DialogContent className="max-w-sm rounded-2xl border border-stone-200 p-6 shadow-elevated [&>[data-slot=dialog-close]]:right-5 [&>[data-slot=dialog-close]]:top-5">
+        <div className="space-y-4">
           <DialogHeader className="space-y-1 text-left">
-            <DialogTitle className="font-display capitalize">{dateLabel}</DialogTitle>
+            <DialogTitle className="font-display tracking-tight capitalize">{dateLabel}</DialogTitle>
           </DialogHeader>
           <div className="space-y-2">
             {mealItems.map(({ key, label }) => (
@@ -292,7 +292,11 @@ function BacklogLogDialog({
                 key={key}
                 type="button"
                 onClick={() => onToggleMealForDate(date, key)}
-                className="flex w-full items-center justify-between rounded-xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-800 transition-colors hover:bg-stone-50"
+                className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-sm font-medium text-stone-800 transition-colors ${
+                  meals[key]
+                    ? 'border-emerald-500 bg-emerald-50/50 hover:bg-emerald-50/70'
+                    : 'border-stone-200 hover:bg-stone-50'
+                }`}
               >
                 <span>{label}</span>
                 <span className={meals[key] ? 'text-emerald-500' : 'text-stone-300'}>
@@ -302,7 +306,7 @@ function BacklogLogDialog({
             ))}
           </div>
           {!allChecked && (
-            <Button type="button" className="w-full" onClick={handleMarkAll}>
+            <Button type="button" className="mt-6 w-full" onClick={handleMarkAll}>
               Protocol Voltooid
             </Button>
           )}

@@ -16,19 +16,17 @@ export function WeeklyProgressGrid({ weekData, onDayClick, cheatDay, onChangeChe
 
   return (
     <section className="rounded-2xl bg-white p-3 shadow-surface">
-      <div className="mb-2 flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <p className="text-sm font-semibold text-stone-800">Huidige week</p>
-          {onChangeCheatDay && !editingCheatDay && (
-            <button
-              type="button"
-              onClick={() => setEditingCheatDay(true)}
-              className="text-[11px] font-medium text-sage-600 hover:text-sage-800"
-            >
-              Wijzig
-            </button>
-          )}
-        </div>
+      <div className="mb-2 flex items-center gap-2">
+        <p className="text-sm font-semibold text-stone-800">Huidige week</p>
+        {onChangeCheatDay && !editingCheatDay && (
+          <button
+            type="button"
+            onClick={() => setEditingCheatDay(true)}
+            className="ml-auto text-sm font-semibold text-emerald-600 hover:text-emerald-700"
+          >
+            Wijzig
+          </button>
+        )}
         {editingCheatDay && cheatDay && onChangeCheatDay ? (
           <Select
             value={cheatDay}
@@ -72,7 +70,7 @@ export function WeeklyProgressGrid({ weekData, onDayClick, cheatDay, onChangeChe
                     ? 'bg-clay-200 text-clay-700'
                     : day.completed
                       ? 'bg-emerald-500 text-white'
-                      : 'bg-stone-200 text-stone-600'
+                      : 'bg-stone-200 text-stone-700'
               )}
             >
               <span>{day.label}</span>
@@ -91,12 +89,12 @@ export function WeeklyProgressGrid({ weekData, onDayClick, cheatDay, onChangeChe
                     ? 'bg-emerald-500 text-white ring-1 ring-emerald-700 ring-offset-1'
                     : 'bg-white text-stone-700 ring-1 ring-emerald-500'
                   : day.isFuture
-                    ? 'bg-stone-100 text-stone-600'
+                    ? 'bg-stone-100 text-stone-700'
                     : day.isCheatDay
                       ? 'bg-clay-200 text-clay-700'
                       : day.completed
                         ? 'bg-emerald-500 text-white'
-                        : 'bg-stone-200 text-stone-600'
+                        : 'bg-stone-200 text-stone-700'
               )}
             >
               <span>{day.label}</span>
