@@ -13,7 +13,7 @@ export function CheatDayPicker({ cheatDay, onChange }: CheatDayPickerProps) {
     <section className="flex flex-1 min-h-0 flex-col">
       <div className="space-y-3 text-center">
         <h1 className="font-display text-3xl font-bold text-stone-900">
-          Kies je cheat day
+          Kies je cheatday
         </h1>
         <p className="text-base text-stone-500">
           De meeste mensen kiezen zaterdag

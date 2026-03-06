@@ -9,7 +9,7 @@ export function YesNoReference() {
           Wat mag wel &amp; niet
         </h1>
         <p className="text-base text-stone-500">
-          Print-screen dit als je wilt
+          Bewaar dit overzicht
         </p>
       </div>
 

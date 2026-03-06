@@ -170,6 +170,15 @@ describe('RecipesList UI/UX', () => {
     expect(screen.queryByText('Tonijn wrap')).not.toBeInTheDocument();
   });
 
+  it('shows dedicated empty state when favorites are empty', () => {
+    render(<RecipesList favorites={[]} onToggleFavorite={vi.fn()} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Favorieten' }));
+
+    expect(screen.getByText('Tik ❤️ om je favorieten hier te verzamelen')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Omelet bowl/i })).toBeInTheDocument();
+  });
+
   it('matches category filters against tags or primary category', () => {
     render(<RecipesList favorites={[]} onToggleFavorite={vi.fn()} />);
 

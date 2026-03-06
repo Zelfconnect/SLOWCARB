@@ -63,6 +63,7 @@ function createMealEntry(overrides: Partial<MealEntry> = {}): MealEntry {
 function createProps(overrides: Partial<React.ComponentProps<typeof Dashboard>> = {}) {
   const onLogWeight = vi.fn();
   const defaultProps: React.ComponentProps<typeof Dashboard> = {
+    userName: 'Test',
     journey: createJourney(),
     progress: { day: 2, week: 1, totalDays: 84, percentage: 2 },
     currentTip: null,
@@ -113,16 +114,16 @@ describe('Dashboard UI/UX', () => {
     expect(onLogWeight).toHaveBeenCalledWith(82.5, expect.any(String));
   });
 
-  it('renders cheat day banner and hides meal tracker on cheat day', () => {
+  it('renders cheatday banner and hides meal tracker on cheatday', () => {
     const { props } = createProps({ isCheatDay: true });
     render(<Dashboard {...props} />);
 
-    expect(screen.getByText('🍕 Cheat Day!')).toBeInTheDocument();
-    expect(screen.getByText('Je eerste cheat day valt vroeg (dag 2). Zie dit vooral als ritme-opbouw: geniet bewust en pak morgen direct het protocol weer op.')).toBeInTheDocument();
+    expect(screen.getByText('🍕 Cheatday!')).toBeInTheDocument();
+    expect(screen.getByText('Je eerste cheatday valt vroeg (dag 2). Zie dit vooral als ritme-opbouw: geniet bewust en pak morgen direct het protocol weer op.')).toBeInTheDocument();
     expect(screen.queryByText('DailyMealTracker')).not.toBeInTheDocument();
   });
 
-  it('keeps regular cheat day context after day 4', () => {
+  it('keeps regular cheatday context after day 4', () => {
     const { props } = createProps({
       isCheatDay: true,
       progress: { day: 5, week: 1, totalDays: 84, percentage: 6 },
@@ -132,12 +133,12 @@ describe('Dashboard UI/UX', () => {
     expect(screen.getByText('Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp. Geniet ervan en ga morgen weer terug naar het protocol.')).toBeInTheDocument();
   });
 
-  it('renders meal tracker and countdown on non-cheat day', () => {
+  it('renders meal tracker and countdown on non-cheatday', () => {
     const { props } = createProps({ isCheatDay: false });
     render(<Dashboard {...props} />);
 
     expect(screen.getByText('DailyMealTracker')).toBeInTheDocument();
-    expect(screen.getByText('Nog 2 dagen tot je cheat day.')).toBeInTheDocument();
+    expect(screen.getByText('Nog 2 dagen tot je cheatday.')).toBeInTheDocument();
   });
 
   it('keeps compact dashboard section order', () => {

@@ -67,7 +67,7 @@ describe('OnboardingWizard', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Wat doet mijn lichaam?' }));
     fireEvent.click(screen.getByRole('button', { name: 'Waarom werkt dit?' }));
     fireEvent.click(screen.getByRole('button', { name: 'Wat mag wel en niet?' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Nu mijn gegevens' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Bijna klaar!' }));
   };
 
   it('renders the onboarding dialog', () => {

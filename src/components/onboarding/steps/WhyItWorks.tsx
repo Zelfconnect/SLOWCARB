@@ -21,7 +21,7 @@ const cards: ScienceCard[] = [
   },
   {
     icon: <PartyPopper className="h-5 w-5" />,
-    title: 'Cheat day = reset',
+    title: 'Cheatday = reset',
     text: ruleCards[4].content.science,
   },
 ];

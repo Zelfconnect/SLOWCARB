@@ -7,6 +7,7 @@ import { FysiologieCard } from './FysiologieCard';
 import { StreakHeroCard } from './StreakHeroCard';
 import { WeeklyProgressGrid } from './WeeklyProgressGrid';
 import { WeightProgressCard } from './WeightProgressCard';
+import { WelcomeBanner } from './WelcomeBanner';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -16,6 +17,7 @@ import type { CheatDay, Journey, MealEntry, WeightEntry } from '@/types';
 import { useTranslation } from '@/i18n';
 
 interface DashboardProps {
+  userName: string;
   journey: Journey;
   onboardingStartWeight?: number;
   progress: { day: number; week: number; totalDays: number; percentage: number };
@@ -35,6 +37,7 @@ interface DashboardProps {
 }
 
 export function Dashboard({
+  userName,
   journey,
   onboardingStartWeight,
   progress,
@@ -64,6 +67,9 @@ export function Dashboard({
   const sortedWeights = [...weightLog].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
+  const mealCount = mealEntries.reduce((count, entry) => {
+    return count + Number(entry.breakfast) + Number(entry.lunch) + Number(entry.dinner);
+  }, 0);
   const startWeight = onboardingStartWeight ?? sortedWeights[0]?.weight;
   const latestWeight = sortedWeights[sortedWeights.length - 1]?.weight;
 
@@ -93,6 +99,12 @@ export function Dashboard({
   if (!journey.startDate) {
     return (
       <div className="space-y-6">
+        <WelcomeBanner
+          userName={userName}
+          mealCount={mealCount}
+          journeyStartDate={journey.startDate ?? ''}
+        />
+
         <JourneyCard
           journey={journey}
           progress={progress}
@@ -146,6 +158,12 @@ export function Dashboard({
 
   return (
     <div data-testid="dashboard-content" className="space-y-1">
+      <WelcomeBanner
+        userName={userName}
+        mealCount={mealCount}
+        journeyStartDate={journey.startDate ?? ''}
+      />
+
       <StreakHeroCard
         streak={streak}
         currentWeek={progress.week}
@@ -155,11 +173,11 @@ export function Dashboard({
 
       {isCheatDay ? (
         <div className="mx-2.5 rounded-2xl border border-clay-200 bg-gradient-to-r from-clay-50/90 to-clay-100/80 px-3 py-2.5 shadow-soft">
-          <h3 className="mb-1 font-display text-base font-semibold text-clay-900">🍕 Cheat Day!</h3>
-          <p className="text-sm font-medium text-clay-800">Vandaag is je cheat day.</p>
+          <h3 className="mb-1 font-display text-base font-semibold text-clay-900">🍕 Cheatday!</h3>
+          <p className="text-sm font-medium text-clay-800">Vandaag is je cheatday.</p>
           <p className="mt-1 text-sm text-clay-700">
             {isEarlyCheatDay
-              ? `Je eerste cheat day valt vroeg (dag ${progress.day}). Zie dit vooral als ritme-opbouw: geniet bewust en pak morgen direct het protocol weer op.`
+              ? `Je eerste cheatday valt vroeg (dag ${progress.day}). Zie dit vooral als ritme-opbouw: geniet bewust en pak morgen direct het protocol weer op.`
               : 'Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp. Geniet ervan en ga morgen weer terug naar het protocol.'}
           </p>
         </div>
@@ -195,7 +213,7 @@ export function Dashboard({
 
       {!isCheatDay && daysUntilCheatDay > 0 && daysUntilCheatDay <= 2 ? (
         <p className="px-3 text-[10px] text-clay-700">
-          Nog {daysUntilCheatDay} {daysUntilCheatDay === 1 ? 'dag' : 'dagen'} tot je cheat day.
+          Nog {daysUntilCheatDay} {daysUntilCheatDay === 1 ? 'dag' : 'dagen'} tot je cheatday.
         </p>
       ) : null}
 

@@ -19,12 +19,12 @@ function createProps(overrides: Partial<React.ComponentProps<typeof JourneyCard>
   return { ...defaultProps, ...overrides };
 }
 
-describe('JourneyCard calendar (Start Journey modal)', () => {
+describe('JourneyCard calendar (Start plan modal)', () => {
   it('renders calendar with min-width wrapper and spaced day cells when date picker is open', () => {
     render(<JourneyCard {...createProps()} />);
 
     fireEvent.click(screen.getByRole('button', { name: /start nu/i }));
-    expect(screen.getByRole('dialog', { name: /start je slow-carb journey/i })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /start je slow-carb plan/i })).toBeInTheDocument();
 
     const startDateButton = screen.getByRole('button', { name: /start datum/i });
     fireEvent.click(startDateButton);

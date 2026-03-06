@@ -286,7 +286,7 @@ export function SettingsTab() {
           <Separator className="bg-stone-100" />
 
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-stone-700">Startdatum journey</Label>
+            <Label className="text-sm font-medium text-stone-700">Startdatum plan</Label>
             <p className="text-xs text-stone-500">Huidige startdatum: {journeyStartDateLabel}</p>
             {journey.startDate ? (
               <Popover open={showStartDateCalendar} onOpenChange={setShowStartDateCalendar}>

@@ -92,10 +92,10 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
       case 4: return { cta: 'Wat doet mijn lichaam?', disabled: false };
       case 5: return { cta: 'Waarom werkt dit?', disabled: false };
       case 6: return { cta: 'Wat mag wel en niet?', disabled: false };
-      case 7: return { cta: 'Nu mijn gegevens', disabled: false };
+      case 7: return { cta: 'Bijna klaar!', disabled: false };
       case 8: return { cta: 'Volgende', disabled: !isWeightStepValid };
-      case 9: return { cta: 'Volgende', disabled: false };
-      case 10: return { cta: 'Start mijn journey \u2192', disabled: false };
+      case 9: return { cta: 'Kies mijn cheatdag', disabled: false };
+      case 10: return { cta: 'Start mijn plan \u2192', disabled: false };
       default: return { cta: 'Volgende', disabled: false };
     }
   };

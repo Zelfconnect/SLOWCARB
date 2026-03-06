@@ -57,14 +57,14 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
   if (!journey.startDate) {
     return (
       <>
-        {/* Start Journey Card - NEW DESIGN SYSTEM */}
+        {/* Start Plan Card - NEW DESIGN SYSTEM */}
         <Card variant="rule" padding="6" radius="2xl" hasShadow>
           <div className="flex items-center gap-4 mb-5">
             <div className="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center">
               <Rocket className="w-7 h-7" />
             </div>
             <div>
-              <h3 className="font-semibold text-xl text-white">Start je Journey</h3>
+              <h3 className="font-semibold text-xl text-white">Start je plan</h3>
               <p className="text-sm text-white/80">Track je 12-weekse transformatie</p>
             </div>
           </div>
@@ -87,7 +87,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
           <DialogContent className="max-h-[85dvh] overflow-y-auto rounded-2xl border border-stone-100 bg-white p-6 leading-relaxed shadow-soft">
             <DialogHeader className="text-left gap-3">
               <DialogTitle className="font-display text-2xl font-bold tracking-tight text-stone-800">
-                Start je Slow-Carb Journey
+                Start je Slow-Carb plan
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4 pt-1 text-base text-stone-600">
@@ -130,7 +130,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="cheat-day" className="text-sm font-medium uppercase tracking-wide text-stone-500">Cheat day</Label>
+                  <Label htmlFor="cheat-day" className="text-sm font-medium uppercase tracking-wide text-stone-500">Cheatday</Label>
                   <Select value={cheatDay} onValueChange={(value) => setCheatDay(value as CheatDay)}>
                     <SelectTrigger className="mt-2 h-11 rounded-xl border border-stone-200 bg-white px-4 text-base text-stone-600 focus:border-transparent focus:ring-2 focus:ring-sage-300">
                       <SelectValue />
@@ -162,7 +162,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
                 onClick={handleStart}
                 className="h-11 w-full rounded-xl bg-sage-600 text-white transition-all hover:bg-sage-700 active:scale-95"
               >
-                Start Journey
+                Start plan
               </Button>
             </div>
           </DialogContent>
@@ -173,7 +173,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
 
   return (
     <>
-      {/* Main Journey Card - NEW DESIGN SYSTEM */}
+      {/* Main Plan Card - NEW DESIGN SYSTEM */}
       <Card
         variant={isCheatDay ? 'concept' : 'rule'} 
         padding="6" 
@@ -187,7 +187,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
             </div>
             <div>
               <h3 className="font-display text-xl font-semibold text-white">
-                {isCheatDay ? 'Cheat Day!' : `Kalenderdag ${progress.day}`}
+                {isCheatDay ? 'Cheatday!' : `Kalenderdag ${progress.day}`}
               </h3>
               <p className="text-sm text-white/80">
                 {isCheatDay ? 'Geniet ervan!' : `Week ${progress.week} van 12`}
@@ -208,7 +208,7 @@ export function JourneyCard({ journey, progress, currentTip, isCheatDay, onStart
           <button 
             onClick={() => onResetJourney()} 
             className="p-2.5 rounded-lg hover:bg-white/20 transition-colors" 
-            title="Reset journey"
+            title="Reset plan"
           >
             <RotateCcw className="w-5 h-5" />
           </button>

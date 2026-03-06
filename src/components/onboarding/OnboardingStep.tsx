@@ -180,7 +180,7 @@ export function OnboardingStep({
               className={`h-14 w-full shrink-0 rounded-xl text-lg font-semibold ${
                 dark
                   ? 'bg-white text-sage-800 hover:bg-white/90'
-                  : 'bg-sage-600 text-white hover:bg-sage-700'
+                  : 'bg-sage-600 text-white hover:bg-sage-700 disabled:bg-sage-600 disabled:text-white disabled:opacity-100'
               }`}
             >
               {cta}

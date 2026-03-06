@@ -97,6 +97,7 @@ export function MealHistorySection({
       <div className="rounded-xl border border-stone-100 bg-stone-50/70 p-1.5">
         <DayCalendar
           mode="single"
+          locale={nl}
           selected={selectedDateObj}
           onSelect={(date) => {
             if (!date) return;
@@ -125,7 +126,7 @@ export function MealHistorySection({
           <p className="text-sm font-medium text-stone-900 capitalize">{selectedDateLabel}</p>
           {isBeforeJourney ? <p className="text-xs text-stone-500">Voor de startdatum van je traject.</p> : null}
           {isFuture ? <p className="text-xs text-stone-500">Toekomstige dagen kun je nog niet loggen.</p> : null}
-          {isSelectedCheatDay ? <p className="text-xs text-clay-700">Cheat day: telt niet mee voor je streak.</p> : null}
+          {isSelectedCheatDay ? <p className="text-xs text-clay-700">Cheatday: telt niet mee voor je streak.</p> : null}
         </div>
 
         <div className="grid grid-cols-3 gap-1.5">

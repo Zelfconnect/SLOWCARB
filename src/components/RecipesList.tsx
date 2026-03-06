@@ -75,6 +75,8 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
     ? RECIPES.find(r => r.id === selectedRecipeId) 
     : null;
   const activeCategoryLabel = getActiveCategoryLabel(activeCategory);
+  const isFavoritesEmptyState = showFavoritesOnly && favorites.length === 0;
+  const favoriteSuggestions = RECIPES.slice(0, 3);
 
   return (
     <div className="space-y-5">
@@ -164,7 +166,29 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
 
       {/* Recipe Grid */}
       <div className="grid grid-cols-2 gap-3" data-testid="recipes-grid">
-        {filteredRecipes.length === 0 ? (
+        {isFavoritesEmptyState ? (
+          <div className="card-website col-span-2 py-8 text-center text-stone-500">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-rose-50 shadow-surface">
+              <Heart className="h-8 w-8 text-rose-400" />
+            </div>
+            <p className="font-display font-medium text-stone-700">
+              Tik ❤️ om je favorieten hier te verzamelen
+            </p>
+            <div className="mt-5 space-y-2">
+              {favoriteSuggestions.map((recipe) => (
+                <button
+                  key={`fav-suggestion-${recipe.id}`}
+                  type="button"
+                  onClick={() => setSelectedRecipeId(recipe.id)}
+                  className="mx-auto flex w-full max-w-xs items-center justify-between rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm text-stone-700 transition-colors hover:bg-stone-50"
+                >
+                  <span className="truncate">{recipe.name}</span>
+                  <span className="text-xs font-semibold text-stone-500">Bekijk</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : filteredRecipes.length === 0 ? (
           <div className="card-website col-span-2 py-12 text-center text-stone-500">
             <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-stone-100 shadow-surface">
               <Search className="w-8 h-8 text-stone-400" />

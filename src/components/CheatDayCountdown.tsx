@@ -17,7 +17,7 @@ export function CheatDayCountdown({ daysUntilCheatDay, onPlanMeal }: CheatDayCou
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0 flex-1 text-left">
           <p className="font-semibold text-clay-900 break-words">
-            Nog {daysUntilCheatDay} {daysUntilCheatDay === 1 ? 'dag' : 'dagen'} tot je cheat day
+            Nog {daysUntilCheatDay} {daysUntilCheatDay === 1 ? 'dag' : 'dagen'} tot je cheatday
           </p>
           <p className="text-sm text-clay-700 break-words">Waar heb je zin in?</p>
         </div>

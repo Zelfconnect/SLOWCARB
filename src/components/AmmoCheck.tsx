@@ -124,7 +124,7 @@ const ZONE_TEMPLATES: AmmoZoneTemplate[] = [
   },
   {
     id: 'voorraadkast',
-    name: 'ZONE 3: De Voorraadkast',
+    name: 'ZONE 3: Voorraadkast',
     icon: 'package',
     description: 'Dit bederft niet. Sla in per tray voor constante brandstof.',
     sections: [

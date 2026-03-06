@@ -220,6 +220,7 @@ function AppShell() {
       case 'dashboard':
         return (
           <Dashboard
+            userName={profile.name}
             journey={journey}
             onboardingStartWeight={profile.currentWeight}
             progress={getProgress()}

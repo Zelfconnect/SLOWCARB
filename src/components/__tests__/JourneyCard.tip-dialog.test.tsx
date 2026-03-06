@@ -41,14 +41,13 @@ describe('JourneyCard tip dialog', () => {
     const dialog = screen.getByRole('dialog', { name: /hydratatie eerst/i });
     const dialogContent = within(dialog);
 
-    expect(dialogContent.getByText('Kalenderdag 5 van je journey')).toBeInTheDocument();
+    expect(dialogContent.getByText('Dag 5 — Hydratatie eerst')).toBeInTheDocument();
     expect(dialogContent.getByText('Tips voor vandaag')).toBeInTheDocument();
     expect(dialogContent.getByText('Begin je dag met 500 ml water')).toBeInTheDocument();
     expect(dialogContent.getByText('Let op')).toBeInTheDocument();
     expect(dialogContent.getByText('Te weinig water kan zorgen voor hoofdpijn.')).toBeInTheDocument();
     expect(dialogContent.getByText('Metabole staat')).toBeInTheDocument();
     expect(dialogContent.getByText('Je lichaam schakelt naar vetverbranding.')).toBeInTheDocument();
-    expect(dialogContent.getByText('Focus deze week')).toBeInTheDocument();
 
     fireEvent.click(dialogContent.getByRole('button', { name: /sluiten/i }));
 

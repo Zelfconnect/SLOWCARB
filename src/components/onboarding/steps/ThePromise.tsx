@@ -18,7 +18,7 @@ const stats: { value: string; label: string; icon: ReactNode }[] = [
   },
   {
     value: '1',
-    label: 'cheat day per week',
+    label: 'cheatday per week',
     icon: <CalendarHeart className="h-6 w-6" />,
   },
 ];

@@ -17,8 +17,114 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ConceptCard } from './education/ConceptCard';
 import { RuleCard } from './education/RuleCard';
 import { FAQCard } from './education/FAQCard';
-import type { EducationCard } from '@/types';
+import type { ConceptCard as ConceptCardType, EducationCard, FAQCard as FAQCardType } from '@/types';
 import { getEducationIcon } from '@/lib/educationIcons';
+
+const FALLBACK_SCIENCE_CARDS: ConceptCardType[] = [
+  {
+    id: 'fallback-insuline-balans',
+    type: 'concept',
+    title: 'Insuline en Vetopslag',
+    subtitle: 'Waarom lage pieken helpen',
+    icon: 'sliders-horizontal',
+    content: {
+      summary: 'Minder snelle koolhydraten betekent minder insulinepieken en meer vetverbranding.',
+      keyPoints: [
+        { title: 'Piek omlaag', text: 'Langzame koolhydraten en vezels remmen de glucosepiek.' },
+        { title: 'Verzadiging omhoog', text: 'Eiwit + bonen houden je langer vol.' },
+        { title: 'Consistentie wint', text: 'Dagelijkse stabiliteit is belangrijker dan perfectie.' },
+      ],
+    },
+  },
+  {
+    id: 'fallback-eiwit-spierbehoud',
+    type: 'concept',
+    title: 'Eiwit en Spierbehoud',
+    subtitle: 'Afvallen zonder spierverlies',
+    icon: 'flame',
+    content: {
+      summary: 'Voldoende eiwit helpt spiermassa te behouden tijdens vetverlies.',
+      keyPoints: [
+        { title: '30/30-regel', text: 'Start vroeg met eiwit om honger later op de dag te dempen.' },
+        { title: 'Herstel', text: 'Spieren herstellen sneller met regelmatige eiwitinname.' },
+        { title: 'Thermisch effect', text: 'Eiwit kost meer energie om te verteren dan vet of koolhydraten.' },
+      ],
+    },
+  },
+  {
+    id: 'fallback-cheatday-ritme',
+    type: 'concept',
+    title: 'Cheatday en Ritme',
+    subtitle: 'Waarom plannen werkt',
+    icon: 'bean',
+    content: {
+      summary: 'Een vaste cheatday maakt het protocol mentaal en sociaal beter vol te houden.',
+      keyPoints: [
+        { title: 'Mentale ruimte', text: 'Een geplande uitlaatklep verlaagt de kans op impuls-snacks.' },
+        { title: 'Structuur', text: 'De dag erna direct terug naar basis versnelt herstel van ritme.' },
+        { title: 'Weekplanning', text: 'Je kunt trainingen en sociale events hier slim omheen plannen.' },
+      ],
+    },
+  },
+];
+
+const FALLBACK_FAQ_CARDS: FAQCardType[] = [
+  {
+    id: 'fallback-faq-1',
+    type: 'faq',
+    title: 'Wat als ik een maaltijd mis?',
+    icon: 'coffee',
+    content: {
+      answer: 'misschien',
+      explanation: 'Geen paniek. Pak je volgende maaltijd volgens het protocol op.',
+      nuance: ['Focus op consistentie over de week, niet op een perfect dagrecord.'],
+    },
+  },
+  {
+    id: 'fallback-faq-2',
+    type: 'faq',
+    title: 'Moet ik calorieen tellen?',
+    icon: 'cup-soda',
+    content: {
+      answer: 'nee',
+      explanation: 'Meestal niet. Eet eiwit, groente en bonen tot je verzadigd bent.',
+      nuance: ['Track alleen tijdelijk als je vastloopt en patronen wilt zien.'],
+    },
+  },
+  {
+    id: 'fallback-faq-3',
+    type: 'faq',
+    title: 'Hoe vaak mag ik wegen?',
+    icon: 'trending-down',
+    content: {
+      answer: 'ja',
+      explanation: 'Dagelijks wegen mag, maar beoordeel trend over 2-3 weken.',
+      nuance: ['Schommelingen door vocht zijn normaal, vooral na cheatday.'],
+    },
+  },
+  {
+    id: 'fallback-faq-4',
+    type: 'faq',
+    title: 'Kan ik vegetarisch slow-carb doen?',
+    icon: 'pizza',
+    content: {
+      answer: 'ja',
+      explanation: 'Ja, met peulvruchten, eieren, tofu/tempeh en slimme meal prep.',
+      nuance: ['Let extra op eiwit per maaltijd om verzadiging te behouden.'],
+    },
+  },
+  {
+    id: 'fallback-faq-5',
+    type: 'faq',
+    title: 'Wat doe ik bij honger in de avond?',
+    icon: 'wine',
+    content: {
+      answer: 'misschien',
+      explanation: 'Vergroot je avondmaaltijd met extra groente en bonen.',
+      nuance: ['Een eiwitrijke snack zonder suiker is een goede back-upoptie.'],
+    },
+  },
+];
 
 function renderEducationIcon(iconKey: string, className: string) {
   const IconComponent = getEducationIcon(iconKey as Parameters<typeof getEducationIcon>[0]);
@@ -129,10 +235,12 @@ function CardPreview({
 export function LearnSection() {
   const [openCardId, setOpenCardId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'quickstart' | 'science' | 'faq'>('quickstart');
+  const scienceCards = conceptCards.length > 0 ? conceptCards : FALLBACK_SCIENCE_CARDS;
+  const faqContentCards = faqCards.length > 0 ? faqCards : FALLBACK_FAQ_CARDS;
 
   // Find the currently open card
   const openCard = openCardId
-    ? [...ruleCards, ...conceptCards, ...faqCards].find(c => c.id === openCardId)
+    ? [...ruleCards, ...scienceCards, ...faqContentCards].find(c => c.id === openCardId)
     : null;
 
   return (
@@ -315,7 +423,7 @@ export function LearnSection() {
               <FlaskConical className="w-5 h-5 text-stone-600" />
               Onderwerpen
             </h2>
-            {conceptCards.map((card) => (
+            {scienceCards.map((card) => (
               <CardPreview
                 key={card.id}
                 card={card}
@@ -345,7 +453,7 @@ export function LearnSection() {
               <HelpCircle className="w-5 h-5 text-sage-600" />
               Veelgestelde Vragen
             </h2>
-            {faqCards.map((card) => (
+            {faqContentCards.map((card) => (
               <CardPreview
                 key={card.id}
                 card={card}
