@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { Pencil } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CHEAT_DAY_OPTIONS, CHEAT_DAY_LABELS } from '@/lib/cheatDay';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import type { CheatDay, DayStatus } from '@/types';
 
 interface WeeklyProgressGridProps {
@@ -12,44 +13,55 @@ interface WeeklyProgressGridProps {
 }
 
 export function WeeklyProgressGrid({ weekData, onDayClick, cheatDay, onChangeCheatDay }: WeeklyProgressGridProps) {
-  const [editingCheatDay, setEditingCheatDay] = useState(false);
+  const [isCheatDayDialogOpen, setIsCheatDayDialogOpen] = useState(false);
+
+  const shortCheatDayLabel = cheatDay ? cheatDay.slice(0, 2) : null;
 
   return (
     <section className="rounded-2xl bg-white p-3 shadow-surface">
       <div className="mb-2 flex items-center gap-2">
         <p className="text-sm font-semibold text-stone-800">Huidige week</p>
-        {onChangeCheatDay && !editingCheatDay && (
+        {shortCheatDayLabel ? <p className="ml-auto text-[12px] text-stone-500">Cheatdag: {shortCheatDayLabel}</p> : null}
+        {cheatDay && onChangeCheatDay ? (
           <button
             type="button"
-            onClick={() => setEditingCheatDay(true)}
-            className="ml-auto text-sm font-semibold text-emerald-600 hover:text-emerald-700"
+            aria-label="Cheatdag wijzigen"
+            onClick={() => setIsCheatDayDialogOpen(true)}
+            className="rounded-md p-1 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-700"
           >
-            Wijzig
+            <Pencil className="h-3.5 w-3.5" />
           </button>
-        )}
-        {editingCheatDay && cheatDay && onChangeCheatDay ? (
-          <Select
-            value={cheatDay}
-            onValueChange={(value) => {
-              onChangeCheatDay(value as CheatDay);
-              setEditingCheatDay(false);
-            }}
-          >
-            <SelectTrigger className="h-7 w-auto min-w-[120px] text-xs">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {CHEAT_DAY_OPTIONS.map(day => (
-                <SelectItem key={day} value={day} className="text-xs">
-                  {CHEAT_DAY_LABELS[day]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        ) : (
-          <p className="text-[12px] text-stone-500">7 dagen</p>
-        )}
+        ) : null}
       </div>
+      {cheatDay && onChangeCheatDay ? (
+        <Dialog open={isCheatDayDialogOpen} onOpenChange={setIsCheatDayDialogOpen}>
+          <DialogContent className="max-w-sm p-4 sm:p-5">
+            <DialogHeader>
+              <DialogTitle>Kies je cheatdag</DialogTitle>
+            </DialogHeader>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              {CHEAT_DAY_OPTIONS.map(day => (
+                <button
+                  key={day}
+                  type="button"
+                  onClick={() => {
+                    onChangeCheatDay(day);
+                    setIsCheatDayDialogOpen(false);
+                  }}
+                  className={cn(
+                    'rounded-lg border border-stone-200 px-3 py-2 text-sm font-medium text-stone-700 transition-colors',
+                    cheatDay === day
+                      ? 'border-emerald-500 bg-emerald-500 text-white'
+                      : 'hover:border-stone-300 hover:bg-stone-50'
+                  )}
+                >
+                  {CHEAT_DAY_LABELS[day]}
+                </button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+      ) : null}
       <div className="grid grid-cols-7 gap-1.5">
         {weekData.map(day => {
           const isClickable = onDayClick && !day.isFuture;
