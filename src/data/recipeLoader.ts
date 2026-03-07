@@ -178,7 +178,7 @@ const getPrimaryCategory = (tags: string[]): AppRecipe['category'] => {
   if (tags.includes(CATEGORY_TAGS.mealPrep)) return 'meal-prep';
   if (tags.includes(CATEGORY_TAGS.noTime)) return 'no-time';
   if (tags.includes(CATEGORY_TAGS.quick)) return 'airfryer';
-  return 'airfryer';
+  return 'overig';
 };
 
 const getRecipeIcon = (raw: RawRecipe): RecipeIconKey => {

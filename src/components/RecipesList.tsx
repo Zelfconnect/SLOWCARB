@@ -57,9 +57,7 @@ export function RecipesList({ favorites, onToggleFavorite }: RecipesListProps) {
       );
     }
     if (activeCategory !== 'all') {
-      filtered = filtered.filter(
-        (r) => r.tags.includes(activeCategory) || r.category === activeCategory
-      );
+      filtered = filtered.filter((r) => r.tags.includes(activeCategory));
     }
     if (showFavoritesOnly) filtered = filtered.filter(r => favorites.includes(r.id));
     return filtered.sort((a, b) => {

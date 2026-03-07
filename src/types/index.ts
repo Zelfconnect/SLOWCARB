@@ -26,7 +26,16 @@ export interface Recipe {
   image?: string;
   subtitle?: string;
   difficulty?: string;
-  category: 'ontbijt' | 'lunch' | 'avond' | 'airfryer' | 'mealprep' | 'snack' | 'meal-prep' | 'no-time';
+  category:
+    | 'ontbijt'
+    | 'lunch'
+    | 'avond'
+    | 'airfryer'
+    | 'mealprep'
+    | 'snack'
+    | 'meal-prep'
+    | 'no-time'
+    | 'overig';
   icon: RecipeIconKey;
   prepTime: string;
   cookTime: string;
