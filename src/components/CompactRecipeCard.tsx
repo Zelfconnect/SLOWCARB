@@ -5,6 +5,7 @@ import { getRecipeIcon } from '@/lib/recipeIcons';
 import { getCategoryAccent } from '@/lib/recipeCardStyle';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { SmartImage } from '@/components/ui/SmartImage';
 
 interface CompactRecipeCardProps {
   recipe: Recipe;
@@ -54,14 +55,28 @@ export function CompactRecipeCard({
         />
       </Button>
 
-      {/* Icon – category-based accent */}
-      <div
-        className={cn(
-          'ml-8 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-[1.03]',
-          iconBox
+      {/* Thumbnail with icon fallback to keep card layout stable */}
+      <div className="ml-8 h-12 w-12 flex-shrink-0">
+        {recipe.image ? (
+          <SmartImage
+            src={recipe.image}
+            alt={recipe.name}
+            wrapperClassName="h-full w-full rounded-xl"
+            className="h-full w-full object-cover"
+            loading="lazy"
+            placeholderClassName="from-sage-100 via-stone-100 to-sage-100"
+            fallbackClassName="from-stone-200 via-stone-100 to-stone-50"
+          />
+        ) : (
+          <div
+            className={cn(
+              'flex h-full w-full items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-[1.03]',
+              iconBox
+            )}
+          >
+            <RecipeIcon className={cn('h-5 w-5', iconColor)} />
+          </div>
         )}
-      >
-        <RecipeIcon className={cn('h-5 w-5', iconColor)} />
       </div>
 
       {/* Content */}
