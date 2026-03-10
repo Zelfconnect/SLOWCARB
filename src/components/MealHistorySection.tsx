@@ -94,7 +94,7 @@ export function MealHistorySection({
         </div>
       </div>
 
-      <div className="rounded-xl border border-stone-100 bg-stone-50/70 p-1.5">
+      <div className="rounded-xl border border-stone-100 bg-stone-50/70 p-1.5 flex justify-center">
         <DayCalendar
           mode="single"
           locale={nl}
@@ -117,22 +117,26 @@ export function MealHistorySection({
             missed: 'bg-rose-100 text-rose-800 font-semibold',
             cheat: 'text-clay-700',
           }}
-          className="w-full p-1"
+          className="p-1"
+          classNames={{
+            months: "flex justify-center w-full",
+            month: "flex flex-col items-center w-full",
+          }}
         />
       </div>
 
-      <div className="mt-2 space-y-2">
-        <div>
-          <p className="text-sm font-medium text-stone-900 capitalize">{selectedDateLabel}</p>
+      <div className="mt-4 space-y-4">
+        <div className="px-1">
+          <p className="text-sm font-bold text-stone-900 capitalize">{selectedDateLabel}</p>
           {isBeforeJourney ? <p className="text-xs text-stone-500">Voor de startdatum van je traject.</p> : null}
           {isFuture ? <p className="text-xs text-stone-500">Toekomstige dagen kun je nog niet loggen.</p> : null}
           {isSelectedCheatDay ? <p className="text-xs text-clay-700">Cheatday: telt niet mee voor je streak.</p> : null}
         </div>
 
-        <div className="grid grid-cols-3 gap-1.5">
+        <div className="grid grid-cols-3 gap-2 px-1">
           <Button
             type="button"
-            size="sm"
+            className="h-10 text-xs font-medium"
             variant={selectedMeals.breakfast ? 'default' : 'outline'}
             disabled={!selectedCanBeUpdated}
             onClick={() => onToggleMealForDate(selectedDate, 'breakfast')}
@@ -141,7 +145,7 @@ export function MealHistorySection({
           </Button>
           <Button
             type="button"
-            size="sm"
+            className="h-10 text-xs font-medium"
             variant={selectedMeals.lunch ? 'default' : 'outline'}
             disabled={!selectedCanBeUpdated}
             onClick={() => onToggleMealForDate(selectedDate, 'lunch')}
@@ -150,7 +154,7 @@ export function MealHistorySection({
           </Button>
           <Button
             type="button"
-            size="sm"
+            className="h-10 text-xs font-medium"
             variant={selectedMeals.dinner ? 'default' : 'outline'}
             disabled={!selectedCanBeUpdated}
             onClick={() => onToggleMealForDate(selectedDate, 'dinner')}
@@ -159,19 +163,21 @@ export function MealHistorySection({
           </Button>
         </div>
 
-        <Button
-          type="button"
-          className={cn(
-            'w-full h-12 text-sm font-semibold transition-all duration-300',
-            isSelectedCompliant 
-              ? 'bg-emerald-800 hover:bg-emerald-900 shadow-lg shadow-emerald-900/20' 
-              : 'bg-emerald-700 hover:bg-emerald-800 shadow-md shadow-emerald-900/10'
-          )}
-          disabled={!selectedCanBeUpdated}
-          onClick={() => onMarkDayCompliant(selectedDate)}
-        >
-          {isSelectedCompliant ? 'Protocol gevolgd' : 'Markeer als volgens protocol'}
-        </Button>
+        <div className="px-1 pt-1">
+          <Button
+            type="button"
+            className={cn(
+              'w-full h-12 text-sm font-bold transition-all duration-300 shadow-sm',
+              isSelectedCompliant 
+                ? 'bg-emerald-800 hover:bg-emerald-900 shadow-emerald-900/20' 
+                : 'bg-emerald-700 hover:bg-emerald-800 shadow-emerald-900/10'
+            )}
+            disabled={!selectedCanBeUpdated}
+            onClick={() => onMarkDayCompliant(selectedDate)}
+          >
+            {isSelectedCompliant ? 'Protocol gevolgd' : 'Markeer als volgens protocol'}
+          </Button>
+        </div>
       </div>
     </section>
   );
