@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { SmartImage } from '@/components/ui/SmartImage';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { scaleAmount } from '@/lib/scaleAmount';
 
@@ -95,20 +96,15 @@ export function RecipeDetailModal({
             <h2 className="line-clamp-2 font-display text-[28px] font-bold leading-tight text-white">{recipe.name}</h2>
           </div>
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-200">
-            {recipe.image ? (
-              <img
-                src={recipe.image}
-                alt={recipe.name}
-                className="h-full w-full object-cover"
-                loading="eager"
-                onError={(event) => {
-                  const img = event.target as HTMLImageElement;
-                  img.style.display = 'none';
-                }}
-              />
-            ) : (
-              <div className="h-full w-full bg-gradient-to-br from-stone-300 via-stone-200 to-stone-100" />
-            )}
+            <SmartImage
+              src={recipe.image}
+              alt={recipe.name}
+              wrapperClassName="h-full w-full"
+              className="h-full w-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+              fallbackClassName="from-stone-300 via-stone-200 to-stone-100"
+            />
           </div>
 
           <Tabs defaultValue="ingredients" className="flex min-h-0 flex-1 flex-col gap-0">
