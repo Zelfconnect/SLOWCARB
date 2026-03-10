@@ -165,7 +165,7 @@ export function MealHistorySection({
             'w-full h-12 text-sm font-semibold transition-all duration-300',
             isSelectedCompliant 
               ? 'bg-emerald-800 hover:bg-emerald-900 shadow-lg shadow-emerald-900/20' 
-              : 'bg-stone-900 hover:bg-stone-800'
+              : 'bg-emerald-700 hover:bg-emerald-800 shadow-md shadow-emerald-900/10'
           )}
           disabled={!selectedCanBeUpdated}
           onClick={() => onMarkDayCompliant(selectedDate)}
