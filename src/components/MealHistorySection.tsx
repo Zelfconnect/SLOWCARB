@@ -113,9 +113,9 @@ export function MealHistorySection({
             cheat: (date: Date) => date.getDay() === cheatDayIndex,
           }}
           modifiersClassNames={{
-            compliant: 'bg-stone-900 text-stone-50 font-semibold rounded-lg shadow-sm',
-            missed: 'bg-rose-100 text-rose-800 font-semibold',
-            cheat: 'text-clay-700 font-medium',
+            compliant: 'bg-stone-900 text-stone-50 font-semibold rounded-full shadow-sm',
+            missed: 'text-rose-500 font-medium relative after:content-[""] after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-rose-400 after:rounded-full',
+            cheat: 'text-stone-400 font-medium italic',
           }}
           className="p-1"
           classNames={{
