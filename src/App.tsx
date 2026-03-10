@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { CalendarDays, Cog } from 'lucide-react';
-import LandingPage from '@/components/LandingPageNoom';
+import LandingPage from '@/components/LandingPageFinal';
 import WelcomePage from '@/components/WelcomePage';
 import { LoginPage } from '@/components/LoginPage';
 import { BottomNav } from '@/components/BottomNav';
