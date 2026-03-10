@@ -161,11 +161,16 @@ export function MealHistorySection({
 
         <Button
           type="button"
-          className={cn('w-full', isSelectedCompliant && 'bg-emerald-700 hover:bg-emerald-700')}
+          className={cn(
+            'w-full h-12 text-sm font-semibold transition-all duration-300',
+            isSelectedCompliant 
+              ? 'bg-emerald-800 hover:bg-emerald-900 shadow-lg shadow-emerald-900/20' 
+              : 'bg-stone-900 hover:bg-stone-800'
+          )}
           disabled={!selectedCanBeUpdated}
           onClick={() => onMarkDayCompliant(selectedDate)}
         >
-          {isSelectedCompliant ? 'Dag is compliant' : 'Markeer als compliant (3/3)'}
+          {isSelectedCompliant ? 'Protocol gevolgd' : 'Markeer als volgens protocol'}
         </Button>
       </div>
     </section>
