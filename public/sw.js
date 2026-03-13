@@ -1,10 +1,11 @@
-const CACHE_NAME = 'slowcarb-v1';
+const CACHE_NAME = 'slowcarb-v2';
 const APP_SHELL = ['/', '/index.html'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('fetch', (event) => {
@@ -22,6 +23,24 @@ self.addEventListener('fetch', (event) => {
   // Only cache GET requests for static assets
   if (event.request.method !== 'GET') return;
 
+  // Cache-first for images — instant after first load
+  if (url.pathname.match(/\.(webp|jpg|jpeg|png|svg)$/i)) {
+    event.respondWith(
+      caches.match(event.request).then((cached) =>
+        cached ||
+        fetch(event.request).then((response) => {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+          return response;
+        })
+      )
+    );
+    return;
+  }
+
+  // Network-first for everything else
   event.respondWith(
     fetch(event.request)
       .then((response) => {
