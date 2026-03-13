@@ -69,6 +69,8 @@ const UNIT_TOKENS = new Set([
   'handje',
 ]);
 
+const NAAR_SMAAK_RE = /naar\s+smaak/i;
+
 const isQuantityToken = (token: string) => /^(\d+([.,]\d+)?|\d+\/\d+)(-\d+([.,]\d+)?)?$/.test(token);
 
 const parseIngredient = (text: string): Ingredient => {
@@ -95,9 +97,8 @@ const parseIngredient = (text: string): Ingredient => {
     };
   }
 
-  const hasNaarSmaak = /naar\s+smaak/i.test(trimmed);
   return {
-    name: trimmed.replace(/naar\s+smaak/i, '').trim() || trimmed,
+    name: trimmed.replace(NAAR_SMAAK_RE, '').trim() || trimmed,
     amount: 'naar smaak',
     scalable: false,
   };

@@ -10,6 +10,9 @@ const TODAY_STR = '2024-01-15';
 const YESTERDAY_STR = '2024-01-14';
 const TWO_DAYS_AGO_STR = '2024-01-13';
 
+// Restore real timers after every test — applies to all describe blocks in this file
+afterEach(() => vi.useRealTimers());
+
 const completeDay = (date: string) => ({
   date,
   breakfast: true,
@@ -27,8 +30,6 @@ const partialDay = (date: string) => ({
 // ─── getDaysUntilCheatDay ─────────────────────────────────────────────────────
 
 describe('getDaysUntilCheatDay', () => {
-  afterEach(() => vi.useRealTimers());
-
   const makeJourney = (cheatDay: 'zaterdag' | 'zondag'): Journey => ({
     startDate: '2024-01-01',
     cheatDay,
@@ -75,7 +76,6 @@ describe('getWeekData', () => {
   const WEEK_TUE_STR = '2024-01-16'; // a within-week day we can seed meal entries for
 
   beforeEach(() => vi.setSystemTime(FIXED_TODAY));
-  afterEach(() => vi.useRealTimers());
 
   const baseJourney: Journey = {
     startDate: '2024-01-01',
@@ -154,10 +154,7 @@ describe('getWeekData', () => {
 // ─── getStreak ────────────────────────────────────────────────────────────────
 
 describe('getStreak', () => {
-  beforeEach(() => {
-    vi.setSystemTime(FIXED_TODAY);
-  });
-  afterEach(() => vi.useRealTimers());
+  beforeEach(() => vi.setSystemTime(FIXED_TODAY));
 
   const seedMealLog = (entries: object[]) => {
     window.localStorage.setItem('slowcarb-meal-log', JSON.stringify(entries));
@@ -219,8 +216,6 @@ describe('getStreak', () => {
 // ─── getProgress ──────────────────────────────────────────────────────────────
 
 describe('getProgress', () => {
-  afterEach(() => vi.useRealTimers());
-
   const seedJourney = (startDate: string) => {
     window.localStorage.setItem(
       'slowcarb-journey',
@@ -270,7 +265,6 @@ describe('getProgress', () => {
 
 describe('toggleMeal', () => {
   beforeEach(() => vi.setSystemTime(FIXED_TODAY));
-  afterEach(() => vi.useRealTimers());
 
   it('adds a breakfast entry for today when none exists', () => {
     const { result } = renderHook(() => useJourney());

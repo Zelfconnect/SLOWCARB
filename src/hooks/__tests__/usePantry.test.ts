@@ -1,11 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { usePantry } from '../usePantry';
 import type { PantryItem } from '@/types';
 
+let _itemId = 0;
+beforeEach(() => { _itemId = 0; });
+
 const makePantryItem = (overrides: Partial<PantryItem> = {}): PantryItem => ({
-  id: `item-${Math.random()}`,
+  id: `item-${++_itemId}`,
   name: 'kipfilet',
   category: 'eiwit',
   amount: 500,
