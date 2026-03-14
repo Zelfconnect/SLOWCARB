@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { CalendarDays, Cog } from 'lucide-react';
-import LandingPage from '@/components/LandingPageFinal';
+// Landing page is now served as static HTML at /landing.html
 import WelcomePage from '@/components/WelcomePage';
 import { LoginPage } from '@/components/LoginPage';
 import { BottomNav } from '@/components/BottomNav';
@@ -90,8 +90,11 @@ function App() {
     );
   }
 
-  // No ?app=1 → landing page
-  if (!isAppRequested) return <div className="h-full overflow-y-auto"><LandingPage /></div>;
+  // No ?app=1 → new standalone landing page
+  if (!isAppRequested) {
+    window.location.href = '/landing.html';
+    return null;
+  }
 
   // ?app=1 but no access → login page for returning users
   if (!hasAccess) return <LoginPage />;
