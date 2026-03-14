@@ -5,7 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SlowCarb Protocol – Val 8-10 kg af in 6 weken · €47 eenmalig</title>
   <meta name="description" content="Afvallen zonder calorieën tellen. 5 regels, 1 cheatday per week, 50+ recepten. Eenmalig €47, geen abonnement. Gebaseerd op Tim Ferriss' 4-Hour Body.">
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="SlowCarb Protocol – Val 8-10 kg af in 6 weken">
+  <meta property="og:description" content="Afvallen zonder calorieën tellen. 5 regels, 1 cheatday per week, 50+ recepten. Eenmalig €47, geen abonnement.">
+  <meta property="og:image" content="https://eatslowcarb.com/images/hero-bg-desktop.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://eatslowcarb.com/landing.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="nl_NL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SlowCarb Protocol – Val 8-10 kg af in 6 weken">
+  <meta name="twitter:description" content="Afvallen zonder calorieën tellen. 5 regels, 1 cheatday, 50+ recepten. €47 eenmalig.">
+  <meta name="twitter:image" content="https://eatslowcarb.com/images/hero-bg-desktop.webp">
+
+  <link rel="stylesheet" href="/landing.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,101 +49,7 @@
         observer.observe(offerHeadline);
       }
     });
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            sage: {
-              50: '#f4f7f4',
-              100: '#e3ebe3',
-              200: '#c5d8c5',
-              300: '#9bbd9b',
-              400: '#729c72',
-              500: '#527e52',
-              600: '#3d623d',
-              700: '#314f31',
-              800: '#293f29',
-              900: '#223422'
-            },
-            clay: {
-              50: '#fbf8f6',
-              100: '#f5efe9',
-              200: '#eadbc9',
-              300: '#dec0a3',
-              400: '#d0a07a',
-              500: '#c5855a',
-              600: '#ba6d48',
-              700: '#9a573c',
-              800: '#7f4935',
-              900: '#663d2d'
-            },
-            primary: {
-              50: '#F0FDF4',
-              100: '#DCFCE7',
-              200: '#BBF7D0',
-              300: '#86EFAC',
-              400: '#4ADE80',
-              500: '#10b981', /* Adjusted to match the button color from design.json */
-              600: '#059669',
-              700: '#15803D',
-              800: '#166534',
-              900: '#14532D'
-            },
-            accent: {
-              50: '#FFFBEB',
-              100: '#FEF3C7',
-              200: '#FDE68A',
-              300: '#FCD34D',
-              400: '#FBBF24',
-              500: '#F59E0B',
-              600: '#D97706',
-              700: '#B45309',
-              800: '#92400E',
-              900: '#78350F'
-            },
-            warm: {
-              50: '#FAFAF9',
-              100: '#F5F5F4',
-              200: '#E7E5E4',
-              300: '#D6D3D1',
-              400: '#A8A29E',
-              500: '#78716C',
-              600: '#57534E',
-              700: '#44403C',
-              800: '#292524',
-              900: '#1C1917'
-            },
-            surface: {
-              paper: '#FAFAF9',
-              soft: '#F4F7F4',
-              deep: '#1A3636',
-              dark: '#1C1917',
-              accent: '#314F31'
-            },
-            ink: {
-              strong: '#1C1917',
-              body: '#292524',
-              muted: '#57534E'
-            },
-            inverse: {
-              strong: '#FAFAF9',
-              body: '#F5F5F4',
-              muted: '#E7E5E4'
-            },
-            on: {
-              accent: '#FFFFFF'
-            }
-          },
-          fontFamily: {
-            sans: ['Satoshi', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
-            display: ['Fraunces', 'serif'],
-          },
-          boxShadow: {
-            surface: '0 4px 20px rgba(0,0,0,0.06)',
-          }
-        }
-      }
-    }
+    // Tailwind config removed — using compiled /landing.css
   </script>
   <style>
     /* Mobile-first: layout uses full viewport width, no horizontal overflow */
@@ -2106,9 +2027,9 @@
     <div class="max-w-5xl mx-auto px-6">
       <div class="font-bold font-display text-2xl text-inverse-strong mb-8 tracking-tight">SlowCarb</div>
       <div class="flex justify-center gap-8 mb-8 text-sm">
-        <a href="#" class="hover:text-inverse-strong transition-colors">Algemene Voorwaarden</a>
-        <a href="#" class="hover:text-inverse-strong transition-colors">Privacy Policy</a>
-        <a href="#" class="hover:text-inverse-strong transition-colors">Contact</a>
+        <a href="/terms" class="hover:text-inverse-strong transition-colors">Algemene Voorwaarden</a>
+        <a href="/privacy" class="hover:text-inverse-strong transition-colors">Privacy Policy</a>
+        <a href="mailto:info@eatslowcarb.com" class="hover:text-inverse-strong transition-colors">Contact</a>
       </div>
       <p class="text-sm">© 2026 SlowCarb Protocol. Alle rechten voorbehouden.</p>
       <p class="text-xs mt-4 text-inverse-muted max-w-2xl mx-auto">SlowCarb Protocol is geen medisch advies. Raadpleeg een arts voordat je je eetpatroon wijzigt.</p>
