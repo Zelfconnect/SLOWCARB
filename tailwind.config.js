@@ -10,8 +10,9 @@ export default {
       // TYPOGRAFIE
       // ============================================
       fontFamily: {
-        display: ['"SF Pro Display"', '"SF Pro Text"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif'],
-        sans: ['"SF Pro Text"', '"SF Pro Display"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', '"SF Pro Display"', '"SF Pro Text"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif'],
+        heading: ['Oswald', 'system-ui', 'sans-serif'],
+        sans: ['Satoshi', '"SF Pro Text"', '"SF Pro Display"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif'],
       },
 
       // ============================================
@@ -79,6 +80,28 @@ export default {
           error: '#EF4444',
           warning: '#F59E0B',
           info: '#3B82F6',
+        },
+
+        // Landing page semantic tokens
+        surface: {
+          paper: '#FAFAF9',
+          soft: '#F4F7F4',
+          deep: '#1A3636',
+          dark: '#1C1917',
+          accent: '#314F31',
+        },
+        ink: {
+          strong: '#1C1917',
+          body: '#292524',
+          muted: '#57534E',
+        },
+        inverse: {
+          strong: '#FAFAF9',
+          body: '#F5F5F4',
+          muted: '#E7E5E4',
+        },
+        on: {
+          accent: '#FFFFFF',
         },
 
         // NEW: Warm gray (beige tint)
