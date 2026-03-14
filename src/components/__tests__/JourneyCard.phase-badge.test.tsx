@@ -24,7 +24,7 @@ describe('JourneyCard phase badge', () => {
   it('shows the current phase badge on an active journey', () => {
     render(<JourneyCard {...createProps()} />);
 
-    expect(screen.getByTestId('journey-phase-badge')).toHaveTextContent('Fase: De Overschakeling Begint');
+    expect(screen.getByTestId('journey-phase-badge')).toHaveTextContent('Fase: De Suikerdip');
   });
 
   it('does not show a phase badge before journey start', () => {

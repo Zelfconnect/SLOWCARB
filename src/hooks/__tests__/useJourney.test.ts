@@ -67,6 +67,18 @@ describe('getDaysUntilCheatDay', () => {
     vi.setSystemTime(new Date('2024-01-13T12:00:00.000Z'));
     expect(getDaysUntilCheatDay(makeJourney('zaterdag'))).toBe(0);
   });
+
+  it('maps all cheat days correctly from Wednesday', () => {
+    vi.setSystemTime(new Date('2024-01-10T12:00:00.000Z')); // Wednesday
+
+    expect(getDaysUntilCheatDay(makeJourney('maandag'))).toBe(5);
+    expect(getDaysUntilCheatDay(makeJourney('dinsdag'))).toBe(6);
+    expect(getDaysUntilCheatDay(makeJourney('woensdag'))).toBe(0);
+    expect(getDaysUntilCheatDay(makeJourney('donderdag'))).toBe(1);
+    expect(getDaysUntilCheatDay(makeJourney('vrijdag'))).toBe(2);
+    expect(getDaysUntilCheatDay(makeJourney('zaterdag'))).toBe(3);
+    expect(getDaysUntilCheatDay(makeJourney('zondag'))).toBe(4);
+  });
 });
 
 // ─── getWeekData ──────────────────────────────────────────────────────────────

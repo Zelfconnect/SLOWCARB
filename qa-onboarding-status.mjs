@@ -19,9 +19,10 @@ export function summarizeOnboardingRun(stepResults) {
   const cleanCount = totalSteps - issueSteps.length;
   const criticalIssueSteps = stepResults.filter((step) => step.failedCriticalChecks.length > 0);
   const score = totalSteps === 0 ? 0 : Number(((cleanCount / totalSteps) * 10).toFixed(1));
+  const hasNoIssues = issueSteps.length === 0 && criticalIssueSteps.length === 0;
 
   return {
-    status: score >= 7 && criticalIssueSteps.length === 0 ? 'Clean' : 'Issue',
+    status: hasNoIssues ? 'Clean' : 'Issue',
     score,
     cleanCount,
     issueCount: issueSteps.length,

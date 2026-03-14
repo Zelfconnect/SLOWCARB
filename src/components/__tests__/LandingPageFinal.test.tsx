@@ -1,8 +1,20 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { captureLandingEmail } from '@/lib/emailCapture';
+import { shareText } from '@/lib/share';
 import LandingPageFinal from '@/components/LandingPageFinal';
 
+vi.mock('@/lib/emailCapture', () => ({
+  captureLandingEmail: vi.fn(),
+}));
+
+vi.mock('@/lib/share', () => ({
+  shareText: vi.fn().mockResolvedValue('native'),
+}));
+
+const captureLandingEmailMock = vi.mocked(captureLandingEmail);
+const shareTextMock = vi.mocked(shareText);
 const OriginalIntersectionObserver = window.IntersectionObserver;
 
 class IntersectionObserverMock implements IntersectionObserver {
@@ -23,6 +35,9 @@ class IntersectionObserverMock implements IntersectionObserver {
 
 afterEach(() => {
   window.IntersectionObserver = OriginalIntersectionObserver;
+  captureLandingEmailMock.mockReset();
+  shareTextMock.mockReset();
+  localStorage.removeItem('slowcarb_profile');
 });
 
 describe('LandingPageFinal', () => {
@@ -51,5 +66,60 @@ describe('LandingPageFinal', () => {
 
     render(<LandingPageFinal />);
     expect(screen.getAllByText(/Herken je dit\?/i).length).toBeGreaterThan(0);
+  });
+
+  it('renders the secondary hero CTA that opens the quiz flow', () => {
+    render(<LandingPageFinal />);
+
+    const quizLink = screen.getByRole('link', { name: /Doe de quiz/i });
+    expect(quizLink).toHaveAttribute('href', '/quiz');
+  });
+
+  it('shares the app preview link when returning-user quick action is clicked', async () => {
+    localStorage.setItem('slowcarb_profile', JSON.stringify({ hasCompletedOnboarding: true }));
+    render(<LandingPageFinal />);
+
+    fireEvent.click(await screen.findByRole('button', { name: /Deel preview/i }));
+
+    await waitFor(() => {
+      expect(shareTextMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'SlowCarb preview',
+          url: expect.stringMatching(/\/\?app=1$/),
+        })
+      );
+    });
+  });
+
+  it('submits the capture form and shows success feedback', async () => {
+    captureLandingEmailMock.mockResolvedValueOnce();
+    render(<LandingPageFinal />);
+
+    const emailInput = screen.getByLabelText(/Geen haast\? Laat je e-mailadres achter/i);
+    fireEvent.change(emailInput, { target: { value: 'Test@Example.com' } });
+    fireEvent.click(screen.getByRole('button', { name: /Houd me op de hoogte/i }));
+
+    await waitFor(() => {
+      expect(captureLandingEmailMock).toHaveBeenCalledWith('Test@Example.com');
+    });
+
+    expect(
+      screen.getByText(/Top, je staat op de lijst. We houden je op de hoogte./i)
+    ).toBeInTheDocument();
+    const checkoutLink = screen.getByRole('link', { name: /Ga door naar aankoop/i });
+    expect(checkoutLink).toHaveAttribute('href', 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00');
+  });
+
+  it('shows an error message when capture submit fails', async () => {
+    captureLandingEmailMock.mockRejectedValueOnce(new Error('insert failed'));
+    render(<LandingPageFinal />);
+
+    const emailInput = screen.getByLabelText(/Geen haast\? Laat je e-mailadres achter/i);
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.click(screen.getByRole('button', { name: /Houd me op de hoogte/i }));
+
+    expect(
+      await screen.findByText(/Opslaan mislukt. Probeer het zo nog eens./i)
+    ).toBeInTheDocument();
   });
 });

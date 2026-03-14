@@ -6,6 +6,9 @@
     "ctaPrimary": "Start nu – Direct toegang →",
     "ctaSubtext": "Normale prijs: €79 • Jij betaalt vandaag: €47 (eerste 200) • Eenmalig, lifetime",
     "openApp": "Open je app →",
+    "sharePreviewLink": "Deel preview",
+    "previewShareTitle": "SlowCarb preview",
+    "previewShareText": "Bekijk de nieuwste SlowCarb preview:",
     "painPointsLabel": "Herken je dit?",
     "painPointsTitle": "Herken je dit?",
     "painPoints": [
@@ -120,6 +123,13 @@
     "finalCtaTitle": "Klaar om over 6 weken 8 tot 10 kilo lichter te zijn?",
     "finalCtaText": "",
     "finalCtaButton": "JA, GEEF MIJ LIFETIME TOEGANG VOOR €47 →",
+    "emailCaptureTitle": "Geen haast? Laat je e-mailadres achter",
+    "emailCapturePlaceholder": "je@email.nl",
+    "emailCaptureButton": "Houd me op de hoogte",
+    "emailCaptureSubmitting": "Bezig...",
+    "emailCaptureSuccess": "Top, je staat op de lijst. We houden je op de hoogte.",
+    "emailCaptureCheckoutButton": "Ga door naar aankoop",
+    "emailCaptureError": "Opslaan mislukt. Probeer het zo nog eens.",
     "footerBadges": [
       "Direct toegang",
       "Geen abonnement",
@@ -144,7 +154,32 @@
     "footerContactEmail": "hello@slowcarb.nl",
     "lifestyleImageAlt": "Gezonde levensstijl en transformatie",
     "breakfastImageAlt": "Gezond ontbijt met eiwitten en groenten",
-    "mealPrepImageAlt": "Voorbereide maaltijdbakjes met gezonde gerechten"
+    "mealPrepImageAlt": "Voorbereide maaltijdbakjes met gezonde gerechten",
+    "ctaSecondary": "Doe de quiz"
+  },
+  "quiz": {
+    "backToHome": "Terug naar home",
+    "title": "Doe de SlowCarb quiz",
+    "subtitle": "Beantwoord 3 korte vragen en ontvang de beste start voor jouw doel.",
+    "nextButton": "Volgende vraag",
+    "emailTitle": "Bijna klaar",
+    "emailDescription": "Laat je e-mailadres achter en we sturen je jouw startadvies.",
+    "emailLabel": "E-mailadres",
+    "emailPlaceholder": "je@email.nl",
+    "emailSubmitButton": "Verstuur",
+    "emailSubmitting": "Bezig...",
+    "emailSuccess": "Top, je staat op de lijst. We houden je op de hoogte.",
+    "emailError": "Opslaan mislukt. Probeer het zo nog eens.",
+    "questions": {
+      "goal": "Wat is je doel?",
+      "experience": "Hoeveel ervaring heb je met diëten?",
+      "challenge": "Waar loop je het meest op vast?"
+    },
+    "options": {
+      "goal": ["3-5 kg", "6-10 kg", "10+ kg"],
+      "experience": ["Ik ben beginner", "Ik heb al ervaring", "Ik heb veel ervaring"],
+      "challenge": ["Snacks en trek tussendoor", "Maaltijden plannen", "Consistent volhouden"]
+    }
   },
   "app": {
     "searchRecipes": "Zoek recepten...",

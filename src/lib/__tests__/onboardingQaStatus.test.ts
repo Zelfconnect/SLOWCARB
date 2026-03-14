@@ -97,4 +97,25 @@ describe('onboarding QA status helpers', () => {
     expect(summary.criticalIssueCount).toBe(1);
     expect(summary.criticalIssueSteps).toEqual([5]);
   });
+
+  it('fails when there are non-critical issues, even if score is >= 7', () => {
+    const summary = summarizeOnboardingRun([
+      createStepResult(1, 'Welcome', [{ name: 'Heading', passed: true }]),
+      createStepResult(2, 'Name', [{ name: 'Input', passed: true }]),
+      createStepResult(3, 'Promise', [{ name: 'Heading', passed: true }]),
+      createStepResult(4, 'Rules', [{ name: 'Heading', passed: true }]),
+      createStepResult(5, 'Timeline', [{ name: 'Heading', passed: true }]),
+      createStepResult(6, 'Science', [{ name: 'Heading', passed: true }]),
+      createStepResult(7, 'Reference', [{ name: 'Heading', passed: true }]),
+      createStepResult(8, 'Weight', [{ name: 'Input', passed: false }]),
+      createStepResult(9, 'Type', [{ name: 'Heading', passed: false }]),
+      createStepResult(10, 'Cheat day', [{ name: 'Heading', passed: false }]),
+      createStepResult(11, 'Summary', [{ name: 'CTA', passed: true }]),
+    ]);
+
+    expect(summary.status).toBe('Issue');
+    expect(summary.score).toBe(7.3);
+    expect(summary.issueSteps).toEqual([8, 9, 10]);
+    expect(summary.criticalIssueCount).toBe(0);
+  });
 });

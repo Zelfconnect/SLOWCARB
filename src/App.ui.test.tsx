@@ -15,6 +15,10 @@ vi.mock('@/components/LoginPage', () => ({
   LoginPage: () => <div>LoginPage</div>,
 }));
 
+vi.mock('@/components/QuizPage', () => ({
+  default: () => <div>QuizPage</div>,
+}));
+
 vi.mock('@/components/Dashboard', () => ({
   Dashboard: () => <div>DashboardContent</div>,
 }));
@@ -147,5 +151,11 @@ describe('App UI/UX', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: 'Open instellingen' }));
     expect(screen.getByText('Instellingen')).toBeInTheDocument();
+  });
+
+  it('renders standalone quiz route on /quiz', () => {
+    window.history.replaceState({}, '', '/quiz');
+    render(<App />);
+    expect(screen.getByText('QuizPage')).toBeInTheDocument();
   });
 });

@@ -847,7 +847,8 @@ export const getCurrentPhase = (day: number): Omit<DayTip, 'day'> | undefined =>
   const clampedDay = Math.max(1, Math.min(84, day));
   const tip = dayTips.find(t => t.day === clampedDay);
   if (!tip) return undefined;
-  const { day: _day, ...rest } = tip;
+  const { day: tipDay, ...rest } = tip;
+  void tipDay;
   return rest;
 };
 

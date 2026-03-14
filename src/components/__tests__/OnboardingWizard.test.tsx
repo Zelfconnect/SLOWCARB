@@ -70,6 +70,15 @@ describe('OnboardingWizard', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Bijna klaar!' }));
   };
 
+  const goToTypeSpecificStep = () => {
+    goToWeightStep();
+    fireEvent.change(screen.getByLabelText('Huidig (kg)'), { target: { value: '110' } });
+    fireEvent.change(screen.getByLabelText('Streefgewicht (kg)'), { target: { value: '100' } });
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'Bekijk mijn profiel' }));
+    });
+  };
+
   it('renders the onboarding dialog', () => {
     render(<OnboardingWizard onComplete={vi.fn()} />);
     expect(screen.getByRole('dialog', { name: 'Onboarding' })).toBeInTheDocument();
@@ -215,5 +224,14 @@ describe('OnboardingWizard', () => {
     fireEvent.change(screen.getByLabelText('Streefgewicht (kg)'), { target: { value: '100' } });
 
     expect(screen.getByText('10 kg afvallen in ~6 weken')).toBeInTheDocument();
+  });
+
+  it('shows type-specific page after valid weight step', () => {
+    render(<OnboardingWizard onComplete={vi.fn()} />);
+    goToTypeSpecificStep();
+
+    expect(screen.getByText(/Jouw type:/)).toBeInTheDocument();
+    expect(screen.getByText('Hoe SlowCarb voor jou werkt')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Kies mijn cheatdag' })).toBeInTheDocument();
   });
 });

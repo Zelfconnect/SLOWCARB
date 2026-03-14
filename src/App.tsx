@@ -22,6 +22,7 @@ import { STORAGE_KEYS } from '@/lib/storageKeys';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
+import QuizPage from '@/components/QuizPage';
 import './App.css';
 
 const PrivacyPolicyPage = lazy(() => import('@/components/legal/PrivacyPolicyPage'));
@@ -53,8 +54,19 @@ function renderLegalRoute() {
   }
 }
 
+function renderStandaloneRoute() {
+  switch (window.location.pathname) {
+    case '/quiz':
+      return <QuizPage />;
+    default:
+      return null;
+  }
+}
+
 function App() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const standaloneRoute = renderStandaloneRoute();
+  if (standaloneRoute) return standaloneRoute;
   const legalRoute = renderLegalRoute();
   if (legalRoute) return legalRoute;
 

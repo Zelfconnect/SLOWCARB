@@ -22,6 +22,8 @@ import {
   Heart,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { captureLandingEmail } from '@/lib/emailCapture';
+import { shareText } from '@/lib/share';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
 import { useTranslation } from '@/i18n';
 
@@ -317,6 +319,8 @@ export default function LandingPageFinal() {
   const { visibleSections, setRef } = useSectionReveal(11);
   const [showAppButton, setShowAppButton] = useState(false);
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
+  const [captureEmail, setCaptureEmail] = useState('');
+  const [captureStatus, setCaptureStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const painSectionRef = useRef<HTMLElement | null>(null);
   const heroImageSrc = '/images/landing/HERO.webp';
 
@@ -400,15 +404,46 @@ export default function LandingPageFinal() {
     window.open(stripeUrl, '_blank');
   };
 
+  const handleSharePreviewLink = async () => {
+    await shareText({
+      title: String(t('landing.previewShareTitle')),
+      text: String(t('landing.previewShareText')),
+      url: `${window.location.origin}/?app=1`,
+    });
+  };
+
+  const handleCaptureSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!captureEmail.trim() || captureStatus === 'submitting') return;
+
+    setCaptureStatus('submitting');
+    try {
+      await captureLandingEmail(captureEmail);
+      setCaptureEmail('');
+      setCaptureStatus('success');
+    } catch {
+      setCaptureStatus('error');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-cream">
       {showAppButton && (
-        <a
-          href="/?app=1"
-          className="fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-full bg-sage-600 px-4 py-2 text-sm text-white shadow-md transition-colors hover:bg-sage-700 sm:left-auto sm:right-4 sm:translate-x-0"
-        >
-          {String(t('landing.openApp'))}
-        </a>
+        <div className="fixed left-1/2 top-4 z-50 flex -translate-x-1/2 items-center gap-2 sm:left-auto sm:right-4 sm:translate-x-0">
+          <a
+            href="/?app=1"
+            className="rounded-full bg-sage-600 px-4 py-2 text-sm text-white shadow-md transition-colors hover:bg-sage-700"
+          >
+            {String(t('landing.openApp'))}
+          </a>
+          <button
+            type="button"
+            onClick={handleSharePreviewLink}
+            className="rounded-full border border-sage-200 bg-white/95 px-4 py-2 text-sm font-medium text-sage-800 shadow-md transition-colors hover:bg-white"
+          >
+            {String(t('landing.sharePreviewLink'))}
+          </button>
+        </div>
       )}
 
       {/* Hero Section */}
@@ -466,6 +501,14 @@ export default function LandingPageFinal() {
                 className="h-14 rounded-xl bg-sage-600 px-8 text-lg font-semibold text-white shadow-elevated hover:bg-sage-700"
               >
                 {String(t('landing.ctaPrimary'))}
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-14 rounded-xl px-8 text-lg font-semibold"
+              >
+                <a href="/quiz">{String(t('landing.ctaSecondary'))}</a>
               </Button>
             </div>
 
@@ -869,6 +912,56 @@ export default function LandingPageFinal() {
             >
               {String(t('landing.finalCtaButton'))}
             </Button>
+
+            <form onSubmit={handleCaptureSubmit} className="mx-auto mt-8 max-w-md space-y-3 text-left">
+              <label htmlFor="landing-email" className="block text-sm font-medium text-sage-100">
+                {String(t('landing.emailCaptureTitle'))}
+              </label>
+              <div className="flex gap-2">
+                <input
+                  id="landing-email"
+                  type="email"
+                  value={captureEmail}
+                  onChange={(event) => {
+                    setCaptureEmail(event.target.value);
+                    if (captureStatus !== 'idle') {
+                      setCaptureStatus('idle');
+                    }
+                  }}
+                  placeholder={String(t('landing.emailCapturePlaceholder'))}
+                  autoComplete="email"
+                  required
+                  className="h-11 flex-1 rounded-lg border border-sage-200/40 bg-white px-3 text-stone-900 placeholder:text-stone-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-300"
+                />
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={captureStatus === 'submitting' || !captureEmail.trim()}
+                  className="h-11 rounded-lg bg-white px-4 font-semibold text-sage-800 hover:bg-stone-100"
+                >
+                  {captureStatus === 'submitting'
+                    ? String(t('landing.emailCaptureSubmitting'))
+                    : String(t('landing.emailCaptureButton'))}
+                </Button>
+              </div>
+              {captureStatus === 'success' && (
+                <div className="space-y-3">
+                  <p className="text-sm text-sage-100">{String(t('landing.emailCaptureSuccess'))}</p>
+                  <Button
+                    asChild
+                    size="sm"
+                    className="h-11 w-full rounded-lg bg-white px-4 font-semibold text-sage-800 hover:bg-stone-100"
+                  >
+                    <a href={stripeUrl} target="_blank" rel="noopener noreferrer">
+                      {String(t('landing.emailCaptureCheckoutButton'))}
+                    </a>
+                  </Button>
+                </div>
+              )}
+              {captureStatus === 'error' && (
+                <p className="text-sm text-clay-100">{String(t('landing.emailCaptureError'))}</p>
+              )}
+            </form>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-sage-300">
               {footerBadges.map((badge) => (

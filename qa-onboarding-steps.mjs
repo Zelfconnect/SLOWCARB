@@ -186,22 +186,39 @@ async function qaOnboardingSteps() {
       },
       {
         name: 'Preferences labels',
-        passed: (await page.locator('input[type="checkbox"]').count()) >= 3,
+        passed: (await page.getByRole('checkbox').count()) >= 3,
       },
     ]);
     await page.fill('#onb-cw', '110');
     await page.fill('#onb-tw', '100');
-    await page.click('button:has-text("Volgende")');
+    await page.click('button:has-text("Bekijk mijn profiel")');
     await page.waitForTimeout(500);
 
-    // Step 9: Cheat day
-    console.log('📸 Step 9: Cheat day');
-    await page.screenshot({ path: 'screenshots/qa-step9-cheatday.png', fullPage: true });
-    recordStep(9, 'Cheat day', [
+    // Step 9: Type-specific profile
+    console.log('📸 Step 9: Type-specific profile');
+    await page.screenshot({ path: 'screenshots/qa-step9-type-profile.png', fullPage: true });
+    recordStep(9, 'Type profile', [
+      {
+        name: 'Type heading',
+        critical: true,
+        passed: await page.getByRole('heading', { name: /Jouw type:/i }).isVisible().catch(() => false),
+      },
+      {
+        name: 'Type strategy section',
+        passed: await page.getByText(/Hoe SlowCarb voor jou werkt/i).isVisible().catch(() => false),
+      },
+    ]);
+    await page.click('button:has-text("Kies mijn cheatdag")');
+    await page.waitForTimeout(500);
+
+    // Step 10: Cheat day
+    console.log('📸 Step 10: Cheat day');
+    await page.screenshot({ path: 'screenshots/qa-step10-cheatday.png', fullPage: true });
+    recordStep(10, 'Cheat day', [
       {
         name: 'Cheat day heading',
         critical: true,
-        passed: await page.getByRole('heading', { name: /Kies je cheat day/i }).isVisible().catch(() => false),
+        passed: await page.getByRole('heading', { name: /Kies je cheatday/i }).isVisible().catch(() => false),
       },
       {
         name: 'Cheat day options',
@@ -209,13 +226,13 @@ async function qaOnboardingSteps() {
       },
     ]);
     await page.click('label[for="onb-zaterdag"]');
-    await page.click('button:has-text("Volgende")');
+    await page.click('button:has-text("Naar mijn overzicht")');
     await page.waitForTimeout(500);
 
-    // Step 10: Summary
-    console.log('📸 Step 10: Summary');
-    await page.screenshot({ path: 'screenshots/qa-step10-summary.png', fullPage: true });
-    recordStep(10, 'Summary', [
+    // Step 11: Summary
+    console.log('📸 Step 11: Summary');
+    await page.screenshot({ path: 'screenshots/qa-step11-summary.png', fullPage: true });
+    recordStep(11, 'Summary', [
       {
         name: 'Summary heading',
         critical: true,
@@ -224,7 +241,7 @@ async function qaOnboardingSteps() {
       {
         name: 'Start CTA',
         critical: true,
-        passed: await page.getByRole('button', { name: /Start mijn journey/i }).isVisible().catch(() => false),
+        passed: await page.getByRole('button', { name: /Start mijn plan/i }).isVisible().catch(() => false),
       },
     ]);
 
@@ -249,4 +266,7 @@ async function qaOnboardingSteps() {
   }
 }
 
-qaOnboardingSteps().catch(console.error);
+qaOnboardingSteps().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

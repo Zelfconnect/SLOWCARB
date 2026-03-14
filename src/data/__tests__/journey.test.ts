@@ -8,17 +8,17 @@ describe('getCurrentPhase', () => {
     }
   });
 
-  it('repeats the weekly phase cycle correctly', () => {
-    expect(getCurrentPhase(1)?.title).toBe('De Laatste Maaltijd');
-    expect(getCurrentPhase(7)?.title).toBe('Cheat Day!');
-    expect(getCurrentPhase(8)?.title).toBe('De Laatste Maaltijd');
-    expect(getCurrentPhase(84)?.title).toBe('Cheat Day!');
+  it('returns the expected mapped phase titles for key days', () => {
+    expect(getCurrentPhase(1)?.title).toBe('De Eerste Stap');
+    expect(getCurrentPhase(7)?.title).toBe('De Ontladingsdag');
+    expect(getCurrentPhase(8)?.title).toBe('De Reset');
+    expect(getCurrentPhase(84)?.title).toBe('De Finishlijn & Een Nieuw Begin');
   });
 
-  it('returns undefined for invalid day values', () => {
-    expect(getCurrentPhase(0)).toBeUndefined();
-    expect(getCurrentPhase(-1)).toBeUndefined();
-    expect(getCurrentPhase(85)).toBeUndefined();
+  it('clamps out-of-range values and keeps non-integers invalid', () => {
+    expect(getCurrentPhase(0)?.title).toBe('De Eerste Stap');
+    expect(getCurrentPhase(-1)?.title).toBe('De Eerste Stap');
+    expect(getCurrentPhase(85)?.title).toBe('De Finishlijn & Een Nieuw Begin');
     expect(getCurrentPhase(1.5)).toBeUndefined();
   });
 });
@@ -65,7 +65,7 @@ describe('getCurrentDayTip', () => {
     const result = getCurrentDayTip('2024-01-01');
     expect(result.day).toBe(9);
     expect(result.tip).toBeDefined();
-    expect(result.tip?.title).toBe('De Overschakeling Begint');
+    expect(result.tip?.title).toBe('De Tweede Adem');
   });
 
   it('returns correct day tip for day 3', () => {

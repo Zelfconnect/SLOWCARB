@@ -1,8 +1,9 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Dashboard } from '@/components/Dashboard';
 import type { Journey, MealEntry, WeightEntry } from '@/types';
+import { shareText } from '@/lib/share';
 
 vi.mock('@/components/JourneyCard', () => ({
   JourneyCard: () => <div>JourneyCard</div>,
@@ -36,8 +37,14 @@ vi.mock('@/components/WeightProgressCard', () => ({
   ),
 }));
 
+vi.mock('@/lib/share', () => ({
+  shareText: vi.fn().mockResolvedValue('native'),
+}));
+
+let mockedDaysUntilCheatDay = 2;
+
 vi.mock('@/hooks/useJourney', () => ({
-  getDaysUntilCheatDay: () => 2,
+  getDaysUntilCheatDay: () => mockedDaysUntilCheatDay,
   getWeekData: () => [{ isFuture: false, isCheatDay: false, completed: true }],
 }));
 
@@ -58,6 +65,15 @@ function createMealEntry(overrides: Partial<MealEntry> = {}): MealEntry {
     dinner: false,
     ...overrides,
   };
+}
+
+function createCompletedEntries(count: number): MealEntry[] {
+  return Array.from({ length: count }, (_, index) => ({
+    date: `2026-01-${String(index + 1).padStart(2, '0')}`,
+    breakfast: true,
+    lunch: true,
+    dinner: true,
+  }));
 }
 
 function createProps(overrides: Partial<React.ComponentProps<typeof Dashboard>> = {}) {
@@ -87,7 +103,32 @@ function createProps(overrides: Partial<React.ComponentProps<typeof Dashboard>> 
   };
 }
 
+const shareTextMock = vi.mocked(shareText);
+
 describe('Dashboard UI/UX', () => {
+  beforeEach(() => {
+    mockedDaysUntilCheatDay = 2;
+    shareTextMock.mockResolvedValue('native');
+    shareTextMock.mockClear();
+  });
+
+  it('renders meal tracker and countdown on non-cheatday', () => {
+    mockedDaysUntilCheatDay = 2;
+    const { props } = createProps({ isCheatDay: false });
+    render(<Dashboard {...props} />);
+
+    expect(screen.getByText('DailyMealTracker')).toBeInTheDocument();
+    expect(screen.getByText('Nog 2 dagen tot je cheatday.')).toBeInTheDocument();
+  });
+
+  it('shows countdown on non-cheatday even when cheatday is more than 2 days away', () => {
+    mockedDaysUntilCheatDay = 5;
+    const { props } = createProps({ isCheatDay: false });
+    render(<Dashboard {...props} />);
+
+    expect(screen.getByText('Nog 5 dagen tot je cheatday.')).toBeInTheDocument();
+  });
+
   it('shows journey start layout when journey has no startDate', () => {
     const { props } = createProps({
       journey: createJourney({ startDate: null }),
@@ -133,12 +174,67 @@ describe('Dashboard UI/UX', () => {
     expect(screen.getByText('Eet vandaag wat je wilt! Dit reset je hormonen en houdt je mentaal scherp. Geniet ervan en ga morgen weer terug naar het protocol.')).toBeInTheDocument();
   });
 
-  it('renders meal tracker and countdown on non-cheatday', () => {
+  it('shows week 6 resultaatkaart after enough complete daily check-ins', () => {
+    const { props } = createProps({
+      progress: { day: 38, week: 6, totalDays: 84, percentage: 45 },
+      mealEntries: createCompletedEntries(30),
+      weightLog: [
+        { date: '2026-01-01', weight: 95 } satisfies WeightEntry,
+        { date: '2026-02-07', weight: 91.2 } satisfies WeightEntry,
+      ],
+      onboardingStartWeight: 95,
+    });
+    render(<Dashboard {...props} />);
+
+    expect(screen.getByText('Week 6 resultaatkaart')).toBeInTheDocument();
+    expect(screen.getByText('Je zit in week 6 met 30 complete dagelijkse check-ins.')).toBeInTheDocument();
+    expect(screen.getByText('3.8 kg lichter sinds de start van je challenge.')).toBeInTheDocument();
+  });
+
+  it('hides week 6 resultaatkaart when check-ins are below threshold', () => {
+    const { props } = createProps({
+      progress: { day: 38, week: 6, totalDays: 84, percentage: 45 },
+      mealEntries: createCompletedEntries(29),
+    });
+    render(<Dashboard {...props} />);
+
+    expect(screen.queryByText('Week 6 resultaatkaart')).not.toBeInTheDocument();
+  });
+
+  it('shares cheatday text from countdown row', async () => {
     const { props } = createProps({ isCheatDay: false });
     render(<Dashboard {...props} />);
 
-    expect(screen.getByText('DailyMealTracker')).toBeInTheDocument();
-    expect(screen.getByText('Nog 2 dagen tot je cheatday.')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Deel' }));
+
+    expect(shareTextMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Mijn cheatday',
+        text: expect.stringContaining('Mijn cheatday is'),
+      })
+    );
+  });
+
+  it('shares week 6 result text', async () => {
+    const { props } = createProps({
+      progress: { day: 38, week: 6, totalDays: 84, percentage: 45 },
+      mealEntries: createCompletedEntries(30),
+      weightLog: [
+        { date: '2026-01-01', weight: 95 } satisfies WeightEntry,
+        { date: '2026-02-07', weight: 91.2 } satisfies WeightEntry,
+      ],
+      onboardingStartWeight: 95,
+    });
+    render(<Dashboard {...props} />);
+
+    fireEvent.click(screen.getAllByRole('button', { name: 'Deel' })[0]);
+
+    expect(shareTextMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'SlowCarb week 6 resultaat',
+        text: expect.stringContaining('kg kwijt'),
+      })
+    );
   });
 
   it('keeps compact dashboard section order', () => {

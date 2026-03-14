@@ -6,6 +6,9 @@
     "ctaPrimary": "Start now • €47 Early Bird",
     "ctaSubtext": "Early Bird €47 • Regular €79 (normally €247) • One-time payment",
     "openApp": "Open your app →",
+    "sharePreviewLink": "Share preview",
+    "previewShareTitle": "SlowCarb preview",
+    "previewShareText": "Check the latest SlowCarb preview:",
     "painPointsLabel": "Sound familiar?",
     "painPointsTitle": "Recognize this?",
     "painPoints": [
@@ -132,7 +135,18 @@
     ],
     "finalCtaTitle": "Ready to start your 84-day journey?",
     "finalCtaText": "Activate day 1 today for €47 Early Bird. After that it is €79 Regular (normally €247).",
-    "footerBadges": ["Instant access", "No subscription", "30 day money back"],
+    "emailCaptureTitle": "Not ready yet? Leave your email",
+    "emailCapturePlaceholder": "you@email.com",
+    "emailCaptureButton": "Keep me posted",
+    "emailCaptureSubmitting": "Saving...",
+    "emailCaptureSuccess": "Done. You are on the list and we will keep you posted.",
+    "emailCaptureCheckoutButton": "Continue to checkout",
+    "emailCaptureError": "Could not save your email. Please try again.",
+    "footerBadges": [
+      "Instant access",
+      "No subscription",
+      "30 day money back"
+    ],
     "footerCopy": "© 2026 SlowCarb. All rights reserved.",
     "footerLinks": [
       {
@@ -152,7 +166,32 @@
     "footerContactEmail": "hello@slowcarb.nl",
     "lifestyleImageAlt": "Healthy lifestyle and transformation",
     "breakfastImageAlt": "Healthy breakfast with protein and vegetables",
-    "mealPrepImageAlt": "Meal prep containers with healthy meals"
+    "mealPrepImageAlt": "Meal prep containers with healthy meals",
+    "ctaSecondary": "Take the quiz"
+  },
+  "quiz": {
+    "backToHome": "Back to home",
+    "title": "Take the SlowCarb quiz",
+    "subtitle": "Answer 3 short questions and get the best start for your goal.",
+    "nextButton": "Next question",
+    "emailTitle": "Almost done",
+    "emailDescription": "Leave your email and we will send your best starting advice.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@email.com",
+    "emailSubmitButton": "Send",
+    "emailSubmitting": "Saving...",
+    "emailSuccess": "Done. You are on the list and we will keep you posted.",
+    "emailError": "Could not save your email. Please try again.",
+    "questions": {
+      "goal": "What is your goal?",
+      "experience": "How much dieting experience do you have?",
+      "challenge": "What is your biggest challenge?"
+    },
+    "options": {
+      "goal": ["3-5 kg", "6-10 kg", "10+ kg"],
+      "experience": ["I am a beginner", "I have some experience", "I have a lot of experience"],
+      "challenge": ["Snacking and cravings", "Meal planning", "Staying consistent"]
+    }
   },
   "app": {
     "searchRecipes": "Search recipes...",

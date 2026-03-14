@@ -9,6 +9,7 @@ import { BodyTimeline } from './steps/BodyTimeline';
 import { WhyItWorks } from './steps/WhyItWorks';
 import { YesNoReference } from './steps/YesNoReference';
 import { WeightAndPreferences } from './steps/WeightAndPreferences';
+import { TypeSpecificPlan } from './steps/TypeSpecificPlan';
 import { CheatDayPicker } from './steps/CheatDayPicker';
 import { SummaryLaunch } from './steps/SummaryLaunch';
 import type { CheatDay } from '@/types';
@@ -27,7 +28,7 @@ interface OnboardingWizardProps {
   onComplete: (data: OnboardingData) => void;
 }
 
-const TOTAL_STEPS = 10;
+const TOTAL_STEPS = 11;
 
 export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
   const [step, setStep] = useState(1);
@@ -93,9 +94,10 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
       case 5: return { cta: 'Waarom werkt dit?', disabled: false };
       case 6: return { cta: 'Wat mag wel en niet?', disabled: false };
       case 7: return { cta: 'Bijna klaar!', disabled: false };
-      case 8: return { cta: 'Volgende', disabled: !isWeightStepValid };
+      case 8: return { cta: 'Bekijk mijn profiel', disabled: !isWeightStepValid };
       case 9: return { cta: 'Kies mijn cheatdag', disabled: false };
-      case 10: return { cta: 'Start mijn plan \u2192', disabled: false };
+      case 10: return { cta: 'Naar mijn overzicht', disabled: false };
+      case 11: return { cta: 'Start mijn plan \u2192', disabled: false };
       default: return { cta: 'Volgende', disabled: false };
     }
   };
@@ -145,13 +147,15 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
           />
         );
       case 9:
+        return <TypeSpecificPlan data={data} />;
+      case 10:
         return (
           <CheatDayPicker
             cheatDay={data.cheatDay}
             onChange={(day) => setData((prev) => ({ ...prev, cheatDay: day }))}
           />
         );
-      case 10:
+      case 11:
         return <SummaryLaunch data={data} />;
       default:
         return null;

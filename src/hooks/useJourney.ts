@@ -1,7 +1,7 @@
 import { addDays, format, isAfter, isBefore, isSameDay, startOfWeek } from 'date-fns';
 import { nl } from 'date-fns/locale';
 import { useLocalStorage } from './useLocalStorage';
-import { CHEAT_DAY_OPTIONS, CHEAT_DAY_TO_JS_DAY_INDEX } from '@/lib/cheatDay';
+import { CHEAT_DAY_TO_JS_DAY_INDEX } from '@/lib/cheatDay';
 import { getLocalDateString } from '@/lib/localDate';
 import type { DayStatus, Journey, WeightEntry, MealEntry, CheatDay } from '@/types';
 import { getCurrentDayTip } from '@/data/journey';
@@ -206,15 +206,7 @@ export function getWeekData(journey: Journey, mealEntries: MealEntry[]): DayStat
 }
 
 export function getDaysUntilCheatDay(journey: Journey): number {
-  const today = new Date();
-  const currentDay = format(today, 'EEEE', { locale: nl }).toLowerCase() as CheatDay;
-
-  const daysOfWeek = CHEAT_DAY_OPTIONS;
-  const currentIndex = daysOfWeek.indexOf(currentDay);
-  const cheatIndex = daysOfWeek.indexOf(journey.cheatDay);
-
-  let diff = cheatIndex - currentIndex;
-  if (diff < 0) diff += 7;
-
-  return diff;
+  const currentDayIndex = new Date().getDay();
+  const cheatDayIndex = CHEAT_DAY_TO_JS_DAY_INDEX[journey.cheatDay];
+  return (cheatDayIndex - currentDayIndex + 7) % 7;
 }

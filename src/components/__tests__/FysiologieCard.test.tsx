@@ -9,7 +9,7 @@ function createProps(overrides: Partial<React.ComponentProps<typeof FysiologieCa
     currentTip: {
       day: 2,
       tip: {
-        title: 'De Overschakeling Begint',
+        title: 'De Suikerdip',
         tips: ['Drink extra water'],
         metabolicState: 'Glycogeen begint te dalen. Lever start gluconeogenese.',
       },
@@ -38,18 +38,18 @@ describe('FysiologieCard', () => {
   it('shows phase/day badge and first metabolic sentence', () => {
     render(<FysiologieCard {...createProps()} />);
 
-    expect(screen.getByText('🧬 Fase 2 — De Overschakeling Begint')).toBeInTheDocument();
+    expect(screen.getByText(/Fase 2 — De Suikerdip/)).toBeInTheDocument();
     expect(screen.getByText('Dag 2')).toBeInTheDocument();
     expect(screen.getByText('Glycogeen begint te dalen.')).toBeInTheDocument();
     expect(screen.queryByText('Lever start gluconeogenese.')).not.toBeInTheDocument();
     expect(screen.getByText('Glycogeen begint te dalen.').className).toContain('line-clamp-2');
   });
 
-  it('opens tip dialog when clicking "Meer over dag"', () => {
+  it('opens tip dialog when clicking "Ontdek je fysiologie"', () => {
     render(<FysiologieCard {...createProps()} />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Meer over dag 2 →' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Ontdek je fysiologie' }));
 
-    expect(screen.getByRole('dialog', { name: 'De Overschakeling Begint' })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: 'De Suikerdip' })).toBeInTheDocument();
   });
 });
