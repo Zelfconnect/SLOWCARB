@@ -754,7 +754,7 @@
       scrollbar-width: none;
       overscroll-behavior-x: contain;
       -webkit-overflow-scrolling: touch;
-      touch-action: pan-x pinch-zoom;
+      touch-action: pan-y pan-x;
     }
     .app-showcase-mobile-track::-webkit-scrollbar {
       display: none;
@@ -780,6 +780,7 @@
       display: grid;
       place-items: center;
       padding: 1.5rem 0.75rem;
+      touch-action: pan-y;
     }
     .app-showcase-mobile-device {
       width: min(78vw, 18.5rem);
