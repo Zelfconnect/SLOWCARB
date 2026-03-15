@@ -4,50 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SlowCarb Icon Migration Mockup</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          },
-          colors: {
-            sage: {
-              50: '#f4f7f4',
-              100: '#e3ebe3',
-              200: '#c5d8c5',
-              300: '#9bbd9b',
-              400: '#729c72',
-              500: '#527e52',
-              600: '#3d623d',
-              700: '#314f31',
-            },
-            warm: {
-              50: '#FAFAF9',
-              100: '#F5F5F4',
-              200: '#E7E5E4',
-              300: '#D6D3D1',
-              400: '#A8A29E',
-              500: '#78716C',
-              600: '#57534E',
-              700: '#44403C',
-            },
-            status: {
-              success: '#22C55E',
-              warning: '#F59E0B',
-              error: '#EF4444',
-            }
-          }
-        }
+  <style>
+    body {
+      background: #fafaf9;
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding: 48px;
       }
     }
-  </script>
-  <style>
+
+    .mockup-container {
+      margin: 0 auto;
+      max-width: 72rem;
+    }
+
     /* Lucide icon sizing */
     .lucide {
       width: 24px;
@@ -82,8 +62,8 @@
     }
   </style>
 </head>
-<body class="bg-warm-50 min-h-screen p-6 md:p-12">
-  <div class="max-w-6xl mx-auto">
+<body>
+  <div class="mockup-container">
     
     <!-- Header -->
     <header class="mb-10 text-center">
