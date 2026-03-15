@@ -201,6 +201,7 @@ export default function LandingPageFinal() {
   const offerHeadlineRef = useRef<HTMLDivElement | null>(null);
 
   const activeStep = SHOWCASE_STEPS[activeShowcaseStep];
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.IntersectionObserver !== 'function') {
@@ -243,6 +244,27 @@ export default function LandingPageFinal() {
 
   const goNextStep = () => {
     setActiveShowcaseStep((prev) => (prev + 1) % SHOWCASE_STEPS.length);
+  };
+
+  const handleShowcaseTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleShowcaseTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - touchStartRef.current.x;
+    const deltaY = touch.clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
+      if (deltaX < 0) {
+        goNextStep();
+      } else {
+        goPrevStep();
+      }
+    }
   };
 
   const openStripeCheckout = () => {
@@ -409,7 +431,13 @@ export default function LandingPageFinal() {
         </div>
       </section>
 
-      <section id="premium-app-showcase" className="relative overflow-hidden bg-cream py-10 md:py-20">
+      <section
+        id="premium-app-showcase"
+        className="relative overflow-hidden bg-cream py-10 md:py-20"
+        style={{ touchAction: 'pan-y' }}
+        onTouchStart={handleShowcaseTouchStart}
+        onTouchEnd={handleShowcaseTouchEnd}
+      >
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/2 top-[14%] h-80 w-80 -translate-x-1/2 rounded-full bg-sage-200/50 blur-[90px]" />
           <div className="absolute bottom-0 inset-x-0 h-56 bg-gradient-to-t from-white/55 to-transparent" />
