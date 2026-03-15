@@ -1,16 +1,54 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { trackLanding } from './analytics';
 
 const steps = [
-  { kicker: 'Stap 1', title: 'Open je dashboard', body: 'Zie in een oogopslag of je de regels volgt. Geen calorieen. Geen macro\'s. Gewoon duidelijk per maaltijd.', image: '/images/landing/phonescreens/phonescreen1.png' },
-  { kicker: 'Stap 2', title: 'Kies een recept', body: '50+ recepten die aan alle regels voldoen. Filter op bereidingstijd, airfryer, of ingrediënt.', image: '/images/landing/phonescreens/phonescreen2.png' },
-  { kicker: 'Stap 3', title: 'Leer waarom het werkt', body: 'Elke dag een science card: wat er in je lichaam gebeurt en waarom. Kennis = volhouden.', image: '/images/landing/phonescreens/phonescreen3.png' },
-  { kicker: 'Stap 4', title: 'Hou AmmoCheck bij', body: 'Een simpele checklist voor wat in je koelkast, voorraadkast en lades moet liggen. Minder nadenken, makkelijker volhouden.', image: '/images/landing/phonescreens/phonescreen4.png' },
+  { kicker: 'Stap 1', title: 'Open je dashboard', body: 'Zie in een oogopslag of je de regels volgt. Geen calorieen. Geen macro\'s. Gewoon duidelijk per maaltijd.', image: '/images/landing/phonescreens/phonescreen1.webp' },
+  { kicker: 'Stap 2', title: 'Kies een recept', body: '50+ recepten die aan alle regels voldoen. Filter op bereidingstijd, airfryer, of ingrediënt.', image: '/images/landing/phonescreens/phonescreen2.webp' },
+  { kicker: 'Stap 3', title: 'Leer waarom het werkt', body: 'Elke dag een science card: wat er in je lichaam gebeurt en waarom. Kennis = volhouden.', image: '/images/landing/phonescreens/phonescreen3.webp' },
+  { kicker: 'Stap 4', title: 'Hou AmmoCheck bij', body: 'Een simpele checklist voor wat in je koelkast, voorraadkast en lades moet liggen. Minder nadenken, makkelijker volhouden.', image: '/images/landing/phonescreens/phonescreen4.webp' },
 ];
+
+function useTrackObserver(
+  trackRef: React.RefObject<HTMLDivElement | null>,
+  onActiveChange: (index: number) => void,
+) {
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let bestIdx = 0;
+        let bestRatio = 0;
+        entries.forEach(entry => {
+          const idx = Number(entry.target.getAttribute('data-index'));
+          if (entry.intersectionRatio > bestRatio) {
+            bestRatio = entry.intersectionRatio;
+            bestIdx = idx;
+          }
+        });
+        if (bestRatio > 0.5) onActiveChange(bestIdx);
+      },
+      { root: track, threshold: [0.25, 0.5, 0.75, 0.95] }
+    );
+
+    track.querySelectorAll('[data-slide]').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [trackRef, onActiveChange]);
+}
 
 export function AppShowcase() {
   const [active, setActive] = useState(0);
   const mobileTrackRef = useRef<HTMLDivElement>(null);
   const desktopTrackRef = useRef<HTMLDivElement>(null);
+
+  const handleActiveChange = useCallback((index: number) => {
+    setActive(index);
+    trackLanding('landing_showcase_swipe', { step: index + 1 });
+  }, []);
+
+  useTrackObserver(mobileTrackRef, handleActiveChange);
+  useTrackObserver(desktopTrackRef, handleActiveChange);
 
   const scrollToSlide = useCallback((index: number) => {
     setActive(index);
@@ -19,56 +57,6 @@ export function AppShowcase() {
       const slide = track.querySelectorAll('[data-slide]')[index] as HTMLElement | undefined;
       slide?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     });
-  }, []);
-
-  // Observe scroll on mobile track
-  useEffect(() => {
-    const track = mobileTrackRef.current;
-    if (!track) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let bestIdx = active;
-        let bestRatio = 0;
-        entries.forEach(entry => {
-          const idx = Number(entry.target.getAttribute('data-index'));
-          if (entry.intersectionRatio > bestRatio) {
-            bestRatio = entry.intersectionRatio;
-            bestIdx = idx;
-          }
-        });
-        if (bestRatio > 0.5) setActive(bestIdx);
-      },
-      { root: track, threshold: [0.25, 0.5, 0.75, 0.95] }
-    );
-
-    track.querySelectorAll('[data-slide]').forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  // Desktop track scroll sync
-  useEffect(() => {
-    const track = desktopTrackRef.current;
-    if (!track) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let bestIdx = active;
-        let bestRatio = 0;
-        entries.forEach(entry => {
-          const idx = Number(entry.target.getAttribute('data-index'));
-          if (entry.intersectionRatio > bestRatio) {
-            bestRatio = entry.intersectionRatio;
-            bestIdx = idx;
-          }
-        });
-        if (bestRatio > 0.5) setActive(bestIdx);
-      },
-      { root: track, threshold: [0.25, 0.5, 0.75, 0.95] }
-    );
-
-    track.querySelectorAll('[data-slide]').forEach(el => observer.observe(el));
-    return () => observer.disconnect();
   }, []);
 
   return (

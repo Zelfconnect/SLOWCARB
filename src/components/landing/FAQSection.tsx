@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { trackLanding } from './analytics';
 
 const faqs = [
   { q: 'Is dit een abonnement?', a: 'Nee. Je betaalt één keer €47 en hebt daarna voor altijd toegang. Geen maandelijkse kosten, geen verrassingen.' },
@@ -14,7 +15,11 @@ export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (i: number) => {
-    setOpenIndex(openIndex === i ? null : i);
+    const isOpening = openIndex !== i;
+    setOpenIndex(isOpening ? i : null);
+    if (isOpening) {
+      trackLanding('landing_faq_open', { question: faqs[i].q });
+    }
   };
 
   return (

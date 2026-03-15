@@ -9,7 +9,7 @@ export function FinalCTA({ onCheckout }: FinalCTAProps) {
     <section className="relative py-32 md:py-48 bg-surface-dark text-center overflow-hidden">
       <div className="absolute inset-0 z-0 opacity-40">
         <img
-          src="https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=2000&auto=format&fit=crop"
+          src="/images/landing/final-cta-bg.webp"
           alt=""
           className="w-full h-full object-cover object-center saturate-[0.75] brightness-75"
           loading="lazy"

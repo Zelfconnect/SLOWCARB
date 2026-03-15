@@ -30,7 +30,7 @@ export function FounderSection() {
           <div className="order-2 md:order-1">
             <div className="founder-stage">
               <div className="founder-photo-card">
-                <img src="/images/landing/founder/Jesper-smile-1.jpg" alt="Jesper, oprichter van SlowCarb" className="founder-photo" loading="lazy" decoding="async" />
+                <img src="/images/landing/founder/jesper-smile.webp" alt="Jesper, oprichter van SlowCarb" className="founder-photo" loading="lazy" decoding="async" />
               </div>
               <div className="mt-5 flex justify-center md:justify-start">
                 <span className="founder-proof-chip">8 kg in 4 weken</span>
@@ -67,9 +67,9 @@ export function FounderSection() {
 
               <div className="transform-proof-stage mt-8" style={{ '--transform-split': `${split}%` } as React.CSSProperties}>
                 <figure className="transform-proof-compare" role="img" aria-label="Vergelijking van Jesper voor en na 8 kilo gewichtsverlies">
-                  <img src="/images/landing/founder-proof/after.jpg" alt="Jesper na zijn gewichtsverlies" loading="eager" decoding="async" />
+                  <img src="/images/landing/founder-proof/after.webp" alt="Jesper na zijn gewichtsverlies" loading="eager" decoding="async" />
                   <div className="transform-proof-after" aria-hidden="true">
-                    <img src="/images/landing/founder-proof/before.jpg" alt="" loading="eager" decoding="async" />
+                    <img src="/images/landing/founder-proof/before.webp" alt="" loading="eager" decoding="async" />
                   </div>
                   <figcaption className="transform-proof-label transform-proof-label--left">Voor</figcaption>
                   <figcaption className="transform-proof-label transform-proof-label--right">Na</figcaption>

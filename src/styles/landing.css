@@ -104,6 +104,22 @@
   transform: translateY(0);
 }
 
+/* Fallback: show content if JS hasn't initialized after 3s */
+@keyframes landing-scroll-fallback {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.landing-page .scroll-animate:not(.show) {
+  animation: landing-scroll-fallback 0s 3s forwards;
+}
+
+/* noscript: immediately show all animated content */
+noscript + .landing-page .scroll-animate,
+.landing-page-noscript .scroll-animate {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
 /* Founder section */
 .landing-page .founder-stage {
   position: relative;

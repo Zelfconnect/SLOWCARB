@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { trackLanding } from './analytics';
 
 interface LandingHeroProps {
   onCheckout: () => void;
@@ -15,6 +16,16 @@ const navLinks = [
 
 export function LandingHero({ onCheckout }: LandingHeroProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Close menu on Escape key
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [menuOpen]);
 
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -40,7 +51,7 @@ export function LandingHero({ onCheckout }: LandingHeroProps) {
       <header className="relative z-10 w-full min-w-0 px-5 py-5 sm:px-6 md:px-10 md:py-8 flex justify-between items-center">
         <div className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-inverse-strong font-sans truncate min-w-0">SlowCarb</div>
         <button
-          onClick={() => setMenuOpen(true)}
+          onClick={() => { setMenuOpen(true); trackLanding('landing_menu_open'); }}
           className="text-inverse-strong hover:text-inverse-muted transition-colors md:hidden"
           aria-label="Menu openen"
         >
