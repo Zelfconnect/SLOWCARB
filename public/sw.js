@@ -1,4 +1,4 @@
-const CACHE_NAME = 'slowcarb-v2';
+const CACHE_NAME = 'slowcarb-v3';
 const APP_SHELL = ['/', '/index.html'];
 
 self.addEventListener('install', (event) => {

@@ -531,6 +531,7 @@ noscript + .landing-page .scroll-animate,
   padding: 0.5rem 0 0.25rem;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
+  touch-action: pan-y pinch-zoom;
   -webkit-overflow-scrolling: touch;
 }
 
