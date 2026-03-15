@@ -41,6 +41,11 @@ export function AppShowcase() {
   const [active, setActive] = useState(0);
   const mobileTrackRef = useRef<HTMLDivElement>(null);
   const desktopTrackRef = useRef<HTMLDivElement>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
+  const touchDeltaXRef = useRef(0);
+  const touchDeltaYRef = useRef(0);
+  const swipeThreshold = 40;
 
   const handleActiveChange = useCallback((index: number) => {
     setActive(index);
@@ -58,6 +63,39 @@ export function AppShowcase() {
       slide?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     });
   }, []);
+
+  const handleTouchStart = useCallback((event: React.TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    touchStartXRef.current = touch.clientX;
+    touchStartYRef.current = touch.clientY;
+    touchDeltaXRef.current = 0;
+    touchDeltaYRef.current = 0;
+  }, []);
+
+  const handleTouchMove = useCallback((event: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const touch = event.touches[0];
+    touchDeltaXRef.current = touch.clientX - touchStartXRef.current;
+    touchDeltaYRef.current = touch.clientY - touchStartYRef.current;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    const deltaX = touchDeltaXRef.current;
+    const deltaY = touchDeltaYRef.current;
+    const isHorizontalSwipe =
+      Math.abs(deltaX) >= swipeThreshold && Math.abs(deltaX) > Math.abs(deltaY);
+
+    if (isHorizontalSwipe) {
+      const direction = deltaX < 0 ? 1 : -1;
+      const nextIndex = Math.max(0, Math.min(steps.length - 1, active + direction));
+      if (nextIndex !== active) scrollToSlide(nextIndex);
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+    touchDeltaXRef.current = 0;
+    touchDeltaYRef.current = 0;
+  }, [active, scrollToSlide]);
 
   return (
     <section id="premium-app-showcase" className="relative overflow-hidden bg-surface-paper text-ink-strong py-6 sm:py-10 md:py-14 lg:py-24">
@@ -110,7 +148,15 @@ export function AppShowcase() {
           <div className="relative z-10 min-w-0">
             {/* Mobile carousel */}
             <div className="lg:hidden">
-              <div className="app-showcase-mobile-track" ref={mobileTrackRef} tabIndex={0} aria-label="App schermen">
+              <div
+                className="app-showcase-mobile-track"
+                ref={mobileTrackRef}
+                tabIndex={0}
+                aria-label="App schermen"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 {steps.map((step, i) => (
                   <div key={i} className="app-showcase-mobile-slide" data-slide data-index={i}>
                     <div className="app-showcase-mobile-stage">
