@@ -409,6 +409,7 @@ export default function LandingPageFinal() {
         </div>
       </section>
 
+      <style>{`@keyframes phoneFloat { from { transform: translateY(0px); } to { transform: translateY(-10px); } }`}</style>
       <section id="premium-app-showcase" className="relative overflow-hidden bg-cream py-10 md:py-20">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/2 top-[14%] h-80 w-80 -translate-x-1/2 rounded-full bg-sage-200/50 blur-[90px]" />
@@ -448,8 +449,31 @@ export default function LandingPageFinal() {
             </div>
 
             <div>
-              <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white p-4 shadow-sm">
-                <img src={activeStep.image} alt={activeStep.alt} className="h-[420px] w-full rounded-2xl object-cover" loading="lazy" decoding="async" />
+              <div className="relative mx-auto" style={{ maxWidth: '280px' }}>
+                <div
+                  className="absolute -bottom-4 left-1/2 h-4 w-3/4 -translate-x-1/2 rounded-full"
+                  style={{ filter: 'blur(24px)', background: 'rgba(0,0,0,0.2)' }}
+                />
+                <div
+                  className="relative overflow-hidden"
+                  style={{
+                    borderRadius: '2.5rem',
+                    background: '#1a1a1a',
+                    padding: '12px',
+                    boxShadow: '0 40px 80px -20px rgba(0,0,0,0.35)',
+                    animation: 'phoneFloat 3s ease-in-out infinite alternate',
+                  }}
+                >
+                  <div className="mx-auto mb-1 h-5 w-20 rounded-full" style={{ background: '#111' }} />
+                  <img
+                    src={activeStep.image}
+                    alt={activeStep.alt}
+                    className="w-full rounded-[1.6rem] object-cover"
+                    style={{ height: '480px' }}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
               </div>
 
               <div className="mt-4 rounded-2xl border border-stone-200 bg-white p-4 lg:hidden" aria-live="polite">
