@@ -26,6 +26,14 @@ Desktop.ini
 # Logs
 npm-debug.log*
 .vercel
+.codex-*.log
 
 # Supabase
 supabase/.temp/
+
+# Local generated artifacts
+Staging/
+output/
+Onboarding screenshots/
+screenshots/onboarding-audit-screens/
+screenshots/onboarding-polish/
