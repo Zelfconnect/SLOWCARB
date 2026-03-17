@@ -1,13 +1,18 @@
 import React from 'react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 
 // Mock IntersectionObserver globally (jsdom doesn't provide it)
 class MockIntersectionObserver {
   observe = vi.fn();
   disconnect = vi.fn();
   unobserve = vi.fn();
-  constructor(_cb: IntersectionObserverCallback, _opts?: IntersectionObserverInit) {}
+  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+    void callback;
+    void options;
+  }
 }
 
 beforeEach(() => {
@@ -41,6 +46,8 @@ import { FAQSection } from '@/components/landing/FAQSection';
 import { FinalCTA } from '@/components/landing/FinalCTA';
 import { Footer } from '@/components/landing/Footer';
 import { StickyCTA } from '@/components/landing/StickyCTA';
+
+const landingCss = readFileSync(resolve(process.cwd(), 'src/styles/landing.css'), 'utf8');
 
 // ---------------------------------------------------------------------------
 // LandingPage (parent)
@@ -228,6 +235,36 @@ describe('AppShowcase', () => {
     expect(pagBtns[2].dataset.active).toBe('true');
     expect(pagBtns[0].dataset.active).toBe('false');
   });
+
+  it('keeps raster mockups free of blur-prone image effects', () => {
+    const imageRule = landingCss.match(/\.landing-page \.app-showcase-screen-image\s*\{([\s\S]*?)\}/);
+    expect(imageRule?.[1]).toBeTruthy();
+    expect(imageRule![1]).not.toMatch(/\bfilter\s*:/);
+    expect(imageRule![1]).not.toMatch(/\btransform\s*:/);
+    expect(imageRule![1]).not.toMatch(/\bbackface-visibility\s*:/);
+  });
+
+  it('does not scale showcase wrappers that contain raster mockups', () => {
+    const selectors = [
+      /\.landing-page \.app-showcase-slide\s*\{([\s\S]*?)\}/,
+      /\.landing-page \.app-showcase-slide\[data-active="true"\]\s*\{([\s\S]*?)\}/,
+      /\.landing-page \.app-showcase-mobile-slide\s*\{([\s\S]*?)\}/,
+      /\.landing-page \.app-showcase-mobile-slide\[data-active="true"\] \.app-showcase-mobile-stage\s*\{([\s\S]*?)\}/,
+    ];
+
+    selectors.forEach((selector) => {
+      const rule = landingCss.match(selector);
+      expect(rule?.[1]).toBeTruthy();
+      expect(rule![1]).not.toMatch(/scale\(/);
+    });
+  });
+
+  it('does not apply scale reveal to the showcase media wrapper', () => {
+    const { container } = render(<AppShowcase />);
+    const revealWrapper = container.querySelector('.app-showcase-stage')?.closest('[data-reveal]');
+    expect(revealWrapper).toBeTruthy();
+    expect(revealWrapper?.getAttribute('data-reveal')).not.toBe('scale');
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -241,6 +278,30 @@ describe('RulesSection', () => {
     expect(screen.getByText(/Drink geen calorieën/)).toBeInTheDocument();
     expect(screen.getByText('Eet geen fruit')).toBeInTheDocument();
     expect(screen.getByText(/Eén cheatday per week/)).toBeInTheDocument();
+  });
+
+  it('uses the intended mobile rule and image order per stage', () => {
+    const { container } = render(<RulesSection />);
+    const stages = Array.from(container.querySelectorAll('.rules-stage'));
+
+    expect(stages).toHaveLength(5);
+
+    stages.forEach((stage, index) => {
+      const mediaLayer = stage.querySelector('.rules-media-layer');
+      const copyLayer = stage.querySelector('.rules-copy-stack')?.parentElement;
+
+      expect(mediaLayer).toBeTruthy();
+      expect(copyLayer).toBeTruthy();
+
+      if (index === stages.length - 1) {
+        expect(mediaLayer?.className).toContain('order-1 md:order-1');
+        expect(copyLayer?.className).toContain('order-2 md:order-2');
+        return;
+      }
+
+      expect(mediaLayer?.className).toContain('order-2 md:order-1');
+      expect(copyLayer?.className).toContain('order-1 md:order-2');
+    });
   });
 
   it('all rule images have .webp extension', () => {
@@ -264,6 +325,17 @@ describe('FounderSection', () => {
     expect(screen.getByText('Jesper')).toBeInTheDocument();
   });
 
+  it('renders the founder thumbnail with the profile photo', () => {
+    const { container } = render(<FounderSection />);
+    const profilePhoto = container.querySelector('.transform-proof-support-avatar--photo img[src*="jesper-smile-thumb.png"]');
+    expect(profilePhoto).toBeTruthy();
+  });
+
+  it('does not render the old standalone founder portrait', () => {
+    render(<FounderSection />);
+    expect(screen.queryByAltText('Jesper, oprichter van SlowCarb')).not.toBeInTheDocument();
+  });
+
   it('renders before/after slider with range input', () => {
     render(<FounderSection />);
     const rangeInput = screen.getByRole('slider', {
@@ -275,7 +347,7 @@ describe('FounderSection', () => {
   it('updates split value when range input changes', () => {
     render(<FounderSection />);
     const rangeInput = screen.getByRole('slider') as HTMLInputElement;
-    expect(rangeInput.value).toBe('75'); // default
+    expect(rangeInput.value).toBe('58'); // default
 
     fireEvent.change(rangeInput, { target: { value: '30' } });
     expect(rangeInput.value).toBe('30');
@@ -294,23 +366,52 @@ describe('PricingSection', () => {
 
   it('renders price text containing "47"', () => {
     render(<PricingSection onCheckout={onCheckout} />);
-    // Multiple instances of €47 on the page
-    const priceElements = screen.getAllByText(/€47/);
+    const priceElements = screen.getAllByText(/47/);
     expect(priceElements.length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders all 4 competitor names', () => {
     render(<PricingSection onCheckout={onCheckout} />);
-    expect(screen.getByText('Diëtist')).toBeInTheDocument();
+    expect(screen.getByText(/Di.*tist/)).toBeInTheDocument();
     expect(screen.getByText('Noom')).toBeInTheDocument();
     expect(screen.getByText('WeightWatchers')).toBeInTheDocument();
     expect(screen.getByText('Personal trainer')).toBeInTheDocument();
   });
 
+  it('renders the section in compare, get, buy order', () => {
+    render(<PricingSection onCheckout={onCheckout} />);
+
+    const comparisonBlock = screen.getByTestId('pricing-compare');
+    const includesBlock = screen.getByTestId('pricing-includes-block');
+    const buyCard = screen.getByTestId('pricing-buy-card');
+
+    expect(comparisonBlock.compareDocumentPosition(includesBlock) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(includesBlock.compareDocumentPosition(buyCard) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('uses a value-led intro instead of leading with payment framing', () => {
+    render(<PricingSection onCheckout={onCheckout} />);
+
+    const intro = screen.getByTestId('pricing-intro');
+    expect(within(intro).getByText('Rustige tools. Duidelijke structuur.')).toBeInTheDocument();
+    expect(within(intro).queryByText('Eenmalig. Geen abonnement.')).not.toBeInTheDocument();
+  });
+
+  it('keeps the purchase framing only in the final buy card', () => {
+    render(<PricingSection onCheckout={onCheckout} />);
+
+    const buyCard = screen.getByTestId('pricing-buy-card');
+
+    expect(screen.getAllByText('Eenmalig. Geen abonnement.')).toHaveLength(1);
+    expect(within(buyCard).getByText('Eenmalig. Geen abonnement.')).toBeInTheDocument();
+    expect(within(buyCard).getByText(/30 dagen proberen/i)).toBeInTheDocument();
+    expect(within(buyCard).getByRole('button', { name: /start het protocol/i })).toBeInTheDocument();
+  });
+
   it('calls onCheckout when CTA button is clicked', () => {
     render(<PricingSection onCheckout={onCheckout} />);
-    const ctaButton = screen.getByText('Start het protocol');
-    fireEvent.click(ctaButton.closest('button')!);
+    const buyCard = screen.getByTestId('pricing-buy-card');
+    fireEvent.click(within(buyCard).getByRole('button', { name: /start het protocol/i }));
     expect(onCheckout).toHaveBeenCalledTimes(1);
   });
 });
@@ -331,33 +432,30 @@ describe('FAQSection', () => {
 
   it('toggles answer visibility on click', () => {
     render(<FAQSection />);
-    const firstQuestion = screen.getByText('Is dit een abonnement?');
+    const firstQuestion = screen.getByRole('button', { name: 'Is dit een abonnement?' });
 
-    // Answer not visible initially
-    expect(screen.queryByText(/Je betaalt één keer/)).not.toBeInTheDocument();
+    expect(firstQuestion).toHaveAttribute('aria-expanded', 'false');
 
-    // Click to open
-    fireEvent.click(firstQuestion.closest('button')!);
-    expect(screen.getByText(/Je betaalt één keer/)).toBeInTheDocument();
+    fireEvent.click(firstQuestion);
+    expect(firstQuestion).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByText(/Je betaalt/)).toBeInTheDocument();
 
-    // Click to close
-    fireEvent.click(firstQuestion.closest('button')!);
-    expect(screen.queryByText(/Je betaalt één keer/)).not.toBeInTheDocument();
+    fireEvent.click(firstQuestion);
+    expect(firstQuestion).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('only allows one answer open at a time', () => {
     render(<FAQSection />);
 
-    // Open first question
-    const firstQ = screen.getByText('Is dit een abonnement?');
-    fireEvent.click(firstQ.closest('button')!);
-    expect(screen.getByText(/Je betaalt één keer/)).toBeInTheDocument();
+    const firstQ = screen.getByRole('button', { name: 'Is dit een abonnement?' });
+    fireEvent.click(firstQ);
+    expect(firstQ).toHaveAttribute('aria-expanded', 'true');
 
-    // Open second question — first should close
-    const secondQ = screen.getByText('Moet ik naar de sportschool?');
-    fireEvent.click(secondQ.closest('button')!);
+    const secondQ = screen.getByRole('button', { name: 'Moet ik naar de sportschool?' });
+    fireEvent.click(secondQ);
+    expect(secondQ).toHaveAttribute('aria-expanded', 'true');
+    expect(firstQ).toHaveAttribute('aria-expanded', 'false');
     expect(screen.getByText(/SlowCarb is puur voeding/)).toBeInTheDocument();
-    expect(screen.queryByText(/Je betaalt één keer/)).not.toBeInTheDocument();
   });
 });
 

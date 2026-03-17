@@ -1,3 +1,21 @@
+import { useEffect, useRef, type CSSProperties } from 'react';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+
+interface RuleItem {
+  number: number;
+  kicker: string;
+  title: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  imageClass: string;
+  maxW: string;
+  mediaLeft: boolean;
+  mobileImageFirst?: boolean;
+  extraImageWrapper?: string;
+  isLast?: boolean;
+}
+
 const rules = [
   {
     number: 1,
@@ -54,39 +72,115 @@ const rules = [
     imageClass: 'scale-150 md:scale-[1.8]',
     maxW: 'max-w-[600px] md:max-w-[900px]',
     mediaLeft: true,
+    mobileImageFirst: true,
     isLast: true,
   },
-];
+] satisfies readonly RuleItem[];
+
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 export function RulesSection() {
+  const mediaRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const mediaElements = mediaRefs.current.filter((element): element is HTMLDivElement => element !== null);
+    if (mediaElements.length === 0) return undefined;
+
+    if (prefersReducedMotion) {
+      mediaElements.forEach((element) => {
+        element.style.setProperty('--rule-media-parallax', '0px');
+      });
+      return undefined;
+    }
+
+    let frame = 0;
+
+    const updateParallax = () => {
+      const viewportMidpoint = window.innerHeight * 0.5;
+      mediaElements.forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        const delta = viewportMidpoint - (rect.top + rect.height / 2);
+        const normalized = clamp(delta / (window.innerHeight * 0.9), -1, 1);
+        element.style.setProperty('--rule-media-parallax', `${(normalized * 18).toFixed(2)}px`);
+      });
+      frame = 0;
+    };
+
+    const requestUpdate = () => {
+      if (frame !== 0) return;
+      frame = window.requestAnimationFrame(updateParallax);
+    };
+
+    requestUpdate();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+
+    return () => {
+      if (frame !== 0) {
+        window.cancelAnimationFrame(frame);
+      }
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+    };
+  }, [prefersReducedMotion]);
+
   return (
-    <section id="method" className="py-24 bg-surface-paper overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="text-center mb-20 scroll-animate">
-          <h2 className="text-4xl md:text-5xl font-bold font-display text-ink-strong mb-6 tracking-tight">De 5 regels. Dat is alles.</h2>
-          <p className="editorial-body text-ink-body max-w-2xl mx-auto">Geen schema&apos;s, geen fases, geen uitzonderingen doordeweeks. Vijf regels volgen, één dag per week vrij.</p>
+    <section id="method" className="overflow-hidden bg-surface-paper py-24">
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="mb-20 text-center">
+          <h2 data-reveal="up" className="mb-6 font-display text-4xl font-bold tracking-tight text-ink-strong md:text-5xl">
+            De 5 regels. Dat is alles.
+          </h2>
+          <p data-reveal="soft" data-stagger="1" className="editorial-body mx-auto max-w-2xl text-ink-body">
+            Geen schema&apos;s, geen fases, geen uitzonderingen doordeweeks. Vijf regels volgen, één dag per week vrij.
+          </p>
         </div>
 
-        {rules.map((rule) => (
-          <div
-            key={rule.number}
-            className={`grid md:grid-cols-2 gap-16 md:gap-32 items-center ${rule.isLast ? 'mb-16 md:mb-24' : 'mb-32 md:mb-48'} scroll-animate`}
-          >
-            <div className={`${rule.mediaLeft ? 'order-2 md:order-1' : 'order-1 md:order-1'} relative flex justify-center ${rule.extraImageWrapper ?? ''}`}>
-              <img
-                src={rule.image}
-                alt={rule.imageAlt}
-                className={`w-full ${rule.maxW} h-auto object-contain drop-shadow-2xl ${rule.imageClass}`}
-                loading="lazy"
-              />
+        {rules.map((rule, index) => {
+          const mediaReveal = rule.mediaLeft ? 'left' : 'right';
+          const copyReveal = rule.mediaLeft ? 'right' : 'left';
+          const mediaOrderClass = rule.mobileImageFirst ? 'order-1 md:order-1' : 'order-2 md:order-1';
+          const copyOrderClass = rule.mobileImageFirst ? 'order-2 md:order-2' : 'order-1 md:order-2';
+
+          return (
+            <div
+              key={rule.number}
+              className={`rules-stage grid items-center gap-16 md:grid-cols-2 md:gap-32 ${rule.isLast ? 'mb-16 md:mb-24' : 'mb-32 md:mb-48'}`}
+            >
+              <div
+                ref={(element) => {
+                  mediaRefs.current[index] = element;
+                }}
+                data-reveal={mediaReveal}
+                data-stagger={index * 2}
+                className={`${mediaOrderClass} rules-media-layer relative ${rule.extraImageWrapper ?? ''}`}
+                style={{ '--rule-media-parallax': '0px' } as CSSProperties}
+              >
+                <div className="rules-media-glow" aria-hidden="true" />
+                <div className="rules-media-parallax">
+                  <img
+                    src={rule.image}
+                    alt={rule.imageAlt}
+                    className={`rules-cutout-image h-auto w-full object-contain drop-shadow-2xl ${rule.maxW} ${rule.imageClass}`}
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+              <div
+                data-reveal={copyReveal}
+                data-stagger={index * 2 + 1}
+                className={`${copyOrderClass} z-10 text-center md:text-left`}
+              >
+                <div className="rules-copy-stack">
+                  <span className="editorial-kicker mb-3 block text-ink-strong">{rule.kicker}</span>
+                  <h3 className="mb-6 font-display text-4xl font-bold leading-tight text-ink-strong md:text-5xl">{rule.title}</h3>
+                  <p className="editorial-body text-ink-body">{rule.body}</p>
+                </div>
+              </div>
             </div>
-            <div className={`${rule.mediaLeft ? 'order-1 md:order-2' : 'order-2 md:order-2'} text-center md:text-left z-10`}>
-              <span className="editorial-kicker text-ink-strong mb-3 block">{rule.kicker}</span>
-              <h3 className="text-4xl md:text-5xl font-bold font-display text-ink-strong mb-6 leading-tight">{rule.title}</h3>
-              <p className="editorial-body text-ink-body">{rule.body}</p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
