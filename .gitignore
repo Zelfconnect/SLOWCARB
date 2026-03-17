@@ -31,6 +31,9 @@ npm-debug.log*
 # Supabase
 supabase/.temp/
 
+# Worktrees
+.worktrees/
+
 # Local generated artifacts
 Staging/
 output/
