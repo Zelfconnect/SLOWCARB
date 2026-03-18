@@ -177,7 +177,7 @@ const FAQS: FaqItem[] = [
   },
 ];
 
-const STRIPE_CHECKOUT_URL = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
+const STRIPE_CHECKOUT_URL = 'https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01';
 const SHOWCASE_AUTOPLAY_MS = 4000;
 
 function smoothScrollToHash(event: MouseEvent<HTMLAnchorElement>, closeMenu?: () => void) {

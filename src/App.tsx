@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { CalendarDays, Cog } from 'lucide-react';
-// Landing page is now served as static HTML at /landing.html
+const LandingPage = lazy(() => import('@/components/landing/LandingPage'));
 import WelcomePage from '@/components/WelcomePage';
 import { LoginPage } from '@/components/LoginPage';
 import { BottomNav } from '@/components/BottomNav';
@@ -90,10 +90,13 @@ function App() {
     );
   }
 
-  // No ?app=1 → new standalone landing page
+  // No ?app=1 → React landing page
   if (!isAppRequested) {
-    window.location.href = '/landing.html';
-    return null;
+    return (
+      <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+        <LandingPage />
+      </Suspense>
+    );
   }
 
   // ?app=1 but no access → login page for returning users

@@ -158,7 +158,7 @@ describe('LandingPageFinal', () => {
     }
 
     expect(openSpy).toHaveBeenCalledTimes(ctaButtons.length);
-    expect(openSpy).toHaveBeenCalledWith('https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00', '_blank');
+    expect(openSpy).toHaveBeenCalledWith('https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01', '_blank');
     openSpy.mockRestore();
   });
 
