@@ -69,7 +69,7 @@ describe('LandingPage', () => {
     fireEvent.click(ctaButtons[0]);
 
     expect(mockOpen).toHaveBeenCalledWith(
-      'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00',
+      'https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01',
       '_blank',
     );
   });
@@ -96,7 +96,7 @@ describe('LandingPage', () => {
     fireEvent.click(ctaButtons[0]);
 
     expect(hrefSetter).toHaveBeenCalledWith(
-      'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00',
+      'https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01',
     );
   });
 

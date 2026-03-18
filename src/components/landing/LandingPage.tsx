@@ -13,7 +13,7 @@ import { StickyCTA } from './StickyCTA';
 import { trackLanding } from './analytics';
 import '@/styles/landing.css';
 
-const STRIPE_URL = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
+const STRIPE_URL = 'https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01';
 
 export default function LandingPage() {
   const openCheckout = useCallback((source: string) => {
