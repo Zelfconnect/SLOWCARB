@@ -86,6 +86,7 @@ export function RecipeDetailPage() {
           { label: 'Recepten', to: '/recepten' },
           { label: recipe.name, to: `/recepten/${slug}` },
         ]}
+        heroImage="/images/landing/HEROBREAKFAST.webp"
       />
 
       <main className="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">

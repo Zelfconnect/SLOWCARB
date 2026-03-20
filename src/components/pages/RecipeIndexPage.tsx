@@ -45,6 +45,7 @@ export function RecipeIndexPage() {
           { label: 'Home', to: '/' },
           { label: 'Recepten', to: '/recepten' },
         ]}
+        heroImage="/images/landing/CHEATDAY.webp"
       />
 
       <main className="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">
