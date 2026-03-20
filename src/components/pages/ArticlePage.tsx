@@ -63,6 +63,7 @@ export function ArticlePage() {
           { label: 'Gids', to: '/gids' },
           { label: article.title, to: `${article.basePath}/${article.slug}` },
         ]}
+        heroImage="/images/landing/HERO.webp"
       >
         {article.sections.map((section, i) => (
           <section key={i} className="mb-8">
