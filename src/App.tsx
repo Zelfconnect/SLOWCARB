@@ -1,7 +1,8 @@
 import { lazy, Suspense, useState, useEffect, useRef } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { CalendarDays, Cog } from 'lucide-react';
-// Landing page is now served as static HTML at /landing.html
 import WelcomePage from '@/components/WelcomePage';
+import { NotFoundPage } from '@/components/pages/NotFoundPage';
 import { LoginPage } from '@/components/LoginPage';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
@@ -27,47 +28,22 @@ import './App.css';
 const PrivacyPolicyPage = lazy(() => import('@/components/legal/PrivacyPolicyPage'));
 const TermsOfServicePage = lazy(() => import('@/components/legal/TermsOfServicePage'));
 const RefundPolicyPage = lazy(() => import('@/components/legal/RefundPolicyPage'));
+const LandingPage = lazy(() => import('@/components/landing/LandingPage'));
+const GuideIndexPage = lazy(() => import('@/components/pages/GuideIndexPage').then(m => ({ default: m.GuideIndexPage })));
+const PillarPage = lazy(() => import('@/components/pages/PillarPage').then(m => ({ default: m.PillarPage })));
+const ArticlePage = lazy(() => import('@/components/pages/ArticlePage').then(m => ({ default: m.ArticlePage })));
+const RecipeIndexPage = lazy(() => import('@/components/pages/RecipeIndexPage').then(m => ({ default: m.RecipeIndexPage })));
+const RecipeDetailPage = lazy(() => import('@/components/pages/RecipeDetailPage').then(m => ({ default: m.RecipeDetailPage })));
 
-function renderLegalRoute() {
-  switch (window.location.pathname) {
-    case '/privacy-policy':
-      return (
-        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
-          <PrivacyPolicyPage />
-        </Suspense>
-      );
-    case '/terms-of-service':
-      return (
-        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
-          <TermsOfServicePage />
-        </Suspense>
-      );
-    case '/refund-policy':
-      return (
-        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
-          <RefundPolicyPage />
-        </Suspense>
-      );
-    default:
-      return null;
-  }
-}
-
-function App() {
+function HomeRoute() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
-  const legalRoute = renderLegalRoute();
-  if (legalRoute) return legalRoute;
-
   const searchParams = new URLSearchParams(window.location.search);
 
-  // Show welcome page via ?welcome=1 query param (post-Stripe redirect)
   const isWelcome = searchParams.get('welcome') === '1';
   if (isWelcome) return <WelcomePage />;
 
-  // Backward compat: existing users who received a localStorage token via Stripe flow
   const hasLegacyToken = Boolean(localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN));
 
-  // Check if user completed onboarding (existing users who already have profile data)
   let hasCompletedProfile = false;
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.PROFILE);
@@ -81,7 +57,6 @@ function App() {
   const hasAccess = isDevBypass || !isSupabaseConfigured || isAuthenticated || hasLegacyToken || hasCompletedProfile;
   const isAppRequested = searchParams.get('app') === '1';
 
-  // Wait for Supabase auth to resolve before deciding
   if (authLoading) {
     return (
       <div className="flex h-app-screen items-center justify-center bg-cream">
@@ -90,16 +65,64 @@ function App() {
     );
   }
 
-  // No ?app=1 → new standalone landing page
-  if (!isAppRequested) {
-    window.location.href = '/landing.html';
-    return null;
-  }
+  if (isAppRequested && !hasAccess) return <LoginPage />;
+  if (isAppRequested && hasAccess) return <AppShell />;
 
-  // ?app=1 but no access → login page for returning users
-  if (!hasAccess) return <LoginPage />;
+  // Default: landing page
+  return (
+    <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+      <LandingPage />
+    </Suspense>
+  );
+}
 
-  return <AppShell />;
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomeRoute />} />
+      <Route path="/privacy-policy" element={
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <PrivacyPolicyPage />
+        </Suspense>
+      } />
+      <Route path="/terms-of-service" element={
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <TermsOfServicePage />
+        </Suspense>
+      } />
+      <Route path="/refund-policy" element={
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <RefundPolicyPage />
+        </Suspense>
+      } />
+      <Route path="/gids" element={
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Ladenâ€¦</p></div>}>
+          <GuideIndexPage />
+        </Suspense>
+      } />
+      <Route path="/gids/slow-carb-dieet" element={
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <PillarPage />
+        </Suspense>
+      } />
+      <Route path="/gids/:slug" element={
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <ArticlePage />
+        </Suspense>
+      } />
+      <Route path="/recepten" element={
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <RecipeIndexPage />
+        </Suspense>
+      } />
+      <Route path="/recepten/:slug" element={
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+          <RecipeDetailPage />
+        </Suspense>
+      } />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
 }
 
 function AppShell() {

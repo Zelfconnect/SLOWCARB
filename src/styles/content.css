@@ -1,0 +1,70 @@
+/* Content page styles — mirrors landing.css token values */
+/* Scoped under .content-page to prevent CSS leaks */
+
+.content-page {
+  --surface-dark: 28 25 23;
+  --surface-accent: 49 79 49;
+  --ink-strong: 28 25 23;
+  --ink-body: 41 37 36;
+  --ink-muted: 87 83 78;
+  --sage-mid: 82 126 82;
+  --sage-deep: 61 98 61;
+  --cream-soft: 248 250 247;
+}
+
+.content-page .editorial-kicker {
+  font-family: Satoshi, system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.content-page .editorial-body {
+  font-family: Satoshi, system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+@media (min-width: 768px) {
+  .content-page .editorial-body {
+    font-size: 1.25rem;
+  }
+}
+
+.content-page .content-header-gradient {
+  height: 1.5rem;
+  background: linear-gradient(180deg, rgb(var(--surface-accent)), rgb(248, 250, 247));
+}
+
+.content-page .callout-card {
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  border-left: 3px solid rgb(var(--sage-mid));
+  background: rgba(244, 249, 243, 0.9);
+}
+
+.content-page .cta-accent-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgb(var(--surface-accent));
+  color: white;
+  font-family: Satoshi, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(var(--surface-accent), 0.22);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  border: 0;
+}
+
+.content-page .cta-accent-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px rgba(var(--surface-accent), 0.28);
+}

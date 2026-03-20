@@ -33,9 +33,17 @@ export function FounderSection() {
               Eerst werkte het bij mij.
             </h2>
             <div className="mt-6 rounded-[2rem] border border-warm-200/80 bg-white/88 p-6 shadow-[0_24px_48px_rgba(28,25,23,0.06)] backdrop-blur md:p-7">
-              <p className="editorial-body text-ink-body">
-                111 kilo. Vader van een drieling. ADHD. Elk dieet liep vast op tellen, plannen en wilskracht. Toen vond ik het Slow-Carb protocol: vijf regels, geen calorieen tellen en een cheatday per week. Vier weken later was ik 8 kilo lichter. Daarom bouwde ik SlowCarb Protocol: niet nog een dieet, maar een tool die het denkwerk wegneemt zodat je het kunt volhouden.
-              </p>
+              <div className="space-y-4 editorial-body text-ink-body">
+                <p>
+                  98 kilo, vader van een drieling, ADHD, en een baan waarbij ik andere mensen in vorm moest houden terwijl ik zelf de controle kwijt was. Te weinig slaap, te veel ballen in de lucht, en een zak chips die steeds eerder op de bank lag. In een paar maanden: 111 kilo.
+                </p>
+                <p>
+                  Elk dieet vroeg om het enige wat mijn brein niet kan: eindeloos bijhouden. Toen vond ik het Slow-Carb protocol. Vijf regels, geen calorie&#235;n tellen, &#233;&#233;n cheatday per week. Vier weken later: 8 kilo lichter.
+                </p>
+                <p>
+                  Ik kon nog steeds uit eten, nog steeds genieten. Maar de zak chips werd een bewuste keuze op zaterdag in plaats van een automatisme op dinsdag. Meer energie, meer focus, en voor het eerst het gevoel dat ik niet aan het di&#235;ten was, maar gewoon zo at.
+                </p>
+              </div>
               <div className="mt-6 flex items-center gap-4 border-t border-warm-200/80 pt-5">
                 <div className="transform-proof-support-avatar transform-proof-support-avatar--photo">
                   <img

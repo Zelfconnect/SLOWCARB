@@ -69,7 +69,7 @@ describe('LandingPage', () => {
     fireEvent.click(ctaButtons[0]);
 
     expect(mockOpen).toHaveBeenCalledWith(
-      'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00',
+      'https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01',
       '_blank',
     );
   });
@@ -96,7 +96,7 @@ describe('LandingPage', () => {
     fireEvent.click(ctaButtons[0]);
 
     expect(hrefSetter).toHaveBeenCalledWith(
-      'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00',
+      'https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01',
     );
   });
 
@@ -136,6 +136,18 @@ describe('LandingHero', () => {
   it('renders hero heading "8 tot 10"', () => {
     render(<LandingHero onCheckout={onCheckout} />);
     expect(screen.getByText(/8 tot 10/)).toBeInTheDocument();
+  });
+
+  it('renders the existing hero animation hooks for the intro transitions', () => {
+    const { container } = render(<LandingHero onCheckout={onCheckout} />);
+
+    expect(container.querySelector('.landing-hero-shell')).toBeTruthy();
+    expect(container.querySelector('.landing-hero-brand')).toBeTruthy();
+    expect(container.querySelector('.landing-hero-nav')).toBeTruthy();
+    expect(container.querySelectorAll('.landing-hero-heading-line')).toHaveLength(3);
+    expect(container.querySelector('.landing-hero-copy')).toBeTruthy();
+    expect(container.querySelector('.landing-hero-cta')).toBeTruthy();
+    expect(container.querySelector('.landing-hero-footnote')).toBeTruthy();
   });
 
   it('renders 5 nav links', () => {
@@ -195,10 +207,10 @@ describe('RecognitionSection', () => {
 // SolutionSection
 // ---------------------------------------------------------------------------
 describe('SolutionSection', () => {
-  it('renders "Wat als afvallen simpeler was?" heading', () => {
+  it('renders the current solution heading', () => {
     render(<SolutionSection />);
     expect(
-      screen.getByText('Wat als afvallen simpeler was?'),
+      screen.getByText('Eén systeem. Nul denkwerk.'),
     ).toBeInTheDocument();
   });
 });
@@ -211,8 +223,8 @@ describe('AppShowcase', () => {
     render(<AppShowcase />);
     expect(screen.getAllByText('Open je dashboard').length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText('Kies een recept').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText('Leer waarom het werkt').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText('Hou AmmoCheck bij').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Snap wat er in je lijf gebeurt').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('AmmoCheck: altijd voorbereid').length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders 4 pagination buttons', () => {
@@ -501,6 +513,8 @@ describe('Footer', () => {
 
   it('renders legal links', () => {
     render(<Footer />);
+    expect(screen.getByText('Gids')).toBeInTheDocument();
+    expect(screen.getByText('Recepten')).toBeInTheDocument();
     expect(screen.getByText('Algemene Voorwaarden')).toBeInTheDocument();
     expect(screen.getByText('Privacy Policy')).toBeInTheDocument();
   });

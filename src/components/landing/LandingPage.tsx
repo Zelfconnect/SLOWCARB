@@ -1,4 +1,6 @@
 import { useEffect, useCallback, useRef } from 'react';
+import { useDocumentScroll } from '@/hooks/useDocumentScroll';
+import { SEOHead } from '@/components/seo/SEOHead';
 import { LandingHero } from './LandingHero';
 import { RecognitionSection } from './RecognitionSection';
 import { SolutionSection } from './SolutionSection';
@@ -13,7 +15,7 @@ import { StickyCTA } from './StickyCTA';
 import { trackLanding } from './analytics';
 import '@/styles/landing.css';
 
-const STRIPE_URL = 'https://buy.stripe.com/5kQ28t0JQ9Geaht9Kb5Rm00';
+const STRIPE_URL = 'https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01';
 
 export default function LandingPage() {
   const openCheckout = useCallback((source: string) => {
@@ -24,32 +26,54 @@ export default function LandingPage() {
     }
   }, []);
 
+  useDocumentScroll();
+
   // Scroll animation observer
   useEffect(() => {
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('.landing-page .scroll-animate'));
+    if (targets.length === 0) return;
+
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
-      document.querySelectorAll('.landing-page .scroll-animate').forEach((el) => {
-        el.classList.add('show');
-      });
+      targets.forEach((el) => el.classList.add('show'));
       return;
     }
+
+    const revealVisibleSections = () => {
+      const revealThreshold = window.innerHeight * 0.9;
+      targets.forEach((target) => {
+        if (target.classList.contains('show')) return;
+        const rect = target.getBoundingClientRect();
+        if (rect.top <= revealThreshold && rect.bottom >= 0) {
+          target.classList.add('show');
+        }
+      });
+    };
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('show');
+            observer.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.1 }
     );
 
-    document.querySelectorAll('.landing-page .scroll-animate').forEach((el) => {
-      observer.observe(el);
-    });
+    targets.forEach((target) => observer.observe(target));
 
-    return () => observer.disconnect();
+    const handleViewportChange = () => revealVisibleSections();
+    window.addEventListener('scroll', handleViewportChange, { passive: true });
+    window.addEventListener('resize', handleViewportChange);
+    revealVisibleSections();
+
+    return () => {
+      window.removeEventListener('scroll', handleViewportChange);
+      window.removeEventListener('resize', handleViewportChange);
+      observer.disconnect();
+    };
   }, []);
 
   // Section visibility tracking (fires once per section per page load)
@@ -87,6 +111,41 @@ export default function LandingPage() {
   }
 
   return (
+    <>
+      <SEOHead
+        title="SlowCarb – Val 8-10 kg af in 6 weken"
+        description="Het slow carb dieet van Tim Ferriss. 5 simpele regels, 50+ recepten, 84-dagen programma. Zonder calorieën tellen. Eenmalig €47."
+        canonical="https://eatslowcarb.com/"
+        ogType="website"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            name: 'SlowCarb',
+            url: 'https://eatslowcarb.com',
+            applicationCategory: 'HealthApplication',
+            operatingSystem: 'Web',
+            description: 'Slow carb dieet app met 50+ recepten, boodschappenlijst en 84-dagen programma.',
+            offers: {
+              '@type': 'Offer',
+              price: '47.00',
+              priceCurrency: 'EUR',
+            },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              { '@type': 'Question', name: 'Is dit een abonnement?', acceptedAnswer: { '@type': 'Answer', text: 'Nee. Je betaalt één keer €47 en hebt daarna voor altijd toegang. Geen maandelijkse kosten, geen verrassingen.' } },
+              { '@type': 'Question', name: 'Moet ik naar de sportschool?', acceptedAnswer: { '@type': 'Answer', text: 'Nee. SlowCarb is puur voeding. Bewegen helpt altijd, maar het protocol werkt zonder gym. Jesper verloor 8 kilo zonder sportschool.' } },
+              { '@type': 'Question', name: 'Werkt dit ook met ADHD of een druk leven?', acceptedAnswer: { '@type': 'Answer', text: 'Juist dan. De 5 regels zijn zo simpel dat ze geen cognitieve ruimte kosten. Geen bijhouden, geen tellen, geen dagelijkse keuzes. De app doet het denkwerk.' } },
+              { '@type': 'Question', name: 'Wat als het niet werkt voor mij?', acceptedAnswer: { '@type': 'Answer', text: 'Dan krijg je je geld terug. 30 dagen, geen vragen. Maar het protocol van Tim Ferriss is bewezen bij duizenden mensen wereldwijd. De app maakt het alleen makkelijker om het vol te houden.' } },
+              { '@type': 'Question', name: 'Is dit gewoon een kookboek-app?', acceptedAnswer: { '@type': 'Answer', text: 'Nee. Het is een complete tool: AmmoCheck checklist, dagtracker, 84-dagen educatie, recepten en boodschappenlijst. Alles om het protocol 6+ weken vol te houden.' } },
+              { '@type': 'Question', name: 'Hoe snel zie ik resultaat?', acceptedAnswer: { '@type': 'Answer', text: 'De meeste mensen verliezen 1-2 kg in de eerste week. In 6 weken is 8-10 kg realistisch. Zonder honger en zonder extreme maatregelen.' } },
+            ],
+          },
+        ]}
+      />
     <div className="landing-page bg-surface-paper font-sans text-ink-body antialiased selection:bg-sage-200 selection:text-ink-strong w-full min-w-0 overflow-x-hidden">
       <StickyCTA onCheckout={() => openCheckout('sticky_cta')} />
       <LandingHero onCheckout={() => openCheckout('hero')} />
@@ -109,5 +168,6 @@ export default function LandingPage() {
         </a>
       )}
     </div>
+    </>
   );
 }

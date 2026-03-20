@@ -3,7 +3,9 @@ export function Footer() {
     <footer className="bg-surface-dark text-inverse-muted py-16 text-center">
       <div className="max-w-5xl mx-auto px-6">
         <div className="font-bold font-display text-2xl text-inverse-strong mb-8 tracking-tight">SlowCarb</div>
-        <div className="flex justify-center gap-8 mb-8 text-sm">
+        <div className="flex justify-center gap-8 mb-8 text-sm flex-wrap">
+          <a href="/gids" className="hover:text-inverse-strong transition-colors">Gids</a>
+          <a href="/recepten" className="hover:text-inverse-strong transition-colors">Recepten</a>
           <a href="/terms-of-service" className="hover:text-inverse-strong transition-colors">Algemene Voorwaarden</a>
           <a href="/privacy-policy" className="hover:text-inverse-strong transition-colors">Privacy Policy</a>
           <a href="mailto:info@eatslowcarb.com" className="hover:text-inverse-strong transition-colors">Contact</a>

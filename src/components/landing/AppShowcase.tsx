@@ -3,10 +3,10 @@ import { trackLanding } from './analytics';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 const steps = [
-  { kicker: 'Stap 1', title: 'Open je dashboard', body: 'Zie in een oogopslag of je de regels volgt. Geen calorieen. Geen macro\'s. Gewoon duidelijk per maaltijd.', image: '/images/landing/phonescreens/phonescreen1.webp' },
-  { kicker: 'Stap 2', title: 'Kies een recept', body: '50+ recepten die aan alle regels voldoen. Filter op bereidingstijd, airfryer, of ingrediënt.', image: '/images/landing/phonescreens/phonescreen2.webp' },
-  { kicker: 'Stap 3', title: 'Leer waarom het werkt', body: 'Elke dag een science card: wat er in je lichaam gebeurt en waarom. Kennis = volhouden.', image: '/images/landing/phonescreens/phonescreen3.webp' },
-  { kicker: 'Stap 4', title: 'Hou AmmoCheck bij', body: 'Een simpele checklist voor wat in je koelkast, voorraadkast en lades moet liggen. Minder nadenken, makkelijker volhouden.', image: '/images/landing/phonescreens/phonescreen4.webp' },
+  { kicker: 'Stap 1', title: 'Open je dashboard', body: 'Drie maaltijden. Vijf regels. E\u00e9n scherm dat laat zien of je op koers ligt. Geen getallen, geen grafieken, geen stress.', image: '/images/landing/phonescreens/phonescreen1.webp' },
+  { kicker: 'Stap 2', title: 'Kies een recept', body: 'Alles wat je ziet mag. Filter op tijd of airfryer, tik op een recept, en je boodschappenlijst is klaar. Vanavond al op tafel.', image: '/images/landing/phonescreens/phonescreen2.webp' },
+  { kicker: 'Stap 3', title: 'Snap wat er in je lijf gebeurt', body: 'Elke dag een korte uitleg: waarom je lichaam nu vet verbrandt, wat de cheatday doet, en waarom je je op dag 4 even beroerd voelt. Snappen = volhouden.', image: '/images/landing/phonescreens/phonescreen3.webp' },
+  { kicker: 'Stap 4', title: 'AmmoCheck: altijd voorbereid', body: 'Een checklist van wat er in je koelkast en voorraadkast moet liggen. Als het in huis is, hoef je niet na te denken. Geen nadenken = geen foute keuzes.', image: '/images/landing/phonescreens/phonescreen4.webp' },
 ] as const;
 
 function useTrackObserver(
