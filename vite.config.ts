@@ -33,6 +33,8 @@ export default defineConfig(({ mode }) => ({
         routes: publicRoutes,
         renderer: new PuppeteerRenderer({
           renderAfterTime: 3000,
+          skipThirdPartyRequests: true,
+          timeout: 60000,
         }),
       }),
     ] : []),

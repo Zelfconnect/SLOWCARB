@@ -2,20 +2,28 @@ import React from 'react';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { act, render, screen, fireEvent, within } from '@testing-library/react';
 
 // Mock IntersectionObserver globally (jsdom doesn't provide it)
+let observerInstances: MockIntersectionObserver[] = [];
+
 class MockIntersectionObserver {
-  observe = vi.fn();
+  observed: Element[] = [];
+  callback: IntersectionObserverCallback;
+  observe = vi.fn((element: Element) => {
+    this.observed.push(element);
+  });
   disconnect = vi.fn();
   unobserve = vi.fn();
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
-    void callback;
+    this.callback = callback;
     void options;
+    observerInstances.push(this);
   }
 }
 
 beforeEach(() => {
+  observerInstances = [];
   vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
   // Prevent jsdom scrollTo errors
@@ -120,6 +128,41 @@ describe('LandingPage', () => {
     expect(() => render(<LandingPage />)).not.toThrow();
 
     Storage.prototype.getItem = originalGetItem;
+  });
+
+  it('wires reveal targets through IntersectionObserver and marks them visible', () => {
+    const { container } = render(<LandingPage />);
+    const revealObserver = observerInstances.reduce<MockIntersectionObserver | null>((currentBest, observer) => {
+      if (!currentBest) return observer;
+      return observer.observed.length > currentBest.observed.length ? observer : currentBest;
+    }, null);
+
+    expect(revealObserver).toBeTruthy();
+    expect(revealObserver!.observed.length).toBeGreaterThan(10);
+
+    const target = container.querySelector('[data-reveal="up"]') as HTMLElement;
+    expect(target).toBeTruthy();
+
+    act(() => {
+      revealObserver!.callback(
+        [{ target, isIntersecting: true } as IntersectionObserverEntry],
+        revealObserver! as unknown as IntersectionObserver,
+      );
+    });
+
+    expect(target).toHaveAttribute('data-reveal-visible', 'true');
+  });
+
+  it('keeps left/right reveal directions exclusive to the 5 rules section', () => {
+    const { container } = render(<LandingPage />);
+    const directionalTargets = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-reveal="left"], [data-reveal="right"]'),
+    );
+
+    expect(directionalTargets.length).toBeGreaterThan(0);
+    directionalTargets.forEach((target) => {
+      expect(target.closest('#method')).toBeTruthy();
+    });
   });
 });
 

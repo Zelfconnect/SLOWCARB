@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useDocumentScroll } from '@/hooks/useDocumentScroll';
+import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { LandingHero } from './LandingHero';
 import { RecognitionSection } from './RecognitionSection';
@@ -27,54 +28,10 @@ export default function LandingPage() {
   }, []);
 
   useDocumentScroll();
-
-  // Scroll animation observer
-  useEffect(() => {
-    const targets = Array.from(document.querySelectorAll<HTMLElement>('.landing-page .scroll-animate'));
-    if (targets.length === 0) return;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      targets.forEach((el) => el.classList.add('show'));
-      return;
-    }
-
-    const revealVisibleSections = () => {
-      const revealThreshold = window.innerHeight * 0.9;
-      targets.forEach((target) => {
-        if (target.classList.contains('show')) return;
-        const rect = target.getBoundingClientRect();
-        if (rect.top <= revealThreshold && rect.bottom >= 0) {
-          target.classList.add('show');
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    targets.forEach((target) => observer.observe(target));
-
-    const handleViewportChange = () => revealVisibleSections();
-    window.addEventListener('scroll', handleViewportChange, { passive: true });
-    window.addEventListener('resize', handleViewportChange);
-    revealVisibleSections();
-
-    return () => {
-      window.removeEventListener('scroll', handleViewportChange);
-      window.removeEventListener('resize', handleViewportChange);
-      observer.disconnect();
-    };
-  }, []);
+  const { ref: revealRef } = useRevealOnScroll<HTMLDivElement>({
+    rootMargin: '0px 0px -12% 0px',
+    threshold: 0.18,
+  });
 
   // Section visibility tracking (fires once per section per page load)
   const trackedSections = useRef(new Set<string>());
@@ -146,7 +103,7 @@ export default function LandingPage() {
           },
         ]}
       />
-    <div className="landing-page bg-surface-paper font-sans text-ink-body antialiased selection:bg-sage-200 selection:text-ink-strong w-full min-w-0 overflow-x-hidden">
+    <div ref={revealRef} className="landing-page bg-surface-paper font-sans text-ink-body antialiased selection:bg-sage-200 selection:text-ink-strong w-full min-w-0 overflow-x-hidden">
       <StickyCTA onCheckout={() => openCheckout('sticky_cta')} />
       <LandingHero onCheckout={() => openCheckout('hero')} />
       <RecognitionSection />

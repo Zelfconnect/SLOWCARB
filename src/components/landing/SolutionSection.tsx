@@ -1,34 +1,63 @@
+const solutionPrinciples = [
+  {
+    title: 'Binnen een dag snappen.',
+    body: 'Geen fases, geen opbouw, geen ingewikkeld schema. Je leest de vijf regels, begrijpt ze, en begint. Morgen al.',
+  },
+  {
+    title: 'Geen app die je afrekent.',
+    body: 'Geen streepjes, geen rode waarschuwingen als je 50 gram te veel at. SlowCarb werkt binair: past het binnen de regels of niet.',
+  },
+  {
+    title: 'Zaterdag pizza. Zondag weer door.',
+    body: 'De cheatday is geen troostprijs maar onderdeel van het systeem. Eén dag alles eten maakt de rest van de week mentaal lichter.',
+  },
+] as const;
+
 export function SolutionSection() {
   return (
-    <section className="editorial-dark-section py-24 md:py-32 bg-surface-deep text-inverse-body overflow-hidden relative">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent pointer-events-none" />
+    <section className="solution-section editorial-dark-section relative overflow-hidden bg-surface-deep py-24 text-inverse-body md:py-32">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(148,163,184,0.12),_transparent_34%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(82,126,82,0.22),_transparent_36%)]" />
 
-      <div className="max-w-4xl mx-auto px-6 scroll-animate relative z-10">
-        <h2 className="max-w-[12ch] text-[3.15rem] sm:text-[3.35rem] md:text-6xl lg:text-7xl font-display font-medium leading-[0.98] tracking-tight mb-10 text-left md:text-center text-inverse-strong md:mx-auto">
-          E&#233;n systeem. Nul denkwerk.
-        </h2>
-        <p className="editorial-body text-inverse-body text-left md:text-center max-w-[23rem] md:max-w-[35rem] md:mx-auto mb-16 md:mb-20">
-          De meeste di&#235;ten mislukken niet op motivatie. Ze lopen vast op keuzes. Wat mag ik eten? Hoeveel calorie&#235;n heb ik nog? Mag dit wel na 18:00? SlowCarb vervangt al die vragen door vijf regels.
-        </p>
-
-        <div className="max-w-[23rem] md:max-w-[28rem] md:mx-auto space-y-14 md:space-y-16 text-left">
-          <div>
-            <h3 className="editorial-kicker text-[1.06rem] md:text-[1.12rem] leading-[1.08] text-inverse-strong mb-5">Binnen een dag snappen.</h3>
-            <p className="text-[0.98rem] md:text-[1.05rem] leading-[1.7] text-inverse-body max-w-[22rem]">
-              Geen fases, geen opbouw, geen ingewikkeld schema. Je leest de vijf regels, begrijpt ze, en begint. Morgen al.
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-16">
+          <div className="max-w-xl">
+            <p data-reveal="up" className="editorial-kicker text-sage-200">
+              Waarom dit wel vol te houden is
+            </p>
+            <h2
+              data-reveal="up"
+              data-stagger="1"
+              className="mt-4 max-w-[12ch] text-[3.15rem] font-display font-medium leading-[0.98] tracking-tight text-inverse-strong sm:text-[3.35rem] md:text-6xl lg:text-7xl"
+            >
+              Eén systeem. Nul denkwerk.
+            </h2>
+            <p
+              data-reveal="soft"
+              data-stagger="2"
+              className="editorial-body mt-8 max-w-[35rem] text-left text-inverse-body/90"
+            >
+              De meeste diëten mislukken niet op motivatie. Ze lopen vast op keuzes. Wat mag ik eten? Hoeveel calorieën heb ik nog? Mag dit wel na 18:00? SlowCarb vervangt al die vragen door vijf regels.
             </p>
           </div>
-          <div>
-            <h3 className="editorial-kicker text-[1.06rem] md:text-[1.12rem] leading-[1.08] text-inverse-strong mb-5">Geen app die je afrekent.</h3>
-            <p className="text-[0.98rem] md:text-[1.05rem] leading-[1.7] text-inverse-body max-w-[22rem]">
-              Geen streepjes, geen rode waarschuwingen als je 50 gram te veel at. SlowCarb werkt binair: past het binnen de regels of niet. Dat is alles.
-            </p>
-          </div>
-          <div>
-            <h3 className="editorial-kicker text-[1.06rem] md:text-[1.12rem] leading-[1.08] text-inverse-strong mb-5">Zaterdag pizza. Zondag weer door.</h3>
-            <p className="text-[0.98rem] md:text-[1.05rem] leading-[1.7] text-inverse-body max-w-[22rem]">
-              De cheatday is niet je beloning. Het is het mechanisme dat voorkomt dat je lichaam in de spaarstand gaat. E&#233;n dag per week alles eten maakt de rest makkelijker.
-            </p>
+
+          <div className="solution-card-grid grid gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-1">
+            {solutionPrinciples.map((principle, index) => (
+              <article
+                key={principle.title}
+                data-reveal="soft"
+                data-stagger={index + 2}
+                className="solution-principle motion-surface rounded-[1.9rem] border border-white/10 bg-white/8 p-6 shadow-[0_24px_48px_rgba(12,18,18,0.22)] backdrop-blur md:p-7"
+              >
+                <div className="solution-principle-index">{String(index + 1).padStart(2, '0')}</div>
+                <h3 className="mt-5 font-sans text-[1.35rem] font-bold tracking-tight text-inverse-strong md:text-[1.45rem]">
+                  {principle.title}
+                </h3>
+                <p className="mt-3 text-[0.98rem] leading-[1.72] text-inverse-body/88 md:text-[1.02rem]">
+                  {principle.body}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </div>
