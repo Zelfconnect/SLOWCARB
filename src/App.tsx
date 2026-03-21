@@ -65,15 +65,16 @@ function HomeRoute() {
     );
   }
 
-  if (isAppRequested && !hasAccess) return <LoginPage />;
-  if (isAppRequested && hasAccess) return <AppShell />;
+  if (!isAppRequested) {
+    return (
+      <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
+        <LandingPage />
+      </Suspense>
+    );
+  }
 
-  // Default: landing page
-  return (
-    <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
-      <LandingPage />
-    </Suspense>
-  );
+  if (!hasAccess) return <LoginPage />;
+  return <AppShell />;
 }
 
 function App() {
@@ -96,7 +97,7 @@ function App() {
         </Suspense>
       } />
       <Route path="/gids" element={
-        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Ladenâ€¦</p></div>}>
+        <Suspense fallback={<div className="flex h-app-screen items-center justify-center bg-cream"><p className="text-stone-500">Laden…</p></div>}>
           <GuideIndexPage />
         </Suspense>
       } />
