@@ -3,6 +3,8 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act, render, screen, fireEvent, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { useUserStore } from '@/store/useUserStore';
 
 // Mock IntersectionObserver globally (jsdom doesn't provide it)
 let observerInstances: MockIntersectionObserver[] = [];
@@ -37,7 +39,14 @@ beforeEach(() => {
   });
 
   localStorage.clear();
+
+  // Reset Zustand store
+  useUserStore.setState({ profile: null, isLoaded: true });
 });
+
+function withRouter(ui: React.ReactElement) {
+  return <MemoryRouter>{ui}</MemoryRouter>;
+}
 
 // ---------------------------------------------------------------------------
 // Imports — LandingPage is default, rest are named
@@ -62,7 +71,7 @@ const landingCss = readFileSync(resolve(process.cwd(), 'src/styles/landing.css')
 // ---------------------------------------------------------------------------
 describe('LandingPage', () => {
   it('renders without crash', () => {
-    render(<LandingPage />);
+    render(withRouter(<LandingPage />));
     // The hero heading should be present in the composed page
     expect(screen.getByText(/8 tot 10/)).toBeInTheDocument();
   });
@@ -71,7 +80,7 @@ describe('LandingPage', () => {
     const mockOpen = vi.fn(() => ({ focus: vi.fn() }));
     vi.stubGlobal('open', mockOpen);
 
-    render(<LandingPage />);
+    render(withRouter(<LandingPage />));
     // Click the first "Begin met de 5 regels" button (hero bottom CTA)
     const ctaButtons = screen.getAllByRole('button', { name: /begin/i });
     fireEvent.click(ctaButtons[0]);
@@ -99,7 +108,7 @@ describe('LandingPage', () => {
       configurable: true,
     });
 
-    render(<LandingPage />);
+    render(withRouter(<LandingPage />));
     const ctaButtons = screen.getAllByRole('button', { name: /begin/i });
     fireEvent.click(ctaButtons[0]);
 
@@ -108,14 +117,15 @@ describe('LandingPage', () => {
     );
   });
 
-  it('shows "Ga naar de app" button when slowcarb_profile exists in localStorage', () => {
-    localStorage.setItem('slowcarb_profile', JSON.stringify({ name: 'test' }));
-    render(<LandingPage />);
-    expect(screen.getByText('Ga naar de app')).toBeInTheDocument();
+  it('shows "Ga naar de app" button when user has profile', () => {
+    useUserStore.setState({ profile: { name: 'test' } as any, isLoaded: true });
+    render(withRouter(<LandingPage />));
+    const links = screen.getAllByText('Ga naar de app');
+    expect(links.length).toBeGreaterThanOrEqual(1);
   });
 
   it('hides "Ga naar de app" button when no profile in localStorage', () => {
-    render(<LandingPage />);
+    render(withRouter(<LandingPage />));
     expect(screen.queryByText('Ga naar de app')).not.toBeInTheDocument();
   });
 
@@ -125,13 +135,14 @@ describe('LandingPage', () => {
       throw new Error('Storage unavailable');
     });
 
-    expect(() => render(<LandingPage />)).not.toThrow();
+    useUserStore.getState().loadProfile();
+    expect(() => render(withRouter(<LandingPage />))).not.toThrow();
 
     Storage.prototype.getItem = originalGetItem;
   });
 
   it('wires reveal targets through IntersectionObserver and marks them visible', () => {
-    const { container } = render(<LandingPage />);
+    const { container } = render(withRouter(<LandingPage />));
     const revealObserver = observerInstances.reduce<MockIntersectionObserver | null>((currentBest, observer) => {
       if (!currentBest) return observer;
       return observer.observed.length > currentBest.observed.length ? observer : currentBest;
@@ -154,7 +165,7 @@ describe('LandingPage', () => {
   });
 
   it('keeps left/right reveal directions exclusive to the 5 rules section', () => {
-    const { container } = render(<LandingPage />);
+    const { container } = render(withRouter(<LandingPage />));
     const directionalTargets = Array.from(
       container.querySelectorAll<HTMLElement>('[data-reveal="left"], [data-reveal="right"]'),
     );
@@ -177,12 +188,12 @@ describe('LandingHero', () => {
   });
 
   it('renders hero heading "8 tot 10"', () => {
-    render(<LandingHero onCheckout={onCheckout} />);
+    render(withRouter(<LandingHero onCheckout={onCheckout} />));
     expect(screen.getByText(/8 tot 10/)).toBeInTheDocument();
   });
 
   it('renders the existing hero animation hooks for the intro transitions', () => {
-    const { container } = render(<LandingHero onCheckout={onCheckout} />);
+    const { container } = render(withRouter(<LandingHero onCheckout={onCheckout} />));
 
     expect(container.querySelector('.landing-hero-shell')).toBeTruthy();
     expect(container.querySelector('.landing-hero-brand')).toBeTruthy();
@@ -193,17 +204,17 @@ describe('LandingHero', () => {
     expect(container.querySelector('.landing-hero-footnote')).toBeTruthy();
   });
 
-  it('renders 5 nav links', () => {
-    render(<LandingHero onCheckout={onCheckout} />);
+  it('renders 7 nav links (page + section)', () => {
+    render(withRouter(<LandingHero onCheckout={onCheckout} />));
     const links = screen.getAllByText(
-      /De methode|Hoe werkt de app|Bewijs|Prijs|FAQ/,
+      /Gids|Recepten|De methode|Hoe werkt de app|Bewijs|Prijs|FAQ/,
     );
-    // Desktop + mobile duplicates = 10, but at minimum 5 unique labels
-    expect(links.length).toBeGreaterThanOrEqual(5);
+    // Desktop + mobile duplicates = 14+, but at minimum 7 unique labels
+    expect(links.length).toBeGreaterThanOrEqual(7);
   });
 
   it('opens the mobile menu on hamburger click', () => {
-    render(<LandingHero onCheckout={onCheckout} />);
+    render(withRouter(<LandingHero onCheckout={onCheckout} />));
     const hamburger = screen.getByLabelText('Menu openen');
     fireEvent.click(hamburger);
     // After opening, the close button should be visible
@@ -211,7 +222,7 @@ describe('LandingHero', () => {
   });
 
   it('closes the mobile menu on X button click', () => {
-    render(<LandingHero onCheckout={onCheckout} />);
+    render(withRouter(<LandingHero onCheckout={onCheckout} />));
     fireEvent.click(screen.getByLabelText('Menu openen'));
     const closeBtn = screen.getByLabelText('Menu sluiten');
     fireEvent.click(closeBtn);
@@ -222,7 +233,7 @@ describe('LandingHero', () => {
   });
 
   it('closes the mobile menu on Escape key', () => {
-    render(<LandingHero onCheckout={onCheckout} />);
+    render(withRouter(<LandingHero onCheckout={onCheckout} />));
     fireEvent.click(screen.getByLabelText('Menu openen'));
     // Menu is open
     expect(screen.getByLabelText('Menu sluiten')).toBeInTheDocument();
