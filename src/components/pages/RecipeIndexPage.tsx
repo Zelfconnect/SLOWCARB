@@ -45,7 +45,7 @@ export function RecipeIndexPage() {
           { label: 'Home', to: '/' },
           { label: 'Recepten', to: '/recepten' },
         ]}
-        heroImage="/images/landing/CHEATDAY.webp"
+        heroImage={{ mobile: '/images/landing/gids/recepten-mobile.webp', desktop: '/images/landing/gids/recepten-desktop.webp' }}
       />
 
       <main className="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">

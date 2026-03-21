@@ -15,7 +15,7 @@ interface ContentPageLayoutProps {
   breadcrumbs: { label: string; to: string }[];
   children: ReactNode;
   relatedLinks?: { label: string; to: string }[];
-  heroImage?: string;
+  heroImage?: { mobile: string; desktop: string };
 }
 
 export function ContentPageLayout({

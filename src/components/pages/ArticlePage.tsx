@@ -63,7 +63,7 @@ export function ArticlePage() {
           { label: 'Gids', to: '/gids' },
           { label: article.title, to: `${article.basePath}/${article.slug}` },
         ]}
-        heroImage="/images/landing/HERO.webp"
+        heroImage={{ mobile: '/images/landing/gids/gidsslow-carb-vs-keto-mobile.webp', desktop: '/images/landing/gids/gidsslow-carb-vs-keto-desktop.webp' }}
       >
         {article.sections.map((section, i) => (
           <section key={i} className="mb-8">
