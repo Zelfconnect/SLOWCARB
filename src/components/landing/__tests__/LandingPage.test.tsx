@@ -359,6 +359,19 @@ describe('RulesSection', () => {
     });
   });
 
+  it('reveals the cutout image and copy with the same stagger per rule', () => {
+    const { container } = render(<RulesSection />);
+    const stages = Array.from(container.querySelectorAll('.rules-stage'));
+
+    stages.forEach((stage) => {
+      const mediaLayer = stage.querySelector('.rules-media-layer');
+      const copyLayer = stage.querySelector('.rules-copy-stack')?.parentElement;
+
+      expect(mediaLayer?.getAttribute('data-stagger')).toBeTruthy();
+      expect(copyLayer?.getAttribute('data-stagger')).toBe(mediaLayer?.getAttribute('data-stagger'));
+    });
+  });
+
   it('all rule images have .webp extension', () => {
     render(<RulesSection />);
     const ruleImages = screen.getAllByRole('img').filter((img) =>

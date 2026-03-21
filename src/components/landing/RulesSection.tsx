@@ -142,6 +142,7 @@ export function RulesSection() {
           const copyReveal = rule.mediaLeft ? 'right' : 'left';
           const mediaOrderClass = rule.mobileImageFirst ? 'order-1 md:order-1' : 'order-2 md:order-1';
           const copyOrderClass = rule.mobileImageFirst ? 'order-2 md:order-2' : 'order-1 md:order-2';
+          const pairStagger = index + 2;
 
           return (
             <div
@@ -153,7 +154,7 @@ export function RulesSection() {
                   mediaRefs.current[index] = element;
                 }}
                 data-reveal={mediaReveal}
-                data-stagger={index * 2}
+                data-stagger={pairStagger}
                 className={`${mediaOrderClass} rules-media-layer relative ${rule.extraImageWrapper ?? ''}`}
                 style={{ '--rule-media-parallax': '0px' } as CSSProperties}
               >
@@ -169,7 +170,7 @@ export function RulesSection() {
               </div>
               <div
                 data-reveal={copyReveal}
-                data-stagger={index * 2 + 1}
+                data-stagger={pairStagger}
                 className={`${copyOrderClass} z-10 text-center md:text-left`}
               >
                 <div className="rules-copy-stack">
