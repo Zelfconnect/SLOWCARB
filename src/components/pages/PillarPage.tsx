@@ -63,6 +63,7 @@ export function PillarPage() {
           { label: 'Slow Carb vs Keto: Welk Dieet Past?', to: '/gids/slow-carb-vs-keto' },
           { label: 'Bekijk onze recepten', to: '/recepten' },
         ]}
+        heroImage="/images/landing/LIFESTYLE.webp"
       >
         {article.sections.map((section, i) => (
           <section key={i} className="mb-8">

@@ -35,8 +35,13 @@
 }
 
 .content-page .content-header-gradient {
-  height: 1.5rem;
-  background: linear-gradient(180deg, rgb(var(--surface-accent)), rgb(248, 250, 247));
+  height: 3rem;
+  background: linear-gradient(
+    180deg,
+    rgb(28 25 23) 0%,
+    rgb(var(--surface-accent)) 40%,
+    rgb(248, 250, 247) 100%
+  );
 }
 
 .content-page .callout-card {

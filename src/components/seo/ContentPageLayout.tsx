@@ -15,6 +15,7 @@ interface ContentPageLayoutProps {
   breadcrumbs: { label: string; to: string }[];
   children: ReactNode;
   relatedLinks?: { label: string; to: string }[];
+  heroImage?: string;
 }
 
 export function ContentPageLayout({
@@ -25,6 +26,7 @@ export function ContentPageLayout({
   breadcrumbs,
   children,
   relatedLinks,
+  heroImage,
 }: ContentPageLayoutProps) {
   useDocumentScroll();
   return (
@@ -35,6 +37,7 @@ export function ContentPageLayout({
         author={author}
         readingTime={readingTime}
         breadcrumbs={breadcrumbs}
+        heroImage={heroImage}
       />
 
       <main className="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">

@@ -53,6 +53,7 @@ export function GuideIndexPage() {
           { label: 'Home', to: '/' },
           { label: 'Gids', to: '/gids' },
         ]}
+        heroImage="/images/landing/MEALPREP.webp"
       />
 
       <main className="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">

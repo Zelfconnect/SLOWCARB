@@ -9,7 +9,7 @@ const faqs = [
   { q: 'Wat als het niet werkt voor mij?', a: 'Dan krijg je je geld terug. 30 dagen, geen vragen. Maar het protocol van Tim Ferriss is bewezen bij duizenden mensen wereldwijd. De app maakt het alleen makkelijker om het vol te houden.' },
   { q: 'Is dit gewoon een kookboek-app?', a: 'Nee. Het is een complete tool: AmmoCheck checklist, dagtracker, 84-dagen educatie, recepten en boodschappenlijst. Alles om het protocol 6+ weken vol te houden.' },
   { q: 'Hoe snel zie ik resultaat?', a: 'De meeste mensen verliezen 1-2 kg in de eerste week. In 6 weken is 8-10 kg realistisch. Zonder honger en zonder extreme maatregelen.' },
-];
+] as const;
 
 export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -23,29 +23,49 @@ export function FAQSection() {
   };
 
   return (
-    <section id="faq" className="faq-release-section py-32 bg-surface-paper">
-      <div className="max-w-3xl mx-auto px-6 scroll-animate">
-        <h2 className="text-4xl md:text-5xl font-bold font-display text-center text-ink-strong mb-16 tracking-tight">Veelgestelde Vragen</h2>
+    <section id="faq" className="faq-release-section relative overflow-hidden bg-surface-paper py-28 md:py-32">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-56 w-56 -translate-x-1/2 rounded-full bg-sage-100/70 blur-3xl" />
+      <div className="relative z-10 mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <p data-reveal="up" className="editorial-kicker text-sage-700">
+            Veelgestelde vragen
+          </p>
+          <h2
+            data-reveal="up"
+            data-stagger="1"
+            className="mt-4 text-4xl font-display font-bold tracking-tight text-ink-strong md:text-5xl"
+          >
+            Veelgestelde Vragen
+          </h2>
+          <p data-reveal="soft" data-stagger="2" className="card-body mt-4 text-ink-body">
+            Geen kleine lettertjes of verborgen abonnementen. Dit is wat mensen meestal willen weten voordat ze starten.
+          </p>
+        </div>
 
-        <div className="space-y-4">
+        <div className="mt-12 space-y-4">
           {faqs.map((faq, i) => (
-            <div key={i} className="bg-white/[.72] ring-1 ring-warm-200/70 rounded-2xl shadow-[0_16px_34px_rgba(28,25,23,0.04)] overflow-hidden">
+            <article
+              key={faq.q}
+              data-reveal="soft"
+              data-stagger={i + 3}
+              className="faq-item motion-surface overflow-hidden rounded-[1.7rem] border border-warm-200/75 bg-white/82 shadow-[0_18px_38px_rgba(28,25,23,0.05)] backdrop-blur"
+            >
               <button
-                className="w-full text-left px-8 py-6 flex justify-between items-center gap-4"
+                className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-6"
                 onClick={() => toggle(i)}
                 aria-expanded={openIndex === i}
               >
                 <span className="text-lg font-bold text-ink-strong">{faq.q}</span>
                 <ChevronDown
-                  className={`w-4 h-4 text-sage-500 transition-transform duration-300 flex-shrink-0 ${openIndex === i ? 'rotate-180' : ''}`}
+                  className={`h-4 w-4 flex-shrink-0 text-sage-500 transition-transform duration-300 ${openIndex === i ? 'rotate-180' : ''}`}
                 />
               </button>
               {openIndex === i && (
-                <div className="px-8 pb-6">
+                <div className="faq-answer px-6 pb-6 md:px-8">
                   <p className="card-body text-ink-body">{faq.a}</p>
                 </div>
               )}
-            </div>
+            </article>
           ))}
         </div>
       </div>
