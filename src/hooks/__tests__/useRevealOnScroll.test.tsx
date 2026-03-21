@@ -69,6 +69,9 @@ function RevealHarness() {
     <div ref={ref} data-testid="root" data-can-reveal={canReveal ? 'true' : 'false'}>
       <div data-testid="first" data-reveal="up" />
       <div data-testid="second" data-reveal="soft" data-stagger="3" />
+      <div data-testid="group" data-reveal-group="pair" data-stagger="4">
+        <div data-testid="group-child" data-reveal="left" data-reveal-part="pair" />
+      </div>
     </div>
   );
 }
@@ -103,6 +106,8 @@ describe('useRevealOnScroll', () => {
     await waitFor(() => {
       expect(screen.getByTestId('first')).toHaveAttribute('data-reveal-visible', 'true');
       expect(screen.getByTestId('second')).toHaveAttribute('data-reveal-visible', 'true');
+      expect(screen.getByTestId('group')).toHaveAttribute('data-reveal-visible', 'true');
+      expect(screen.getByTestId('group-child')).not.toHaveAttribute('data-reveal-visible');
     });
   });
 
@@ -117,6 +122,8 @@ describe('useRevealOnScroll', () => {
     await waitFor(() => {
       expect(screen.getByTestId('first')).toHaveAttribute('data-reveal-visible', 'true');
       expect(screen.getByTestId('second')).toHaveAttribute('data-reveal-visible', 'true');
+      expect(screen.getByTestId('group')).toHaveAttribute('data-reveal-visible', 'true');
+      expect(screen.getByTestId('group-child')).not.toHaveAttribute('data-reveal-visible');
     });
   });
 
@@ -127,25 +134,30 @@ describe('useRevealOnScroll', () => {
     render(<RevealHarness />);
 
     await waitFor(() => {
-      expect(observerMock.getInstance()?.observe).toHaveBeenCalledTimes(2);
+      expect(observerMock.getInstance()?.observe).toHaveBeenCalledTimes(3);
     });
 
     const instance = observerMock.getInstance();
     const callback = observerMock.getCallback();
     const firstTarget = screen.getByTestId('first');
     const secondTarget = screen.getByTestId('second');
+    const groupTarget = screen.getByTestId('group');
+    const groupChildTarget = screen.getByTestId('group-child');
 
     expect(screen.getByTestId('root')).toHaveAttribute('data-can-reveal', 'true');
     expect(secondTarget.style.getPropertyValue('--motion-stagger-index')).toBe('3');
+    expect(groupTarget.style.getPropertyValue('--motion-stagger-index')).toBe('4');
+    expect(groupChildTarget.style.getPropertyValue('--motion-stagger-index')).toBe('');
 
     act(() => {
       callback?.(
-        [{ target: firstTarget, isIntersecting: true } as IntersectionObserverEntry],
+        [{ target: groupTarget, isIntersecting: true } as IntersectionObserverEntry],
         instance as unknown as IntersectionObserver
       );
     });
 
-    expect(firstTarget).toHaveAttribute('data-reveal-visible', 'true');
-    expect(instance?.unobserve).toHaveBeenCalledWith(firstTarget);
+    expect(groupTarget).toHaveAttribute('data-reveal-visible', 'true');
+    expect(groupChildTarget).not.toHaveAttribute('data-reveal-visible');
+    expect(instance?.unobserve).toHaveBeenCalledWith(groupTarget);
   });
 });

@@ -359,7 +359,7 @@ describe('RulesSection', () => {
     });
   });
 
-  it('reveals the cutout image and copy with the same stagger per rule', () => {
+  it('uses one shared reveal trigger per rule so image and copy animate together', () => {
     const { container } = render(<RulesSection />);
     const stages = Array.from(container.querySelectorAll('.rules-stage'));
 
@@ -367,8 +367,12 @@ describe('RulesSection', () => {
       const mediaLayer = stage.querySelector('.rules-media-layer');
       const copyLayer = stage.querySelector('.rules-copy-stack')?.parentElement;
 
-      expect(mediaLayer?.getAttribute('data-stagger')).toBeTruthy();
-      expect(copyLayer?.getAttribute('data-stagger')).toBe(mediaLayer?.getAttribute('data-stagger'));
+      expect(stage.getAttribute('data-reveal-group')).toBe('rules-pair');
+      expect(stage.getAttribute('data-stagger')).toBeTruthy();
+      expect(mediaLayer?.getAttribute('data-reveal-part')).toBe('rules-pair');
+      expect(copyLayer?.getAttribute('data-reveal-part')).toBe('rules-pair');
+      expect(mediaLayer?.hasAttribute('data-stagger')).toBe(false);
+      expect(copyLayer?.hasAttribute('data-stagger')).toBe(false);
     });
   });
 
@@ -391,6 +395,26 @@ describe('FounderSection', () => {
   it('renders founder name "Jesper"', () => {
     render(<FounderSection />);
     expect(screen.getByText('Jesper')).toBeInTheDocument();
+  });
+
+  it('keeps the main founder/proof block static while preserving lower reveal motion', () => {
+    const { container } = render(<FounderSection />);
+    const storyColumn = screen.getByText('Het verhaal achter SlowCarb').closest('.max-w-xl');
+    const proofCard = container.querySelector('.transform-proof-card');
+    const supportReveal = screen.getByText('De methode').closest('[data-reveal]');
+    const founderCtaReveal = screen.getByRole('link', { name: /word een van de eerste 200 gebruikers/i }).closest('[data-reveal]');
+
+    expect(storyColumn).toBeTruthy();
+    expect(storyColumn).not.toHaveAttribute('data-reveal');
+
+    expect(proofCard).toBeTruthy();
+    expect(proofCard).not.toHaveAttribute('data-reveal');
+    expect(proofCard).not.toHaveAttribute('data-stagger');
+
+    expect(supportReveal).toHaveAttribute('data-reveal', 'soft');
+    expect(supportReveal).toHaveAttribute('data-stagger', '2');
+    expect(founderCtaReveal).toHaveAttribute('data-reveal', 'soft');
+    expect(founderCtaReveal).toHaveAttribute('data-stagger', '3');
   });
 
   it('renders the founder thumbnail with the profile photo', () => {

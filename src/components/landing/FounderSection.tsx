@@ -25,7 +25,7 @@ export function FounderSection() {
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <div className="grid items-start gap-8 md:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] md:gap-10">
-          <div data-reveal="up" className="max-w-xl">
+          <div className="max-w-xl">
             <span className="motion-lift inline-flex items-center rounded-full bg-surface-paper/80 px-4 py-2 editorial-kicker text-ink-strong shadow-[0_12px_24px_rgba(28,25,23,0.05)] ring-1 ring-warm-200/80 backdrop-blur">
               Het verhaal achter SlowCarb
             </span>
@@ -64,7 +64,7 @@ export function FounderSection() {
             </div>
           </div>
 
-          <div data-reveal="soft" data-stagger="1" className="transform-proof-card motion-surface p-6 md:p-8">
+          <div className="transform-proof-card motion-surface p-6 md:p-8">
             <div className="relative z-10 flex flex-col">
               <div className="max-w-[34rem]">
                 <p className="editorial-kicker text-sage-700">Het bewijs</p>

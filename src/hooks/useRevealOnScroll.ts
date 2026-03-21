@@ -15,7 +15,7 @@ function supportsIntersectionObserver() {
 export function useRevealOnScroll<T extends HTMLElement>({
   once = true,
   rootMargin = '0px 0px -12% 0px',
-  selector = '[data-reveal]',
+  selector = '[data-reveal]:not([data-reveal-part]), [data-reveal-group]',
   threshold = 0.18,
 }: UseRevealOnScrollOptions = {}) {
   const ref = useRef<T | null>(null);

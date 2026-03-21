@@ -147,14 +147,16 @@ export function RulesSection() {
           return (
             <div
               key={rule.number}
+              data-reveal-group="rules-pair"
+              data-stagger={pairStagger}
               className={`rules-stage grid items-center gap-16 md:grid-cols-2 md:gap-32 ${rule.isLast ? 'mb-16 md:mb-24' : 'mb-32 md:mb-48'}`}
             >
               <div
                 ref={(element) => {
                   mediaRefs.current[index] = element;
                 }}
+                data-reveal-part="rules-pair"
                 data-reveal={mediaReveal}
-                data-stagger={pairStagger}
                 className={`${mediaOrderClass} rules-media-layer relative ${rule.extraImageWrapper ?? ''}`}
                 style={{ '--rule-media-parallax': '0px' } as CSSProperties}
               >
@@ -169,8 +171,8 @@ export function RulesSection() {
                 </div>
               </div>
               <div
+                data-reveal-part="rules-pair"
                 data-reveal={copyReveal}
-                data-stagger={pairStagger}
                 className={`${copyOrderClass} z-10 text-center md:text-left`}
               >
                 <div className="rules-copy-stack">

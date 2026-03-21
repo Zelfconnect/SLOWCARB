@@ -366,11 +366,17 @@ body:has(.landing-page) #root {
   pointer-events: none;
 }
 
-.landing-page .rules-stage [data-reveal-visible='true'] {
+.landing-page .rules-stage[data-reveal-visible='true'] [data-reveal-part] {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.landing-page .rules-stage[data-reveal-visible='true'] [data-reveal-part] {
   will-change: auto;
 }
 
-.landing-page .rules-stage [data-reveal-visible='true'] .rules-copy-stack::before {
+.landing-page .rules-stage[data-reveal-visible='true'] .rules-copy-stack::before {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
