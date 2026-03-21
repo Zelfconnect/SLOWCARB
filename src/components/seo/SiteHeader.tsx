@@ -64,39 +64,48 @@ export function SiteHeader({ isLandingPage = false, onCheckout }: SiteHeaderProp
           SlowCarb
         </Link>
 
+        {/* Mobile: show "Ga naar de app" button OR hamburger */}
         {hasProfile ? (
           <a
             href="/?app=1"
-            className="landing-hero-nav rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-sage-700 shadow-lg ring-1 ring-sage-200 backdrop-blur hover:bg-white transition-colors"
+            className="landing-hero-nav rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-sage-700 shadow-lg ring-1 ring-sage-200 backdrop-blur hover:bg-white transition-colors md:hidden"
           >
             Ga naar de app
           </a>
         ) : (
-          <>
-            <button
-              onClick={() => {
-                setMenuOpen(true);
-                trackLanding('landing_menu_open');
-              }}
-              className="landing-hero-nav text-inverse-strong hover:text-inverse-muted transition-colors md:hidden"
-              aria-label="Menu openen"
-            >
-              <Menu className="w-8 h-8" />
-            </button>
-            <nav className="landing-hero-nav hidden md:flex items-center gap-8">
-              {pageLinks.map(({ to, label }) => (
-                <Link key={to} to={to} className="text-inverse-body hover:text-inverse-strong transition-colors text-sm font-medium">
-                  {label}
-                </Link>
-              ))}
-              {sectionLinks.map(({ anchor, label }) => (
-                <a key={anchor} href={isLandingPage ? anchor : `/${anchor}`} onClick={(e) => handleSectionClick(e, anchor)} className="text-inverse-body hover:text-inverse-strong transition-colors text-sm font-medium">
-                  {label}
-                </a>
-              ))}
-            </nav>
-          </>
+          <button
+            onClick={() => {
+              setMenuOpen(true);
+              trackLanding('landing_menu_open');
+            }}
+            className="landing-hero-nav text-inverse-strong hover:text-inverse-muted transition-colors md:hidden"
+            aria-label="Menu openen"
+          >
+            <Menu className="w-8 h-8" />
+          </button>
         )}
+
+        {/* Desktop: always show nav links + "Ga naar de app" when logged in */}
+        <nav className="landing-hero-nav hidden md:flex items-center gap-8">
+          {pageLinks.map(({ to, label }) => (
+            <Link key={to} to={to} className="text-inverse-body hover:text-inverse-strong transition-colors text-sm font-medium">
+              {label}
+            </Link>
+          ))}
+          {sectionLinks.map(({ anchor, label }) => (
+            <a key={anchor} href={isLandingPage ? anchor : `/${anchor}`} onClick={(e) => handleSectionClick(e, anchor)} className="text-inverse-body hover:text-inverse-strong transition-colors text-sm font-medium">
+              {label}
+            </a>
+          ))}
+          {hasProfile && (
+            <a
+              href="/?app=1"
+              className="rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-sage-700 shadow-lg ring-1 ring-sage-200 backdrop-blur hover:bg-white transition-colors"
+            >
+              Ga naar de app
+            </a>
+          )}
+        </nav>
       </header>
 
       {/* Mobile Menu — only for non-authenticated users */}

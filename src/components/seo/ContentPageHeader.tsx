@@ -46,7 +46,7 @@ export function ContentPageHeader({
         )}
 
         {!heroImage && (
-          <div className="absolute inset-0 z-0 bg-gradient-to-b from-stone-900 via-sage-900 to-[rgb(28,25,23)]" />
+          <div className="absolute inset-0 z-0 bg-gradient-to-b from-surface-dark via-sage-900 to-surface-dark" />
         )}
 
         <div className="relative z-10 mx-auto w-full max-w-3xl px-5 pb-8 pt-20 md:px-8 md:pb-10 md:pt-28">
