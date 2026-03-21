@@ -60,13 +60,6 @@ export default function LandingPage() {
     return () => observer.disconnect();
   }, []);
 
-  let hasProfile = false;
-  try {
-    hasProfile = Boolean(localStorage.getItem('slowcarb_profile'));
-  } catch {
-    // localStorage unavailable (Safari private browsing, storage full)
-  }
-
   return (
     <>
       <SEOHead
@@ -116,14 +109,7 @@ export default function LandingPage() {
       <FinalCTA onCheckout={() => openCheckout('final_cta')} />
       <Footer />
 
-      {hasProfile && (
-        <a
-          href="/?app=1"
-          className="fixed top-4 right-4 z-[70] rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-sage-700 shadow-lg ring-1 ring-sage-200 backdrop-blur hover:bg-white transition-colors"
-        >
-          Ga naar de app
-        </a>
-      )}
+
     </div>
     </>
   );
