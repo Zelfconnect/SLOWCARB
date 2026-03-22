@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => ({
     ...(mode !== 'production' ? [inspectAttr()] : []),
     react(),
     // Prerender disabled on Vercel: Puppeteer can't start there (missing libnspr4.so).
+    // Keep prerendering enabled only for local production previews.
     ...(mode === 'production' && !process.env.VERCEL ? [
       prerender({
         routes: publicRoutes,
