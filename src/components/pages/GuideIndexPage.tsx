@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
 import { useDocumentScroll } from '@/hooks/useDocumentScroll';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ContentPageHeader } from '@/components/seo/ContentPageHeader';
+import { EditorialIndexCard } from '@/components/seo/EditorialIndexCard';
 import { CTABand } from '@/components/seo/CTABand';
 import { Footer } from '@/components/landing/Footer';
 import { getArticlesByBasePath } from '@/data/seo-content';
@@ -63,22 +63,18 @@ export function GuideIndexPage() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           {guideArticles.map((article) => (
-            <Link
+            <EditorialIndexCard
               key={`${article.basePath}/${article.slug}`}
               to={`${article.basePath}/${article.slug}`}
-              className="group rounded-2xl border border-sage-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-            >
-              <span className="mb-2 inline-block rounded-full bg-sage-50 px-2.5 py-0.5 text-xs font-semibold text-sage-700">
-                {article.kicker}
-              </span>
-              <h2 className="font-display text-lg font-bold text-stone-900 group-hover:text-sage-700">
-                {article.title}
-              </h2>
-              <p className="mt-2 text-sm text-stone-600">{article.metaDescription}</p>
-              <p className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-sage-700">
-                {article.readingTime} leestijd
-              </p>
-            </Link>
+              kicker={article.kicker}
+              title={article.title}
+              description={article.metaDescription}
+              metaLine={
+                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-sage-700">
+                  {article.readingTime} leestijd
+                </span>
+              }
+            />
           ))}
         </div>
       </main>

@@ -11,6 +11,12 @@ function createWeightLog(weights: Array<{ date: string; weight: number }>): Weig
   }));
 }
 
+function getRelativeDate(daysAgo: number): string {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  return date.toISOString().slice(0, 10);
+}
+
 describe('WeightProgressCard', () => {
   it('shows stable state when there is no meaningful weight change', () => {
     const weightLog = createWeightLog([
@@ -37,7 +43,7 @@ describe('WeightProgressCard', () => {
   });
 
   it('renders the single-point sparkline fallback without errors', () => {
-    const weightLog = createWeightLog([{ date: '2026-02-15', weight: 100.0 }]);
+    const weightLog = createWeightLog([{ date: getRelativeDate(3), weight: 100.0 }]);
 
     render(<WeightProgressCard weightLog={weightLog} startWeight={100.0} currentWeight={100.0} />);
 

@@ -5,7 +5,7 @@ export function Footer() {
         <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:gap-16">
           <div>
             <p className="font-display text-3xl font-bold tracking-tight text-inverse-strong">SlowCarb</p>
-            <p className="support-copy mt-4 max-w-xl text-inverse-muted/90">
+            <p className="landing-pretty support-copy mt-4 max-w-xl text-inverse-muted/90">
               Een rustig protocol voor mensen die niet nóg een dieet willen managen. Vijf regels, duidelijke tools en recepten die je direct kunt gebruiken.
             </p>
           </div>
@@ -31,7 +31,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-3 pt-6 text-sm md:flex-row md:items-center md:justify-between">
           <p>&copy; 2026 SlowCarb Protocol. Alle rechten voorbehouden.</p>
-          <p className="max-w-2xl text-xs text-inverse-muted">
+          <p className="landing-pretty max-w-2xl text-xs text-inverse-muted">
             SlowCarb Protocol is geen medisch advies. Raadpleeg een arts voordat je je eetpatroon wijzigt.
           </p>
         </div>

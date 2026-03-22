@@ -149,9 +149,12 @@ describe('LandingPage', () => {
     }, null);
 
     expect(revealObserver).toBeTruthy();
-    expect(revealObserver!.observed.length).toBeGreaterThan(10);
+    expect(revealObserver!.observed.length).toBeGreaterThanOrEqual(7);
+    revealObserver!.observed.forEach((target) => {
+      expect((target as HTMLElement).closest('#method')).toBeTruthy();
+    });
 
-    const target = container.querySelector('[data-reveal="up"]') as HTMLElement;
+    const target = container.querySelector('#method [data-reveal="up"]') as HTMLElement;
     expect(target).toBeTruthy();
 
     act(() => {
@@ -174,6 +177,29 @@ describe('LandingPage', () => {
     directionalTargets.forEach((target) => {
       expect(target.closest('#method')).toBeTruthy();
     });
+  });
+
+  it('keeps scroll-reveal markers scoped to the 5 rules section', () => {
+    const { container } = render(withRouter(<LandingPage />));
+    const revealTargets = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-reveal], [data-reveal-group], [data-reveal-part], [data-stagger]'),
+    );
+
+    expect(revealTargets.length).toBeGreaterThan(0);
+    revealTargets.forEach((target) => {
+      expect(target.closest('#method')).toBeTruthy();
+    });
+  });
+
+  it('applies landing-wide wrap helpers to major headings and long-form copy', () => {
+    render(withRouter(<LandingPage />));
+
+    expect(screen.getByRole('heading', { name: 'Zo werkt de app' })).toHaveClass('landing-balance');
+    expect(screen.getByRole('heading', { name: 'Alles wat je nodig hebt om te starten en vol te houden.' })).toHaveClass('landing-balance');
+    expect(screen.getByText(/Van "ik weet niet wat ik mag eten"/)).toHaveClass('landing-pretty');
+    expect(screen.getByText(/Geen kleine lettertjes of verborgen abonnementen/)).toHaveClass('landing-pretty');
+    expect(landingCss).toMatch(/\.landing-page \.landing-balance[\s\S]*text-wrap:\s*balance/);
+    expect(landingCss).toMatch(/\.landing-page \.landing-pretty[\s\S]*text-wrap:\s*pretty/);
   });
 });
 
@@ -202,6 +228,13 @@ describe('LandingHero', () => {
     expect(container.querySelector('.landing-hero-copy')).toBeTruthy();
     expect(container.querySelector('.landing-hero-cta')).toBeTruthy();
     expect(container.querySelector('.landing-hero-footnote')).toBeTruthy();
+  });
+
+  it('uses a pullback plus ambient drift animation on the hero background media', () => {
+    const heroMediaRule = landingCss.match(/\.landing-page \.landing-hero-shell\[data-hero-ready='true'\] \.landing-hero-media\s*\{([\s\S]*?)\}/);
+    expect(heroMediaRule?.[1]).toBeTruthy();
+    expect(heroMediaRule![1]).toMatch(/landing-hero-pullback/);
+    expect(heroMediaRule![1]).toMatch(/landing-hero-drift/);
   });
 
   it('renders 7 nav links (page + section)', () => {
@@ -325,11 +358,10 @@ describe('AppShowcase', () => {
     });
   });
 
-  it('does not apply scale reveal to the showcase media wrapper', () => {
+  it('does not apply scroll reveal attributes to the showcase media wrapper', () => {
     const { container } = render(<AppShowcase />);
     const revealWrapper = container.querySelector('.app-showcase-stage')?.closest('[data-reveal]');
-    expect(revealWrapper).toBeTruthy();
-    expect(revealWrapper?.getAttribute('data-reveal')).not.toBe('scale');
+    expect(revealWrapper).toBeNull();
   });
 });
 
@@ -387,6 +419,17 @@ describe('RulesSection', () => {
     });
   });
 
+  it('keeps rule media static instead of scroll-parallaxed', () => {
+    const parallaxRule = landingCss.match(/\.landing-page \.rules-media-parallax\s*\{([\s\S]*?)\}/);
+    const glowRule = landingCss.match(/\.landing-page \.rules-media-glow\s*\{([\s\S]*?)\}/);
+
+    expect(parallaxRule?.[1]).toBeTruthy();
+    expect(parallaxRule![1]).not.toMatch(/rule-media-parallax/);
+    expect(parallaxRule![1]).not.toMatch(/\btransition\s*:/);
+    expect(glowRule?.[1]).toBeTruthy();
+    expect(glowRule![1]).not.toMatch(/rule-media-parallax/);
+  });
+
   it('all rule images have .webp extension', () => {
     render(<RulesSection />);
     const ruleImages = screen.getAllByRole('img').filter((img) =>
@@ -403,12 +446,26 @@ describe('RulesSection', () => {
 // FounderSection
 // ---------------------------------------------------------------------------
 describe('FounderSection', () => {
+  function mockViewportRect(viewport: Element) {
+    vi.spyOn(viewport, 'getBoundingClientRect').mockReturnValue({
+      x: 100,
+      y: 0,
+      left: 100,
+      top: 0,
+      width: 300,
+      height: 420,
+      right: 400,
+      bottom: 420,
+      toJSON: () => ({}),
+    } as DOMRect);
+  }
+
   it('renders founder name "Jesper"', () => {
     render(<FounderSection />);
     expect(screen.getByText('Jesper')).toBeInTheDocument();
   });
 
-  it('keeps the main founder/proof block static while preserving lower reveal motion', () => {
+  it('keeps the founder story, support block, and CTA static on page load', () => {
     const { container } = render(<FounderSection />);
     const storyColumn = screen.getByText('Het verhaal achter SlowCarb').closest('.max-w-xl');
     const proofCard = container.querySelector('.transform-proof-card');
@@ -422,10 +479,8 @@ describe('FounderSection', () => {
     expect(proofCard).not.toHaveAttribute('data-reveal');
     expect(proofCard).not.toHaveAttribute('data-stagger');
 
-    expect(supportReveal).toHaveAttribute('data-reveal', 'soft');
-    expect(supportReveal).toHaveAttribute('data-stagger', '2');
-    expect(founderCtaReveal).toHaveAttribute('data-reveal', 'soft');
-    expect(founderCtaReveal).toHaveAttribute('data-stagger', '3');
+    expect(supportReveal).toBeNull();
+    expect(founderCtaReveal).toBeNull();
   });
 
   it('renders the founder thumbnail with the profile photo', () => {
@@ -434,26 +489,126 @@ describe('FounderSection', () => {
     expect(profilePhoto).toBeTruthy();
   });
 
+  it('applies balanced headings and pretty copy helpers for founder mobile readability', () => {
+    render(<FounderSection />);
+    expect(screen.getByRole('heading', { name: 'Eerst werkte het bij mij.' })).toHaveClass('founder-story-heading');
+    expect(screen.getByRole('heading', { name: 'Mijn eigen voor en na' })).toHaveClass('transform-proof-title');
+    expect(landingCss).toMatch(/\.landing-page \.founder-story-heading[\s\S]*text-wrap:\s*balance/);
+    expect(landingCss).toMatch(/\.landing-page \.founder-story-copy[\s\S]*text-wrap:\s*pretty/);
+  });
+
   it('does not render the old standalone founder portrait', () => {
     render(<FounderSection />);
     expect(screen.queryByAltText('Jesper, oprichter van SlowCarb')).not.toBeInTheDocument();
   });
 
-  it('renders before/after slider with range input', () => {
+  it('renders the center compare handle as an accessible slider', () => {
     render(<FounderSection />);
-    const rangeInput = screen.getByRole('slider', {
+    const compareHandle = screen.getByRole('slider', {
       name: /voor en na/i,
     });
-    expect(rangeInput).toBeInTheDocument();
+    expect(compareHandle).toBeInTheDocument();
+    expect(compareHandle).toHaveAttribute('aria-valuenow', '78');
+    expect(compareHandle).toHaveAttribute('tabindex', '0');
   });
 
-  it('updates split value when range input changes', () => {
-    render(<FounderSection />);
-    const rangeInput = screen.getByRole('slider') as HTMLInputElement;
-    expect(rangeInput.value).toBe('58'); // default
+  it('does not render the old range input below the image', () => {
+    const { container } = render(<FounderSection />);
+    expect(container.querySelector('input[type="range"]')).toBeNull();
+  });
 
-    fireEvent.change(rangeInput, { target: { value: '30' } });
-    expect(rangeInput.value).toBe('30');
+  it('updates split value from keyboard input', () => {
+    render(<FounderSection />);
+    const compareHandle = screen.getByRole('slider', { name: /voor en na/i });
+
+    fireEvent.keyDown(compareHandle, { key: 'ArrowLeft' });
+    expect(compareHandle).toHaveAttribute('aria-valuenow', '77');
+
+    fireEvent.keyDown(compareHandle, { key: 'Home' });
+    expect(compareHandle).toHaveAttribute('aria-valuenow', '0');
+
+    fireEvent.keyDown(compareHandle, { key: 'End' });
+    expect(compareHandle).toHaveAttribute('aria-valuenow', '100');
+  });
+
+  it('updates split value when the handle is dragged', () => {
+    const { container } = render(<FounderSection />);
+    const viewport = container.querySelector('.transform-proof-viewport');
+    const compareHandle = screen.getByRole('slider', { name: /voor en na/i });
+
+    expect(viewport).toBeTruthy();
+    mockViewportRect(viewport!);
+
+    fireEvent.pointerDown(compareHandle, { pointerId: 1, clientX: 334 });
+    fireEvent.pointerMove(compareHandle, { pointerId: 1, clientX: 190 });
+    fireEvent.pointerUp(compareHandle, { pointerId: 1, clientX: 190 });
+
+    expect(compareHandle).toHaveAttribute('aria-valuenow', '30');
+  });
+
+  it('does not update the split when pointer interaction starts on the photo', () => {
+    const { container } = render(<FounderSection />);
+    const viewport = container.querySelector('.transform-proof-viewport');
+    const compareHandle = screen.getByRole('slider', { name: /voor en na/i });
+    const compareImage = container.querySelector('.transform-proof-compare');
+
+    expect(viewport).toBeTruthy();
+    expect(compareImage).toBeTruthy();
+    mockViewportRect(viewport!);
+
+    fireEvent.pointerDown(compareImage!, { pointerId: 2, clientX: 190 });
+    fireEvent.pointerMove(compareImage!, { pointerId: 2, clientX: 145 });
+    fireEvent.pointerUp(compareImage!, { pointerId: 2, clientX: 145 });
+
+    expect(compareHandle).toHaveAttribute('aria-valuenow', '78');
+  });
+
+  it('shows the discovery cue once and suppresses it after interaction', () => {
+    vi.useFakeTimers();
+
+    try {
+      const { container } = render(<FounderSection />);
+      const compareHandle = screen.getByRole('slider', { name: /voor en na/i });
+      const proofCard = container.querySelector('.transform-proof-card');
+      const cueObserver = observerInstances.find((observer) => observer.observed.includes(proofCard as Element));
+
+      expect(compareHandle).toHaveAttribute('data-discovery-cue', 'idle');
+      expect(cueObserver).toBeTruthy();
+
+      act(() => {
+        cueObserver!.callback(
+          [{ target: proofCard!, isIntersecting: true } as IntersectionObserverEntry],
+          cueObserver! as unknown as IntersectionObserver,
+        );
+      });
+
+      expect(compareHandle).toHaveAttribute('data-discovery-cue', 'active');
+
+      fireEvent.keyDown(compareHandle, { key: 'ArrowLeft' });
+      expect(compareHandle).toHaveAttribute('data-discovery-cue', 'complete');
+
+      act(() => {
+        vi.runAllTimers();
+      });
+
+      expect(compareHandle).toHaveAttribute('data-discovery-cue', 'complete');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('suppresses the discovery cue when reduced motion is enabled', () => {
+    window.matchMedia = vi.fn().mockReturnValue({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    });
+
+    render(<FounderSection />);
+    const compareHandle = screen.getByRole('slider', { name: /voor en na/i });
+
+    expect(compareHandle).toHaveAttribute('data-discovery-cue', 'disabled');
+    expect(observerInstances).toHaveLength(0);
   });
 });
 
@@ -583,6 +738,13 @@ describe('FinalCTA', () => {
     const bgImage = container.querySelector('img[src*="final-cta"]') as HTMLImageElement;
     expect(bgImage).toBeTruthy();
     expect(bgImage.src).not.toContain('unsplash.com');
+  });
+
+  it('keeps the final CTA background static while the hero remains animated', () => {
+    const finalCtaRule = landingCss.match(/\.landing-page \.landing-final-cta-media\s*\{([\s\S]*?)\}/);
+    expect(finalCtaRule?.[1]).toBeTruthy();
+    expect(finalCtaRule![1]).not.toMatch(/\banimation\s*:/);
+    expect(landingCss).not.toMatch(/@keyframes landing-final-cta-drift/);
   });
 
   it('calls onCheckout when CTA button is clicked', () => {

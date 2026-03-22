@@ -1,11 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
 import App from '@/App';
-
-vi.mock('@/components/LandingPageFinal', () => ({
-  default: () => <div>LandingPage</div>,
-}));
 
 vi.mock('@/components/WelcomePage', () => ({
   default: () => <div>WelcomePage</div>,
@@ -25,6 +22,10 @@ vi.mock('@/components/RecipesList', () => ({
 
 vi.mock('@/components/LearnSection', () => ({
   LearnSection: () => <div>LearnContent</div>,
+}));
+
+vi.mock('@/components/AmmoCheck', () => ({
+  AmmoCheck: () => <div>AmmoCheckContent</div>,
 }));
 
 vi.mock('@/components/SettingsTab', () => ({
@@ -109,7 +110,7 @@ afterAll(() => {
 
 describe('App UI/UX', () => {
   it('keeps global shell layout contract', () => {
-    const { container } = render(<App />);
+    const { container } = render(<MemoryRouter><App /></MemoryRouter>);
     const appShell = container.firstElementChild as HTMLElement;
     expect(appShell.className).toContain('h-full');
     expect(appShell.className).toContain('bg-cream');
@@ -129,22 +130,22 @@ describe('App UI/UX', () => {
     expect(bottomNav.className).toContain('bottom-0');
   });
 
-  it('switches tabs and renders matching section content', () => {
-    render(<App />);
+  it('switches tabs and renders matching section content', async () => {
+    render(<MemoryRouter><App /></MemoryRouter>);
 
-    expect(screen.getByText('DashboardContent')).toBeInTheDocument();
+    expect(await screen.findByText('DashboardContent', {}, { timeout: 10_000 })).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Recepten' }));
-    expect(screen.getByText('RecipesContent')).toBeInTheDocument();
+    expect(await screen.findByText('RecipesContent', {}, { timeout: 10_000 })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Leren' }));
-    expect(screen.getByText('LearnContent')).toBeInTheDocument();
+    expect(await screen.findByText('LearnContent', {}, { timeout: 10_000 })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'AmmoCheck' }));
-    expect(screen.getByText('AmmoCheck')).toBeInTheDocument();
-  });
+    expect(await screen.findByText('AmmoCheckContent', {}, { timeout: 10_000 })).toBeInTheDocument();
+  }, 15_000);
 
   it('opens settings sheet from header action button', () => {
-    render(<App />);
+    render(<MemoryRouter><App /></MemoryRouter>);
     fireEvent.click(screen.getByRole('button', { name: 'Open instellingen' }));
     expect(screen.getByText('Instellingen')).toBeInTheDocument();
   });

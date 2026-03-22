@@ -133,6 +133,30 @@ export const PUBLIC_RECIPES: PublicRecipe[] = [
 
 export const PUBLIC_RECIPE_SLUGS = PUBLIC_RECIPES.map(r => r.slug);
 
+/** Map SEO recipe IDs (recipes.ts) to app recipe IDs (recipes.json) for images */
+const RECIPE_IMAGE_MAP: Record<string, string> = {
+  'mega-chili': 'slow-carb-chili',
+  'linzensoep': 'grote-pan-linzensoep',
+  'mexicaanse-burrito-bowl': 'mexicaanse-burrito-bowl',
+  'aziatische-stir-fry': 'aziatische-stir-fry',
+  'huttenkase-bowl': 'huttenkase-met-kaneel',
+  'de-ferriss-klassieker': 'de-ferriss-klassieker',
+  'tonijn-witte-bonen-salade': 'toscaanse-tonijn-witte-bonen-salade',
+  'kip-salade': 'kip-avocado-salade',
+  'eiwit-omelet': 'roerei-met-zalm',
+  'kokos-curry': 'kip-en-salsa-sudderpan',
+  'groentecreme-soep': 'grote-pan-linzensoep',
+  'frittata': 'biefstuk-en-eieren',
+  'mexicaanse-bonenschotel': 'rundergehakt-taco-meat',
+  'shakshuka': 'shakshuka',
+  'spinazie-ei-bowl': 'tempeh-ontbijt-hash',
+};
+
+export function getRecipeImage(legacyId: string): string | undefined {
+  const appId = RECIPE_IMAGE_MAP[legacyId];
+  return appId ? `/recipes/${appId}.webp` : undefined;
+}
+
 export function getRecipeBySlug(slug: string) {
   const publicRecipe = PUBLIC_RECIPES.find(pr => pr.slug === slug);
   if (!publicRecipe) return undefined;

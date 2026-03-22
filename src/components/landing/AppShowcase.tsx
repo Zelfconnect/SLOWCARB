@@ -78,11 +78,11 @@ export function AppShowcase() {
       <div className="relative mx-auto flex max-w-6xl items-start px-4 sm:px-6 lg:items-center lg:px-8">
         <div className="grid w-full items-center gap-6 md:gap-8 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-12">
           <div className="relative z-10 min-w-0">
-            <p data-reveal="up" className="editorial-kicker mb-3 text-ink-strong">De app in 4 stappen</p>
-            <h2 data-reveal="up" data-stagger="1" className="max-w-lg font-display text-[2.35rem] font-medium leading-[0.95] tracking-tight text-ink-strong sm:text-[2.9rem] md:text-[3.5rem]">
+            <p className="editorial-kicker mb-3 text-ink-strong">De app in 4 stappen</p>
+            <h2 className="landing-balance max-w-lg font-display text-[2.35rem] font-medium leading-[0.95] tracking-tight text-ink-strong sm:text-[2.9rem] md:text-[3.5rem]">
               Zo werkt de app
             </h2>
-            <p data-reveal="soft" data-stagger="2" className="card-body mt-4 max-w-xl text-ink-body">
+            <p className="landing-pretty card-body mt-4 max-w-xl text-ink-body">
               Van &quot;ik weet niet wat ik mag eten&quot; naar maaltijd op tafel in 15 minuten.
             </p>
 
@@ -93,8 +93,6 @@ export function AppShowcase() {
                   type="button"
                   className="app-showcase-step-button motion-press p-5 text-left"
                   data-active={active === index ? 'true' : 'false'}
-                  data-reveal="soft"
-                  data-stagger={index + 3}
                   onClick={() => scrollToSlide(index)}
                 >
                   <div className="flex items-start gap-4">
@@ -103,8 +101,8 @@ export function AppShowcase() {
                     </div>
                     <div>
                       <p className="editorial-kicker text-ink-strong">{step.kicker}</p>
-                      <h3 className="mt-2 font-sans text-2xl font-bold tracking-tight text-ink-strong">{step.title}</h3>
-                      <p className="card-body mt-2 text-ink-body">{step.body}</p>
+                      <h3 className="landing-balance mt-2 font-sans text-2xl font-bold tracking-tight text-ink-strong">{step.title}</h3>
+                      <p className="landing-pretty card-body mt-2 text-ink-body">{step.body}</p>
                     </div>
                   </div>
                 </button>
@@ -112,7 +110,7 @@ export function AppShowcase() {
             </div>
           </div>
 
-          <div className="relative z-10 min-w-0" data-reveal="soft" data-stagger="3">
+          <div className="relative z-10 min-w-0">
             <div className="lg:hidden">
               <div className="app-showcase-mobile-track" ref={mobileTrackRef} tabIndex={0} aria-label="App schermen">
                 {steps.map((step, index) => (
@@ -162,8 +160,8 @@ export function AppShowcase() {
                     <span className="inline-flex rounded-full bg-sage-100 px-3 py-1 editorial-kicker text-ink-strong">{steps[active].kicker}</span>
                     <span className="meta-copy text-ink-muted">{String(active + 1).padStart(2, '0')}/04</span>
                   </div>
-                  <h3 className="mt-4 font-sans text-[1.8rem] font-bold leading-none tracking-tight text-ink-strong">{steps[active].title}</h3>
-                  <p className="support-copy mt-3 text-ink-body">{steps[active].body}</p>
+                  <h3 className="landing-balance mt-4 font-sans text-[1.8rem] font-bold leading-none tracking-tight text-ink-strong">{steps[active].title}</h3>
+                  <p className="landing-pretty support-copy mt-3 text-ink-body">{steps[active].body}</p>
                 </div>
               </div>
             </div>

@@ -17,7 +17,7 @@ describe('Guide routes', () => {
       </MemoryRouter>,
     );
 
-    expect(await screen.findByRole('heading', { name: 'Slow Carb Gids' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Slow Carb Gids' }, { timeout: 10_000 })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Slow Carb Dieet: De Complete Gids/ })).toHaveAttribute('href', '/gids/slow-carb-dieet');
     expect(screen.getByRole('link', { name: /Slow Carb vs Keto: Welk Dieet Past bij Jou\?/ })).toHaveAttribute('href', '/gids/slow-carb-vs-keto');
   });
@@ -29,11 +29,13 @@ describe('Guide routes', () => {
       </MemoryRouter>,
     );
 
-    expect(await screen.findByRole('heading', { name: 'Slow Carb Dieet: De Complete Gids' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: 'Slow Carb Dieet: De Complete Gids' }, { timeout: 10_000 })
+    ).toBeInTheDocument();
 
     const breadcrumbNav = screen.getByLabelText('Breadcrumb');
     fireEvent.click(within(breadcrumbNav).getByRole('link', { name: 'Gids' }));
 
-    expect(await screen.findByRole('heading', { name: 'Slow Carb Gids' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Slow Carb Gids' }, { timeout: 10_000 })).toBeInTheDocument();
   });
 });

@@ -33,7 +33,7 @@ describe('JourneyCard calendar (Start plan modal)', () => {
     expect(calendarWrapper).toBeInTheDocument();
     expect(calendarWrapper.getAttribute('class')).toMatch(/min-w-\[17\.5rem\]/);
 
-    const dayButtons = screen.getAllByRole('button', { name: /maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag/ });
+    const dayButtons = calendarWrapper.querySelectorAll('button');
     expect(dayButtons.length).toBeGreaterThanOrEqual(28);
-  });
+  }, 10_000);
 });

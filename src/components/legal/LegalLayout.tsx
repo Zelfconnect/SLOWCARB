@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { useDocumentScroll } from '@/hooks/useDocumentScroll';
 
 type LegalLayoutProps = {
   title: string;
@@ -8,6 +9,8 @@ type LegalLayoutProps = {
 };
 
 export function LegalLayout({ title, intro, children }: LegalLayoutProps) {
+  useDocumentScroll();
+
   return (
     <main className="min-h-screen bg-cream text-stone-600 overflow-y-auto">
       <div className="mx-auto max-w-3xl px-6 py-12 font-['Source_Sans_3'] text-base leading-relaxed">

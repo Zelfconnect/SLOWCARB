@@ -1,12 +1,13 @@
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { useDocumentScroll } from '@/hooks/useDocumentScroll';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ContentPageHeader } from '@/components/seo/ContentPageHeader';
+import { EditorialIndexCard } from '@/components/seo/EditorialIndexCard';
 import { AuthorCard } from '@/components/seo/AuthorCard';
 import { CTABand } from '@/components/seo/CTABand';
 import { Footer } from '@/components/landing/Footer';
 import { SeoRecipeStoryCatalog } from '@/data/SeoRecipeStoryCatalog';
-import { getRecipeBySlug, PUBLIC_RECIPES } from '@/data/seo-recipes';
+import { getRecipeBySlug, getRecipeImage, PUBLIC_RECIPES } from '@/data/seo-recipes';
 import '@/styles/content.css';
 
 function toIsoDuration(time: string): string {
@@ -27,7 +28,7 @@ export function RecipeDetailPage() {
 
   if (!data) return <Navigate to="/404" replace />;
 
-  const { recipe, metaTitle, metaDescription, targetKeyword } = data;
+  const { id: recipeId, recipe, metaTitle, metaDescription, targetKeyword } = data;
   const storyParagraphs = slug ? SeoRecipeStoryCatalog.getParagraphs(slug) : [];
 
   const recipeSchema = {
@@ -86,7 +87,10 @@ export function RecipeDetailPage() {
           { label: 'Recepten', to: '/recepten' },
           { label: recipe.name, to: `/recepten/${slug}` },
         ]}
-        heroImage={{ mobile: '/images/landing/HEROBREAKFAST.webp', desktop: '/images/landing/HEROBREAKFAST.webp' }}
+        heroImage={(() => {
+          const img = getRecipeImage(recipeId);
+          return img ? { mobile: img, desktop: img } : { mobile: '/images/landing/HEROBREAKFAST.webp', desktop: '/images/landing/HEROBREAKFAST.webp' };
+        })()}
       />
 
       <main className="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">
@@ -98,6 +102,21 @@ export function RecipeDetailPage() {
           </div>
         )}
 
+        {(() => {
+          const img = getRecipeImage(recipeId);
+          if (!img) return null;
+          return (
+            <figure className="mb-10 overflow-hidden rounded-sm border border-sage-200 bg-sage-50">
+              <img 
+                src={img} 
+                alt={recipe.name}
+                className="w-full max-h-[400px] object-cover"
+                loading="lazy"
+              />
+            </figure>
+          );
+        })()}
+
         <div className="callout-card mb-10 text-stone-700">
           <p className="text-sm font-semibold text-sage-800">Slow carb checklist</p>
           <p className="mt-1 text-sm leading-relaxed">
@@ -108,7 +127,7 @@ export function RecipeDetailPage() {
 
         <div className="md:flex md:gap-10">
           <div className="mb-10 md:mb-0 md:w-64 md:flex-shrink-0">
-            <div className="rounded-2xl border border-sage-100 bg-white p-5 shadow-sm md:sticky md:top-4">
+            <div className="rounded-sm border border-sage-200 bg-white p-5 md:sticky md:top-4">
               <h2 className="mb-3 font-display text-lg font-bold text-stone-900">Wat je nodig hebt</h2>
               <ul className="space-y-2.5 text-sm text-stone-700">
                 {recipe.ingredients.map((ing, i) => (
@@ -124,7 +143,7 @@ export function RecipeDetailPage() {
           <div className="min-w-0 flex-1">
             <h2 className="mb-2 font-display text-2xl font-bold text-stone-900">Aan de slag</h2>
             <p className="mb-6 text-stone-600 editorial-body">
-              Volg de stappen in je eigen tempo — alles staat in de volgorde waarin wij het in de keuken doen.
+              Volg de stappen in je eigen tempo. Alles staat in de volgorde waarin wij het in de keuken doen.
             </p>
             <ol className="space-y-5">
               {recipe.steps.map((step, i) => (
@@ -175,13 +194,11 @@ export function RecipeDetailPage() {
             <p className="editorial-kicker mb-4 text-sage-600">Meer recepten</p>
             <div className="grid gap-4 sm:grid-cols-3">
               {related.map(r => (
-                <Link
+                <EditorialIndexCard
                   key={r.slug}
                   to={`/recepten/${r.slug}`}
-                  className="rounded-2xl border border-sage-100 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                >
-                  <p className="font-bold text-stone-900">{r.metaTitle.split('–')[0].trim()}</p>
-                </Link>
+                  title={r.metaTitle.split('–')[0].trim()}
+                />
               ))}
             </div>
           </nav>

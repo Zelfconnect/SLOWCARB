@@ -22,38 +22,25 @@ export function SolutionSection() {
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-16">
           <div className="max-w-xl">
-            <p data-reveal="up" className="editorial-kicker text-sage-200">
+            <p className="editorial-kicker text-sage-200">
               Waarom dit wel vol te houden is
             </p>
-            <h2
-              data-reveal="up"
-              data-stagger="1"
-              className="mt-4 max-w-[12ch] text-[3.15rem] font-display font-medium leading-[0.98] tracking-tight text-inverse-strong sm:text-[3.35rem] md:text-6xl lg:text-7xl"
-            >
+            <h2 className="landing-balance mt-4 max-w-[12ch] text-[3.15rem] font-display font-medium leading-[0.98] tracking-tight text-inverse-strong sm:text-[3.35rem] md:text-6xl lg:text-7xl">
               Eén systeem. Nul denkwerk.
             </h2>
-            <p
-              data-reveal="soft"
-              data-stagger="2"
-              className="editorial-body mt-8 max-w-[35rem] text-left text-inverse-body/90"
-            >
+            <p className="landing-pretty editorial-body mt-8 max-w-[35rem] text-left text-inverse-body/90">
               De meeste diëten mislukken niet op motivatie. Ze lopen vast op keuzes. Wat mag ik eten? Hoeveel calorieën heb ik nog? Mag dit wel na 18:00? SlowCarb vervangt al die vragen door vijf regels.
             </p>
           </div>
 
           <div className="solution-card-grid grid gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-1">
             {solutionPrinciples.map((principle, index) => (
-              <article
-                key={principle.title}
-                data-reveal="soft"
-                data-stagger={index + 2}
-                className="solution-principle motion-surface rounded-[1.9rem] border border-white/10 bg-white/8 p-6 shadow-[0_24px_48px_rgba(12,18,18,0.22)] backdrop-blur md:p-7"
-              >
+              <article key={principle.title} className="solution-principle motion-surface rounded-[1.9rem] border border-white/10 bg-white/8 p-6 shadow-[0_24px_48px_rgba(12,18,18,0.22)] backdrop-blur md:p-7">
                 <div className="solution-principle-index">{String(index + 1).padStart(2, '0')}</div>
-                <h3 className="mt-5 font-sans text-[1.35rem] font-bold tracking-tight text-inverse-strong md:text-[1.45rem]">
+                <h3 className="landing-balance mt-5 font-sans text-[1.35rem] font-bold tracking-tight text-inverse-strong md:text-[1.45rem]">
                   {principle.title}
                 </h3>
-                <p className="mt-3 text-[0.98rem] leading-[1.72] text-inverse-body/88 md:text-[1.02rem]">
+                <p className="landing-pretty mt-3 text-[0.98rem] leading-[1.72] text-inverse-body/88 md:text-[1.02rem]">
                   {principle.body}
                 </p>
               </article>

@@ -27,42 +27,33 @@ export function FAQSection() {
       <div className="pointer-events-none absolute left-1/2 top-0 h-56 w-56 -translate-x-1/2 rounded-full bg-sage-100/70 blur-3xl" />
       <div className="relative z-10 mx-auto max-w-4xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <p data-reveal="up" className="editorial-kicker text-sage-700">
+          <p className="editorial-kicker text-sage-700">
             Veelgestelde vragen
           </p>
-          <h2
-            data-reveal="up"
-            data-stagger="1"
-            className="mt-4 text-4xl font-display font-bold tracking-tight text-ink-strong md:text-5xl"
-          >
+          <h2 className="landing-balance mt-4 text-4xl font-display font-bold tracking-tight text-ink-strong md:text-5xl">
             Veelgestelde Vragen
           </h2>
-          <p data-reveal="soft" data-stagger="2" className="card-body mt-4 text-ink-body">
+          <p className="landing-pretty card-body mt-4 text-ink-body">
             Geen kleine lettertjes of verborgen abonnementen. Dit is wat mensen meestal willen weten voordat ze starten.
           </p>
         </div>
 
         <div className="mt-12 space-y-4">
           {faqs.map((faq, i) => (
-            <article
-              key={faq.q}
-              data-reveal="soft"
-              data-stagger={i + 3}
-              className="faq-item motion-surface overflow-hidden rounded-[1.7rem] border border-warm-200/75 bg-white/82 shadow-[0_18px_38px_rgba(28,25,23,0.05)] backdrop-blur"
-            >
+            <article key={faq.q} className="faq-item motion-surface overflow-hidden rounded-[1.7rem] border border-warm-200/75 bg-white/82 shadow-[0_18px_38px_rgba(28,25,23,0.05)] backdrop-blur">
               <button
                 className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-6"
                 onClick={() => toggle(i)}
                 aria-expanded={openIndex === i}
               >
-                <span className="text-lg font-bold text-ink-strong">{faq.q}</span>
+                <span className="landing-balance text-lg font-bold text-ink-strong">{faq.q}</span>
                 <ChevronDown
                   className={`h-4 w-4 flex-shrink-0 text-sage-500 transition-transform duration-300 ${openIndex === i ? 'rotate-180' : ''}`}
                 />
               </button>
               {openIndex === i && (
                 <div className="faq-answer px-6 pb-6 md:px-8">
-                  <p className="card-body text-ink-body">{faq.a}</p>
+                  <p className="landing-pretty card-body text-ink-body">{faq.a}</p>
                 </div>
               )}
             </article>

@@ -52,7 +52,7 @@ export function LandingHero({ onCheckout }: LandingHeroProps) {
           <span className="landing-hero-heading-line block">kilo in{' '}</span>
           <span className="landing-hero-heading-line block">6 weken.</span>
         </h1>
-        <p className="landing-hero-copy editorial-body italic text-inverse-body max-w-md drop-shadow-md md:mb-16">
+        <p className="landing-hero-copy landing-pretty editorial-body italic text-inverse-body max-w-md drop-shadow-md md:mb-16">
           Geen calorie&#235;n tellen. Geen wilskracht nodig.<br />E&#233;n systeem dat werkt.
         </p>
       </div>

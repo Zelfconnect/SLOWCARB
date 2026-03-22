@@ -1,4 +1,4 @@
-import { execFileSync } from 'node:child_process';
+import { execSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -10,10 +10,10 @@ describe('production build command', () => {
   it(
     'runs successfully',
     () => {
-      const buildOutput = execFileSync('npm', ['run', 'build'], {
+      const buildOutput = execSync('npm run build', {
         cwd: projectRoot,
         encoding: 'utf8',
-        stdio: 'pipe',
+        shell: true,
       });
 
       expect(buildOutput).toContain('vite v');

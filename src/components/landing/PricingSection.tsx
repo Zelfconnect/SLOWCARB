@@ -23,20 +23,13 @@ export function PricingSection({ onCheckout }: PricingSectionProps) {
       <div className="pricing-intro-shell">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 relative z-10">
           <div data-testid="pricing-intro" className="max-w-3xl mx-auto text-center">
-            <span
-              data-reveal="up"
-              className="inline-flex items-center rounded-full bg-sage-50/[.92] px-4 py-2 editorial-kicker text-ink-strong shadow-[0_12px_24px_rgba(26,54,54,0.08)] ring-1 ring-sage-200/90 backdrop-blur motion-lift"
-            >
+            <span className="inline-flex items-center rounded-full bg-sage-50/[.92] px-4 py-2 editorial-kicker text-ink-strong shadow-[0_12px_24px_rgba(26,54,54,0.08)] ring-1 ring-sage-200/90 backdrop-blur motion-lift">
               Rustige tools. Duidelijke structuur.
             </span>
-            <h2
-              data-reveal="up"
-              data-stagger="1"
-              className="mt-6 text-[2.35rem] leading-[1.02] sm:text-5xl md:text-[3.35rem] font-bold font-display text-ink-strong tracking-tight"
-            >
+            <h2 className="landing-balance mt-6 text-[2.35rem] leading-[1.02] sm:text-5xl md:text-[3.35rem] font-bold font-display text-ink-strong tracking-tight">
               Alles wat je nodig hebt om te starten en vol te houden.
             </h2>
-            <p data-reveal="soft" data-stagger="2" className="card-body mt-4 text-ink-body max-w-2xl mx-auto">
+            <p className="landing-pretty card-body mt-4 text-ink-body max-w-2xl mx-auto">
               Geen losse adviezen of maandelijkse ruis. Je krijgt een duidelijk protocol, praktische hulpmiddelen en recepten die de 5 regels uitvoerbaar maken.
             </p>
           </div>
@@ -45,14 +38,14 @@ export function PricingSection({ onCheckout }: PricingSectionProps) {
 
       <div className="pricing-compare-band">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 relative z-10">
-          <div data-testid="pricing-compare" data-reveal="up" data-stagger="3" className="pricing-compare-shell">
+          <div data-testid="pricing-compare" className="pricing-compare-shell">
             <div className="px-5 pt-6 pb-4 md:px-8 md:pt-8 md:pb-5">
               <p className="editorial-kicker text-ink-strong">Wat mensen normaal betalen</p>
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-                <h3 className="font-sans text-[1.95rem] font-bold leading-[1.05] tracking-tight text-ink-strong md:text-[2.25rem]">
+                <h3 className="landing-balance font-sans text-[1.95rem] font-bold leading-[1.05] tracking-tight text-ink-strong md:text-[2.25rem]">
                   Wat kost afvallen normaal?
                 </h3>
-                <p className="max-w-md support-copy text-ink-body">
+                <p className="landing-pretty max-w-md support-copy text-ink-body">
                   De meeste oplossingen vragen meerdere sessies of een abonnement. SlowCarb bundelt het in één systeem dat je direct kunt gebruiken.
                 </p>
               </div>
@@ -62,7 +55,7 @@ export function PricingSection({ onCheckout }: PricingSectionProps) {
               <div key={competitor.name} className="pricing-compare-row">
                 <div>
                   <p className="text-lg font-medium text-ink-strong">{competitor.name}</p>
-                  <p className="mt-1 support-copy text-ink-muted">{competitor.note}</p>
+                  <p className="landing-pretty mt-1 support-copy text-ink-muted">{competitor.note}</p>
                 </div>
                 <div className="pricing-compare-price">
                   {competitor.price}
@@ -74,7 +67,7 @@ export function PricingSection({ onCheckout }: PricingSectionProps) {
             <div className="pricing-compare-highlight">
               <div className="pricing-compare-highlight__copy">
                 <p className="editorial-kicker text-sage-700">SlowCarb Protocol</p>
-                <p className="pricing-compare-highlight__headline">Het volledige startpakket voor minder dan een intake of jaarabonnement.</p>
+                <p className="landing-balance pricing-compare-highlight__headline">Het volledige startpakket voor minder dan een intake of jaarabonnement.</p>
               </div>
               <div className="pricing-compare-highlight__price-group">
                 <p className="pricing-compare-highlight__price">&euro;47</p>
@@ -89,25 +82,21 @@ export function PricingSection({ onCheckout }: PricingSectionProps) {
         <div className="max-w-5xl mx-auto px-5 sm:px-6 relative z-10">
           <div className="pricing-offer-flow" id="offer-headline">
             <div data-testid="pricing-includes-block" className="pricing-offer-copy">
-              <p data-reveal="up" className="editorial-kicker text-sage-700">Wat je krijgt</p>
-              <h3
-                data-reveal="up"
-                data-stagger="1"
-                className="mt-4 font-sans text-[1.95rem] font-bold leading-[1.05] tracking-tight text-ink-strong md:text-[2.35rem]"
-              >
+              <p className="editorial-kicker text-sage-700">Wat je krijgt</p>
+              <h3 className="landing-balance mt-4 font-sans text-[1.95rem] font-bold leading-[1.05] tracking-tight text-ink-strong md:text-[2.35rem]">
                 Dit zit er allemaal in.
               </h3>
-              <p data-reveal="soft" data-stagger="2" className="mt-4 card-body text-ink-body max-w-2xl">
+              <p className="landing-pretty mt-4 card-body text-ink-body max-w-2xl">
                 Geen zoektocht naar waar je begint. Je krijgt de uitleg, de maaltijden en de structuur om direct rustig te starten.
               </p>
 
               <div className="pricing-includes mt-6 md:mt-8">
                 {includes.map((item, index) => (
-                  <article key={item.title} data-reveal="soft" data-stagger={index + 3} className="pricing-include-item">
+                  <article key={item.title} className="pricing-include-item">
                     <div className="pricing-include-index">{String(index + 1).padStart(2, '0')}</div>
                     <div className="pricing-include-copy">
-                      <h4 className="text-lg md:text-xl font-sans font-bold tracking-tight text-ink-strong">{item.title}</h4>
-                      <p className="mt-2 support-copy text-ink-body">{item.body}</p>
+                      <h4 className="landing-balance text-lg md:text-xl font-sans font-bold tracking-tight text-ink-strong">{item.title}</h4>
+                      <p className="landing-pretty mt-2 support-copy text-ink-body">{item.body}</p>
                       <span className="pricing-include-meta">{item.meta}</span>
                     </div>
                   </article>
@@ -115,7 +104,7 @@ export function PricingSection({ onCheckout }: PricingSectionProps) {
               </div>
             </div>
 
-            <div data-reveal="scale" data-stagger="4" className="pricing-buy-stage">
+            <div className="pricing-buy-stage">
               <aside data-testid="pricing-buy-card" className="pricing-card pricing-buy-card motion-surface">
                 <p className="editorial-kicker text-sage-700">Eenmalig. Geen abonnement.</p>
                 <p className="mt-4 editorial-kicker text-ink-muted">Alles inbegrepen</p>
@@ -123,7 +112,7 @@ export function PricingSection({ onCheckout }: PricingSectionProps) {
                   <span className="text-[4rem] leading-none font-bold font-sans tracking-tight text-ink-strong md:text-[4.7rem]">&euro;47</span>
                   <span className="pb-3 support-copy text-ink-muted">eenmalig</span>
                 </div>
-                <p className="mt-4 card-body text-ink-body">Voor de eerste 200 klanten. Daarna stijgt de prijs naar &euro;79.</p>
+                <p className="landing-pretty mt-4 card-body text-ink-body">Voor de eerste 200 klanten. Daarna stijgt de prijs naar &euro;79.</p>
 
                 <ul className="pricing-card-points">
                   <li>Geen abonnement of automatische verlenging</li>
@@ -139,7 +128,7 @@ export function PricingSection({ onCheckout }: PricingSectionProps) {
                   <span className="pricing-cta-button__price">&euro;47</span>
                 </button>
 
-                <p className="mt-4 support-copy text-ink-body">
+                <p className="landing-pretty mt-4 support-copy text-ink-body">
                   Je krijgt direct toegang tot het volledige protocol. Past het niet, dan krijg je binnen 30 dagen je geld terug.
                 </p>
               </aside>

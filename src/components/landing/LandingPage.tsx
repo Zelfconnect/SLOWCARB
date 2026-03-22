@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useDocumentScroll } from '@/hooks/useDocumentScroll';
-import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { LandingHero } from './LandingHero';
 import { RecognitionSection } from './RecognitionSection';
@@ -28,10 +27,6 @@ export default function LandingPage() {
   }, []);
 
   useDocumentScroll();
-  const { ref: revealRef } = useRevealOnScroll<HTMLDivElement>({
-    rootMargin: '0px 0px -12% 0px',
-    threshold: 0.18,
-  });
 
   // Section visibility tracking (fires once per section per page load)
   const trackedSections = useRef(new Set<string>());
@@ -96,7 +91,7 @@ export default function LandingPage() {
           },
         ]}
       />
-    <div ref={revealRef} className="landing-page bg-surface-paper font-sans text-ink-body antialiased selection:bg-sage-200 selection:text-ink-strong w-full min-w-0 overflow-x-hidden">
+    <div className="landing-page bg-surface-paper font-sans text-ink-body antialiased selection:bg-sage-200 selection:text-ink-strong w-full min-w-0 overflow-x-hidden">
       <StickyCTA onCheckout={() => openCheckout('sticky_cta')} />
       <LandingHero onCheckout={() => openCheckout('hero')} />
       <RecognitionSection />
@@ -108,8 +103,6 @@ export default function LandingPage() {
       <FAQSection />
       <FinalCTA onCheckout={() => openCheckout('final_cta')} />
       <Footer />
-
-
     </div>
     </>
   );

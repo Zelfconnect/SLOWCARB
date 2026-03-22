@@ -139,7 +139,6 @@ describe('useRevealOnScroll', () => {
 
     const instance = observerMock.getInstance();
     const callback = observerMock.getCallback();
-    const firstTarget = screen.getByTestId('first');
     const secondTarget = screen.getByTestId('second');
     const groupTarget = screen.getByTestId('group');
     const groupChildTarget = screen.getByTestId('group-child');

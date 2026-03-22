@@ -9,6 +9,7 @@ describe('SeoRecipeStoryCatalog', () => {
       expect(paragraphs.length, slug).toBeGreaterThanOrEqual(2);
       for (const p of paragraphs) {
         expect(p.trim().length, slug).toBeGreaterThan(40);
+        expect(p, slug).not.toContain('\u2014');
       }
     }
   });
