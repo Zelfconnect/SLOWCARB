@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
 interface RuleItem {
@@ -76,14 +77,149 @@ const rules = [
   },
 ] satisfies readonly RuleItem[];
 
+const MOBILE_BREAKPOINT = '(max-width: 767px)';
+const SNAP_TARGET_OFFSET = 16;
+const SNAP_ALIGN_TOLERANCE = 24;
+const SNAP_STAGE_ABOVE_TOLERANCE = 96;
+const SNAP_STAGE_BELOW_TOLERANCE = 120;
+const SCROLL_SETTLE_DELAY_MS = 140;
+const PROGRAMMATIC_SCROLL_RELEASE_MS = 420;
+
+function useMobileRulesScrollSettle(
+  sectionRef: { current: HTMLElement | null },
+  prefersReducedMotion: boolean,
+) {
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return undefined;
+    }
+
+    const section = sectionRef.current;
+    if (!section) {
+      return undefined;
+    }
+
+    const mobileQuery = window.matchMedia(MOBILE_BREAKPOINT);
+    if (!mobileQuery.matches) {
+      return undefined;
+    }
+
+    let settleTimer: ReturnType<typeof window.setTimeout> | null = null;
+    let releaseTimer: ReturnType<typeof window.setTimeout> | null = null;
+    let isProgrammaticScroll = false;
+    let lastScrollY = window.scrollY;
+    let lastDirection: 'down' | 'up' = 'down';
+
+    const clearTimer = (timer: ReturnType<typeof window.setTimeout> | null) => {
+      if (timer !== null) {
+        window.clearTimeout(timer);
+      }
+    };
+
+    const releaseProgrammaticScroll = () => {
+      clearTimer(releaseTimer);
+      releaseTimer = window.setTimeout(() => {
+        isProgrammaticScroll = false;
+      }, prefersReducedMotion ? 0 : PROGRAMMATIC_SCROLL_RELEASE_MS);
+    };
+
+    const maybeSettleToRule = () => {
+      if (!mobileQuery.matches || isProgrammaticScroll) {
+        return;
+      }
+
+      const sectionRect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      if (sectionRect.bottom < viewportHeight * 0.12 || sectionRect.top > viewportHeight * 0.88) {
+        return;
+      }
+
+      const stagePositions = Array.from(section.querySelectorAll<HTMLElement>('.rules-stage'))
+        .map((stage) => ({
+          stage,
+          top: stage.getBoundingClientRect().top,
+        }));
+
+      if (stagePositions.length === 0) {
+        return;
+      }
+
+      const targetStage = lastDirection === 'down'
+        ? stagePositions.find(({ top }) => top >= SNAP_TARGET_OFFSET - SNAP_STAGE_ABOVE_TOLERANCE) ?? stagePositions[stagePositions.length - 1]
+        : [...stagePositions].reverse().find(({ top }) => top <= SNAP_TARGET_OFFSET + SNAP_STAGE_BELOW_TOLERANCE) ?? stagePositions[0];
+
+      const delta = targetStage.top - SNAP_TARGET_OFFSET;
+      if (Math.abs(delta) <= SNAP_ALIGN_TOLERANCE) {
+        return;
+      }
+
+      isProgrammaticScroll = true;
+      window.scrollTo({
+        top: window.scrollY + delta,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      });
+      releaseProgrammaticScroll();
+    };
+
+    const handleScroll = () => {
+      const nextScrollY = window.scrollY;
+      if (!isProgrammaticScroll) {
+        lastDirection = nextScrollY >= lastScrollY ? 'down' : 'up';
+      }
+      lastScrollY = nextScrollY;
+
+      clearTimer(settleTimer);
+      settleTimer = window.setTimeout(maybeSettleToRule, SCROLL_SETTLE_DELAY_MS);
+    };
+
+    const handleQueryChange = (event: MediaQueryListEvent) => {
+      if (!event.matches) {
+        clearTimer(settleTimer);
+        clearTimer(releaseTimer);
+        isProgrammaticScroll = false;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+      mobileQuery.addEventListener('change', handleQueryChange);
+    } else if (typeof mobileQuery.addListener === 'function') {
+      mobileQuery.addListener(handleQueryChange);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimer(settleTimer);
+      clearTimer(releaseTimer);
+
+      if (typeof mobileQuery.removeEventListener === 'function') {
+        mobileQuery.removeEventListener('change', handleQueryChange);
+      } else if (typeof mobileQuery.removeListener === 'function') {
+        mobileQuery.removeListener(handleQueryChange);
+      }
+    };
+  }, [prefersReducedMotion, sectionRef]);
+}
+
 export function RulesSection() {
-  const { ref: revealRef } = useRevealOnScroll<HTMLElement>({
+  const { ref: revealRef, prefersReducedMotion } = useRevealOnScroll<HTMLElement>({
     rootMargin: '0px 0px -12% 0px',
     threshold: 0.18,
   });
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useMobileRulesScrollSettle(sectionRef, prefersReducedMotion);
 
   return (
-    <section ref={revealRef} id="method" className="overflow-hidden bg-surface-paper py-24">
+    <section
+      ref={(node) => {
+        sectionRef.current = node;
+        revealRef.current = node;
+      }}
+      id="method"
+      className="overflow-hidden bg-surface-paper py-24"
+    >
       <div className="mx-auto max-w-5xl px-6">
         <div className="mb-20 text-center">
           <h2 data-reveal="up" className="landing-balance mb-6 font-display text-4xl font-bold tracking-tight text-ink-strong md:text-5xl">
