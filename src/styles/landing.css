@@ -1041,7 +1041,7 @@ body:has(.landing-page) #root {
   scrollbar-width: none;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-x pinch-zoom;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
 .landing-page .app-showcase-mobile-track::-webkit-scrollbar { display: none; }
