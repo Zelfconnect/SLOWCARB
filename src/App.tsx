@@ -189,10 +189,13 @@ function AppShell() {
     setHistoryDragOffset(nextOffset);
   };
 
-  const handleHistoryDragEnd = () => {
+  const handleHistoryDragEnd = (event?: React.PointerEvent) => {
     if (!isHistoryDragging) return;
     setIsHistoryDragging(false);
     historyDragStartYRef.current = null;
+    if (event?.currentTarget instanceof Element) {
+      (event.currentTarget as Element).releasePointerCapture(event.pointerId);
+    }
     if (historyDragOffsetRef.current > 120) {
       closeHistorySheet();
       return;
@@ -375,8 +378,8 @@ function AppShell() {
               event.currentTarget.setPointerCapture(event.pointerId);
             }}
             onPointerMove={(event) => handleHistoryDragMove(event.clientY)}
-            onPointerUp={handleHistoryDragEnd}
-            onPointerCancel={handleHistoryDragEnd}
+            onPointerUp={(event) => handleHistoryDragEnd(event as React.PointerEvent)}
+            onPointerCancel={(event) => handleHistoryDragEnd(event as React.PointerEvent)}
             role="presentation"
           >
             <div className="h-1.5 w-12 rounded-full bg-stone-300" />
