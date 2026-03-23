@@ -237,9 +237,9 @@ describe('LandingHero', () => {
 
     expect(heroShellRule?.[1]).toBeTruthy();
     expect(heroShellRule![1]).toMatch(/landing-hero-pullback/);
-    expect(heroShellRule![1]).toMatch(/landing-hero-drift/);
     expect(heroMediaRule?.[1]).toBeTruthy();
     expect(heroMediaRule![1]).toMatch(/landing-hero-camera/);
+    expect(heroMediaRule![1]).toMatch(/infinite alternate both/);
   });
 
   it('renders 7 nav links (page + section)', () => {
