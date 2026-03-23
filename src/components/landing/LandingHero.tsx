@@ -29,15 +29,17 @@ export function LandingHero({ onCheckout }: LandingHeroProps) {
     >
       {/* Background */}
       <div className="absolute inset-0 z-0">
-        <picture>
-          <source media="(min-width: 768px)" srcSet="/images/landing/hero-bg-desktop.webp" type="image/webp" />
-          <img
-            src="/images/landing/hero-bg-mobile.webp"
-            alt="SlowCarb maaltijd"
-            className="landing-hero-media w-full h-full object-cover object-center"
-            loading="eager"
-          />
-        </picture>
+        <div className="landing-hero-media-shell h-full w-full">
+          <picture>
+            <source media="(min-width: 768px)" srcSet="/images/landing/hero-bg-desktop.webp" type="image/webp" />
+            <img
+              src="/images/landing/hero-bg-mobile.webp"
+              alt="SlowCarb maaltijd"
+              className="landing-hero-media w-full h-full object-cover object-center"
+              loading="eager"
+            />
+          </picture>
+        </div>
         <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/50 via-surface-dark/20 to-surface-dark/70" />
       </div>
 

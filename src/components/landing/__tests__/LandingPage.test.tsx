@@ -222,6 +222,7 @@ describe('LandingHero', () => {
     const { container } = render(withRouter(<LandingHero onCheckout={onCheckout} />));
 
     expect(container.querySelector('.landing-hero-shell')).toBeTruthy();
+    expect(container.querySelector('.landing-hero-media-shell')).toBeTruthy();
     expect(container.querySelector('.landing-hero-brand')).toBeTruthy();
     expect(container.querySelector('.landing-hero-nav')).toBeTruthy();
     expect(container.querySelectorAll('.landing-hero-heading-line')).toHaveLength(3);
@@ -230,11 +231,15 @@ describe('LandingHero', () => {
     expect(container.querySelector('.landing-hero-footnote')).toBeTruthy();
   });
 
-  it('uses a pullback plus ambient drift animation on the hero background media', () => {
+  it('uses layered cinematic motion on the hero background media', () => {
+    const heroShellRule = landingCss.match(/\.landing-page \.landing-hero-shell\[data-hero-ready='true'\] \.landing-hero-media-shell\s*\{([\s\S]*?)\}/);
     const heroMediaRule = landingCss.match(/\.landing-page \.landing-hero-shell\[data-hero-ready='true'\] \.landing-hero-media\s*\{([\s\S]*?)\}/);
+
+    expect(heroShellRule?.[1]).toBeTruthy();
+    expect(heroShellRule![1]).toMatch(/landing-hero-pullback/);
+    expect(heroShellRule![1]).toMatch(/landing-hero-drift/);
     expect(heroMediaRule?.[1]).toBeTruthy();
-    expect(heroMediaRule![1]).toMatch(/landing-hero-pullback/);
-    expect(heroMediaRule![1]).toMatch(/landing-hero-drift/);
+    expect(heroMediaRule![1]).toMatch(/landing-hero-camera/);
   });
 
   it('renders 7 nav links (page + section)', () => {
