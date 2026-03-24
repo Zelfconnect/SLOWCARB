@@ -114,9 +114,13 @@ export default function LandingPage() {
       <div className="snap-section">
         <PricingSection onCheckout={() => openCheckout('pricing_card')} />
       </div>
-      <FAQSection />
-      <FinalCTA onCheckout={() => openCheckout('final_cta')} />
-      <Footer />
+      <div className="snap-section">
+        <FAQSection />
+      </div>
+      <div className="snap-section">
+        <FinalCTA onCheckout={() => openCheckout('final_cta')} />
+        <Footer />
+      </div>
     </div>
     </>
   );
