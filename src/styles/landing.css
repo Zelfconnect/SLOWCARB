@@ -1658,13 +1658,16 @@ body:has(.landing-page) #root {
 }
 
 /* ===== Scroll Snap ===== */
-/* body is the scroll container (not html) — snap must target the actual scroller */
+/* Set on both html and body: Chrome uses body as scroll container when overflow:auto,
+   but Firefox/Safari may use viewport (html). Both targets = cross-browser safe. */
+html:has(.landing-page),
 body:has(.landing-page) {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html:has(.landing-page),
   body:has(.landing-page) {
     scroll-snap-type: none;
     scroll-behavior: auto;
