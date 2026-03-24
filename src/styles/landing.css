@@ -1656,3 +1656,29 @@ body:has(.landing-page) #root {
     transform: none !important;
   }
 }
+
+/* ===== Scroll Snap ===== */
+html:has(.landing-page) {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.landing-page) {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
+
+.landing-page .snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.landing-page .snap-rule {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}

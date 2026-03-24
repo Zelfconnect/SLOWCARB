@@ -93,13 +93,27 @@ export default function LandingPage() {
       />
     <div className="landing-page bg-surface-paper font-sans text-ink-body antialiased selection:bg-sage-200 selection:text-ink-strong w-full min-w-0 overflow-x-hidden">
       <StickyCTA onCheckout={() => openCheckout('sticky_cta')} />
-      <LandingHero onCheckout={() => openCheckout('hero')} />
-      <RecognitionSection />
-      <SolutionSection />
-      <AppShowcase />
-      <RulesSection />
-      <FounderSection />
-      <PricingSection onCheckout={() => openCheckout('pricing_card')} />
+      <div className="snap-section">
+        <LandingHero onCheckout={() => openCheckout('hero')} />
+      </div>
+      <div className="snap-section">
+        <RecognitionSection />
+      </div>
+      <div className="snap-section">
+        <SolutionSection />
+      </div>
+      <div className="snap-section">
+        <AppShowcase />
+      </div>
+      <div className="snap-section">
+        <RulesSection />
+      </div>
+      <div className="snap-section">
+        <FounderSection />
+      </div>
+      <div className="snap-section">
+        <PricingSection onCheckout={() => openCheckout('pricing_card')} />
+      </div>
       <FAQSection />
       <FinalCTA onCheckout={() => openCheckout('final_cta')} />
       <Footer />
