@@ -1674,7 +1674,10 @@ body:has(.landing-page) {
   }
 }
 
-.landing-page .snap-section {
+/* Snap directly on section elements — no extra wrapper divs needed */
+.landing-page > section,
+.landing-page > .recognition-section,
+.landing-page > .solution-section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
