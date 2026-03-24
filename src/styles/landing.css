@@ -1679,6 +1679,4 @@ html:has(.landing-page) {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
 }
