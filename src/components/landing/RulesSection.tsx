@@ -106,7 +106,7 @@ export function RulesSection() {
               key={rule.number}
               data-reveal-group="rules-pair"
               data-stagger={pairStagger}
-              className={`rules-stage snap-rule grid items-center gap-16 md:grid-cols-2 md:gap-32 ${rule.isLast ? 'mb-16 md:mb-24' : 'mb-32 md:mb-48'}`}
+              className={`rules-stage grid items-center gap-16 md:grid-cols-2 md:gap-32 ${rule.isLast ? 'mb-16 md:mb-24' : 'mb-32 md:mb-48'}`}
             >
               <div
                 data-reveal-part="rules-pair"
