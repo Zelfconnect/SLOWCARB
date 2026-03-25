@@ -643,6 +643,44 @@ describe('RulesSection', () => {
     expect(harness.getScrollY()).toBe(5400 - 16);
   });
 
+  it('clamps a strong downward flick to the next copy anchor instead of skipping multiple rules', () => {
+    const harness = renderRulesScrollHarness({
+      initialScrollY: 4700 - 16,
+      scrollEndSupport: true,
+    });
+
+    harness.setScrollY(7500 - 16);
+
+    act(() => {
+      harness.emitScroll();
+    });
+
+    expect(harness.scrollToMock).toHaveBeenCalledWith({
+      top: 5400 - 16,
+      behavior: 'auto',
+    });
+    expect(harness.getScrollY()).toBe(5400 - 16);
+  });
+
+  it('clamps a strong upward flick to the previous copy anchor instead of jumping to the start', () => {
+    const harness = renderRulesScrollHarness({
+      initialScrollY: 7500 - 16,
+      scrollEndSupport: true,
+    });
+
+    harness.setScrollY(4700 - 16);
+
+    act(() => {
+      harness.emitScroll();
+    });
+
+    expect(harness.scrollToMock).toHaveBeenCalledWith({
+      top: 6800 - 16,
+      behavior: 'auto',
+    });
+    expect(harness.getScrollY()).toBe(6800 - 16);
+  });
+
   it('does not settle on desktop or when reduced motion is enabled', () => {
     const desktopHarness = renderRulesScrollHarness({
       initialScrollY: 4700 - 16,

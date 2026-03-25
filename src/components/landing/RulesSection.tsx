@@ -103,6 +103,11 @@ interface RuleAnchorMetric {
   index: number;
 }
 
+interface RuleScrollTarget {
+  index: number;
+  scrollTop: number;
+}
+
 function getRuleAnchorMetrics(section: HTMLElement) {
   return Array.from(section.querySelectorAll<HTMLElement>('[data-rule-anchor]')).map(
     (anchor, index): RuleAnchorMetric => ({
@@ -176,6 +181,32 @@ function resolveTargetAnchorIndex(
   }
 
   return direction === 'down' ? gestureStartIndex + 1 : gestureStartIndex - 1;
+}
+
+function resolveRuleScrollTarget(
+  anchors: RuleAnchorMetric[],
+  gestureStartIndex: number | null,
+  direction: ScrollDirection,
+) {
+  const targetAnchorIndex = resolveTargetAnchorIndex(anchors.length, gestureStartIndex, direction);
+  if (targetAnchorIndex < 0 || targetAnchorIndex >= anchors.length) {
+    return null;
+  }
+
+  return {
+    index: targetAnchorIndex,
+    scrollTop: anchors[targetAnchorIndex].absoluteTop - SNAP_TARGET_OFFSET,
+  } satisfies RuleScrollTarget;
+}
+
+function hasReachedRuleScrollTarget(
+  scrollY: number,
+  target: RuleScrollTarget,
+  direction: ScrollDirection,
+) {
+  return direction === 'down'
+    ? scrollY >= target.scrollTop - SNAP_ALIGN_TOLERANCE
+    : scrollY <= target.scrollTop + SNAP_ALIGN_TOLERANCE;
 }
 
 function useMobileRulesScrollSettle(
@@ -261,29 +292,29 @@ function useMobileRulesScrollSettle(
         return;
       }
 
-      const targetAnchorIndex = resolveTargetAnchorIndex(
-        ruleAnchors.length,
+      const target = resolveRuleScrollTarget(
+        ruleAnchors,
         gestureStartIndex,
         gestureDirection,
       );
 
       resetScrollSession();
 
-      if (targetAnchorIndex < 0 || targetAnchorIndex >= ruleAnchors.length) {
+      if (target === null) {
         lastSettledIndex = findAlignedAnchorIndex(ruleAnchors, window.scrollY);
         return;
       }
 
-      const delta = ruleAnchors[targetAnchorIndex].absoluteTop - window.scrollY - SNAP_TARGET_OFFSET;
+      const delta = target.scrollTop - window.scrollY;
       if (Math.abs(delta) <= SNAP_ALIGN_TOLERANCE) {
-        lastSettledIndex = targetAnchorIndex;
+        lastSettledIndex = target.index;
         return;
       }
 
       isProgrammaticScroll = true;
-      lastSettledIndex = targetAnchorIndex;
+      lastSettledIndex = target.index;
       window.scrollTo({
-        top: window.scrollY + delta,
+        top: target.scrollTop,
         behavior: 'auto',
       });
       releaseProgrammaticScroll();
@@ -312,6 +343,35 @@ function useMobileRulesScrollSettle(
       }
 
       lastScrollY = nextScrollY;
+
+      if (gestureDirection !== null) {
+        const ruleAnchors = getRuleAnchorMetrics(section);
+        const target = resolveRuleScrollTarget(
+          ruleAnchors,
+          gestureStartIndex,
+          gestureDirection,
+        );
+
+        if (target !== null && hasReachedRuleScrollTarget(nextScrollY, target, gestureDirection)) {
+          clearTimer(fallbackTimer);
+          resetScrollSession();
+
+          if (Math.abs(target.scrollTop - nextScrollY) <= SNAP_ALIGN_TOLERANCE) {
+            lastSettledIndex = target.index;
+            return;
+          }
+
+          isProgrammaticScroll = true;
+          lastSettledIndex = target.index;
+          lastScrollY = target.scrollTop;
+          window.scrollTo({
+            top: target.scrollTop,
+            behavior: 'auto',
+          });
+          releaseProgrammaticScroll();
+          return;
+        }
+      }
 
       clearTimer(fallbackTimer);
       fallbackTimer = window.setTimeout(maybeSettleToRule, SCROLL_SETTLE_DELAY_MS);
