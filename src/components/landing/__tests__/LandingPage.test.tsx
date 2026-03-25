@@ -25,18 +25,18 @@ class MockIntersectionObserver {
 }
 
 beforeEach(() => {
+  vi.restoreAllMocks();
+  vi.useRealTimers();
   observerInstances = [];
   vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
+  delete (document as Document & { onscrollend?: unknown }).onscrollend;
+  delete (window as Window & { onscrollend?: unknown }).onscrollend;
 
   // Prevent jsdom scrollTo errors
   window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;
 
   // Mock matchMedia for prefers-reduced-motion
-  window.matchMedia = vi.fn().mockReturnValue({
-    matches: false,
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-  });
+  mockMatchMedia();
 
   localStorage.clear();
 
@@ -65,6 +65,146 @@ import { Footer } from '@/components/landing/Footer';
 import { StickyCTA } from '@/components/landing/StickyCTA';
 
 const landingCss = readFileSync(resolve(process.cwd(), 'src/styles/landing.css'), 'utf8');
+const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
+const REDUCED_MOTION_MEDIA_QUERY = '(prefers-reduced-motion: reduce)';
+
+function mockMatchMedia({
+  mobile = false,
+  reducedMotion = false,
+}: {
+  mobile?: boolean;
+  reducedMotion?: boolean;
+} = {}) {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches:
+      query === MOBILE_MEDIA_QUERY
+        ? mobile
+        : query === REDUCED_MOTION_MEDIA_QUERY
+          ? reducedMotion
+          : false,
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+}
+
+function createDomRect(top: number, height: number, width = 390) {
+  return {
+    x: 0,
+    y: top,
+    top,
+    bottom: top + height,
+    left: 0,
+    right: width,
+    width,
+    height,
+    toJSON: () => ({}),
+  } as DOMRect;
+}
+
+function renderRulesScrollHarness({
+  anchorAbsoluteTops = [4700, 5400, 6100, 6800, 7500],
+  initialScrollY = 4684,
+  mobile = true,
+  reducedMotion = false,
+  scrollEndSupport = true,
+  stageAbsoluteTops = [4420, 5170, 5920, 6670, 7420],
+}: {
+  anchorAbsoluteTops?: number[];
+  initialScrollY?: number;
+  mobile?: boolean;
+  reducedMotion?: boolean;
+  scrollEndSupport?: boolean;
+  stageAbsoluteTops?: number[];
+} = {}) {
+  mockMatchMedia({ mobile, reducedMotion });
+
+  if (scrollEndSupport) {
+    Object.defineProperty(document, 'onscrollend', {
+      configurable: true,
+      value: null,
+      writable: true,
+    });
+  } else {
+    delete (document as Document & { onscrollend?: unknown }).onscrollend;
+    delete (window as Window & { onscrollend?: unknown }).onscrollend;
+  }
+
+  let currentScrollY = initialScrollY;
+
+  Object.defineProperty(window, 'scrollY', {
+    configurable: true,
+    get: () => currentScrollY,
+  });
+
+  Object.defineProperty(window, 'innerHeight', {
+    configurable: true,
+    value: 844,
+  });
+
+  const scrollToMock = vi.fn((optionsOrX?: ScrollToOptions | number, y?: number) => {
+    if (typeof optionsOrX === 'object' && optionsOrX !== null) {
+      currentScrollY = optionsOrX.top ?? currentScrollY;
+      return;
+    }
+
+    if (typeof y === 'number') {
+      currentScrollY = y;
+      return;
+    }
+
+    if (typeof optionsOrX === 'number') {
+      currentScrollY = optionsOrX;
+    }
+  });
+
+  window.scrollTo = scrollToMock as unknown as typeof window.scrollTo;
+
+  let stageRectCallCount = 0;
+  const rectSpy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
+    function mockRulesRect(this: HTMLElement) {
+      if (this.id === 'method') {
+        return createDomRect(4300 - currentScrollY, 3600);
+      }
+
+      const anchorIndex = this.dataset.ruleAnchor ? Number(this.dataset.ruleAnchor) - 1 : -1;
+      if (anchorIndex >= 0) {
+        return createDomRect(anchorAbsoluteTops[anchorIndex] - currentScrollY, 180);
+      }
+
+      if (this.classList.contains('rules-stage')) {
+        stageRectCallCount += 1;
+        const stageAnchor = this.querySelector<HTMLElement>('[data-rule-anchor]');
+        const stageIndex = stageAnchor?.dataset.ruleAnchor ? Number(stageAnchor.dataset.ruleAnchor) - 1 : 0;
+        return createDomRect(stageAbsoluteTops[stageIndex] - currentScrollY, 560);
+      }
+
+      return createDomRect(0, 0, 0);
+    },
+  );
+
+  const renderResult = render(<RulesSection />);
+  const anchors = Array.from(renderResult.container.querySelectorAll<HTMLElement>('[data-rule-anchor]'));
+
+  return {
+    ...renderResult,
+    anchorAbsoluteTops,
+    anchors,
+    emitScroll: () => window.dispatchEvent(new Event('scroll')),
+    emitScrollEnd: () => document.dispatchEvent(new Event('scrollend')),
+    getScrollY: () => currentScrollY,
+    scrollToMock,
+    setScrollY: (nextScrollY: number) => {
+      currentScrollY = nextScrollY;
+    },
+    getStageRectCallCount: () => stageRectCallCount,
+    rectSpy,
+  };
+}
 
 // ---------------------------------------------------------------------------
 // LandingPage (parent)
@@ -381,21 +521,17 @@ describe('RulesSection', () => {
   it('uses the intended mobile rule and image order per stage', () => {
     const { container } = render(<RulesSection />);
     const stages = Array.from(container.querySelectorAll('.rules-stage'));
+    const copyAnchors = Array.from(container.querySelectorAll<HTMLElement>('[data-rule-anchor]'));
 
     expect(stages).toHaveLength(5);
+    expect(copyAnchors.map((anchor) => anchor.dataset.ruleAnchor)).toEqual(['1', '2', '3', '4', '5']);
 
-    stages.forEach((stage, index) => {
+    stages.forEach((stage) => {
       const mediaLayer = stage.querySelector('.rules-media-layer');
       const copyLayer = stage.querySelector('.rules-copy-stack')?.parentElement;
 
       expect(mediaLayer).toBeTruthy();
       expect(copyLayer).toBeTruthy();
-
-      if (index === stages.length - 1) {
-        expect(mediaLayer?.className).toContain('order-1 md:order-1');
-        expect(copyLayer?.className).toContain('order-2 md:order-2');
-        return;
-      }
 
       expect(mediaLayer?.className).toContain('order-2 md:order-1');
       expect(copyLayer?.className).toContain('order-1 md:order-2');
@@ -438,7 +574,163 @@ describe('RulesSection', () => {
     expect(ruleImages.length).toBe(5);
     ruleImages.forEach((img) => {
       expect((img as HTMLImageElement).src).toMatch(/\.webp$/);
+      expect(img).toHaveAttribute('width');
+      expect(img).toHaveAttribute('height');
     });
+  });
+
+  it('snaps to the next copy anchor on mobile scrollend without reading stage tops', () => {
+    const harness = renderRulesScrollHarness({
+      initialScrollY: 4700 - 16,
+      scrollEndSupport: true,
+    });
+
+    harness.setScrollY(4700 - 16 + 360);
+
+    act(() => {
+      harness.emitScroll();
+      harness.emitScrollEnd();
+    });
+
+    expect(harness.getStageRectCallCount()).toBe(0);
+    expect(harness.scrollToMock).toHaveBeenCalledWith({
+      top: 5400 - 16,
+      behavior: 'auto',
+    });
+    expect(harness.getScrollY()).toBe(5400 - 16);
+  });
+
+  it('falls back to a debounced settle when native scrollend is unavailable', async () => {
+    const harness = renderRulesScrollHarness({
+      initialScrollY: 5400 - 16,
+      scrollEndSupport: false,
+    });
+
+    harness.setScrollY(5400 - 16 + 410);
+
+    act(() => {
+      harness.emitScroll();
+    });
+
+    await act(async () => {
+      await new Promise((resolve) => window.setTimeout(resolve, 180));
+    });
+
+    expect(harness.scrollToMock).toHaveBeenCalledWith({
+      top: 6100 - 16,
+      behavior: 'auto',
+    });
+    expect(harness.getScrollY()).toBe(6100 - 16);
+  });
+
+  it('settles to the previous copy anchor when scrolling upward on mobile', () => {
+    const harness = renderRulesScrollHarness({
+      initialScrollY: 6100 - 16,
+      scrollEndSupport: true,
+    });
+
+    harness.setScrollY(6100 - 16 - 300);
+
+    act(() => {
+      harness.emitScroll();
+      harness.emitScrollEnd();
+    });
+
+    expect(harness.scrollToMock).toHaveBeenCalledWith({
+      top: 5400 - 16,
+      behavior: 'auto',
+    });
+    expect(harness.getScrollY()).toBe(5400 - 16);
+  });
+
+  it('does not settle on desktop or when reduced motion is enabled', () => {
+    const desktopHarness = renderRulesScrollHarness({
+      initialScrollY: 4700 - 16,
+      mobile: false,
+      scrollEndSupport: true,
+    });
+
+    desktopHarness.setScrollY(4700 - 16 + 320);
+
+    act(() => {
+      desktopHarness.emitScroll();
+      desktopHarness.emitScrollEnd();
+    });
+
+    expect(desktopHarness.scrollToMock).not.toHaveBeenCalled();
+    desktopHarness.unmount();
+
+    const reducedMotionHarness = renderRulesScrollHarness({
+      initialScrollY: 4700 - 16,
+      reducedMotion: true,
+      scrollEndSupport: true,
+    });
+
+    reducedMotionHarness.setScrollY(4700 - 16 + 320);
+
+    act(() => {
+      reducedMotionHarness.emitScroll();
+      reducedMotionHarness.emitScrollEnd();
+    });
+
+    expect(reducedMotionHarness.scrollToMock).not.toHaveBeenCalled();
+  });
+
+  it('keeps the initial gesture direction even if later scroll events wobble the other way', () => {
+    const harness = renderRulesScrollHarness({
+      initialScrollY: 6800 - 16,
+      scrollEndSupport: true,
+    });
+
+    harness.setScrollY(6800 - 16 - 320);
+
+    act(() => {
+      harness.emitScroll();
+    });
+
+    harness.setScrollY(6800 - 16 - 300);
+
+    act(() => {
+      harness.emitScroll();
+      harness.emitScrollEnd();
+    });
+
+    expect(harness.scrollToMock).toHaveBeenCalledWith({
+      top: 6100 - 16,
+      behavior: 'auto',
+    });
+    expect(harness.getScrollY()).toBe(6100 - 16);
+  });
+
+  it('releases scrolling before the first rule and after the last rule', () => {
+    const firstHarness = renderRulesScrollHarness({
+      initialScrollY: 4700 - 16,
+      scrollEndSupport: true,
+    });
+
+    firstHarness.setScrollY(4700 - 16 - 220);
+
+    act(() => {
+      firstHarness.emitScroll();
+      firstHarness.emitScrollEnd();
+    });
+
+    expect(firstHarness.scrollToMock).not.toHaveBeenCalled();
+    firstHarness.unmount();
+
+    const lastHarness = renderRulesScrollHarness({
+      initialScrollY: 7500 - 16,
+      scrollEndSupport: true,
+    });
+
+    lastHarness.setScrollY(7500 - 16 + 260);
+
+    act(() => {
+      lastHarness.emitScroll();
+      lastHarness.emitScrollEnd();
+    });
+
+    expect(lastHarness.scrollToMock).not.toHaveBeenCalled();
   });
 });
 
