@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
 interface RuleItem {
@@ -89,335 +89,40 @@ const rules: readonly RuleItem[] = [
 ];
 
 const MOBILE_BREAKPOINT = '(max-width: 767px)';
-const SNAP_TARGET_OFFSET = 16;
-const SNAP_ALIGN_TOLERANCE = 24;
-const SCROLL_SETTLE_DELAY_MS = 140;
-const PROGRAMMATIC_SCROLL_RELEASE_MS = 180;
-const SECTION_ACTIVE_TOP_THRESHOLD = 0.88;
-const SECTION_ACTIVE_BOTTOM_THRESHOLD = 0.12;
 
-type ScrollDirection = 'down' | 'up';
-
-interface RuleAnchorMetric {
-  absoluteTop: number;
-  index: number;
-}
-
-interface RuleScrollTarget {
-  index: number;
-  scrollTop: number;
-}
-
-function getRuleAnchorMetrics(section: HTMLElement) {
-  return Array.from(section.querySelectorAll<HTMLElement>('[data-rule-anchor]')).map(
-    (anchor, index): RuleAnchorMetric => ({
-      index,
-      absoluteTop: anchor.getBoundingClientRect().top + window.scrollY,
-    }),
-  );
-}
-
-function findAlignedAnchorIndex(anchors: RuleAnchorMetric[], scrollY: number) {
-  const alignedAnchors = anchors
-    .map((anchor) => ({
-      index: anchor.index,
-      distance: Math.abs(anchor.absoluteTop - scrollY - SNAP_TARGET_OFFSET),
-    }))
-    .filter((anchor) => anchor.distance <= SNAP_ALIGN_TOLERANCE)
-    .sort((left, right) => left.distance - right.distance);
-
-  return alignedAnchors[0]?.index ?? null;
-}
-
-function findLastPassedAnchorIndex(anchors: RuleAnchorMetric[], scrollY: number) {
-  let lastPassedIndex = -1;
-
-  anchors.forEach((anchor) => {
-    if (anchor.absoluteTop - scrollY <= SNAP_TARGET_OFFSET + SNAP_ALIGN_TOLERANCE) {
-      lastPassedIndex = anchor.index;
-    }
-  });
-
-  return lastPassedIndex;
-}
-
-function findFirstUpcomingAnchorIndex(anchors: RuleAnchorMetric[], scrollY: number) {
-  const upcomingAnchor = anchors.find(
-    (anchor) => anchor.absoluteTop - scrollY >= SNAP_TARGET_OFFSET - SNAP_ALIGN_TOLERANCE,
-  );
-
-  return upcomingAnchor?.index ?? anchors.length;
-}
-
-function resolveGestureStartIndex(
-  anchors: RuleAnchorMetric[],
-  scrollY: number,
-  direction: ScrollDirection,
-  lastSettledIndex: number | null,
-) {
-  if (lastSettledIndex !== null) {
-    return lastSettledIndex;
+function getMediaQueryMatch(query: string) {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return false;
   }
 
-  const alignedAnchorIndex = findAlignedAnchorIndex(anchors, scrollY);
-  if (alignedAnchorIndex !== null) {
-    return alignedAnchorIndex;
-  }
-
-  if (direction === 'down') {
-    return findLastPassedAnchorIndex(anchors, scrollY);
-  }
-
-  return findFirstUpcomingAnchorIndex(anchors, scrollY);
+  return window.matchMedia(query).matches;
 }
 
-function resolveTargetAnchorIndex(
-  anchorCount: number,
-  gestureStartIndex: number | null,
-  direction: ScrollDirection,
-) {
-  if (gestureStartIndex === null) {
-    return direction === 'down' ? 0 : anchorCount - 1;
-  }
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => getMediaQueryMatch(query));
 
-  return direction === 'down' ? gestureStartIndex + 1 : gestureStartIndex - 1;
-}
-
-function resolveRuleScrollTarget(
-  anchors: RuleAnchorMetric[],
-  gestureStartIndex: number | null,
-  direction: ScrollDirection,
-) {
-  const targetAnchorIndex = resolveTargetAnchorIndex(anchors.length, gestureStartIndex, direction);
-  if (targetAnchorIndex < 0 || targetAnchorIndex >= anchors.length) {
-    return null;
-  }
-
-  return {
-    index: targetAnchorIndex,
-    scrollTop: anchors[targetAnchorIndex].absoluteTop - SNAP_TARGET_OFFSET,
-  } satisfies RuleScrollTarget;
-}
-
-function hasReachedRuleScrollTarget(
-  scrollY: number,
-  target: RuleScrollTarget,
-  direction: ScrollDirection,
-) {
-  return direction === 'down'
-    ? scrollY >= target.scrollTop - SNAP_ALIGN_TOLERANCE
-    : scrollY <= target.scrollTop + SNAP_ALIGN_TOLERANCE;
-}
-
-function useMobileRulesScrollSettle(
-  sectionRef: { current: HTMLElement | null },
-  prefersReducedMotion: boolean,
-) {
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
       return undefined;
     }
 
-    if (prefersReducedMotion) {
-      return undefined;
+    const mediaQuery = window.matchMedia(query);
+    const handleChange = (event: MediaQueryListEvent) => {
+      setMatches(event.matches);
+    };
+
+    setMatches(mediaQuery.matches);
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
 
-    const section = sectionRef.current;
-    if (!section) {
-      return undefined;
-    }
+    mediaQuery.addListener(handleChange);
+    return () => mediaQuery.removeListener(handleChange);
+  }, [query]);
 
-    const mobileQuery = window.matchMedia(MOBILE_BREAKPOINT);
-    if (!mobileQuery.matches) {
-      return undefined;
-    }
-
-    const supportsNativeScrollEnd = 'onscrollend' in document;
-    let fallbackTimer: ReturnType<typeof window.setTimeout> | null = null;
-    let releaseTimer: ReturnType<typeof window.setTimeout> | null = null;
-    let isProgrammaticScroll = false;
-    let isScrollSessionActive = false;
-    let lastSettledIndex: number | null = findAlignedAnchorIndex(
-      getRuleAnchorMetrics(section),
-      window.scrollY,
-    );
-    let lastScrollY = window.scrollY;
-    let gestureDirection: ScrollDirection | null = null;
-    let gestureStartIndex: number | null = null;
-
-    const clearTimer = (timer: ReturnType<typeof window.setTimeout> | null) => {
-      if (timer !== null) {
-        window.clearTimeout(timer);
-      }
-    };
-
-    const resetScrollSession = () => {
-      isScrollSessionActive = false;
-      gestureDirection = null;
-      gestureStartIndex = null;
-    };
-
-    const releaseProgrammaticScroll = () => {
-      clearTimer(releaseTimer);
-      releaseTimer = window.setTimeout(() => {
-        isProgrammaticScroll = false;
-      }, prefersReducedMotion ? 0 : PROGRAMMATIC_SCROLL_RELEASE_MS);
-    };
-
-    const maybeSettleToRule = () => {
-      if (!mobileQuery.matches || isProgrammaticScroll || !isScrollSessionActive) {
-        resetScrollSession();
-        return;
-      }
-
-      const sectionRect = section.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      if (
-        sectionRect.bottom < viewportHeight * SECTION_ACTIVE_BOTTOM_THRESHOLD ||
-        sectionRect.top > viewportHeight * SECTION_ACTIVE_TOP_THRESHOLD
-      ) {
-        lastSettledIndex = findAlignedAnchorIndex(getRuleAnchorMetrics(section), window.scrollY);
-        resetScrollSession();
-        return;
-      }
-
-      const ruleAnchors = getRuleAnchorMetrics(section);
-      if (ruleAnchors.length === 0) {
-        resetScrollSession();
-        return;
-      }
-
-      if (gestureDirection === null) {
-        resetScrollSession();
-        return;
-      }
-
-      const target = resolveRuleScrollTarget(
-        ruleAnchors,
-        gestureStartIndex,
-        gestureDirection,
-      );
-
-      resetScrollSession();
-
-      if (target === null) {
-        lastSettledIndex = findAlignedAnchorIndex(ruleAnchors, window.scrollY);
-        return;
-      }
-
-      const delta = target.scrollTop - window.scrollY;
-      if (Math.abs(delta) <= SNAP_ALIGN_TOLERANCE) {
-        lastSettledIndex = target.index;
-        return;
-      }
-
-      isProgrammaticScroll = true;
-      lastSettledIndex = target.index;
-      window.scrollTo({
-        top: target.scrollTop,
-        behavior: 'auto',
-      });
-      releaseProgrammaticScroll();
-    };
-
-    const handleScroll = () => {
-      const nextScrollY = window.scrollY;
-
-      if (isProgrammaticScroll) {
-        lastScrollY = nextScrollY;
-        return;
-      }
-
-      const previousScrollY = lastScrollY;
-      const nextDirection = nextScrollY >= previousScrollY ? 'down' : 'up';
-
-      if (!isScrollSessionActive) {
-        gestureDirection = nextDirection;
-        gestureStartIndex = resolveGestureStartIndex(
-          getRuleAnchorMetrics(section),
-          previousScrollY,
-          nextDirection,
-          lastSettledIndex,
-        );
-        isScrollSessionActive = true;
-      }
-
-      lastScrollY = nextScrollY;
-
-      if (gestureDirection !== null) {
-        const ruleAnchors = getRuleAnchorMetrics(section);
-        const target = resolveRuleScrollTarget(
-          ruleAnchors,
-          gestureStartIndex,
-          gestureDirection,
-        );
-
-        if (target !== null && hasReachedRuleScrollTarget(nextScrollY, target, gestureDirection)) {
-          clearTimer(fallbackTimer);
-          resetScrollSession();
-
-          if (Math.abs(target.scrollTop - nextScrollY) <= SNAP_ALIGN_TOLERANCE) {
-            lastSettledIndex = target.index;
-            return;
-          }
-
-          isProgrammaticScroll = true;
-          lastSettledIndex = target.index;
-          lastScrollY = target.scrollTop;
-          window.scrollTo({
-            top: target.scrollTop,
-            behavior: 'auto',
-          });
-          releaseProgrammaticScroll();
-          return;
-        }
-      }
-
-      clearTimer(fallbackTimer);
-      fallbackTimer = window.setTimeout(maybeSettleToRule, SCROLL_SETTLE_DELAY_MS);
-    };
-
-    const handleQueryChange = (event: MediaQueryListEvent) => {
-      if (!event.matches) {
-        clearTimer(fallbackTimer);
-        clearTimer(releaseTimer);
-        isProgrammaticScroll = false;
-        lastSettledIndex = null;
-        resetScrollSession();
-      }
-    };
-
-    const handleScrollEnd = () => {
-      clearTimer(fallbackTimer);
-      maybeSettleToRule();
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    if (supportsNativeScrollEnd) {
-      document.addEventListener('scrollend', handleScrollEnd as EventListener, { passive: true });
-    }
-
-    if (typeof mobileQuery.addEventListener === 'function') {
-      mobileQuery.addEventListener('change', handleQueryChange);
-    } else if (typeof mobileQuery.addListener === 'function') {
-      mobileQuery.addListener(handleQueryChange);
-    }
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (supportsNativeScrollEnd) {
-        document.removeEventListener('scrollend', handleScrollEnd as EventListener);
-      }
-      clearTimer(fallbackTimer);
-      clearTimer(releaseTimer);
-
-      if (typeof mobileQuery.removeEventListener === 'function') {
-        mobileQuery.removeEventListener('change', handleQueryChange);
-      } else if (typeof mobileQuery.removeListener === 'function') {
-        mobileQuery.removeListener(handleQueryChange);
-      }
-    };
-  }, [prefersReducedMotion, sectionRef]);
+  return matches;
 }
 
 export function RulesSection() {
@@ -425,16 +130,12 @@ export function RulesSection() {
     rootMargin: '0px 0px -12% 0px',
     threshold: 0.18,
   });
-  const sectionRef = useRef<HTMLElement | null>(null);
-
-  useMobileRulesScrollSettle(sectionRef, prefersReducedMotion);
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
+  const isGuidedRailEnabled = isMobile && !prefersReducedMotion;
 
   return (
     <section
-      ref={(node) => {
-        sectionRef.current = node;
-        revealRef.current = node;
-      }}
+      ref={revealRef}
       id="method"
       className="overflow-hidden bg-surface-paper py-24"
     >
@@ -448,52 +149,60 @@ export function RulesSection() {
           </p>
         </div>
 
-        {rules.map((rule, index) => {
-          const mediaReveal = rule.mediaLeft ? 'left' : 'right';
-          const copyReveal = rule.mediaLeft ? 'right' : 'left';
-          const mediaOrderClass = rule.mobileImageFirst ? 'order-1 md:order-1' : 'order-2 md:order-1';
-          const copyOrderClass = rule.mobileImageFirst ? 'order-2 md:order-2' : 'order-1 md:order-2';
-          const pairStagger = index + 2;
+        <div
+          data-rules-rail="rules"
+          data-guided-scroll={isGuidedRailEnabled ? 'true' : 'false'}
+          className="rules-rail"
+        >
+          {rules.map((rule, index) => {
+            const mediaReveal = rule.mediaLeft ? 'left' : 'right';
+            const copyReveal = rule.mediaLeft ? 'right' : 'left';
+            const mediaOrderClass = rule.mobileImageFirst ? 'order-1 md:order-1' : 'order-2 md:order-1';
+            const copyOrderClass = rule.mobileImageFirst ? 'order-2 md:order-2' : 'order-1 md:order-2';
+            const pairStagger = index + 2;
+            const desktopSpacingClass = rule.isLast ? 'mb-0 md:mb-24' : 'mb-0 md:mb-48';
 
-          return (
-            <div
-              key={rule.number}
-              data-reveal-group="rules-pair"
-              data-stagger={pairStagger}
-              className={`rules-stage grid items-center gap-16 md:grid-cols-2 md:gap-32 ${rule.isLast ? 'mb-16 md:mb-24' : 'mb-32 md:mb-48'}`}
-            >
+            return (
               <div
-                data-reveal-part="rules-pair"
-                data-reveal={mediaReveal}
-                className={`${mediaOrderClass} rules-media-layer relative ${rule.extraImageWrapper ?? ''}`}
+                key={rule.number}
+                data-rule-panel={rule.number}
+                data-reveal-group="rules-pair"
+                data-stagger={pairStagger}
+                className={`rules-stage grid items-center gap-16 md:grid-cols-2 md:gap-32 ${desktopSpacingClass}`}
               >
-                <div className="rules-media-glow" aria-hidden="true" />
-                <div className="rules-media-parallax">
-                  <img
-                    src={rule.image}
-                    alt={rule.imageAlt}
-                    width={rule.imageWidth}
-                    height={rule.imageHeight}
-                    className={`rules-cutout-image h-auto w-full object-contain drop-shadow-2xl ${rule.maxW} ${rule.imageClass}`}
-                    loading="lazy"
-                  />
+                <div
+                  data-reveal-part="rules-pair"
+                  data-reveal={mediaReveal}
+                  className={`${mediaOrderClass} rules-media-layer relative ${rule.extraImageWrapper ?? ''}`}
+                >
+                  <div className="rules-media-glow" aria-hidden="true" />
+                  <div className="rules-media-parallax">
+                    <img
+                      src={rule.image}
+                      alt={rule.imageAlt}
+                      width={rule.imageWidth}
+                      height={rule.imageHeight}
+                      className={`rules-cutout-image h-auto w-full object-contain drop-shadow-2xl ${rule.maxW} ${rule.imageClass}`}
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                <div
+                  data-reveal-part="rules-pair"
+                  data-reveal={copyReveal}
+                  data-rule-anchor={rule.number}
+                  className={`${copyOrderClass} z-10 text-center md:text-left`}
+                >
+                  <div className="rules-copy-stack">
+                    <span className="editorial-kicker mb-3 block text-ink-strong">{rule.kicker}</span>
+                    <h3 className="landing-balance mb-6 font-display text-4xl font-bold leading-tight text-ink-strong md:text-5xl">{rule.title}</h3>
+                    <p className="landing-pretty editorial-body text-ink-body">{rule.body}</p>
+                  </div>
                 </div>
               </div>
-              <div
-                data-reveal-part="rules-pair"
-                data-reveal={copyReveal}
-                data-rule-anchor={rule.number}
-                className={`${copyOrderClass} z-10 text-center md:text-left`}
-              >
-                <div className="rules-copy-stack">
-                  <span className="editorial-kicker mb-3 block text-ink-strong">{rule.kicker}</span>
-                  <h3 className="landing-balance mb-6 font-display text-4xl font-bold leading-tight text-ink-strong md:text-5xl">{rule.title}</h3>
-                  <p className="landing-pretty editorial-body text-ink-body">{rule.body}</p>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );
