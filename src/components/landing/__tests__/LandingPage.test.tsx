@@ -39,6 +39,8 @@ beforeEach(() => {
   mockMatchMedia();
 
   localStorage.clear();
+  document.documentElement.removeAttribute('data-landing-method-snap');
+  document.body.removeAttribute('data-landing-method-snap');
 
   // Reset Zustand store
   useUserStore.setState({ profile: null, isLoaded: true });
@@ -417,15 +419,16 @@ describe('RulesSection', () => {
     expect(stages).toHaveLength(5);
     expect(copyAnchors.map((anchor) => anchor.dataset.ruleAnchor)).toEqual(['1', '2', '3', '4', '5']);
 
-    stages.forEach((stage) => {
+    stages.forEach((stage, index) => {
       const mediaLayer = stage.querySelector('.rules-media-layer');
       const copyLayer = stage.querySelector('.rules-copy-stack')?.parentElement;
+      const expectsImageFirst = index === 4;
 
       expect(mediaLayer).toBeTruthy();
       expect(copyLayer).toBeTruthy();
 
-      expect(mediaLayer?.className).toContain('order-2 md:order-1');
-      expect(copyLayer?.className).toContain('order-1 md:order-2');
+      expect(mediaLayer?.className).toContain(expectsImageFirst ? 'order-1 md:order-1' : 'order-2 md:order-1');
+      expect(copyLayer?.className).toContain(expectsImageFirst ? 'order-2 md:order-2' : 'order-1 md:order-2');
     });
   });
 
@@ -468,44 +471,68 @@ describe('RulesSection', () => {
     });
   });
 
-  it('enables the guided rules rail on mobile without reduced motion', () => {
+  it('renders intro and release snap markers without a separate rules rail', () => {
     mockMatchMedia({ mobile: true, reducedMotion: false });
 
     const { container } = render(<RulesSection />);
-    const rail = container.querySelector('[data-rules-rail="rules"]');
+    const intro = container.querySelector('[data-method-snap="intro"]');
+    const release = container.querySelector('[data-method-snap="release"]');
     const panels = Array.from(container.querySelectorAll<HTMLElement>('[data-rule-panel]'));
 
-    expect(rail).toHaveAttribute('data-guided-scroll', 'true');
+    expect(container.querySelector('[data-rules-rail="rules"]')).toBeNull();
+    expect(intro).toBeTruthy();
+    expect(release).toBeTruthy();
     expect(panels.map((panel) => panel.dataset.rulePanel)).toEqual(['1', '2', '3', '4', '5']);
     panels.forEach((panel) => {
+      expect(panel.getAttribute('data-method-snap')).toBe('rule');
       expect(panel.getAttribute('data-reveal-group')).toBe('rules-pair');
     });
   });
 
-  it('disables the guided rules rail on desktop', () => {
+  it('enables root snap state on the landing document for mobile without reduced motion', () => {
+    mockMatchMedia({ mobile: true, reducedMotion: false });
+
+    render(<RulesSection />);
+
+    expect(document.documentElement).toHaveAttribute('data-landing-method-snap', 'true');
+    expect(document.body).toHaveAttribute('data-landing-method-snap', 'true');
+  });
+
+  it('does not enable landing root snap on desktop', () => {
     mockMatchMedia({ mobile: false, reducedMotion: false });
 
-    const { container } = render(<RulesSection />);
-    const rail = container.querySelector('[data-rules-rail="rules"]');
+    render(<RulesSection />);
 
-    expect(rail).toHaveAttribute('data-guided-scroll', 'false');
+    expect(document.documentElement).not.toHaveAttribute('data-landing-method-snap');
+    expect(document.body).not.toHaveAttribute('data-landing-method-snap');
   });
 
-  it('disables the guided rules rail when reduced motion is enabled', () => {
+  it('does not enable landing root snap when reduced motion is enabled', () => {
     mockMatchMedia({ mobile: true, reducedMotion: true });
 
-    const { container } = render(<RulesSection />);
-    const rail = container.querySelector('[data-rules-rail="rules"]');
+    render(<RulesSection />);
 
-    expect(rail).toHaveAttribute('data-guided-scroll', 'false');
+    expect(document.documentElement).not.toHaveAttribute('data-landing-method-snap');
+    expect(document.body).not.toHaveAttribute('data-landing-method-snap');
   });
 
-  it('defines native vertical snap styling only for the guided mobile rail', () => {
+  it('removes the landing root snap state when the section unmounts', () => {
+    mockMatchMedia({ mobile: true, reducedMotion: false });
+
+    const { unmount } = render(<RulesSection />);
+    expect(document.documentElement).toHaveAttribute('data-landing-method-snap', 'true');
+
+    unmount();
+
+    expect(document.documentElement).not.toHaveAttribute('data-landing-method-snap');
+    expect(document.body).not.toHaveAttribute('data-landing-method-snap');
+  });
+
+  it('defines native vertical snap styling only for the method root snap markers', () => {
     expect(landingCss).toMatch(/\(max-width:\s*767px\)\s+and\s+\(prefers-reduced-motion:\s*no-preference\)/);
-    expect(landingCss).toMatch(/\[data-rules-rail\]\[data-guided-scroll='true'\][\s\S]*height:\s*100svh/);
-    expect(landingCss).toMatch(/\[data-rules-rail\]\[data-guided-scroll='true'\][\s\S]*scroll-snap-type:\s*y mandatory/);
-    expect(landingCss).toMatch(/\[data-rules-rail\]\[data-guided-scroll='true'\]\s+\.rules-stage[\s\S]*scroll-snap-stop:\s*always/);
-    expect(landingCss).not.toMatch(/html[\s\S]*scroll-snap-type/);
+    expect(landingCss).toMatch(/html\[data-landing-method-snap='true'\][\s\S]*scroll-snap-type:\s*y mandatory/);
+    expect(landingCss).toMatch(/\[data-method-snap='rule'\][\s\S]*scroll-snap-stop:\s*always/);
+    expect(landingCss).not.toMatch(/\[data-rules-rail\]/);
   });
 });
 

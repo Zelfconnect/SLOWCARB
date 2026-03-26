@@ -355,13 +355,22 @@ body:has(.landing-page) #root {
 }
 
 /* Rules section */
-.landing-page .rules-rail {
+.landing-page .rules-section {
   position: relative;
+}
+
+.landing-page .rules-intro {
+  position: relative;
+  padding: 6rem 0 2.5rem;
 }
 
 .landing-page .rules-stage {
   position: relative;
   isolation: isolate;
+}
+
+.landing-page .rules-release-anchor {
+  height: 1px;
 }
 
 .landing-page .rules-media-layer {
@@ -431,82 +440,81 @@ body:has(.landing-page) #root {
 }
 
 @media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
-  .landing-page [data-rules-rail][data-guided-scroll='true'] {
-    height: 100svh;
-    overflow-y: auto;
+  html[data-landing-method-snap='true'] {
     scroll-behavior: auto;
     scroll-snap-type: y mandatory;
-    touch-action: pan-y pinch-zoom;
-    -webkit-overflow-scrolling: touch;
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-stage {
-    min-height: 100%;
-    align-content: center;
-    gap: clamp(0.9rem, 2.6svh, 1.35rem);
-    padding: clamp(1rem, 3.8svh, 1.5rem) 0;
-    margin-bottom: 0;
+  .landing-page [data-method-snap='intro'],
+  .landing-page [data-method-snap='rule'],
+  .landing-page [data-method-snap='release'] {
     scroll-snap-align: start;
+  }
+
+  .landing-page [data-method-snap='rule'] {
     scroll-snap-stop: always;
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-media-layer {
+  .landing-page .rules-intro {
+    min-height: 100dvh;
+    display: grid;
+    align-content: center;
+    padding: clamp(4.75rem, 12dvh, 6.75rem) 0 clamp(2.1rem, 5.5dvh, 3rem);
+  }
+
+  .landing-page .rules-stage {
+    min-height: 100dvh;
+    align-content: center;
+    gap: clamp(1rem, 3.2dvh, 1.7rem);
+    padding: clamp(1rem, 3dvh, 1.65rem) 0;
+    margin-bottom: 0;
+  }
+
+  .landing-page .rules-media-layer {
     margin-top: 0;
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-media-parallax {
+  .landing-page .rules-media-parallax {
     align-items: center;
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-cutout-image {
+  .landing-page .rules-cutout-image {
     width: auto;
-    max-width: min(100%, 17.5rem);
-    max-height: min(34svh, 17.5rem);
+    max-width: min(100%, 23rem);
+    max-height: min(46dvh, 24rem);
     margin-inline: auto;
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-stage[data-rule-panel='1'] .rules-cutout-image,
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-stage[data-rule-panel='4'] .rules-cutout-image {
-    --tw-scale-x: 1.08;
-    --tw-scale-y: 1.08;
+  .landing-page .rules-stage[data-rule-panel='2'] .rules-cutout-image {
+    max-width: min(100%, 20rem);
+    max-height: min(40dvh, 20rem);
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-stage[data-rule-panel='2'] .rules-cutout-image {
-    --tw-scale-x: 0.84;
-    --tw-scale-y: 0.84;
+  .landing-page .rules-stage[data-rule-panel='5'] .rules-cutout-image {
+    max-width: min(100%, 20.5rem);
+    max-height: min(37dvh, 18.75rem);
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-stage[data-rule-panel='3'] .rules-cutout-image {
-    --tw-scale-x: 1.28;
-    --tw-scale-y: 1.28;
-  }
-
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-stage[data-rule-panel='5'] .rules-cutout-image {
-    --tw-scale-x: 1.16;
-    --tw-scale-y: 1.16;
-    max-height: min(31svh, 15.5rem);
-  }
-
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-copy-stack {
-    max-width: 32rem;
+  .landing-page .rules-copy-stack {
+    max-width: 34rem;
     margin-inline: auto;
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-copy-stack .editorial-kicker {
-    margin-bottom: 0.55rem;
+  .landing-page .rules-copy-stack .editorial-kicker {
+    margin-bottom: 0.72rem;
     font-size: 0.72rem;
     letter-spacing: 0.13em;
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-copy-stack h3 {
-    margin-bottom: 0.95rem;
-    font-size: clamp(2rem, 9.8vw, 2.65rem);
+  .landing-page .rules-copy-stack h3 {
+    margin-bottom: 0.9rem;
+    font-size: clamp(2.15rem, 10vw, 2.9rem);
     line-height: 0.94;
   }
 
-  .landing-page [data-rules-rail][data-guided-scroll='true'] .rules-copy-stack p {
-    font-size: 0.98rem;
-    line-height: 1.58;
+  .landing-page .rules-copy-stack p {
+    font-size: 0.97rem;
+    line-height: 1.56;
     letter-spacing: -0.01em;
   }
 }

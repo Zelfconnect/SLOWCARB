@@ -9,7 +9,7 @@ const PORT = 4173;
 const LOCAL_URL = `http://${HOST}:${PORT}`;
 const BASE_URL = process.env.LANDING_URL ?? LOCAL_URL;
 const OUTPUT_DIR = path.resolve('output/playwright/landing-rules-scroll');
-const SNAP_ALIGN_TOLERANCE = 28;
+const SNAP_ALIGN_TOLERANCE = 32;
 const TIMELINE_CHECKPOINTS_MS = [150, 400, 800, 1800];
 const VIEWPORTS = [
   {
@@ -26,6 +26,14 @@ const VIEWPORTS = [
     },
   },
 ];
+const DESKTOP_VIEWPORT = {
+  label: '1024x900',
+  contextOptions: {
+    viewport: { width: 1024, height: 900 },
+    isMobile: false,
+    hasTouch: false,
+  },
+};
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -95,198 +103,160 @@ function stopLocalServer(server) {
   server.kill('SIGTERM');
 }
 
-async function getRailState(page, label) {
-  return page.evaluate(({ label, tolerance }) => {
-    const rail = document.querySelector('[data-rules-rail="rules"]');
-    if (!(rail instanceof HTMLElement)) {
-      throw new Error('Missing rules rail');
-    }
+function describeMarker(marker) {
+  return marker.kind === 'rule' ? `rule:${marker.rule}` : marker.kind;
+}
 
-    const railRect = rail.getBoundingClientRect();
-    const panels = Array.from(rail.querySelectorAll('[data-rule-panel]')).map((panel) => {
-      const element = panel;
+async function getSnapState(page, label) {
+  return page.evaluate(({ label, tolerance }) => {
+    const markers = Array.from(document.querySelectorAll('[data-method-snap]')).map((element) => {
+      const htmlElement = element;
+      const rect = htmlElement.getBoundingClientRect();
+
       return {
-        number: element.getAttribute('data-rule-panel'),
-        title: element.querySelector('h3')?.textContent?.trim() ?? '',
-        top: Math.round(element.getBoundingClientRect().top - railRect.top),
+        kind: htmlElement.getAttribute('data-method-snap'),
+        rule: htmlElement.getAttribute('data-rule-panel'),
+        top: Math.round(rect.top),
+        height: Math.round(rect.height),
       };
     });
 
-    const aligned = panels.filter((panel) => Math.abs(panel.top) <= tolerance);
+    const aligned = markers.filter((marker) => Math.abs(marker.top) <= tolerance);
+    const founderTop = document.getElementById('founder')?.getBoundingClientRect().top ?? null;
 
     return {
       label,
-      guided: rail.getAttribute('data-guided-scroll'),
+      htmlSnap: document.documentElement.getAttribute('data-landing-method-snap'),
+      bodySnap: document.body.getAttribute('data-landing-method-snap'),
       pageScrollY: Math.round(window.scrollY),
-      railScrollTop: Math.round(rail.scrollTop),
-      railScrollHeight: Math.round(rail.scrollHeight),
-      railClientHeight: Math.round(rail.clientHeight),
-      panels,
+      founderTop: founderTop === null ? null : Math.round(founderTop),
+      markers,
       aligned,
     };
   }, { label, tolerance: SNAP_ALIGN_TOLERANCE });
 }
 
-function getAlignedRule(state) {
-  return state.aligned[0]?.number ?? null;
+function getAlignedTarget(state) {
+  const marker = state.aligned[0];
+  return marker ? describeMarker(marker) : null;
 }
 
-function assertAlignedRule(state, expectedRule, message) {
-  const alignedRule = getAlignedRule(state);
-  if (alignedRule !== String(expectedRule)) {
+function assertAlignedTarget(state, expectedTarget, message) {
+  const alignedTarget = getAlignedTarget(state);
+  if (alignedTarget !== expectedTarget) {
     throw new Error(`${message}. Snapshot: ${JSON.stringify(state)}`);
   }
 }
 
-function assertNoPostSettleDrift(states, expectedRule, message) {
-  const alignedRules = states.map((state) => getAlignedRule(state));
-  const firstSettledIndex = alignedRules.findIndex((rule) => rule === String(expectedRule));
+function assertNoPostSettleDrift(states, expectedTarget, message) {
+  const alignedTargets = states.map((state) => getAlignedTarget(state));
+  const firstSettledIndex = alignedTargets.findIndex((target) => target === expectedTarget);
 
   if (firstSettledIndex === -1) {
-    throw new Error(`${message}. Never aligned to rule ${expectedRule}. Timeline: ${JSON.stringify(states)}`);
+    throw new Error(`${message}. Never aligned to ${expectedTarget}. Timeline: ${JSON.stringify(states)}`);
   }
 
-  for (let index = firstSettledIndex; index < alignedRules.length; index += 1) {
-    if (alignedRules[index] !== String(expectedRule)) {
+  for (let index = firstSettledIndex; index < alignedTargets.length; index += 1) {
+    if (alignedTargets[index] !== expectedTarget) {
       throw new Error(`${message}. Drifted after settling. Timeline: ${JSON.stringify(states)}`);
     }
   }
 }
 
-async function waitForAlignedRule(page, expectedRule, timeoutMs = 6000) {
+function selectorForTarget(target) {
+  if (target === 'intro') {
+    return '[data-method-snap="intro"]';
+  }
+
+  if (target === 'release') {
+    return '[data-method-snap="release"]';
+  }
+
+  if (target.startsWith('rule:')) {
+    return `[data-rule-panel="${target.split(':')[1]}"]`;
+  }
+
+  throw new Error(`Unsupported target ${target}`);
+}
+
+async function waitForAlignedTarget(page, expectedTarget, timeoutMs = 6000) {
   try {
     await page.waitForFunction(
-      ({ expectedRule, tolerance }) => {
-        const rail = document.querySelector('[data-rules-rail="rules"]');
-        if (!(rail instanceof HTMLElement)) {
+      ({ expectedTarget, tolerance }) => {
+        const markers = Array.from(document.querySelectorAll('[data-method-snap]'))
+          .map((element) => {
+            const htmlElement = element;
+            const rect = htmlElement.getBoundingClientRect();
+            return {
+              kind: htmlElement.getAttribute('data-method-snap'),
+              rule: htmlElement.getAttribute('data-rule-panel'),
+              top: Math.round(rect.top),
+            };
+          })
+          .filter((marker) => Math.abs(marker.top) <= tolerance);
+
+        if (markers.length !== 1) {
           return false;
         }
 
-        const railRect = rail.getBoundingClientRect();
-        const alignedPanels = Array.from(rail.querySelectorAll('[data-rule-panel]'))
-          .map((panel) => {
-            const element = panel;
-            return {
-              number: element.getAttribute('data-rule-panel'),
-              top: Math.round(element.getBoundingClientRect().top - railRect.top),
-            };
-          })
-          .filter((panel) => Math.abs(panel.top) <= tolerance);
-
-        return alignedPanels.length === 1 && alignedPanels[0].number === String(expectedRule);
+        const marker = markers[0];
+        const target = marker.kind === 'rule' ? `rule:${marker.rule}` : marker.kind;
+        return target === expectedTarget;
       },
-      { expectedRule, tolerance: SNAP_ALIGN_TOLERANCE },
+      { expectedTarget, tolerance: SNAP_ALIGN_TOLERANCE },
       { timeout: timeoutMs },
     );
   } catch (error) {
-    const state = await getRailState(page, `waitForAlignedRule:${expectedRule}`);
-    throw new Error(`Failed waiting for rule ${expectedRule} alignment. Snapshot: ${JSON.stringify(state)}`, { cause: error });
+    const state = await getSnapState(page, `waitForAlignedTarget:${expectedTarget}`);
+    throw new Error(`Failed waiting for ${expectedTarget}. Snapshot: ${JSON.stringify(state)}`, { cause: error });
   }
 }
 
-async function prepareRail(page) {
+async function preparePage(page) {
   await page.goto(BASE_URL, { waitUntil: 'networkidle', timeout: 60000 });
   await page.waitForTimeout(1500);
-  await page.evaluate(() => {
-    const rail = document.querySelector('[data-rules-rail="rules"]');
-    if (!(rail instanceof HTMLElement)) {
-      throw new Error('Missing rules rail');
+
+  const state = await getSnapState(page, 'after-load');
+  if (state.htmlSnap !== 'true' || state.bodySnap !== 'true') {
+    throw new Error(`Landing method snap is disabled. Snapshot: ${JSON.stringify(state)}`);
+  }
+}
+
+async function setToTarget(page, target) {
+  const selector = selectorForTarget(target);
+  await page.evaluate((selector) => {
+    const element = document.querySelector(selector);
+    if (!(element instanceof HTMLElement)) {
+      throw new Error(`Missing snap target ${selector}`);
     }
 
-    rail.scrollIntoView({
+    element.scrollIntoView({
       behavior: 'auto',
       block: 'start',
     });
-  });
-  await page.waitForTimeout(600);
+  }, selector);
 
-  const state = await getRailState(page, 'after-prepare');
-  if (state.guided !== 'true') {
-    throw new Error(`Guided rail is disabled. Snapshot: ${JSON.stringify(state)}`);
-  }
-}
-
-async function setRailToRule(page, ruleNumber) {
-  await page.evaluate((ruleNumber) => {
-    const rail = document.querySelector('[data-rules-rail="rules"]');
-    if (!(rail instanceof HTMLElement)) {
-      throw new Error('Missing rules rail');
-    }
-
-    const panel = rail.querySelector(`[data-rule-panel="${ruleNumber}"]`);
-    if (!(panel instanceof HTMLElement)) {
-      throw new Error(`Missing rule panel ${ruleNumber}`);
-    }
-
-    rail.scrollTo({
-      top: panel.offsetTop,
-      behavior: 'auto',
-    });
-  }, ruleNumber);
-  await waitForAlignedRule(page, ruleNumber);
+  await waitForAlignedTarget(page, target);
   await page.waitForTimeout(300);
 }
 
-async function getRailGestureBox(page) {
-  const rail = page.locator('[data-rules-rail="rules"][data-guided-scroll="true"]');
-  const box = await rail.boundingBox();
-
-  if (!box) {
-    throw new Error('Unable to resolve rules rail bounding box');
+async function getScrollStep(page) {
+  const viewport = page.viewportSize();
+  if (!viewport) {
+    throw new Error('Missing viewport size');
   }
 
-  return {
-    startX: box.x + box.width / 2,
-    startYDown: box.y + box.height * 0.78,
-    endYDown: box.y + box.height * 0.2,
-    startYUp: box.y + box.height * 0.22,
-    endYUp: box.y + box.height * 0.8,
-  };
+  return viewport.height;
 }
 
-async function performTouchSwipe(client, coordinates) {
-  const { startX, startY, endY } = coordinates;
-
-  await client.send('Input.dispatchTouchEvent', {
-    type: 'touchStart',
-    touchPoints: [{ x: startX, y: startY }],
-  });
-
-  const steps = 3;
-  for (let step = 1; step <= steps; step += 1) {
-    const progress = step / steps;
-    const y = startY + (endY - startY) * progress;
-
-    await client.send('Input.dispatchTouchEvent', {
-      type: 'touchMove',
-      touchPoints: [{ x: startX, y }],
-    });
-
-    await sleep(8);
-  }
-
-  await client.send('Input.dispatchTouchEvent', {
-    type: 'touchEnd',
-    touchPoints: [],
-  });
+async function swipeDown(page) {
+  const step = await getScrollStep(page);
+  await page.mouse.wheel(0, step);
 }
 
-async function swipeToNextRule(page, client) {
-  const box = await getRailGestureBox(page);
-  await performTouchSwipe(client, {
-    startX: box.startX,
-    startY: box.startYDown,
-    endY: box.endYDown,
-  });
-}
-
-async function swipeToPreviousRule(page, client) {
-  const box = await getRailGestureBox(page);
-  await performTouchSwipe(client, {
-    startX: box.startX,
-    startY: box.startYUp,
-    endY: box.endYUp,
-  });
+async function swipeUp(page) {
+  const step = await getScrollStep(page);
+  await page.mouse.wheel(0, -step);
 }
 
 async function captureTimeline(page, prefix) {
@@ -296,73 +266,48 @@ async function captureTimeline(page, prefix) {
   for (const checkpoint of TIMELINE_CHECKPOINTS_MS) {
     await page.waitForTimeout(checkpoint - elapsed);
     elapsed = checkpoint;
-    states.push(await getRailState(page, `${prefix}-${checkpoint}ms`));
+    states.push(await getSnapState(page, `${prefix}-${checkpoint}ms`));
   }
 
   return states;
 }
 
-async function assertSwipeSequence(page, client, {
-  startRule,
-  expectedRule,
+async function assertSwipeSequence(page, {
+  startTarget,
+  expectedTarget,
   direction,
   viewportLabel,
 }) {
-  await setRailToRule(page, startRule);
-  const beforeState = await getRailState(page, `${viewportLabel}-${direction}-before-${startRule}`);
-  assertAlignedRule(beforeState, startRule, `${viewportLabel} failed to start on rule ${startRule}`);
+  await setToTarget(page, startTarget);
+  const beforeState = await getSnapState(page, `${viewportLabel}-${direction}-before-${startTarget}`);
+  assertAlignedTarget(beforeState, startTarget, `${viewportLabel} failed to start on ${startTarget}`);
 
-  if (direction === 'next') {
-    await swipeToNextRule(page, client);
+  if (direction === 'down') {
+    await swipeDown(page);
   } else {
-    await swipeToPreviousRule(page, client);
+    await swipeUp(page);
   }
 
-  const timeline = await captureTimeline(page, `${viewportLabel}-${direction}-${startRule}-to-${expectedRule}`);
+  const timeline = await captureTimeline(page, `${viewportLabel}-${direction}-${startTarget}-to-${expectedTarget}`);
   const finalState = timeline[timeline.length - 1];
 
-  assertAlignedRule(finalState, expectedRule, `${viewportLabel} ${direction} swipe landed on the wrong rule`);
-  assertNoPostSettleDrift(timeline, expectedRule, `${viewportLabel} ${direction} swipe drifted after settling`);
+  assertAlignedTarget(finalState, expectedTarget, `${viewportLabel} ${direction} swipe landed on the wrong target`);
+  assertNoPostSettleDrift(timeline, expectedTarget, `${viewportLabel} ${direction} swipe drifted after settling`);
 
   return timeline;
 }
 
-async function assertBoundaryRelease(page, client, {
-  startRule,
-  direction,
-  viewportLabel,
-}) {
-  await setRailToRule(page, startRule);
-  const beforeState = await getRailState(page, `${viewportLabel}-${direction}-boundary-before`);
-  const beforePageScrollY = beforeState.pageScrollY;
-  const beforeRailScrollTop = beforeState.railScrollTop;
+async function assertReleaseToFounder(page, viewportLabel) {
+  await setToTarget(page, 'rule:5');
+  await swipeDown(page);
 
-  if (direction === 'next') {
-    await swipeToNextRule(page, client);
-  } else {
-    await swipeToPreviousRule(page, client);
-  }
-
-  const timeline = await captureTimeline(page, `${viewportLabel}-${direction}-boundary`);
+  const timeline = await captureTimeline(page, `${viewportLabel}-release`);
   const finalState = timeline[timeline.length - 1];
 
-  assertAlignedRule(finalState, startRule, `${viewportLabel} boundary swipe should keep the boundary rule aligned`);
+  assertAlignedTarget(finalState, 'release', `${viewportLabel} final swipe should align the release target`);
 
-  if (direction === 'next') {
-    if (finalState.pageScrollY <= beforePageScrollY) {
-      throw new Error(`${viewportLabel} last-rule release did not continue the page scroll. Timeline: ${JSON.stringify(timeline)}`);
-    }
-    if (finalState.railScrollTop < beforeRailScrollTop) {
-      throw new Error(`${viewportLabel} last-rule release moved the rail backward. Timeline: ${JSON.stringify(timeline)}`);
-    }
-    return;
-  }
-
-  if (finalState.pageScrollY >= beforePageScrollY) {
-    throw new Error(`${viewportLabel} first-rule release did not move back into the page intro. Timeline: ${JSON.stringify(timeline)}`);
-  }
-  if (finalState.railScrollTop > beforeRailScrollTop) {
-    throw new Error(`${viewportLabel} first-rule release moved the rail away from the first rule. Timeline: ${JSON.stringify(timeline)}`);
+  if (finalState.founderTop === null || finalState.founderTop > 80) {
+    throw new Error(`${viewportLabel} final swipe did not reveal the next section cleanly. Timeline: ${JSON.stringify(timeline)}`);
   }
 }
 
@@ -379,7 +324,7 @@ async function withPreparedViewport(browser, viewportConfig, callback) {
   const client = await context.newCDPSession(page);
 
   try {
-    await prepareRail(page);
+    await preparePage(page);
     return await callback({ page, client });
   } finally {
     await context.close();
@@ -388,65 +333,81 @@ async function withPreparedViewport(browser, viewportConfig, callback) {
 
 async function runViewportScenario(browser, viewportConfig) {
   await withPreparedViewport(browser, viewportConfig, async ({ page }) => {
-    await captureViewportArtifacts(page, viewportConfig.label, 'prepared');
+    await setToTarget(page, 'intro');
+    await captureViewportArtifacts(page, viewportConfig.label, 'intro');
   });
 
-  const downToRule2 = await withPreparedViewport(browser, viewportConfig, async ({ page, client }) =>
-    assertSwipeSequence(page, client, {
-      startRule: 1,
-      expectedRule: 2,
-      direction: 'next',
+  const introToRule1 = await withPreparedViewport(browser, viewportConfig, async ({ page }) =>
+    assertSwipeSequence(page, {
+      startTarget: 'intro',
+      expectedTarget: 'rule:1',
+      direction: 'down',
       viewportLabel: viewportConfig.label,
     }),
   );
-  console.log('Timeline:', JSON.stringify(downToRule2));
+  console.log('Timeline:', JSON.stringify(introToRule1));
 
-  const downToRule3 = await withPreparedViewport(browser, viewportConfig, async ({ page, client }) =>
-    assertSwipeSequence(page, client, {
-      startRule: 2,
-      expectedRule: 3,
-      direction: 'next',
+  const rule1ToRule2 = await withPreparedViewport(browser, viewportConfig, async ({ page }) =>
+    assertSwipeSequence(page, {
+      startTarget: 'rule:1',
+      expectedTarget: 'rule:2',
+      direction: 'down',
       viewportLabel: viewportConfig.label,
     }),
   );
-  console.log('Timeline:', JSON.stringify(downToRule3));
+  console.log('Timeline:', JSON.stringify(rule1ToRule2));
 
-  const upToRule2 = await withPreparedViewport(browser, viewportConfig, async ({ page, client }) =>
-    assertSwipeSequence(page, client, {
-      startRule: 3,
-      expectedRule: 2,
-      direction: 'previous',
+  const rule2ToRule3 = await withPreparedViewport(browser, viewportConfig, async ({ page }) =>
+    assertSwipeSequence(page, {
+      startTarget: 'rule:2',
+      expectedTarget: 'rule:3',
+      direction: 'down',
       viewportLabel: viewportConfig.label,
     }),
   );
-  console.log('Timeline:', JSON.stringify(upToRule2));
+  console.log('Timeline:', JSON.stringify(rule2ToRule3));
 
-  const upToRule1 = await withPreparedViewport(browser, viewportConfig, async ({ page, client }) =>
-    assertSwipeSequence(page, client, {
-      startRule: 2,
-      expectedRule: 1,
-      direction: 'previous',
+  const rule3ToRule2 = await withPreparedViewport(browser, viewportConfig, async ({ page }) =>
+    assertSwipeSequence(page, {
+      startTarget: 'rule:3',
+      expectedTarget: 'rule:2',
+      direction: 'up',
       viewportLabel: viewportConfig.label,
     }),
   );
-  console.log('Timeline:', JSON.stringify(upToRule1));
+  console.log('Timeline:', JSON.stringify(rule3ToRule2));
 
-  await withPreparedViewport(browser, viewportConfig, async ({ page, client }) => {
-    await assertBoundaryRelease(page, client, {
-      startRule: 1,
-      direction: 'previous',
+  const rule1ToIntro = await withPreparedViewport(browser, viewportConfig, async ({ page }) =>
+    assertSwipeSequence(page, {
+      startTarget: 'rule:1',
+      expectedTarget: 'intro',
+      direction: 'up',
       viewportLabel: viewportConfig.label,
-    });
+    }),
+  );
+  console.log('Timeline:', JSON.stringify(rule1ToIntro));
+
+  await withPreparedViewport(browser, viewportConfig, async ({ page }) => {
+    await assertReleaseToFounder(page, viewportConfig.label);
+    await captureViewportArtifacts(page, viewportConfig.label, 'release');
   });
+}
 
-  await withPreparedViewport(browser, viewportConfig, async ({ page, client }) => {
-    await assertBoundaryRelease(page, client, {
-      startRule: 5,
-      direction: 'next',
-      viewportLabel: viewportConfig.label,
-    });
-    await captureViewportArtifacts(page, viewportConfig.label, 'complete');
-  });
+async function runDesktopSmoke(browser) {
+  const context = await browser.newContext(DESKTOP_VIEWPORT.contextOptions);
+  const page = await context.newPage();
+
+  try {
+    await page.goto(BASE_URL, { waitUntil: 'networkidle', timeout: 60000 });
+    await page.waitForTimeout(1500);
+
+    const state = await getSnapState(page, 'desktop-smoke');
+    if (state.htmlSnap !== null || state.bodySnap !== null) {
+      throw new Error(`Desktop should not enable landing method snap. Snapshot: ${JSON.stringify(state)}`);
+    }
+  } finally {
+    await context.close();
+  }
 }
 
 async function run() {
@@ -470,10 +431,12 @@ async function run() {
     const browser = await chromium.launch({ headless: true });
     try {
       for (const viewportConfig of VIEWPORTS) {
-        console.log(`Running rules rail QA for ${viewportConfig.label}`);
+        console.log(`Running method snap QA for ${viewportConfig.label}`);
         await runViewportScenario(browser, viewportConfig);
       }
 
+      console.log(`Running method snap desktop smoke for ${DESKTOP_VIEWPORT.label}`);
+      await runDesktopSmoke(browser);
       await browser.close();
     } catch (error) {
       await browser.close();

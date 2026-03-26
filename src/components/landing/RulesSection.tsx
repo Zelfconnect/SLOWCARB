@@ -21,9 +21,9 @@ interface RuleItem {
 const rules: readonly RuleItem[] = [
   {
     number: 1,
-    kicker: 'Regel 1 · De basis van vetverbranding',
+    kicker: 'Regel 1 \u00b7 De basis van vetverbranding',
     title: 'Vermijd "witte" koolhydraten',
-    body: 'Geen brood, pasta, rijst, aardappelen of gebak. Klinkt heftig, maar als je ontdekt wat er wél mag, mis je het niet.',
+    body: 'Geen brood, pasta, rijst, aardappelen of gebak. Klinkt heftig, maar als je ontdekt wat er w\u00e9l mag, mis je het niet.',
     image: '/images/landing/regels/regel1-cutout-shadow.webp',
     imageAlt: 'White Carbs',
     imageHeight: 3750,
@@ -34,9 +34,9 @@ const rules: readonly RuleItem[] = [
   },
   {
     number: 2,
-    kicker: 'Regel 2 · Herhaling verslaat variatie',
+    kicker: 'Regel 2 \u00b7 Herhaling verslaat variatie',
     title: 'Eet steeds dezelfde maaltijden',
-    body: 'Kies 3-4 maaltijden die je lekker vindt en eet ze op repeat. Klinkt saai, is het niet. Het neemt álle beslissingsstress weg. Variatie voeg je later toe.',
+    body: 'Kies 3-4 maaltijden die je lekker vindt en eet ze op repeat. Klinkt saai, is het niet. Het neemt \u00e1lle beslissingsstress weg. Variatie voeg je later toe.',
     image: '/images/landing/regels/regel2-cutout-shadow.webp',
     imageAlt: 'Chili con carne',
     imageHeight: 4219,
@@ -47,9 +47,9 @@ const rules: readonly RuleItem[] = [
   },
   {
     number: 3,
-    kicker: 'Regel 3 · Vloeibare suiker is onzichtbaar',
-    title: 'Drink geen calorieën',
-    body: 'Water, koffie (zwart), thee. Geen sap, geen frisdrank, geen havermelk-latte. Eén glas rode wijn per dag mag. De rest niet.',
+    kicker: 'Regel 3 \u00b7 Vloeibare suiker is onzichtbaar',
+    title: 'Drink geen calorie\u00ebn',
+    body: 'Water, koffie (zwart), thee. Geen sap, geen frisdrank, geen havermelk-latte. E\u00e9n glas rode wijn per dag mag. De rest niet.',
     image: '/images/landing/regels/regel3-cutout-shadow.webp',
     imageAlt: 'Cola glass',
     imageHeight: 3750,
@@ -61,9 +61,9 @@ const rules: readonly RuleItem[] = [
   },
   {
     number: 4,
-    kicker: 'Regel 4 · Fructose is suiker in vermomming',
+    kicker: 'Regel 4 \u00b7 Fructose is suiker in vermomming',
     title: 'Eet geen fruit',
-    body: 'Ja, ook bananen en druiven. Fruit bevat fructose en dat remt vetverbranding. Avocado en tomaat mogen wél, die bevatten nauwelijks fructose.',
+    body: 'Ja, ook bananen en druiven. Fruit bevat fructose en dat remt vetverbranding. Avocado en tomaat mogen w\u00e9l, die bevatten nauwelijks fructose.',
     image: '/images/landing/regels/regel4-cutout-shadow.webp',
     imageAlt: 'Fruit',
     imageHeight: 3750,
@@ -74,9 +74,9 @@ const rules: readonly RuleItem[] = [
   },
   {
     number: 5,
-    kicker: 'Regel 5 · De dag die het dieet laat werken',
-    title: 'Eén cheatday per week',
-    body: 'Elke week één dag alles eten. Alles. Dit is geen beloning maar een metabole reset. De leptin-spike voorkomt dat je lichaam in de spaarstand gaat. Tim Ferriss at 4.000+ kcal op zijn cheatdays en viel toch af.',
+    kicker: 'Regel 5 \u00b7 De dag die het dieet laat werken',
+    title: 'E\u00e9n cheatday per week',
+    body: 'Elke week \u00e9\u00e9n dag alles eten. Alles. Dit is geen beloning maar een metabole reset. De leptin-spike voorkomt dat je lichaam in de spaarstand gaat. Tim Ferriss at 4.000+ kcal op zijn cheatdays en viel toch af.',
     image: '/images/landing/regels/regel5-cutout-shadow.webp',
     imageAlt: 'Cheatday Junkfood',
     imageHeight: 3750,
@@ -84,11 +84,13 @@ const rules: readonly RuleItem[] = [
     imageWidth: 3750,
     maxW: 'max-w-[600px] md:max-w-[900px]',
     mediaLeft: true,
+    mobileImageFirst: true,
     isLast: true,
   },
 ];
 
 const MOBILE_BREAKPOINT = '(max-width: 767px)';
+const METHOD_SNAP_ATTRIBUTE = 'data-landing-method-snap';
 
 function getMediaQueryMatch(query: string) {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -131,78 +133,97 @@ export function RulesSection() {
     threshold: 0.18,
   });
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
-  const isGuidedRailEnabled = isMobile && !prefersReducedMotion;
+  const isMethodSnapEnabled = isMobile && !prefersReducedMotion;
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return undefined;
+    }
+
+    const root = document.documentElement;
+    const body = document.body;
+
+    if (isMethodSnapEnabled) {
+      root.setAttribute(METHOD_SNAP_ATTRIBUTE, 'true');
+      body.setAttribute(METHOD_SNAP_ATTRIBUTE, 'true');
+    } else {
+      root.removeAttribute(METHOD_SNAP_ATTRIBUTE);
+      body.removeAttribute(METHOD_SNAP_ATTRIBUTE);
+    }
+
+    return () => {
+      root.removeAttribute(METHOD_SNAP_ATTRIBUTE);
+      body.removeAttribute(METHOD_SNAP_ATTRIBUTE);
+    };
+  }, [isMethodSnapEnabled]);
 
   return (
     <section
       ref={revealRef}
       id="method"
-      className="overflow-hidden bg-surface-paper py-24"
+      className="rules-section overflow-hidden bg-surface-paper py-0 md:py-24"
     >
       <div className="mx-auto max-w-5xl px-6">
-        <div className="mb-20 text-center">
+        <div data-method-snap="intro" className="rules-intro text-center">
           <h2 data-reveal="up" className="landing-balance mb-6 font-display text-4xl font-bold tracking-tight text-ink-strong md:text-5xl">
             De 5 regels. Dat is alles.
           </h2>
           <p data-reveal="soft" data-stagger="1" className="landing-pretty editorial-body mx-auto max-w-2xl text-ink-body">
-            Geen schema&apos;s, geen fases, geen uitzonderingen doordeweeks. Vijf regels volgen, één dag per week vrij.
+            Geen schema&apos;s, geen fases, geen uitzonderingen doordeweeks. Vijf regels volgen, &eacute;&eacute;n dag per week vrij.
           </p>
         </div>
 
-        <div
-          data-rules-rail="rules"
-          data-guided-scroll={isGuidedRailEnabled ? 'true' : 'false'}
-          className="rules-rail"
-        >
-          {rules.map((rule, index) => {
-            const mediaReveal = rule.mediaLeft ? 'left' : 'right';
-            const copyReveal = rule.mediaLeft ? 'right' : 'left';
-            const mediaOrderClass = rule.mobileImageFirst ? 'order-1 md:order-1' : 'order-2 md:order-1';
-            const copyOrderClass = rule.mobileImageFirst ? 'order-2 md:order-2' : 'order-1 md:order-2';
-            const pairStagger = index + 2;
-            const desktopSpacingClass = rule.isLast ? 'mb-0 md:mb-24' : 'mb-0 md:mb-48';
+        {rules.map((rule, index) => {
+          const mediaReveal = rule.mediaLeft ? 'left' : 'right';
+          const copyReveal = rule.mediaLeft ? 'right' : 'left';
+          const mediaOrderClass = rule.mobileImageFirst ? 'order-1 md:order-1' : 'order-2 md:order-1';
+          const copyOrderClass = rule.mobileImageFirst ? 'order-2 md:order-2' : 'order-1 md:order-2';
+          const pairStagger = index + 2;
+          const desktopSpacingClass = rule.isLast ? 'mb-0 md:mb-24' : 'mb-0 md:mb-48';
 
-            return (
+          return (
+            <div
+              key={rule.number}
+              data-method-snap="rule"
+              data-rule-panel={rule.number}
+              data-reveal-group="rules-pair"
+              data-stagger={pairStagger}
+              className={`rules-stage grid items-center gap-16 md:grid-cols-2 md:gap-32 ${desktopSpacingClass}`}
+            >
               <div
-                key={rule.number}
-                data-rule-panel={rule.number}
-                data-reveal-group="rules-pair"
-                data-stagger={pairStagger}
-                className={`rules-stage grid items-center gap-16 md:grid-cols-2 md:gap-32 ${desktopSpacingClass}`}
+                data-reveal-part="rules-pair"
+                data-reveal={mediaReveal}
+                className={`${mediaOrderClass} rules-media-layer relative ${rule.extraImageWrapper ?? ''}`}
               >
-                <div
-                  data-reveal-part="rules-pair"
-                  data-reveal={mediaReveal}
-                  className={`${mediaOrderClass} rules-media-layer relative ${rule.extraImageWrapper ?? ''}`}
-                >
-                  <div className="rules-media-glow" aria-hidden="true" />
-                  <div className="rules-media-parallax">
-                    <img
-                      src={rule.image}
-                      alt={rule.imageAlt}
-                      width={rule.imageWidth}
-                      height={rule.imageHeight}
-                      className={`rules-cutout-image h-auto w-full object-contain drop-shadow-2xl ${rule.maxW} ${rule.imageClass}`}
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-                <div
-                  data-reveal-part="rules-pair"
-                  data-reveal={copyReveal}
-                  data-rule-anchor={rule.number}
-                  className={`${copyOrderClass} z-10 text-center md:text-left`}
-                >
-                  <div className="rules-copy-stack">
-                    <span className="editorial-kicker mb-3 block text-ink-strong">{rule.kicker}</span>
-                    <h3 className="landing-balance mb-6 font-display text-4xl font-bold leading-tight text-ink-strong md:text-5xl">{rule.title}</h3>
-                    <p className="landing-pretty editorial-body text-ink-body">{rule.body}</p>
-                  </div>
+                <div className="rules-media-glow" aria-hidden="true" />
+                <div className="rules-media-parallax">
+                  <img
+                    src={rule.image}
+                    alt={rule.imageAlt}
+                    width={rule.imageWidth}
+                    height={rule.imageHeight}
+                    className={`rules-cutout-image h-auto w-full object-contain drop-shadow-2xl ${rule.maxW} ${rule.imageClass}`}
+                    loading="lazy"
+                  />
                 </div>
               </div>
-            );
-          })}
-        </div>
+              <div
+                data-reveal-part="rules-pair"
+                data-reveal={copyReveal}
+                data-rule-anchor={rule.number}
+                className={`${copyOrderClass} z-10 text-center md:text-left`}
+              >
+                <div className="rules-copy-stack">
+                  <span className="editorial-kicker mb-3 block text-ink-strong">{rule.kicker}</span>
+                  <h3 className="landing-balance mb-6 font-display text-4xl font-bold leading-tight text-ink-strong md:text-5xl">{rule.title}</h3>
+                  <p className="landing-pretty editorial-body text-ink-body">{rule.body}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        <div data-method-snap="release" className="rules-release-anchor" aria-hidden="true" />
       </div>
     </section>
   );
