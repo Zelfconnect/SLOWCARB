@@ -439,7 +439,7 @@ body:has(.landing-page) #root {
   transform: translate3d(0, 0, 0);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
   .landing-page .rules-section--stepper {
     padding-block: 0;
   }
@@ -447,24 +447,16 @@ body:has(.landing-page) #root {
   .landing-page .rules-stepper {
     position: relative;
     height: 100svh;
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: y mandatory;
-    scrollbar-width: none;
-  }
-
-  .landing-page .rules-stepper::-webkit-scrollbar {
-    display: none;
+    overflow: hidden;
   }
 
   .landing-page .rules-stepper-track {
-    min-height: 100%;
+    height: 100%;
+    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
   }
 
   .landing-page .rules-stepper-stage {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     min-height: 100svh;
     display: grid;
     align-content: center;
