@@ -402,6 +402,34 @@ describe('AppShowcase', () => {
 // RulesSection
 // ---------------------------------------------------------------------------
 describe('RulesSection', () => {
+  function swipeStepper(stepper: HTMLElement, {
+    startX = 180,
+    startY,
+    endX = 180,
+    endY,
+  }: {
+    startX?: number;
+    startY: number;
+    endX?: number;
+    endY: number;
+  }) {
+    fireEvent.touchStart(stepper, {
+      touches: [{ clientX: startX, clientY: startY }],
+    });
+    fireEvent.touchMove(stepper, {
+      touches: [{ clientX: endX, clientY: endY }],
+    });
+    fireEvent.touchEnd(stepper, {
+      changedTouches: [{ clientX: endX, clientY: endY }],
+    });
+  }
+
+  function advanceStepperAnimation() {
+    act(() => {
+      vi.advanceTimersByTime(430);
+    });
+  }
+
   it('renders all 5 rule titles', () => {
     render(<RulesSection />);
     expect(screen.getByText(/Vermijd "witte" koolhydraten/)).toBeInTheDocument();
@@ -471,68 +499,120 @@ describe('RulesSection', () => {
     });
   });
 
-  it('renders intro and release snap markers without a separate rules rail', () => {
+  it('renders a mobile stepper with one intro stage plus five rule panels', () => {
     mockMatchMedia({ mobile: true, reducedMotion: false });
 
     const { container } = render(<RulesSection />);
-    const intro = container.querySelector('[data-method-snap="intro"]');
-    const release = container.querySelector('[data-method-snap="release"]');
+    const stepper = container.querySelector<HTMLElement>('[data-rules-stepper]');
     const panels = Array.from(container.querySelectorAll<HTMLElement>('[data-rule-panel]'));
 
-    expect(container.querySelector('[data-rules-rail="rules"]')).toBeNull();
-    expect(intro).toBeTruthy();
-    expect(release).toBeTruthy();
+    expect(stepper).toBeTruthy();
+    expect(stepper?.dataset.stepperStage).toBe('intro');
+    expect(stepper?.hasAttribute('data-active-rule')).toBe(false);
     expect(panels.map((panel) => panel.dataset.rulePanel)).toEqual(['1', '2', '3', '4', '5']);
-    panels.forEach((panel) => {
-      expect(panel.getAttribute('data-method-snap')).toBe('rule');
-      expect(panel.getAttribute('data-reveal-group')).toBe('rules-pair');
-    });
+    expect(screen.getByText('De 5 regels. Dat is alles.')).toBeInTheDocument();
   });
 
-  it('enables root snap state on the landing document for mobile without reduced motion', () => {
-    mockMatchMedia({ mobile: true, reducedMotion: false });
-
-    render(<RulesSection />);
-
-    expect(document.documentElement).toHaveAttribute('data-landing-method-snap', 'true');
-    expect(document.body).toHaveAttribute('data-landing-method-snap', 'true');
-  });
-
-  it('does not enable landing root snap on desktop', () => {
+  it('does not render the mobile stepper on desktop', () => {
     mockMatchMedia({ mobile: false, reducedMotion: false });
 
-    render(<RulesSection />);
+    const { container } = render(<RulesSection />);
 
-    expect(document.documentElement).not.toHaveAttribute('data-landing-method-snap');
-    expect(document.body).not.toHaveAttribute('data-landing-method-snap');
+    expect(container.querySelector('[data-rules-stepper]')).toBeNull();
+    expect(container.querySelectorAll('.rules-stage')).toHaveLength(5);
   });
 
-  it('does not enable landing root snap when reduced motion is enabled', () => {
+  it('does not render the mobile stepper when reduced motion is enabled', () => {
     mockMatchMedia({ mobile: true, reducedMotion: true });
 
+    const { container } = render(<RulesSection />);
+
+    expect(container.querySelector('[data-rules-stepper]')).toBeNull();
+    expect(container.querySelectorAll('.rules-stage')).toHaveLength(5);
+  });
+
+  it('never enables landing root snap state on html or body', () => {
+    mockMatchMedia({ mobile: true, reducedMotion: false });
+
     render(<RulesSection />);
 
     expect(document.documentElement).not.toHaveAttribute('data-landing-method-snap');
     expect(document.body).not.toHaveAttribute('data-landing-method-snap');
   });
 
-  it('removes the landing root snap state when the section unmounts', () => {
+  it('advances exactly one rule per valid upward swipe', () => {
     mockMatchMedia({ mobile: true, reducedMotion: false });
+    vi.useFakeTimers();
 
-    const { unmount } = render(<RulesSection />);
-    expect(document.documentElement).toHaveAttribute('data-landing-method-snap', 'true');
+    const { container } = render(<RulesSection />);
+    const stepper = container.querySelector<HTMLElement>('[data-rules-stepper]');
 
-    unmount();
+    expect(stepper).toBeTruthy();
 
-    expect(document.documentElement).not.toHaveAttribute('data-landing-method-snap');
-    expect(document.body).not.toHaveAttribute('data-landing-method-snap');
+    swipeStepper(stepper!, { startY: 700, endY: 120 });
+    expect(stepper?.dataset.activeRule).toBe('1');
+    advanceStepperAnimation();
+
+    swipeStepper(stepper!, { startY: 700, endY: 120 });
+    expect(stepper?.dataset.activeRule).toBe('2');
+    advanceStepperAnimation();
   });
 
-  it('defines native vertical snap styling only for the method root snap markers', () => {
+  it('moves backward one rule per downward swipe and returns to the intro stage', () => {
+    mockMatchMedia({ mobile: true, reducedMotion: false });
+    vi.useFakeTimers();
+
+    const { container } = render(<RulesSection />);
+    const stepper = container.querySelector<HTMLElement>('[data-rules-stepper]');
+
+    expect(stepper).toBeTruthy();
+
+    swipeStepper(stepper!, { startY: 700, endY: 120 });
+    advanceStepperAnimation();
+    swipeStepper(stepper!, { startY: 700, endY: 120 });
+    advanceStepperAnimation();
+
+    expect(stepper?.dataset.activeRule).toBe('2');
+
+    swipeStepper(stepper!, { startY: 140, endY: 720 });
+    expect(stepper?.dataset.activeRule).toBe('1');
+    advanceStepperAnimation();
+
+    swipeStepper(stepper!, { startY: 140, endY: 720 });
+    expect(stepper?.dataset.stepperStage).toBe('intro');
+    expect(stepper?.hasAttribute('data-active-rule')).toBe(false);
+    advanceStepperAnimation();
+  });
+
+  it('does not consume boundary gestures beyond the intro or final rule', () => {
+    mockMatchMedia({ mobile: true, reducedMotion: false });
+    vi.useFakeTimers();
+
+    const { container } = render(<RulesSection />);
+    const stepper = container.querySelector<HTMLElement>('[data-rules-stepper]');
+
+    expect(stepper).toBeTruthy();
+
+    swipeStepper(stepper!, { startY: 140, endY: 720 });
+    expect(stepper?.dataset.stepperStage).toBe('intro');
+
+    for (let index = 0; index < 5; index += 1) {
+      swipeStepper(stepper!, { startY: 700, endY: 120 });
+      advanceStepperAnimation();
+    }
+
+    expect(stepper?.dataset.activeRule).toBe('5');
+
+    fireEvent.wheel(stepper!, { deltaY: 180 });
+    expect(stepper?.dataset.activeRule).toBe('5');
+  });
+
+  it('defines stepper-specific mobile styling and removes the old root snap selectors', () => {
     expect(landingCss).toMatch(/\(max-width:\s*767px\)\s+and\s+\(prefers-reduced-motion:\s*no-preference\)/);
-    expect(landingCss).toMatch(/html\[data-landing-method-snap='true'\][\s\S]*scroll-snap-type:\s*y mandatory/);
-    expect(landingCss).toMatch(/\[data-method-snap='rule'\][\s\S]*scroll-snap-stop:\s*always/);
-    expect(landingCss).not.toMatch(/\[data-rules-rail\]/);
+    expect(landingCss).toMatch(/\.landing-page \.rules-stepper\s*\{[\s\S]*height:\s*100svh/);
+    expect(landingCss).toMatch(/\.landing-page \.rules-stepper-track\s*\{[\s\S]*transform 420ms cubic-bezier\(0\.22,\s*1,\s*0\.36,\s*1\)/);
+    expect(landingCss).not.toMatch(/data-landing-method-snap/);
+    expect(landingCss).not.toMatch(/\[data-method-snap=/);
   });
 });
 
