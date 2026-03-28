@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useDocumentScroll } from '@/hooks/useDocumentScroll';
+import { usePauseAnimationOffscreen } from '@/hooks/usePauseAnimationOffscreen';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { LandingHero } from './LandingHero';
 import { RecognitionSection } from './RecognitionSection';
@@ -18,6 +19,7 @@ import '@/styles/landing.css';
 const STRIPE_URL = 'https://buy.stripe.com/5kQ4gBeAG19IfBNcWn5Rm01';
 
 export default function LandingPage() {
+  const pageRef = useRef<HTMLDivElement | null>(null);
   const openCheckout = useCallback((source: string) => {
     trackLanding('landing_cta_click', { source });
     const win = window.open(STRIPE_URL, '_blank');
@@ -27,6 +29,11 @@ export default function LandingPage() {
   }, []);
 
   useDocumentScroll();
+  usePauseAnimationOffscreen(pageRef, {
+    selector: '.landing-hero-media, .blob-shape',
+    rootMargin: '0px 0px 8% 0px',
+    threshold: 0.08,
+  });
 
   // Section visibility tracking (fires once per section per page load)
   const trackedSections = useRef(new Set<string>());
@@ -91,7 +98,7 @@ export default function LandingPage() {
           },
         ]}
       />
-    <div className="landing-page bg-surface-paper font-sans text-ink-body antialiased selection:bg-sage-200 selection:text-ink-strong w-full min-w-0 overflow-x-hidden">
+    <div ref={pageRef} className="landing-page bg-surface-paper font-sans text-ink-body antialiased selection:bg-sage-200 selection:text-ink-strong w-full min-w-0 overflow-x-hidden">
       <StickyCTA onCheckout={() => openCheckout('sticky_cta')} />
       <LandingHero onCheckout={() => openCheckout('hero')} />
       <RecognitionSection />
