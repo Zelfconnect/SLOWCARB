@@ -61,7 +61,11 @@ export function useRevealOnScroll<T extends HTMLElement>({
     };
 
     if (!canReveal) {
-      targets.forEach(markVisible);
+      // Reduced motion or no IntersectionObserver: reveal immediately without
+      // will-change or transitionend listeners (transitions are disabled via CSS).
+      targets.forEach((target) => {
+        target.dataset.revealVisible = 'true';
+      });
       return undefined;
     }
 
