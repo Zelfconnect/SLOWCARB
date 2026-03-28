@@ -402,34 +402,6 @@ describe('AppShowcase', () => {
 // RulesSection
 // ---------------------------------------------------------------------------
 describe('RulesSection', () => {
-  function swipeStepper(stepper: HTMLElement, {
-    startX = 180,
-    startY,
-    endX = 180,
-    endY,
-  }: {
-    startX?: number;
-    startY: number;
-    endX?: number;
-    endY: number;
-  }) {
-    fireEvent.touchStart(stepper, {
-      touches: [{ clientX: startX, clientY: startY }],
-    });
-    fireEvent.touchMove(stepper, {
-      touches: [{ clientX: endX, clientY: endY }],
-    });
-    fireEvent.touchEnd(stepper, {
-      changedTouches: [{ clientX: endX, clientY: endY }],
-    });
-  }
-
-  function advanceStepperAnimation() {
-    act(() => {
-      vi.advanceTimersByTime(430);
-    });
-  }
-
   it('renders all 5 rule titles', () => {
     render(<RulesSection />);
     expect(screen.getByText(/Vermijd "witte" koolhydraten/)).toBeInTheDocument();
@@ -499,120 +471,13 @@ describe('RulesSection', () => {
     });
   });
 
-  it('renders a mobile stepper with one intro stage plus five rule panels', () => {
+  it('renders the same layout on mobile and desktop (no stepper)', () => {
     mockMatchMedia({ mobile: true, reducedMotion: false });
-
-    const { container } = render(<RulesSection />);
-    const stepper = container.querySelector<HTMLElement>('[data-rules-stepper]');
-    const panels = Array.from(container.querySelectorAll<HTMLElement>('[data-rule-panel]'));
-
-    expect(stepper).toBeTruthy();
-    expect(stepper?.dataset.stepperStage).toBe('intro');
-    expect(stepper?.hasAttribute('data-active-rule')).toBe(false);
-    expect(panels.map((panel) => panel.dataset.rulePanel)).toEqual(['1', '2', '3', '4', '5']);
-    expect(screen.getByText('De 5 regels. Dat is alles.')).toBeInTheDocument();
-  });
-
-  it('does not render the mobile stepper on desktop', () => {
-    mockMatchMedia({ mobile: false, reducedMotion: false });
 
     const { container } = render(<RulesSection />);
 
     expect(container.querySelector('[data-rules-stepper]')).toBeNull();
     expect(container.querySelectorAll('.rules-stage')).toHaveLength(5);
-  });
-
-  it('does not render the mobile stepper when reduced motion is enabled', () => {
-    mockMatchMedia({ mobile: true, reducedMotion: true });
-
-    const { container } = render(<RulesSection />);
-
-    expect(container.querySelector('[data-rules-stepper]')).toBeNull();
-    expect(container.querySelectorAll('.rules-stage')).toHaveLength(5);
-  });
-
-  it('never enables landing root snap state on html or body', () => {
-    mockMatchMedia({ mobile: true, reducedMotion: false });
-
-    render(<RulesSection />);
-
-    expect(document.documentElement).not.toHaveAttribute('data-landing-method-snap');
-    expect(document.body).not.toHaveAttribute('data-landing-method-snap');
-  });
-
-  it('advances exactly one rule per valid upward swipe', () => {
-    mockMatchMedia({ mobile: true, reducedMotion: false });
-    vi.useFakeTimers();
-
-    const { container } = render(<RulesSection />);
-    const stepper = container.querySelector<HTMLElement>('[data-rules-stepper]');
-
-    expect(stepper).toBeTruthy();
-
-    swipeStepper(stepper!, { startY: 700, endY: 120 });
-    expect(stepper?.dataset.activeRule).toBe('1');
-    advanceStepperAnimation();
-
-    swipeStepper(stepper!, { startY: 700, endY: 120 });
-    expect(stepper?.dataset.activeRule).toBe('2');
-    advanceStepperAnimation();
-  });
-
-  it('moves backward one rule per downward swipe and returns to the intro stage', () => {
-    mockMatchMedia({ mobile: true, reducedMotion: false });
-    vi.useFakeTimers();
-
-    const { container } = render(<RulesSection />);
-    const stepper = container.querySelector<HTMLElement>('[data-rules-stepper]');
-
-    expect(stepper).toBeTruthy();
-
-    swipeStepper(stepper!, { startY: 700, endY: 120 });
-    advanceStepperAnimation();
-    swipeStepper(stepper!, { startY: 700, endY: 120 });
-    advanceStepperAnimation();
-
-    expect(stepper?.dataset.activeRule).toBe('2');
-
-    swipeStepper(stepper!, { startY: 140, endY: 720 });
-    expect(stepper?.dataset.activeRule).toBe('1');
-    advanceStepperAnimation();
-
-    swipeStepper(stepper!, { startY: 140, endY: 720 });
-    expect(stepper?.dataset.stepperStage).toBe('intro');
-    expect(stepper?.hasAttribute('data-active-rule')).toBe(false);
-    advanceStepperAnimation();
-  });
-
-  it('does not consume boundary gestures beyond the intro or final rule', () => {
-    mockMatchMedia({ mobile: true, reducedMotion: false });
-    vi.useFakeTimers();
-
-    const { container } = render(<RulesSection />);
-    const stepper = container.querySelector<HTMLElement>('[data-rules-stepper]');
-
-    expect(stepper).toBeTruthy();
-
-    swipeStepper(stepper!, { startY: 140, endY: 720 });
-    expect(stepper?.dataset.stepperStage).toBe('intro');
-
-    for (let index = 0; index < 5; index += 1) {
-      swipeStepper(stepper!, { startY: 700, endY: 120 });
-      advanceStepperAnimation();
-    }
-
-    expect(stepper?.dataset.activeRule).toBe('5');
-
-    fireEvent.wheel(stepper!, { deltaY: 180 });
-    expect(stepper?.dataset.activeRule).toBe('5');
-  });
-
-  it('defines stepper-specific mobile styling and removes the old root snap selectors', () => {
-    expect(landingCss).toMatch(/\(max-width:\s*767px\)\s+and\s+\(prefers-reduced-motion:\s*no-preference\)/);
-    expect(landingCss).toMatch(/\.landing-page \.rules-stepper\s*\{[\s\S]*height:\s*100svh/);
-    expect(landingCss).toMatch(/\.landing-page \.rules-stepper-track\s*\{[\s\S]*transform 420ms cubic-bezier\(0\.22,\s*1,\s*0\.36,\s*1\)/);
-    expect(landingCss).not.toMatch(/data-landing-method-snap/);
-    expect(landingCss).not.toMatch(/\[data-method-snap=/);
   });
 });
 
