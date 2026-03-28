@@ -29,8 +29,30 @@ export function useRevealOnScroll<T extends HTMLElement>({
     const targets = Array.from(container.querySelectorAll<HTMLElement>(selector));
     if (targets.length === 0) return undefined;
 
+    const transitionEndHandlers = new WeakMap<HTMLElement, EventListener>();
+
+    const clearWillChange = (target: HTMLElement) => {
+      const handler = transitionEndHandlers.get(target);
+      if (handler) {
+        target.removeEventListener('transitionend', handler);
+        transitionEndHandlers.delete(target);
+      }
+      target.style.removeProperty('will-change');
+    };
+
     const markVisible = (target: HTMLElement) => {
+      target.style.willChange = 'opacity, transform';
       target.dataset.revealVisible = 'true';
+      clearWillChange(target);
+      const onTransitionEnd: EventListener = (event) => {
+        const transitionEvent = event as TransitionEvent;
+        if (transitionEvent.propertyName !== 'opacity' && transitionEvent.propertyName !== 'transform') {
+          return;
+        }
+        clearWillChange(target);
+      };
+      transitionEndHandlers.set(target, onTransitionEnd);
+      target.addEventListener('transitionend', onTransitionEnd);
     };
 
     if (!canReveal) {
@@ -42,6 +64,7 @@ export function useRevealOnScroll<T extends HTMLElement>({
       if (target.dataset.stagger && !target.style.getPropertyValue('--motion-stagger-index')) {
         target.style.setProperty('--motion-stagger-index', target.dataset.stagger);
       }
+      clearWillChange(target);
       delete target.dataset.revealVisible;
     });
 
@@ -56,6 +79,7 @@ export function useRevealOnScroll<T extends HTMLElement>({
           }
 
           if (!once) {
+            clearWillChange(target);
             delete target.dataset.revealVisible;
           }
         });
@@ -64,7 +88,10 @@ export function useRevealOnScroll<T extends HTMLElement>({
     );
 
     targets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      targets.forEach((target) => clearWillChange(target));
+    };
   }, [canReveal, once, rootMargin, selector, threshold]);
 
   return { ref, canReveal, prefersReducedMotion };

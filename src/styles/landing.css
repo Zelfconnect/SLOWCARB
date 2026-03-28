@@ -37,16 +37,54 @@ body:has(.landing-page) #root {
   --motion-stagger-step: 55ms;
 }
 
+.landing-page > section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 880px;
+}
+
+.landing-page .landing-hero-shell {
+  contain-intrinsic-size: 1px 100dvh;
+}
+
+.landing-page .recognition-section {
+  contain-intrinsic-size: 1px 980px;
+}
+
+.landing-page .solution-section {
+  contain-intrinsic-size: 1px 980px;
+}
+
+.landing-page #premium-app-showcase {
+  contain-intrinsic-size: 1px 980px;
+}
+
+.landing-page #method {
+  contain-intrinsic-size: 1px 1800px;
+}
+
+.landing-page #founder {
+  contain-intrinsic-size: 1px 1200px;
+}
+
+.landing-page #pricing {
+  contain-intrinsic-size: 1px 1700px;
+}
+
+.landing-page #faq {
+  contain-intrinsic-size: 1px 980px;
+}
+
+.landing-page .final-cta-section {
+  contain-intrinsic-size: 1px 900px;
+}
+
 /* Unified motion system */
 .landing-page [data-reveal] {
   opacity: 0;
-  filter: blur(6px);
   transition:
     opacity var(--motion-duration) var(--motion-ease),
-    transform var(--motion-duration) var(--motion-ease),
-    filter var(--motion-duration) var(--motion-ease);
+    transform var(--motion-duration) var(--motion-ease);
   transition-delay: calc(var(--motion-stagger-index, 0) * var(--motion-stagger-step));
-  will-change: opacity, transform, filter;
 }
 
 .landing-page [data-reveal='up'] {
@@ -71,7 +109,6 @@ body:has(.landing-page) #root {
 
 .landing-page [data-reveal-visible='true'] {
   opacity: 1;
-  filter: blur(0);
   transform: translate3d(0, 0, 0) scale(1);
 }
 
@@ -397,7 +434,6 @@ body:has(.landing-page) #root {
 
 .landing-page .rules-stage[data-reveal-visible='true'] [data-reveal-part] {
   opacity: 1;
-  filter: blur(0);
   transform: translate3d(0, 0, 0) scale(1);
 }
 
@@ -1197,6 +1233,14 @@ body:has(.landing-page) #root {
   .landing-page .transform-proof-handle { width: 4rem; height: 4rem; }
   .landing-page .transform-proof-handle-visual { width: 3rem; height: 3rem; }
   .landing-page .transform-proof-result { font-size: 0.88rem; padding: 0.65rem 0.9rem; }
+  .landing-page .motion-surface,
+  .landing-page .recognition-note-card,
+  .landing-page .solution-principle,
+  .landing-page .faq-item,
+  .landing-page [class*='backdrop-blur'] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }
 
 @media (min-width: 768px) {
@@ -1652,7 +1696,6 @@ body:has(.landing-page) #root {
 
   .landing-page [data-reveal] {
     opacity: 1 !important;
-    filter: none !important;
     transform: none !important;
   }
 }
