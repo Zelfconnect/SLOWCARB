@@ -1237,6 +1237,8 @@ body:has(.landing-page) #root {
   .landing-page .recognition-note-card,
   .landing-page .solution-principle,
   .landing-page .faq-item,
+  .landing-page .app-showcase-mobile-card,
+  .landing-page .founder-meta-card,
   .landing-page [class*='backdrop-blur'] {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;

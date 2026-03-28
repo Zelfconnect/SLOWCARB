@@ -41,9 +41,14 @@ export function useRevealOnScroll<T extends HTMLElement>({
     };
 
     const markVisible = (target: HTMLElement) => {
+      // Clear any prior handler before re-applying will-change
+      const priorHandler = transitionEndHandlers.get(target);
+      if (priorHandler) {
+        target.removeEventListener('transitionend', priorHandler);
+        transitionEndHandlers.delete(target);
+      }
       target.style.willChange = 'opacity, transform';
       target.dataset.revealVisible = 'true';
-      clearWillChange(target);
       const onTransitionEnd: EventListener = (event) => {
         const transitionEvent = event as TransitionEvent;
         if (transitionEvent.propertyName !== 'opacity' && transitionEvent.propertyName !== 'transform') {
