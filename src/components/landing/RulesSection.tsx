@@ -1,4 +1,3 @@
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
 interface RuleItem {
@@ -175,8 +174,7 @@ function RuleCopy({
 }
 
 function RulesStack() {
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const { ref: revealRef } = useRevealOnScroll<HTMLElement>({
+  const { ref: revealRef, prefersReducedMotion } = useRevealOnScroll<HTMLElement>({
     rootMargin: '0px 0px -12% 0px',
     threshold: 0.18,
   });
@@ -198,7 +196,7 @@ function RulesStack() {
           const mediaOrderClass = rule.mobileImageFirst ? 'order-1 md:order-1' : 'order-2 md:order-1';
           const copyOrderClass = rule.mobileImageFirst ? 'order-2 md:order-2' : 'order-1 md:order-2';
           const pairStagger = index + 2;
-          const desktopSpacingClass = rule.isLast ? 'mb-0 md:mb-24' : 'mb-0 md:mb-48';
+          const desktopSpacingClass = rule.isLast ? 'mb-16 md:mb-24' : 'mb-24 md:mb-48';
 
           return (
             <div
